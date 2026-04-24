@@ -8,14 +8,10 @@ what shipped, mark features for their own backlog, and export a ready-to-paste t
 
 🌐 **Live site:** [virtocommerce.github.io/vc-release-notes](https://virtocommerce.github.io/vc-release-notes/)
 
-## Usage
-Open any deck via the links above, or clone the repo and open the `index.html` files directly in your browser.
-
-Press `B` to add a feature to your backlog, then navigate to the Backlog screen and click **Copy as Markdown**.
-
-Press `?` or hover the top-right hint to see keyboard shortcuts.
-
 ## Releases
+
+> [!TIP]
+> Open any deck via the links above, or clone the repo and open the `index.html` files directly in your browser. Press `B` to add a feature to your backlog, then navigate to the Backlog screen and click **Copy as Markdown**. Press `?` or hover the top-right hint to see keyboard shortcuts.
 
 | Month | Live deck | Source notes |
 | --- | --- | --- |
