@@ -1,20 +1,36 @@
 # Virto Commerce Release Notes
 
+[![GitHub Pages](https://img.shields.io/badge/View%20Live-virtocommerce.github.io-blue?style=for-the-badge&logo=github)](https://virtocommerce.github.io/vc-release-notes/)
+
 An interactive, self-contained HTML presentation of the Virto Commerce releases. 
 Designed to let product, engineering, and business stakeholders review
 what shipped, mark features for their own backlog, and export a ready-to-paste task list.
 
-## Presentations
+🌐 **Live site:** [virtocommerce.github.io/vc-release-notes](https://virtocommerce.github.io/vc-release-notes/)
 
-* [2026 - April](/2026-04/index.html)
-* [2026 - March](/2026-03/index.html)
-* [2026 - February](/2026-02/index.html)
-* [2026 - January](/2026-01/index.html)
+## Usage
+Open any deck via the links above, or clone the repo and open the `index.html` files directly in your browser.
+
+Press `B` to add a feature to your backlog, then navigate to the Backlog screen and click **Copy as Markdown**.
+
+Press `?` or hover the top-right hint to see keyboard shortcuts.
+
+## Releases
+
+| Month | Live deck | Source notes |
+| --- | --- | --- |
+| **April 2026** | [📊 View deck](https://virtocommerce.github.io/vc-release-notes/release-notes/2026-04/) | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-april-2026/847) |
+| **March 2026** | [📊 View deck](https://virtocommerce.github.io/vc-release-notes/release-notes/2026-03/) | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-march-2026/839) |
+| **February 2026** | [📊 View deck](https://virtocommerce.github.io/vc-release-notes/release-notes/2026-02/) | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-february-2026/834) |
+| **January 2026** | [📊 View deck](https://virtocommerce.github.io/vc-release-notes/release-notes/2026-01/) | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-january-2026/821) |
+
+## Screenshots
+
+<img width="1219" height="761" alt="ReleaseNoteDemo" src="https://github.com/user-attachments/assets/4c912125-86b3-4765-859d-637b1bdbfd74" />
 
 ## Features
 
-- **Slides** covering Virto Comerce features in Platform, Frontend, Marketplace, AI, Catalog, Order,
- VC-Shell updates.
+- **Slides** covering Virto Comerce features in Platform, Frontend, Marketplace, AI, Catalog, Order, VC-Shell updates.
 - **Business-first ordering** — "WOW Business Features" come before technical sections
 - **T-shirt sizing (S / M / L)** estimating integration complexity per feature
 - **Backlog builder** — click `+ Add to backlog` on any feature, then export
@@ -22,12 +38,6 @@ what shipped, mark features for their own backlog, and export a ready-to-paste t
 - **Keyboard navigation** — `← →` to navigate, `B` to add to backlog, `F` for fullscreen
 - **Touch-friendly** — swipe left/right on mobile
 - **Zero dependencies** — pure HTML/CSS/JS in one file, just open it
-
-## Usage
-
-Open `index.html` in any modern browser, or visit the live link above.
-
-Press `?` or hover the top-right hint to see keyboard shortcuts.
 
 ## Source
 
