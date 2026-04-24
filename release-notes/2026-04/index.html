@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Virto Commerce – Release Notes | April 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --virto-navy: #07254A;
+    --virto-navy-2: #0B3270;
+    --virto-blue: #2B7FFF;
+    --virto-blue-2: #1A6CFF;
+    --virto-cyan: #38BDF8;
+    --virto-accent: #FF6A3D;
+    --virto-gold: #FBBF24;
+    --virto-bg: #F4F7FB;
+    --virto-bg-2: #EAF1FA;
+    --virto-white: #FFFFFF;
+    --virto-text: #0F172A;
+    --virto-muted: #5B6B82;
+    --virto-line: #DCE5F1;
+
+    --size-s:  #22C55E;   /* green — drop-in / light config */
+    --size-m:  #FBBF24;   /* amber — setup + dev */
+    --size-l:  #F97316;   /* orange — integration / migration */
+
+    --shadow-soft: 0 10px 40px -12px rgba(7, 37, 74, 0.18);
+    --shadow-deep: 0 30px 80px -30px rgba(7, 37, 74, 0.35);
+
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--virto-bg);
+    color: var(--virto-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .stage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .slide {
+    position: absolute;
+    width: min(1200px, calc(100vw - 48px));
+    height: min(720px, calc(100vh - 48px));
+    background: var(--virto-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-deep);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(40px) scale(0.98);
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s linear 0.45s;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s linear 0s;
+  }
+
+  .slide-inner {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 36px 50px 24px;
+  }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--virto-line);
+    gap: 12px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--virto-blue), var(--virto-navy));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 18px;
+    letter-spacing: -0.5px;
+    box-shadow: 0 4px 12px rgba(43, 127, 255, 0.4);
+    overflow: hidden;
+  }
+  .brand-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-text .b1 { font-weight: 700; font-size: 14px; color: var(--virto-navy); letter-spacing: -0.2px; }
+  .brand-text .b2 { font-size: 11px; color: var(--virto-muted); text-transform: uppercase; letter-spacing: 1.2px; }
+  .header-meta {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--virto-muted);
+    text-transform: uppercase; letter-spacing: 1.4px;
+    flex-wrap: wrap; justify-content: flex-end;
+  }
+  .header-meta .pill {
+    background: var(--virto-bg-2); color: var(--virto-navy);
+    padding: 6px 12px; border-radius: 999px;
+    font-weight: 600; letter-spacing: 0.8px;
+  }
+
+  .ts-badge {
+    display: inline-flex; align-items: center;
+    padding: 3px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid var(--virto-line);
+  }
+  .ts-badge .ts-pill {
+    width: 28px; height: 22px;
+    border-radius: 6px;
+    background: var(--ts-color, var(--virto-muted));
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 11px;
+    display: inline-flex; align-items: center; justify-content: center;
+    letter-spacing: 0;
+  }
+  .ts-badge[data-size="S"]  { --ts-color: var(--size-s);  }
+  .ts-badge[data-size="M"]  { --ts-color: var(--size-m);  }
+  .ts-badge[data-size="L"]  { --ts-color: var(--size-l);  }
+
+  /* Backlog add button */
+  .backlog-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid var(--virto-line);
+    color: var(--virto-muted);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .backlog-btn:hover {
+    border-color: var(--virto-blue);
+    color: var(--virto-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px -4px rgba(43, 127, 255, 0.4);
+  }
+  .backlog-btn.added {
+    background: var(--virto-blue);
+    color: white;
+    border-color: var(--virto-blue);
+  }
+  .backlog-btn.added:hover {
+    background: var(--virto-accent);
+    border-color: var(--virto-accent);
+    color: white;
+  }
+  .backlog-btn .plus { font-size: 14px; line-height: 1; }
+  .backlog-btn .check { display: none; }
+  .backlog-btn.added .plus { display: none; }
+  .backlog-btn.added .check { display: inline; }
+  .backlog-btn.added .label-add { display: none; }
+  .backlog-btn.added .label-remove { display: inline; }
+  .backlog-btn .label-remove { display: none; }
+
+  /* Backlog counter in main nav */
+  .backlog-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--virto-blue);
+    color: white;
+    border: none;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    margin-left: 4px;
+  }
+  .backlog-link:disabled {
+    background: var(--virto-line);
+    color: var(--virto-muted);
+    cursor: not-allowed;
+  }
+  .backlog-link:not(:disabled):hover {
+    background: var(--virto-accent);
+    transform: translateY(-1px);
+  }
+  .backlog-link .count {
+    background: rgba(255,255,255,0.25);
+    padding: 1px 7px;
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 10px;
+  }
+  .backlog-link:disabled .count {
+    background: rgba(7, 37, 74, 0.1);
+  }
+
+  /* BACKLOG screen */
+  .backlog-screen {
+    background:
+      radial-gradient(ellipse at top right, rgba(43, 127, 255, 0.1), transparent 60%),
+      linear-gradient(135deg, var(--virto-bg) 0%, var(--virto-bg-2) 100%);
+  }
+  .backlog-screen .slide-inner {
+    padding: 36px 50px 24px;
+    grid-template-rows: auto 1fr auto;
+  }
+  .backlog-body {
+    display: flex; flex-direction: column;
+    gap: 18px;
+    overflow: hidden;
+    padding: 18px 0;
+  }
+  .backlog-head {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .backlog-title-block { flex: 1; min-width: 280px; }
+  .backlog-eyebrow {
+    color: var(--virto-blue);
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 2px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .backlog-eyebrow::before {
+    content: ""; width: 22px; height: 1.5px; background: var(--virto-blue);
+  }
+  .backlog-screen h1 {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--virto-navy);
+    letter-spacing: -1.2px;
+    margin: 8px 0 6px;
+  }
+  .backlog-screen h1 .grad {
+    background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan));
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  .backlog-sub {
+    font-size: 14px;
+    color: var(--virto-muted);
+    line-height: 1.5;
+    max-width: 560px;
+  }
+  .backlog-actions {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    align-items: center;
+  }
+  .bl-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--virto-line);
+    background: white;
+    color: var(--virto-navy);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .bl-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+    border-color: var(--virto-blue);
+  }
+  .bl-btn.primary {
+    background: var(--virto-blue);
+    color: white;
+    border-color: var(--virto-blue);
+  }
+  .bl-btn.primary:hover {
+    background: var(--virto-blue-2);
+    border-color: var(--virto-blue-2);
+  }
+  .bl-btn.primary.copied {
+    background: var(--size-s);
+    border-color: var(--size-s);
+  }
+  .bl-btn.danger:hover {
+    border-color: var(--virto-accent);
+    color: var(--virto-accent);
+  }
+
+  .backlog-list {
+    flex: 1;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid var(--virto-line);
+    border-radius: var(--radius);
+    padding: 0;
+    box-shadow: 0 6px 20px -10px rgba(7, 37, 74, 0.12);
+  }
+  .backlog-list::-webkit-scrollbar { width: 8px; }
+  .backlog-list::-webkit-scrollbar-thumb {
+    background: var(--virto-line);
+    border-radius: 4px;
+  }
+  .backlog-empty {
+    padding: 60px 40px;
+    text-align: center;
+    color: var(--virto-muted);
+  }
+  .backlog-empty .icon {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--virto-bg-2);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--virto-blue);
+    margin-bottom: 14px;
+  }
+  .backlog-empty h3 {
+    color: var(--virto-navy);
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+  .backlog-empty p { font-size: 13px; line-height: 1.5; }
+  .backlog-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--virto-line);
+    transition: background 0.15s;
+  }
+  .backlog-item:last-child { border-bottom: none; }
+  .backlog-item:hover { background: var(--virto-bg); }
+  .backlog-item-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--virto-muted);
+    width: 28px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .backlog-item-title {
+    flex: 1;
+    font-size: 14px;
+    color: var(--virto-navy);
+    font-weight: 500;
+    line-height: 1.4;
+    min-width: 0;
+  }
+  .backlog-item-cat {
+    font-size: 10px;
+    color: var(--virto-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .backlog-item-size {
+    flex-shrink: 0;
+  }
+  .backlog-item-size .ts-pill {
+    width: 28px; height: 22px;
+    border-radius: 6px;
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .backlog-item-remove {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--virto-muted);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .backlog-item-remove:hover {
+    background: rgba(255, 106, 61, 0.1);
+    color: var(--virto-accent);
+  }
+
+  /* Toast notification for copy success */
+  .toast {
+    position: fixed;
+    top: 24px; left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: var(--virto-navy);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 12px 30px -10px rgba(7, 37, 74, 0.5);
+    z-index: 300;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; align-items: center; gap: 10px;
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast .check-icon {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--size-s);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
+  .slide-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 22px 0;
+    overflow: hidden;
+  }
+  .content-col {
+    display: flex; flex-direction: column;
+    gap: 14px;
+    overflow: hidden; min-width: 0;
+  }
+
+  .topic-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    width: max-content;
+    background: linear-gradient(90deg, rgba(43, 127, 255, 0.1), rgba(43, 127, 255, 0));
+    color: var(--virto-blue);
+    padding: 6px 14px 6px 10px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1.2px;
+  }
+  .topic-tag::before {
+    content: ""; width: 6px; height: 6px;
+    background: var(--virto-blue); border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(43, 127, 255, 0.18);
+  }
+  .topic-tag.wow {
+    background: linear-gradient(90deg, rgba(251, 191, 36, 0.18), rgba(251, 191, 36, 0));
+    color: #B45309;
+  }
+  .topic-tag.wow::before {
+    background: var(--virto-gold);
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.25);
+  }
+
+  .slide-title {
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.15; font-weight: 800;
+    color: var(--virto-navy); letter-spacing: -0.7px;
+  }
+  .slide-title .accent {
+    background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .ps-block {
+    border-left: 3px solid var(--virto-line);
+    padding: 2px 0 2px 14px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .ps-block.problem { border-left-color: var(--virto-accent); }
+  .ps-block.solution { border-left-color: var(--virto-blue); }
+  .ps-block.integration { border-left-color: var(--virto-navy); }
+
+  .ps-label {
+    font-size: 10.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--virto-muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ps-block.problem .ps-label { color: var(--virto-accent); }
+  .ps-block.solution .ps-label { color: var(--virto-blue); }
+  .ps-block.integration .ps-label { color: var(--virto-navy); }
+
+  .ps-text {
+    font-size: 13px; line-height: 1.5;
+    color: var(--virto-text);
+  }
+  .ps-text strong { color: var(--virto-navy); font-weight: 600; }
+  .ps-text code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    background: var(--virto-bg-2);
+    color: var(--virto-navy);
+    padding: 2px 6px; border-radius: 6px;
+  }
+  .ps-text ul { margin-top: 4px; padding-left: 18px; }
+  .ps-text li { margin-bottom: 2px; }
+
+  .visual-col {
+    background: linear-gradient(135deg, var(--virto-bg) 0%, var(--virto-bg-2) 100%);
+    border-radius: var(--radius);
+    border: 1px solid var(--virto-line);
+    overflow: hidden; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 0;
+  }
+  .visual-col img {
+    max-width: 100%; max-height: 100%;
+    object-fit: contain; display: block;
+  }
+  .visual-caption {
+    position: absolute;
+    bottom: 12px; left: 12px; right: 12px;
+    background: rgba(7, 37, 74, 0.85);
+    color: white;
+    backdrop-filter: blur(8px);
+    padding: 8px 14px; border-radius: 10px;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 1.2px; font-weight: 500;
+  }
+
+  .no-visual {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 40px; gap: 18px;
+    color: var(--virto-navy);
+  }
+  .no-visual .icon-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--virto-blue), var(--virto-navy));
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    box-shadow: 0 12px 30px -8px rgba(43, 127, 255, 0.5);
+  }
+  .no-visual h3 {
+    font-size: 17px; font-weight: 700;
+    color: var(--virto-navy); letter-spacing: -0.3px;
+  }
+  .no-visual p {
+    font-size: 13px; color: var(--virto-muted);
+    line-height: 1.5; max-width: 280px;
+  }
+
+  .slide-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 12px; border-top: 1px solid var(--virto-line);
+    font-size: 12px; color: var(--virto-muted);
+  }
+  .slide-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500; color: var(--virto-navy);
+  }
+  .slide-counter .total { color: var(--virto-muted); }
+  .slide-category {
+    text-transform: uppercase; letter-spacing: 1.4px;
+    font-weight: 600; font-size: 11px;
+  }
+
+  /* COVER */
+  .cover {
+    background:
+      radial-gradient(ellipse at top right, rgba(43, 127, 255, 0.15), transparent 60%),
+      radial-gradient(ellipse at bottom left, rgba(56, 189, 248, 0.12), transparent 55%),
+      linear-gradient(135deg, #07254A 0%, #0B3270 50%, #07254A 100%);
+    color: white;
+  }
+  .cover .slide-header { border-color: rgba(255,255,255,0.15); }
+  .cover .brand-text .b1 { color: white; }
+  .cover .brand-text .b2 { color: rgba(255,255,255,0.6); }
+  .cover .brand-mark { background: white; padding: 2px; }
+  .cover .header-meta { color: rgba(255,255,255,0.7); }
+  .cover .header-meta .pill {
+    background: rgba(255,255,255,0.12); color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .cover-body {
+    display: flex; flex-direction: column;
+    justify-content: center; gap: 22px;
+    padding: 22px 0;
+  }
+  .cover-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    width: max-content;
+    color: var(--virto-cyan);
+    font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 2.5px;
+  }
+  .cover-eyebrow::before { content: ""; width: 28px; height: 1.5px; background: var(--virto-cyan); }
+  .cover-title {
+    font-size: clamp(36px, 5.5vw, 60px);
+    font-weight: 800; line-height: 1; letter-spacing: -2.5px;
+  }
+  .cover-title .grad {
+    background: linear-gradient(90deg, #38BDF8, #FFFFFF);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .cover-sub {
+    font-size: 15px; line-height: 1.55;
+    color: rgba(255,255,255,0.8);
+    max-width: 720px; font-weight: 300;
+  }
+  .cover-highlights {
+    display: flex; gap: 12px;
+    margin-top: 4px; flex-wrap: wrap;
+  }
+  .cover-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 9px 16px; border-radius: 12px;
+    font-size: 13px; color: white;
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cover-chip .num {
+    color: var(--virto-cyan); font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .ts-legend {
+    margin-top: 12px;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+  }
+  .ts-legend-title {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+    color: rgba(255,255,255,0.6); margin-bottom: 10px; font-weight: 600;
+  }
+  .ts-legend-items { display: flex; gap: 16px; flex-wrap: wrap; }
+  .ts-legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: rgba(255,255,255,0.85);
+  }
+  .ts-legend-item .ts-pill {
+    width: 28px; height: 22px;
+    border-radius: 6px;
+    color: white; font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 11px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .ts-legend-item[data-size="S"]  .ts-pill { background: var(--size-s);  }
+  .ts-legend-item[data-size="M"]  .ts-pill { background: var(--size-m);  }
+  .ts-legend-item[data-size="L"]  .ts-pill { background: var(--size-l);  }
+
+  .cover .slide-footer {
+    border-color: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.6);
+  }
+  .cover .slide-counter, .cover .slide-counter .total { color: rgba(255,255,255,0.85); }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    background: linear-gradient(135deg, var(--virto-navy) 0%, var(--virto-navy-2) 100%);
+    color: white; overflow: hidden;
+  }
+  .section-divider .slide-inner { padding: 0; }
+  .divider-body {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .divider-left {
+    padding: 60px;
+    display: flex; flex-direction: column;
+    justify-content: center; gap: 20px;
+  }
+  .divider-right {
+    background: linear-gradient(135deg, rgba(43,127,255,0.2), transparent),
+                radial-gradient(circle at 30% 30%, rgba(56,189,248,0.4), transparent 60%);
+    position: relative; overflow: hidden;
+  }
+  .divider-right::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .divider-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--virto-cyan);
+    letter-spacing: 3px;
+  }
+  .divider-title {
+    font-size: clamp(34px, 4.6vw, 52px);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -1.5px;
+  }
+  .divider-title .grad {
+    background: linear-gradient(90deg, #38BDF8, #2B7FFF);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .divider-desc {
+    font-size: 15px; line-height: 1.6;
+    color: rgba(255,255,255,0.7); max-width: 440px;
+  }
+  .divider-stat {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-top: 8px;
+  }
+  .divider-stat .v {
+    font-size: 52px; font-weight: 800;
+    color: var(--virto-cyan);
+    letter-spacing: -2px; line-height: 1;
+  }
+  .divider-stat .l {
+    font-size: 12px; color: rgba(255,255,255,0.65);
+    text-transform: uppercase; letter-spacing: 1.5px;
+  }
+
+  /* WOW divider */
+  .section-divider.wow {
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(251,191,36,0.25), transparent 55%),
+      radial-gradient(ellipse at 20% 80%, rgba(43,127,255,0.25), transparent 55%),
+      linear-gradient(135deg, #07254A 0%, #11305C 100%);
+  }
+  .section-divider.wow .divider-num { color: var(--virto-gold); }
+  .section-divider.wow .divider-title .grad {
+    background: linear-gradient(90deg, #FBBF24, #FF6A3D);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .section-divider.wow .divider-stat .v { color: var(--virto-gold); }
+
+  .shape {
+    position: absolute; border-radius: 50%;
+    filter: blur(40px);
+  }
+  .shape.s1 {
+    width: 280px; height: 280px;
+    background: rgba(43,127,255,0.5);
+    top: -40px; right: -40px;
+  }
+  .shape.s2 {
+    width: 220px; height: 220px;
+    background: rgba(56,189,248,0.4);
+    bottom: -60px; left: 30%;
+  }
+  .section-divider.wow .shape.s1 { background: rgba(251,191,36,0.4); }
+  .section-divider.wow .shape.s2 { background: rgba(255,106,61,0.4); }
+
+  /* NAV */
+  .nav {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--virto-line);
+    box-shadow: var(--shadow-soft);
+    padding: 8px 12px; border-radius: 999px;
+    z-index: 100;
+  }
+  .nav-btn {
+    width: 36px; height: 36px;
+    border: none; background: transparent;
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--virto-navy);
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--virto-bg-2); transform: translateY(-1px); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+  .nav-progress {
+    display: flex; align-items: center; gap: 6px;
+    padding: 0 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--virto-navy); font-weight: 600;
+  }
+  .nav-progress .total { color: var(--virto-muted); font-weight: 400; }
+  .nav-jump {
+    border-left: 1px solid var(--virto-line);
+    padding-left: 12px; display: flex; gap: 4px;
+  }
+  .jump-btn {
+    background: transparent; border: none; cursor: pointer;
+    padding: 6px 10px; font-size: 11px;
+    color: var(--virto-muted);
+    text-transform: uppercase; letter-spacing: 1px;
+    border-radius: 6px; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .jump-btn:hover { background: var(--virto-bg-2); color: var(--virto-navy); }
+
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan));
+    transition: width 0.3s ease;
+    z-index: 200;
+    box-shadow: 0 0 12px rgba(43,127,255,0.5);
+  }
+
+  .hint {
+    position: fixed; top: 24px; right: 28px;
+    font-size: 11px; color: var(--virto-muted);
+    text-transform: uppercase; letter-spacing: 1.4px;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+    z-index: 100;
+  }
+  .key {
+    background: white;
+    border: 1px solid var(--virto-line);
+    padding: 3px 8px; border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--virto-navy); font-weight: 600;
+    box-shadow: 0 2px 4px rgba(7,37,74,0.06);
+  }
+  button.key-btn {
+    cursor: pointer;
+    font-size: inherit;
+    line-height: 1;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  button.key-btn:hover {
+    background: var(--virto-blue);
+    color: white;
+    border-color: var(--virto-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(43, 127, 255, 0.3);
+  }
+  button.key-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(7,37,74,0.1);
+  }
+
+  /* THANKS */
+  .thanks {
+    background:
+      radial-gradient(ellipse at center, rgba(43,127,255,0.18), transparent 60%),
+      linear-gradient(135deg, #07254A 0%, #0B3270 100%);
+    color: white;
+  }
+  .thanks .slide-inner { padding: 0; }
+  .thanks-body {
+    height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 60px;
+    gap: 28px; position: relative;
+  }
+  .thanks-eyebrow {
+    color: var(--virto-cyan);
+    font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 3px;
+  }
+  .thanks-title {
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 800; line-height: 0.95;
+    letter-spacing: -3px;
+  }
+  .thanks-title .grad {
+    background: linear-gradient(90deg, #38BDF8, #FFFFFF);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .thanks-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    max-width: 600px; line-height: 1.6; font-weight: 300;
+  }
+  .thanks-cta {
+    display: flex; gap: 14px;
+    margin-top: 8px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .cta-btn {
+    background: var(--virto-blue); color: white;
+    padding: 14px 26px; border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600; font-size: 14px;
+    transition: all 0.25s;
+    border: 1px solid var(--virto-blue);
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .cta-btn:hover {
+    background: var(--virto-blue-2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -8px rgba(43,127,255,0.6);
+  }
+  .cta-btn.outline {
+    background: transparent;
+    border-color: rgba(255,255,255,0.3);
+  }
+  .cta-btn.outline:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.5);
+  }
+  .thanks-footer {
+    position: absolute; bottom: 32px;
+    left: 0; right: 0;
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .slide-body { grid-template-columns: 1fr; gap: 18px; padding: 18px 0; }
+    .visual-col { min-height: 180px; max-height: 240px; }
+    .slide-inner { padding: 22px 26px; }
+    .divider-body { grid-template-columns: 1fr; }
+    .divider-right { display: none; }
+    .nav { bottom: 16px; padding: 6px 8px; gap: 6px;}
+    .jump-btn { display: none; }
+    .nav-jump { border: none; padding: 0; }
+    .hint { display: none; }
+    .ts-legend-items { flex-direction: column; gap: 8px; }
+    .header-meta { gap: 6px; }
+    .backlog-btn { padding: 4px 10px; font-size: 10px; }
+    .backlog-link { font-size: 10px; padding: 5px 10px; }
+    .backlog-screen .slide-inner { padding: 22px 20px 20px; }
+    .backlog-head { flex-direction: column; }
+    .backlog-actions { width: 100%; }
+    .bl-btn { flex: 1; justify-content: center; min-width: 130px; }
+  }
+
+  @media print {
+    .nav, .progress-bar, .hint { display: none; }
+    .stage { padding: 0; }
+    .slide {
+      position: relative;
+      opacity: 1; transform: none; visibility: visible;
+      page-break-after: always;
+      box-shadow: none;
+      width: 100%; height: 100vh;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="hint">
+  <button class="key key-btn" id="hintPrev" aria-label="Previous slide">←</button><button class="key key-btn" id="hintNext" aria-label="Next slide">→</button> Navigate
+  <span style="margin: 0 6px;">·</span>
+  <button class="key key-btn" id="hintBacklog" aria-label="Add to backlog">B</button> Add to backlog
+  <span style="margin: 0 6px;">·</span>
+  <button class="key key-btn" id="hintFullscreen" aria-label="Toggle fullscreen">F</button> Fullscreen
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="toast" id="toast">
+  <span class="check-icon">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </span>
+  <span id="toastText">Copied to clipboard</span>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" aria-label="Previous slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="nav-progress">
+    <span id="currentSlide">01</span><span class="total">/<span id="totalSlides">00</span></span>
+  </div>
+  <button class="nav-btn" id="nextBtn" aria-label="Next slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <div class="nav-jump">
+    <button class="jump-btn" data-jump="0">Start</button>
+    <button class="jump-btn" data-jump="end">End</button>
+    <button class="backlog-link" id="backlogLink" disabled>
+      Backlog <span class="count" id="backlogCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+const slides = [
+  { type: 'cover' },
+
+  /* ===== SECTION 01: WOW BUSINESS FEATURES ===== */
+  {
+    type: 'divider', wow: true,
+    num: 'Section 01  ·  WOW',
+    title: 'Top Business',
+    titleAccent: 'Features',
+    desc: 'High-impact updates that move the needle on revenue, customer experience, and operational efficiency. Start here if you have 5 minutes.',
+    statValue: '6',
+    statLabel: 'Business-critical features'
+  },
+  {
+    category: 'Business · Marketing',
+    wow: true,
+    title: 'Coupons & promotions, <span class="accent">upgraded</span>',
+    problem: 'Customers had no central place to see what discounts were available on their account, leading to missed opportunities and friction at checkout.',
+    solution: 'A <strong>dedicated promotions page</strong> in the customer account now lists discount value, promotion name, description, expiry date, and a click-to-copy coupon code button for every available offer. Promotions also support <strong>localized name and description fields per language</strong>.',
+    size: 'S',
+    integration: 'Update Marketing 3.1001.0, xMarketing 3.1001.0 and Frontend 2.44.0. Configure promotion translations in admin.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/9/9fd7a539236b9329aac594805f88ce0e4ad4a0c2_2_689x386.png',
+    caption: 'New customer-facing promotions hub'
+  },
+  {
+    category: 'Business · AI',
+    wow: true,
+    title: 'Virto OZ creates products <span class="accent">from CSV</span>',
+    problem: 'Bulk product creation from CSV exports was a manual, error-prone task — vendors had to import data, validate it, then run separate update or status-change workflows.',
+    solution: 'Vendors can now <strong>upload a CSV directly to Virto OZ</strong>. The AI agent processes the file, creates the products, and proactively suggests next actions — updating selected products, changing status, or exporting.',
+    size: 'M',
+    integration: 'Requires Virto OZ subscription and Marketplace module. LLM API keys must be configured per tenant. Prompt tuning and vendor onboarding flows required.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/a/ab435c6affab5fb7ce5982f0dd5b1fba690ab0d8.gif',
+    caption: 'Virto OZ creating products from CSV input'
+  },
+  {
+    category: 'Business · Theming',
+    wow: true,
+    title: '<span class="accent">Dark mode</span> for Mercury & Coffee themes',
+    problem: 'Users browsing in low-light environments suffer from screen glare, eye fatigue, and unnecessary battery drain on OLED devices. A modern customer expectation went unmet.',
+    solution: 'Frontend now supports a <strong>night/dark mode</strong> for both the default Mercury theme (2.44.0) and the Coffee theme (2.43.0). Benefits include accessibility for users with photophobia and cataracts, OLED battery savings, sharper contrast for icons and buttons, and a modern aesthetic.',
+    size: 'S',
+    integration: 'Update to Frontend 2.43.0 (Coffee) or 2.44.0 (Mercury). If theme is heavily customized, audit custom CSS for dark-mode tokens.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/c/cfd16f4894d3d297aada3d0598441f638598749d.gif',
+    caption: 'Smooth toggle between light and dark themes'
+  },
+  {
+    category: 'Business · Product Pages',
+    wow: true,
+    title: '<span class="accent">Shareable links</span> for product variations',
+    problem: 'Sharing a specific product variant (color, size, configuration) forced the recipient to manually re-select options, creating confusion in B2B teams and customer-to-customer sharing.',
+    solution: 'Customers can now <strong>copy a direct link to a specific variation</strong>. The recipient lands on the exact same variant immediately — no reselection needed. Simplifies team collaboration, customer service, and social sharing.',
+    size: 'S',
+    integration: 'Out-of-the-box with Frontend 2.43.0 update. No configuration needed. Custom storefronts may need to wire up the variant URL handler.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/d/d7806e335588b2e8a60820261c6d52eb58c8c050.gif',
+    caption: 'One-click variant link sharing'
+  },
+  {
+    category: 'Business · BOPIS',
+    wow: true,
+    title: 'Pickup widget <span class="accent">redesign</span>',
+    problem: 'When customers selected a pickup point, the static map made it hard to confirm they had chosen the right location, causing checkout drop-off in BOPIS flows.',
+    solution: 'The pickup widget now <strong>dynamically updates the map view</strong> when a pickup location is selected, making orientation and confirmation effortless.',
+    size: 'S',
+    integration: 'Out-of-the-box with Frontend 2.43.0. Requires existing pickup-point integration. No code changes needed for default Mercury theme; validation needed for custom themes.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/8/8814fa648b8ca27383a900a525547c4c0d471957.gif',
+    caption: 'Dynamic map updates on pickup selection'
+  },
+  {
+    category: 'Business · CMS',
+    wow: true,
+    title: 'Sanity <span class="accent">CMS integration</span>',
+    problem: 'Content teams want to use their preferred headless CMS for landing pages without losing the integration with Virto Commerce page management — duplicating content systems is expensive and slow.',
+    solution: 'The new <strong>Sanity module (3.1000.0)</strong> connects Sanity content directly with Virto Commerce. Content editors create landing pages in Sanity and publish them through Virto Commerce storefronts seamlessly.',
+    size: 'L',
+    integration: 'Install Sanity module 3.1000.0, set up a Sanity project, configure schema mapping and webhooks, train content team. Includes content modeling and migration of existing pages.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/2/277c35426148b9f377dc3f8acf691fad63355951_2_690x324.png',
+    caption: 'Sanity CMS connected to Virto Commerce'
+  },
+
+  /* ===== SECTION 02: MARKETPLACE & VIRTO OZ ===== */
+  {
+    type: 'divider',
+    num: 'Section 02',
+    title: 'Marketplace &',
+    titleAccent: 'Virto OZ (AI)',
+    desc: 'Vendor portal gets configurable product setup and contextual guidance, while Virto OZ expands into variable offers and per-tenant LLM control.',
+    statValue: '4',
+    statLabel: 'Marketplace + AI features'
+  },
+  {
+    category: 'Marketplace · Vendor Portal',
+    title: 'Vendors can build <span class="accent">configurable products</span>',
+    problem: 'Vendors selling complex configurable items (with variants, options, and configurations) had no self-service way to set them up — they had to rely on platform admins.',
+    solution: 'The Vendor portal now supports <strong>configurable product setup</strong>. Vendors can define and manage product configurations directly in their portal, removing the bottleneck of admin-managed setups.',
+    size: 'S',
+    integration: 'Update Marketplace Vendor Portal module. Train vendors on the new configurable product setup. Prepare documentation and vendor onboarding materials.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/d/d8d92911067e5c6bb449835d2307f474a173c6b9.gif',
+    caption: 'Configurable products in the Vendor portal'
+  },
+  {
+    category: 'Marketplace · Vendor Portal',
+    title: '<span class="accent">Contextual guidance</span> for vendors',
+    problem: 'New vendors hit friction setting up products and offers because the UI did not explain why fields mattered or what the next best action was.',
+    solution: 'The Vendor portal now <strong>surfaces contextual guidance messages</strong> throughout product and offer setup, reducing onboarding friction and helping vendors get to revenue faster.',
+    size: 'S',
+    integration: 'Out-of-the-box with the Vendor Portal update. Optionally customize guidance message copy for tenant-specific tone.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/5/57648cd7777c526af328b9aaa638d223f52ffa37_2_690x456.png',
+    caption: 'Inline guidance during vendor setup'
+  },
+  {
+    category: 'Virto OZ · AI',
+    title: 'Create offers with <span class="accent">variable properties</span>',
+    problem: 'Vendors needed an AI-assisted way to create and import offers that vary by product property (size, color, region) — manual entry was too slow at scale.',
+    solution: 'Virto OZ in the Vendor portal can now <strong>create and import offers with variable properties</strong>, dramatically reducing the time required to launch a multi-variant offer catalog.',
+    size: 'M',
+    integration: 'Requires Virto OZ. Configure variable property mappings per catalog. Test with vendor sample catalogs before rollout.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/7/7a2e6a0f1ea8f7c5c2a9523afb287fc0c99ce59a.gif',
+    caption: 'AI-assisted variable offer creation'
+  },
+  {
+    category: 'Virto OZ · AI Infrastructure',
+    title: 'Custom LLMs, streaming, <span class="accent">full observability</span>',
+    problem: 'Enterprise customers need control over which LLM each agent uses, faster preview generation, and end-to-end tracing of AI pipelines for governance and debugging.',
+    solution: 'Virto OZ now supports:<ul><li><strong>Custom LLM settings</strong> per tenant or per agent (e.g., point an agent to <code>openai/gpt-5-mini</code>)</li><li><strong>Preview light model + streaming</strong> using Claude Haiku for fast approval previews and live token streaming</li><li><strong>Langfuse observability</strong> tracing the full pipeline</li></ul>',
+    size: 'L',
+    integration: 'Provision LLM accounts (OpenAI / Anthropic / etc.), set up Langfuse instance, define per-tenant agent configs. Compliance / data-residency review may be required.',
+    noVisual: true,
+    icon: 'ai'
+  },
+
+  /* ===== SECTION 03: FRONTEND EXPERIENCE ===== */
+  {
+    type: 'divider',
+    num: 'Section 03',
+    title: 'Frontend',
+    titleAccent: 'Experience',
+    desc: 'Storefront refinements that improve customer experience — additional details on theming and localized marketing.',
+    statValue: '2',
+    statLabel: 'Additional frontend updates'
+  },
+  {
+    category: 'Frontend · Marketing',
+    title: 'Localized <span class="accent">promotion names</span> per language',
+    problem: 'Promotions could only be displayed in a single language, creating awkward customer experiences for multi-region storefronts.',
+    solution: 'Promotions now support <strong>localized name and description fields per language</strong>, enabling clean per-region campaigns out of the same promotion definition.',
+    size: 'S',
+    integration: 'Marketing 3.1001.0 + xMarketing 3.1001.0 update. Add translations for existing active promotions via the content team.',
+    noVisual: true,
+    icon: 'globe'
+  },
+  {
+    category: 'Frontend · Themes',
+    title: 'Dark mode benefits, <span class="accent">in detail</span>',
+    problem: 'Many teams underestimate dark mode as a "nice-to-have" — but it has measurable impact on accessibility, retention, and device battery.',
+    solution: 'Dark mode reduces glare and brightness during low-light use. Additional benefits: <strong>accessibility</strong> for users with photophobia or cataracts, <strong>OLED battery savings</strong>, <strong>better focus</strong> with sharper image and button contrast, and a modern aesthetic that meets user expectations.',
+    size: 'S',
+    integration: 'Documentation / training only — feature itself ships with theme update. Update brand guidelines and merchandising playbooks.',
+    noVisual: true,
+    icon: 'moon'
+  },
+
+  /* ===== SECTION 04: CATALOG & ORDER ===== */
+  {
+    type: 'divider',
+    num: 'Section 04',
+    title: 'Catalog &',
+    titleAccent: 'Order Modules',
+    desc: 'Improvements that give content teams more control over categories and configurable products, with smarter refund handling for finance teams.',
+    statValue: '4',
+    statLabel: 'Module enhancements'
+  },
+  {
+    category: 'Catalog · 3.10006.0',
+    title: '<span class="accent">Assets widget</span> added for Categories',
+    problem: 'Content teams could only manage assets at the product level — there was no native way to attach hero images, banners, or marketing assets directly to a category.',
+    solution: 'The <strong>Assets widget</strong> is now available at the category level in catalog. Content teams can attach and manage assets directly on categories, enabling richer category landing pages and better merchandising.',
+    size: 'S',
+    integration: 'Update Catalog module 3.10006.0. Content teams can immediately use the widget. Migrate any existing category-asset workarounds.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/d/df4d64cddde561f21991dc3cab24c3a5b6f34d67_2_273x500.png',
+    caption: 'Assets management at category level'
+  },
+  {
+    category: 'Catalog · 3.1010.0',
+    title: 'Category lookup <span class="accent">by code</span>',
+    problem: 'Integrations needed to look up categories by their predefined business codes (like SKU-based codes) but the API only supported lookups by ID, forcing extra round trips.',
+    solution: 'A new REST endpoint <code>POST /api/catalog/{catalogId}/categories-by-codes</code> accepts a JSON array of category codes and returns matches across <strong>both physical and virtual catalogs</strong>. Example body: <code>["CAT-001", "CAT-002", "CAT-003"]</code>.',
+    size: 'S',
+    integration: 'Update Catalog 3.1010.0. Refactor existing integrations to use the new endpoint where applicable.',
+    noVisual: true,
+    icon: 'api'
+  },
+  {
+    category: 'Catalog · 3.1011.0',
+    title: 'Configurable section <span class="accent">layout improvements</span>',
+    problem: 'Configurable products lacked granular control over text-section length and didn\'t have a clean way to define variation configuration sections.',
+    solution: 'The configurable product section layout has been improved with a new <strong>Max length</strong> field for text-type sections and a brand-new <strong>variation configuration section type</strong>, giving merchandisers more precision in product setup.',
+    size: 'S',
+    integration: 'Update Catalog 3.1011.0. Train merchandising team on new section type and Max length field. Includes documentation + training.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/9/926d6a8ca09a3d90d64f9b27859fcb7dbd383350_2_439x500.png',
+    caption: 'Improved configurable product editor'
+  },
+  {
+    category: 'Order · 3.1001.0',
+    title: '<span class="accent">Refund handling</span>, hardened',
+    problem: 'Refund document numbering had edge cases — duplicate documents on retry after gateway errors, incorrect sequential numbers when blades were reopened quickly, and updates not flowing back to the payment gateway properly.',
+    solution: 'Refund logic improved on three fronts:<ul><li>Sequential numbers assigned correctly even after rapid reopen / deletion</li><li>Gateway errors save the document as <strong>"Rejected"</strong>; retry with the same <code>transactionId</code> updates that document instead of duplicating it</li><li>Editing amount or reason now correctly calls <code>RefundProcessPaymentAsync</code> with <code>IsUpdate=true</code></li></ul>',
+    size: 'S',
+    integration: 'Update Order module 3.1001.0. Re-test custom payment gateway integrations against the new retry behavior. Includes regression testing.',
+    noVisual: true,
+    icon: 'refund'
+  },
+
+  /* ===== SECTION 05: PLATFORM ===== */
+  {
+    type: 'divider',
+    num: 'Section 05',
+    title: 'Platform &',
+    titleAccent: 'Infrastructure',
+    desc: 'A foundational release built on .NET 10, with new modules for AI-native fulfillment and enterprise-grade observability.',
+    statValue: '3',
+    statLabel: 'Platform-level updates'
+  },
+  {
+    category: 'Platform',
+    title: 'Stable 14 release on <span class="accent">.NET 10</span>',
+    problem: 'Older .NET versions limit access to the latest performance improvements, security updates, and language features needed by modern enterprise teams.',
+    solution: 'The Platform and every single module have been migrated to <strong>.NET 10</strong>. The release also adds the <code>IGraphTypeHook</code> extensibility interface in xAPI, native SVG thumbnail generation, and Lucene filter hardening.',
+    size: 'L',
+    integration: 'Major platform migration: upgrade hosting infrastructure to .NET 10, recompile all custom modules, regression-test full storefront and admin. Heavily customized deployments require extra planning.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/2/208fc7ddddb6835c9a47fe4eeefdc73ff57948bc_2_690x175.png',
+    caption: 'Stable 14 — released alongside new 3.0 documentation'
+  },
+  {
+    category: 'Platform · onX Adapter',
+    title: '<span class="accent">Commerce Operations Foundation</span> MCP Server',
+    problem: 'Storefronts and integrations historically rely on hard-coded OMS, 3PL, and WMS integrations, which slows adoption of AI agents that need real-time fulfillment data.',
+    solution: 'Virto Commerce introduces support for the <strong>Order Network eXchange (onX)</strong> standard — a unified Model Context Protocol interface for AI agents to query inventory and delivery promises directly. <strong>Virto is the first commerce platform member of the Commerce Operations Foundation to release an onX adapter.</strong>',
+    size: 'L',
+    integration: 'Install onX adapter, map your OMS/3PL/WMS endpoints to the onX schema, configure MCP server, integrate with AI agent platform. Depends on existing fulfillment system architecture.',
+    noVisual: true,
+    icon: 'network'
+  },
+  {
+    category: 'Platform · Observability',
+    title: 'Open Telemetry <span class="accent">first release</span>',
+    problem: 'Without standards-based observability, teams struggle to detect, trace, and resolve performance issues across the platform in real time.',
+    solution: 'A new <strong>Open Telemetry module (3.1000.0)</strong> ships an OTLP exporter with full coverage:<ul><li><strong>Metrics</strong>: ASP.NET Core, HTTP Client, Runtime, EF Core, Elasticsearch, Redis</li><li><strong>Distributed tracing</strong>: ASP.NET Core, HTTP Client, Hangfire, EF Core, Elasticsearch, Redis</li><li><strong>Logging</strong>: Serilog routed via OTLP sink with trace + span ID correlation</li></ul>',
+    size: 'M',
+    integration: 'Install OpenTelemetry module, deploy an OTLP-compatible backend (Grafana Tempo, Jaeger, Datadog, etc.), configure exporters and sampling. Includes dashboarding.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/b/b91562e4a7036c928320cef30924e571fae3f552_2_690x360.jpeg',
+    caption: 'OpenTelemetry observability dashboard'
+  },
+
+  /* ===== SECTION 06: VC-SHELL ===== */
+  {
+    type: 'divider',
+    num: 'Section 06',
+    title: 'VC-Shell',
+    titleAccent: 'Admin UI',
+    desc: 'A sweeping set of UX, performance, and developer-experience improvements — from the new App Hub and notification bell to smarter blades and offline awareness.',
+    statValue: '12',
+    statLabel: 'Shell improvements'
+  },
+  {
+    category: 'VC-Shell · Navigation',
+    title: '<span class="accent">App Hub</span> in the sidebar',
+    problem: 'As the number of installed modules and apps grew, finding the right tool meant scrolling through long, flat menus on both desktop and mobile.',
+    solution: 'The sidebar now includes an <strong>App Hub with application search and an app switcher</strong>, redesigned widgets with new sub-components, and a tabbed Menu/Hub switcher with <strong>swipe gestures on mobile</strong>.',
+    size: 'S',
+    integration: 'Ships with the VC-Shell update. No configuration. Train admin users on the new search UX.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/0/0c208f42f8d36b79472bf0e5c230705fab1ea220.gif',
+    caption: 'New App Hub with search and app switching'
+  },
+  {
+    category: 'VC-Shell · Header',
+    title: '<span class="accent">Notification bell</span> in the header',
+    problem: 'Users had no centralized, glanceable indicator of new system events, errors, or background job results — important alerts could be missed entirely.',
+    solution: 'A <strong>notification bell</strong> has been added to the header with an unread indicator dot, giving users immediate visual feedback on activity that needs their attention.',
+    size: 'S',
+    integration: 'Out-of-the-box with VC-Shell update. Custom modules can publish to the notification stream — see useBladeNotifications.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/4/47251fc3315b33baa048baab7fe5f14ad688d1db.gif',
+    caption: 'Header notification bell with unread indicator'
+  },
+  {
+    category: 'VC-Shell · Components',
+    title: '<span class="accent">Gallery component</span> redesigned',
+    problem: 'The previous gallery felt dated, lacked responsive presets, and provided no skeleton loading or smooth drag-and-drop reordering.',
+    solution: 'Rebuilt with <strong>CSS Grid layout</strong>, responsive presets (sm/md/lg), <strong>frosted-glass hover action tray</strong>, skeleton shimmer during image loading, dark preview lightbox with crossfade, and <strong>FLIP animation</strong> for drag-and-drop. New <code>VcImageUpload</code> for avatars/logos extracted.',
+    size: 'S',
+    integration: 'Replaces existing gallery automatically. Custom modules using gallery internals should re-test with a regression check.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/c/c030ea72dbe3343fe8bb2a57be3ca80876a4308a_2_384x499.jpeg',
+    caption: 'Redesigned gallery with frosted-glass UI'
+  },
+  {
+    category: 'VC-Shell · Loading States',
+    title: 'Smarter <span class="accent">skeleton loaders</span>',
+    problem: 'Generic spinners gave users no clue about the size or shape of incoming content, making interfaces feel slower than they actually were.',
+    solution: 'Coordinated upgrade:<ul><li><strong>VcSkeleton</strong> with circle and block shape variants</li><li><strong>VcBlade</strong> spinner overlay replaced with skeleton placeholders</li><li><strong>VcDataTable</strong> uses column-aware skeleton rows</li><li><strong>VcLoading</strong> bar sweep animation replaces dots loader</li></ul>',
+    size: 'S',
+    integration: 'Drop-in. Custom blades using legacy spinner API should migrate to skeleton placeholders. Effort grows with module portfolio size.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/1/11af56436636af789c201cb2bf44224e67b65703_2_394x500.png',
+    caption: 'Skeleton loaders replace generic spinners'
+  },
+  {
+    category: 'VC-Shell · Authentication',
+    title: 'Login & <span class="accent">SSO-only mode</span>',
+    problem: 'Tenants using SSO-only authentication still saw a username/password form, creating user confusion and visual noise.',
+    solution: 'Login pages updated with <strong>SSO-only mode</strong> (form hides when only SSO buttons available), improved API error message parsing, redesigned login layout, and Storybook stories for all five auth pages.',
+    size: 'S',
+    integration: 'Toggle SSO-only mode in tenant config.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/5/5fd092f4ffdad32b77e0aaa823f1937f28ff5026.png',
+    caption: 'Streamlined SSO-only login experience'
+  },
+  {
+    category: 'VC-Shell · Dashboard',
+    title: 'Dashboard with <span class="accent">Unovis charts</span>',
+    problem: 'The previous dashboard charts used aging chart components that limited visual quality and customization.',
+    solution: 'The dashboard now features <strong>new chart components powered by Unovis</strong> and redesigned widget cards, delivering modern visualizations and better at-a-glance insights.',
+    size: 'S',
+    integration: 'Drop-in for default dashboard. Custom dashboards may need to migrate from old chart API.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/e/ec6ffa4ffaa095683327ff391764ce1a0f4dbd66.png',
+    caption: 'Refreshed dashboard with Unovis charts'
+  },
+  {
+    category: 'VC-Shell · Errors',
+    title: '<span class="accent">Unified error handling</span>',
+    problem: 'Inconsistent error handling across blades and modules meant some failures showed unfriendly messages, others silently swallowed errors, and there was no single place to control behavior.',
+    solution: 'Unified system: <code>useAsync</code> with error ref and deferred notification, <strong>ErrorInterceptor</strong> for blade-level red banners, global handlers for unhandled rejections, and a <code>parseError</code> / <code>DisplayableError</code> unified parsing utility.',
+    size: 'M',
+    integration: 'Refactor custom blades to use useAsync and ErrorInterceptor patterns. Effort depends on module size.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/4/4e21999658e9b9078980263a11673ec9ba605f08.gif',
+    caption: 'Blade-level red banner from ErrorInterceptor'
+  },
+  {
+    category: 'VC-Shell · Resilience',
+    title: '<span class="accent">Network awareness</span> built in',
+    problem: 'When users went offline mid-task, the app would hang on requests with no visual feedback, leaving them confused about whether actions had succeeded.',
+    solution: 'The app now uses <code>useConnectionStatus</code> (via VueUse <code>useNetwork</code>) to detect connectivity. Offline triggers a <strong>persistent warning</strong>, a <strong>30% grayscale filter</strong> across the app, and a fetch interceptor enforces a <strong>30s timeout</strong>. Recovers automatically.',
+    size: 'S',
+    integration: 'Out-of-the-box. Validate that long-running custom requests work with the 30s fast-fail.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/2/292b13154127c0548678be26c198099d4a58df3d.png',
+    caption: 'Offline state with grayscale filter + warning'
+  },
+  {
+    category: 'VC-Shell · Performance',
+    title: '<span class="accent">Shell startup</span> performance',
+    problem: 'Cold-start performance was held back by upfront initialization of telemetry, layout-shift in the menu sidebar, and lack of monorepo dev pre-transform.',
+    solution: 'Multiple wins shipped together: AppInsights and SignalR <strong>deferred to post-paint</strong>, dynamic modules load on demand, the menu sidebar uses <strong>batch reveal</strong> to eliminate layout shift, Vite <code>server.warmup</code> pre-transforms the monorepo, and <code>useWebVitals</code> tracks LCP, FID, CLS.',
+    size: 'S',
+    integration: 'Automatic with VC-Shell update. Optionally wire useWebVitals to your analytics.',
+    noVisual: true,
+    icon: 'speed'
+  },
+  {
+    category: 'VC-Shell · DX',
+    title: '<span class="accent">useBlade()</span> kills boilerplate',
+    problem: 'Every blade required ~55 lines of boilerplate props, emits, and lifecycle wiring just to participate in the blade system — frustrating for developers and easy to get wrong.',
+    solution: 'New <code>useBlade()</code> composable <strong>auto-injects param and options</strong>, handles blade events internally, and exposes clean helpers: <code>openBlade</code>, <code>closeSelf</code>, <code>callParent</code>, <code>onActivated</code>, <code>onDeactivated</code>. Result: <strong>~15 lines</strong> of clean code per blade.',
+    size: 'M',
+    integration: 'Migration is opt-in. Refactor existing blades incrementally to gain DX wins.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/2/2510661465ec5518b2316168d6173e2f1390c1e6.png',
+    caption: 'Before / after with useBlade()'
+  },
+  {
+    category: 'VC-Shell · DX',
+    title: '<span class="accent">defineAppModule</span> with notifications',
+    problem: 'Module setup used positional arguments — a recipe for ordering bugs — and notification configuration required a separate registration step disconnected from the module.',
+    solution: 'New <code>defineAppModule</code> API uses a <strong>named options object</strong> instead of positional arguments. Notification templates, toast modes, and severity rules are now declared <strong>directly in the module definition</strong> — no separate registration step required.',
+    size: 'S',
+    integration: 'Migrate existing custom modules from positional to named-options API.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/9/93b7da0372b6c01509a301e87194dcd8626460d7.png',
+    caption: 'New defineAppModule API'
+  },
+  {
+    category: 'VC-Shell · DX',
+    title: 'Two-level <span class="accent">notification architecture</span>',
+    problem: 'A single notification model couldn\'t serve both global toasts and blade-scoped messages cleanly, leading to leaks and stale subscriptions on unmount.',
+    solution: 'Two-level architecture: <strong>Level 1</strong> — module-level config via <code>defineAppModule</code> with <code>auto</code>, <code>progress</code>, <code>silent</code> modes through a NotificationStore singleton. <strong>Level 2</strong> — <code>useBladeNotifications()</code> scoped to the current blade with <strong>automatic cleanup on unmount</strong>.',
+    size: 'M',
+    integration: 'Replace ad-hoc notification logic in custom blades with useBladeNotifications.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/c/c936c2a561f67f9db72d80e0125072187a52b6eb.png',
+    caption: 'Two-level notification architecture'
+  },
+  {
+    category: 'VC-Shell · DX',
+    title: 'Widget system <span class="accent">without .vue files</span>',
+    problem: 'Adding widgets to a blade meant creating dedicated <code>.vue</code> component files with manual <code>onUnmounted</code> cleanup — heavy ceremony for what is often a small piece of UI.',
+    solution: 'The widget system no longer requires <code>.vue</code> files. <code>useBladeWidgets()</code> accepts a config array describing each widget\'s icon, title, badge, visibility, and callbacks. <strong>Registration and cleanup automatic</strong>. <code>defineBladeContext</code> / <code>injectBladeContext</code> for dynamic modules.',
+    size: 'S',
+    integration: 'Migrate existing .vue widget components to config arrays where it makes sense.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/d/d3439681e6a491ad980e280f91dd40d73110c866.png',
+    caption: 'Config-based widget registration'
+  },
+
+  /* ===== SECTION 07: RESOURCES ===== */
+  {
+    type: 'divider',
+    num: 'Section 07',
+    title: 'Community &',
+    titleAccent: 'Resources',
+    desc: 'New educational content from Virto Commerce — a webinar recording and two whitepapers focused on AI-readiness in B2B commerce.',
+    statValue: '3',
+    statLabel: 'New resources'
+  },
+  {
+    category: 'Resources',
+    title: 'Webinar & <span class="accent">whitepapers</span>',
+    problem: 'B2B teams adopting AI need practical guidance — both for implementation and for understanding the architectural shifts reshaping commerce platforms.',
+    solution: 'Three new resources are now available:<ul><li><strong>"All Things AI: From \'Help!\' to \'Order Placed\'"</strong> webinar recording</li><li><strong>The AI-Ready Product Data Framework for B2B Commerce</strong> whitepaper</li><li><strong>The New Circular Tech Stack for B2B Commerce</strong> whitepaper</li></ul>',
+    size: 'S',
+    integration: 'No integration required — educational content. Recommended for product, architecture, and AI-strategy stakeholders.',
+    noVisual: true,
+    icon: 'book'
+  },
+
+  { type: 'backlog' },
+  { type: 'thanks' }
+];
+
+const icons = {
+  network: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  api: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+  refund: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="3 4 3 12 11 12"/></svg>',
+  ai: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h.01M15 9h.01M9 15h6"/></svg>',
+  speed: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+  book: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  globe: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  moon: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+};
+
+const sizeLegend = [
+  { size: 'S', label: 'Light — config only' },
+  { size: 'M', label: 'Medium — setup + development' },
+  { size: 'L', label: 'Large — integration or migration' }
+];
+
+const stage = document.getElementById('stage');
+const totalSlides = slides.length;
+let currentIndex = 0;
+
+function stripHTML(str) { return str.replace(/<[^>]*>/g, ''); }
+
+function renderCover() {
+  return `
+    <div class="slide cover" data-index="0">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="brand">
+            <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
+            <div class="brand-text">
+              <span class="b1">Virto Commerce</span>
+              <span class="b2">Enterprise Commerce Platform</span>
+            </div>
+          </div>
+          <div class="header-meta">
+            <span class="pill">Release Notes</span>
+            <span>April 2026</span>
+          </div>
+        </div>
+
+        <div class="cover-body">
+          <span class="cover-eyebrow">What's new this month</span>
+          <h1 class="cover-title">
+            Release Notes<br/>
+            <span class="grad">April 2026</span>
+          </h1>
+          <p class="cover-sub">
+            A rich set of improvements across the Platform, Frontend, and AI tooling. <strong>Business-impact features come first</strong>, followed by technical updates. Each slide includes a T-shirt size estimating integration complexity.
+          </p>
+          <div class="cover-highlights">
+            <span class="cover-chip"><span class="num">6</span>WOW business features</span>
+            <span class="cover-chip"><span class="num">.NET 10</span>Stable 14 release</span>
+            <span class="cover-chip"><span class="num">1st</span>onX adapter in industry</span>
+            <span class="cover-chip"><span class="num">2</span>New modules</span>
+          </div>
+
+          <div class="ts-legend">
+            <div class="ts-legend-title">Integration complexity (T-Shirt size)</div>
+            <div class="ts-legend-items">
+              ${sizeLegend.map(s => `
+                <span class="ts-legend-item" data-size="${s.size}">
+                  <span class="ts-pill">${s.size}</span>
+                  <span>${s.label}</span>
+                </span>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-footer">
+          <span>virtocommerce.com</span>
+          <span class="slide-counter">01 <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderDivider(slide, idx) {
+  const wowClass = slide.wow ? ' wow' : '';
+  return `
+    <div class="slide section-divider${wowClass}" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="divider-body">
+          <div class="divider-left">
+            <span class="divider-num">${slide.num}</span>
+            <h2 class="divider-title">
+              ${slide.title}<br/>
+              <span class="grad">${slide.titleAccent}</span>
+            </h2>
+            <p class="divider-desc">${slide.desc}</p>
+            <div class="divider-stat">
+              <span class="v">${slide.statValue}</span>
+              <span class="l">${slide.statLabel}</span>
+            </div>
+          </div>
+          <div class="divider-right">
+            <div class="shape s1"></div>
+            <div class="shape s2"></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderContent(slide, idx) {
+  const visualHTML = slide.noVisual
+    ? `<div class="visual-col">
+         <div class="no-visual">
+           <div class="icon-circle">${icons[slide.icon] || icons.api}</div>
+           <h3>${stripHTML(slide.title)}</h3>
+           <p>${slide.category}</p>
+         </div>
+       </div>`
+    : `<div class="visual-col">
+         <img src="${slide.image}" alt="${stripHTML(slide.title)}" loading="lazy" data-fallback-icon="${slide.icon || 'api'}" />
+         ${slide.caption ? `<div class="visual-caption">${slide.caption}</div>` : ''}
+       </div>`;
+
+  const tagClass = slide.wow ? 'topic-tag wow' : 'topic-tag';
+  const tagText = slide.wow ? '★ WOW Feature' : 'Update';
+
+  const tsBadgeHeader = slide.size
+    ? `<span class="ts-badge" data-size="${slide.size}" title="Integration complexity">
+         <span class="ts-pill">${slide.size}</span>
+       </span>`
+    : '';
+
+  const backlogBtnHeader = `
+    <button class="backlog-btn" data-backlog-toggle="${idx}" title="Add to backlog">
+      <span class="plus">+</span>
+      <span class="check">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </span>
+      <span class="label-add">Add to backlog</span>
+      <span class="label-remove">In backlog</span>
+    </button>`;
+
+  return `
+    <div class="slide" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="brand">
+            <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
+            <div class="brand-text">
+              <span class="b1">Virto Commerce</span>
+              <span class="b2">Release Notes — April 2026</span>
+            </div>
+          </div>
+          <div class="header-meta">
+            ${backlogBtnHeader}
+            ${tsBadgeHeader}
+            <span class="pill">${slide.category}</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="content-col">
+            <span class="${tagClass}">${tagText}</span>
+            <h2 class="slide-title">${slide.title}</h2>
+
+            <div class="ps-block problem">
+              <span class="ps-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Problem
+              </span>
+              <p class="ps-text">${slide.problem}</p>
+            </div>
+
+            <div class="ps-block solution">
+              <span class="ps-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Solution
+              </span>
+              <div class="ps-text">${slide.solution}</div>
+            </div>
+
+            ${slide.integration ? `
+            <div class="ps-block integration">
+              <span class="ps-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                Integration
+              </span>
+              <p class="ps-text">${slide.integration}</p>
+            </div>` : ''}
+          </div>
+
+          ${visualHTML}
+        </div>
+
+        <div class="slide-footer">
+          <span class="slide-category">${slide.category}</span>
+          <span class="slide-counter">${String(idx+1).padStart(2,'0')} <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderThanks(idx) {
+  return `
+    <div class="slide thanks" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="thanks-body">
+          <span class="thanks-eyebrow">That's a wrap</span>
+          <h1 class="thanks-title">Thank <span class="grad">you</span></h1>
+          <p class="thanks-sub">
+            Explore the full April 2026 release notes, request a Virto OZ demo, or dive into the new whitepapers and webinar recording.
+          </p>
+          <div class="thanks-cta">
+            <a class="cta-btn" href="https://virtocommerce.com/request-demo" target="_blank" rel="noopener">
+              Request a Demo
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a class="cta-btn outline" href="https://www.virtocommerce.org/t/virto-s-release-notes-april-2026/847" target="_blank" rel="noopener">
+              Read full release notes
+            </a>
+            <a class="cta-btn outline" href="https://docs.virtocommerce.org/" target="_blank" rel="noopener">
+              Documentation
+            </a>
+          </div>
+          <div class="thanks-footer">
+            virtocommerce.com  ·  Release Notes April 2026
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderBacklog(idx) {
+  return `
+    <div class="slide backlog-screen" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="brand">
+            <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
+            <div class="brand-text">
+              <span class="b1">Virto Commerce</span>
+              <span class="b2">Release Notes — April 2026</span>
+            </div>
+          </div>
+          <div class="header-meta">
+            <span class="pill">Your Backlog</span>
+          </div>
+        </div>
+
+        <div class="backlog-body">
+          <div class="backlog-head">
+            <div class="backlog-title-block">
+              <span class="backlog-eyebrow">Selected features</span>
+              <h1>Your <span class="grad">implementation backlog</span></h1>
+              <p class="backlog-sub">
+                Features you marked across the deck. Copy as Markdown and paste into your tracker (Jira, Linear, GitHub, etc.). Each item becomes a ready-to-extend ticket.
+              </p>
+            </div>
+            <div class="backlog-actions">
+              <button class="bl-btn primary" id="copyBacklogBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span id="copyBtnLabel">Copy as Markdown</span>
+              </button>
+              <button class="bl-btn danger" id="clearBacklogBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                Clear all
+              </button>
+            </div>
+          </div>
+
+          <div class="backlog-list" id="backlogList">
+            <!-- populated dynamically -->
+          </div>
+        </div>
+
+        <div class="slide-footer">
+          <span class="slide-category">Backlog · Markdown export</span>
+          <span class="slide-counter">${String(idx+1).padStart(2,'0')} <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function attachImageFallbacks() {
+  document.querySelectorAll('.visual-col img').forEach(img => {
+    img.addEventListener('error', () => {
+      const iconKey = img.dataset.fallbackIcon || 'api';
+      const parent = img.parentElement;
+      parent.innerHTML = `
+        <div class="no-visual">
+          <div class="icon-circle">${icons[iconKey] || icons.api}</div>
+          <h3>Screenshot unavailable</h3>
+          <p>View at virtocommerce.org</p>
+        </div>`;
+    }, { once: true });
+  });
+}
+
+/* ---------------- BACKLOG STATE ---------------- */
+const backlog = new Set(); // stores slide indices
+const backlogLink = document.getElementById('backlogLink');
+const backlogCount = document.getElementById('backlogCount');
+const toast = document.getElementById('toast');
+const toastText = document.getElementById('toastText');
+
+function showToast(msg) {
+  toastText.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function findBacklogSlideIndex() {
+  return slides.findIndex(s => s.type === 'backlog');
+}
+
+function updateBacklogChrome() {
+  const n = backlog.size;
+  backlogCount.textContent = n;
+  backlogLink.disabled = n === 0;
+  // Sync all "+ Add" buttons to reflect current state
+  document.querySelectorAll('[data-backlog-toggle]').forEach(btn => {
+    const i = parseInt(btn.dataset.backlogToggle, 10);
+    btn.classList.toggle('added', backlog.has(i));
+  });
+  // Re-render backlog list if visible
+  renderBacklogList();
+}
+
+function renderBacklogList() {
+  const list = document.getElementById('backlogList');
+  if (!list) return;
+
+  if (backlog.size === 0) {
+    list.innerHTML = `
+      <div class="backlog-empty">
+        <div class="icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3>Your backlog is empty</h3>
+        <p>Browse the deck and click <strong>+ Add to backlog</strong> on any feature you want to bring to your team.</p>
+      </div>`;
+    return;
+  }
+
+  const items = [...backlog].sort((a, b) => a - b);
+  list.innerHTML = items.map((i, n) => {
+    const s = slides[i];
+    const sizeColor = `var(--size-${(s.size || 'm').toLowerCase()})`;
+    return `
+      <div class="backlog-item">
+        <span class="backlog-item-num">${String(n+1).padStart(2,'0')}</span>
+        <div class="backlog-item-title">
+          ${stripHTML(s.title)}
+          <div class="backlog-item-cat">${s.category}</div>
+        </div>
+        <div class="backlog-item-size">
+          <span class="ts-pill" style="background: ${sizeColor};">${s.size || '—'}</span>
+        </div>
+        <button class="backlog-item-remove" data-remove="${i}" title="Remove">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>`;
+  }).join('');
+
+  // Wire up remove buttons
+  list.querySelectorAll('[data-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const i = parseInt(btn.dataset.remove, 10);
+      backlog.delete(i);
+      updateBacklogChrome();
+    });
+  });
+}
+
+function buildMarkdown() {
+  const items = [...backlog].sort((a, b) => a - b);
+  const lines = [
+    '# Virto Commerce — April 2026 Backlog',
+    '',
+    `Selected ${items.length} feature${items.length === 1 ? '' : 's'} from the release notes.`,
+    '',
+    '| # | Feature | Size | Category |',
+    '| --- | --- | --- | --- |'
+  ];
+  items.forEach((i, n) => {
+    const s = slides[i];
+    const title = stripHTML(s.title).replace(/\|/g, '\\|');
+    const cat = s.category.replace(/\|/g, '\\|');
+    lines.push(`| ${n+1} | ${title} | ${s.size || '—'} | ${cat} |`);
+  });
+  lines.push('');
+  lines.push('---');
+  lines.push('Source: https://www.virtocommerce.org/t/virto-s-release-notes-april-2026/847');
+  return lines.join('\n');
+}
+
+async function copyBacklog() {
+  if (backlog.size === 0) return;
+  const md = buildMarkdown();
+  const btn = document.getElementById('copyBacklogBtn');
+  const label = document.getElementById('copyBtnLabel');
+  try {
+    await navigator.clipboard.writeText(md);
+    btn.classList.add('copied');
+    label.textContent = 'Copied!';
+    showToast(`${backlog.size} feature${backlog.size === 1 ? '' : 's'} copied as Markdown`);
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      label.textContent = 'Copy as Markdown';
+    }, 2000);
+  } catch (e) {
+    // Fallback: select-and-show
+    const ta = document.createElement('textarea');
+    ta.value = md;
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast(`${backlog.size} features copied`);
+    } catch (err) {
+      showToast('Copy failed — please select manually');
+    }
+    document.body.removeChild(ta);
+  }
+}
+
+function attachBacklogHandlers() {
+  // Per-slide "+ Add" buttons
+  document.querySelectorAll('[data-backlog-toggle]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const i = parseInt(btn.dataset.backlogToggle, 10);
+      if (backlog.has(i)) {
+        backlog.delete(i);
+        showToast('Removed from backlog');
+      } else {
+        backlog.add(i);
+        showToast('Added to backlog');
+      }
+      updateBacklogChrome();
+    });
+  });
+
+  // Backlog screen action buttons
+  const copyBtn = document.getElementById('copyBacklogBtn');
+  if (copyBtn) copyBtn.addEventListener('click', copyBacklog);
+
+  const clearBtn = document.getElementById('clearBacklogBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (backlog.size === 0) return;
+      if (confirm(`Clear all ${backlog.size} backlog items?`)) {
+        backlog.clear();
+        updateBacklogChrome();
+        showToast('Backlog cleared');
+      }
+    });
+  }
+
+  updateBacklogChrome();
+}
+
+// Backlog link in main nav
+backlogLink.addEventListener('click', () => {
+  if (backlog.size === 0) return;
+  showSlide(findBacklogSlideIndex());
+});
+
+function render() {
+  let html = '';
+  slides.forEach((s, i) => {
+    if (s.type === 'cover') html += renderCover();
+    else if (s.type === 'divider') html += renderDivider(s, i);
+    else if (s.type === 'backlog') html += renderBacklog(i);
+    else if (s.type === 'thanks') html += renderThanks(i);
+    else html += renderContent(s, i);
+  });
+  stage.innerHTML = html;
+  document.getElementById('totalSlides').textContent = String(totalSlides).padStart(2,'0');
+  attachImageFallbacks();
+  attachBacklogHandlers();
+  showSlide(0);
+}
+
+function showSlide(i) {
+  if (i < 0 || i >= totalSlides) return;
+  currentIndex = i;
+  document.querySelectorAll('.slide').forEach((el, idx) => {
+    el.classList.toggle('active', idx === i);
+  });
+  document.getElementById('currentSlide').textContent = String(i+1).padStart(2,'0');
+  document.getElementById('progressBar').style.width = `${((i+1)/totalSlides)*100}%`;
+  document.getElementById('prevBtn').disabled = i === 0;
+  document.getElementById('nextBtn').disabled = i === totalSlides - 1;
+  // Re-render backlog list whenever we land on the backlog slide
+  if (slides[i] && slides[i].type === 'backlog') {
+    renderBacklogList();
+  }
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => showSlide(currentIndex - 1));
+document.getElementById('nextBtn').addEventListener('click', () => showSlide(currentIndex + 1));
+document.querySelectorAll('.jump-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.jump;
+    showSlide(target === 'end' ? totalSlides - 1 : 0);
+  });
+});
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+function toggleCurrentInBacklog() {
+  const s = slides[currentIndex];
+  if (!s || !s.size || s.type) {
+    showToast('Nothing to add on this slide');
+    return;
+  }
+  if (backlog.has(currentIndex)) {
+    backlog.delete(currentIndex);
+    showToast('Removed from backlog');
+  } else {
+    backlog.add(currentIndex);
+    showToast('Added to backlog');
+  }
+  updateBacklogChrome();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    showSlide(currentIndex + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    e.preventDefault();
+    showSlide(currentIndex - 1);
+  } else if (e.key === 'Home') {
+    e.preventDefault();
+    showSlide(0);
+  } else if (e.key === 'End') {
+    e.preventDefault();
+    showSlide(totalSlides - 1);
+  } else if (e.key === 'f' || e.key === 'F') {
+    toggleFullscreen();
+  } else if (e.key === 'b' || e.key === 'B') {
+    toggleCurrentInBacklog();
+  }
+});
+
+// Clickable hint keys
+document.getElementById('hintPrev').addEventListener('click', () => showSlide(currentIndex - 1));
+document.getElementById('hintNext').addEventListener('click', () => showSlide(currentIndex + 1));
+document.getElementById('hintBacklog').addEventListener('click', toggleCurrentInBacklog);
+document.getElementById('hintFullscreen').addEventListener('click', toggleFullscreen);
+
+
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+document.addEventListener('touchend', (e) => {
+  const touchEndX = e.changedTouches[0].screenX;
+  const delta = touchEndX - touchStartX;
+  if (Math.abs(delta) > 60) {
+    if (delta < 0) showSlide(currentIndex + 1);
+    else showSlide(currentIndex - 1);
+  }
+});
+
+render();
+</script>
+</body>
+</html>
