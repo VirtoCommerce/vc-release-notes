@@ -4,8 +4,8 @@ An interactive, self-contained HTML presentation of the Virto Commerce releases.
 Designed to let product, engineering, and business stakeholders review
 what shipped, mark features for their own backlog, and export a ready-to-paste task list.
 
-## References
-* [2026 - April Release Notes](/release-notes/2026-04/index.html )
+## Release Notes Presentations
+* [2026 - April](/2026-04/index.html)
 
 ## Features
 
