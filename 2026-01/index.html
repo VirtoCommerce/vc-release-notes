@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Virto Commerce – Release Notes | January 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --virto-navy: #07254A;
+    --virto-navy-2: #0B3270;
+    --virto-blue: #2B7FFF;
+    --virto-blue-2: #1A6CFF;
+    --virto-cyan: #38BDF8;
+    --virto-accent: #FF6A3D;
+    --virto-gold: #FBBF24;
+    --virto-bg: #F4F7FB;
+    --virto-bg-2: #EAF1FA;
+    --virto-white: #FFFFFF;
+    --virto-text: #0F172A;
+    --virto-muted: #5B6B82;
+    --virto-line: #DCE5F1;
+
+    --size-s:  #22C55E;   /* green — drop-in / light config */
+    --size-m:  #FBBF24;   /* amber — setup + dev */
+    --size-l:  #F97316;   /* orange — integration / migration */
+
+    --shadow-soft: 0 10px 40px -12px rgba(7, 37, 74, 0.18);
+    --shadow-deep: 0 30px 80px -30px rgba(7, 37, 74, 0.35);
+
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--virto-bg);
+    color: var(--virto-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .stage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .slide {
+    position: absolute;
+    width: min(1200px, calc(100vw - 48px));
+    height: min(720px, calc(100vh - 48px));
+    background: var(--virto-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-deep);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(40px) scale(0.98);
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s linear 0.45s;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s linear 0s;
+  }
+
+  .slide-inner {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 36px 50px 24px;
+  }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--virto-line);
+    gap: 12px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--virto-blue), var(--virto-navy));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 18px;
+    letter-spacing: -0.5px;
+    box-shadow: 0 4px 12px rgba(43, 127, 255, 0.4);
+    overflow: hidden;
+  }
+  .brand-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-text .b1 { font-weight: 700; font-size: 14px; color: var(--virto-navy); letter-spacing: -0.2px; }
+  .brand-text .b2 { font-size: 11px; color: var(--virto-muted); text-transform: uppercase; letter-spacing: 1.2px; }
+  .header-meta {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--virto-muted);
+    text-transform: uppercase; letter-spacing: 1.4px;
+    flex-wrap: wrap; justify-content: flex-end;
+  }
+  .header-meta .pill {
+    background: var(--virto-bg-2); color: var(--virto-navy);
+    padding: 6px 12px; border-radius: 999px;
+    font-weight: 600; letter-spacing: 0.8px;
+  }
+
+  .ts-badge {
+    display: inline-flex; align-items: center;
+    padding: 3px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid var(--virto-line);
+  }
+  .ts-badge .ts-pill {
+    width: 28px; height: 22px;
+    border-radius: 6px;
+    background: var(--ts-color, var(--virto-muted));
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 11px;
+    display: inline-flex; align-items: center; justify-content: center;
+    letter-spacing: 0;
+  }
+  .ts-badge[data-size="S"]  { --ts-color: var(--size-s);  }
+  .ts-badge[data-size="M"]  { --ts-color: var(--size-m);  }
+  .ts-badge[data-size="L"]  { --ts-color: var(--size-l);  }
+
+  /* Backlog add button */
+  .backlog-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid var(--virto-line);
+    color: var(--virto-muted);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .backlog-btn:hover {
+    border-color: var(--virto-blue);
+    color: var(--virto-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px -4px rgba(43, 127, 255, 0.4);
+  }
+  .backlog-btn.added {
+    background: var(--virto-blue);
+    color: white;
+    border-color: var(--virto-blue);
+  }
+  .backlog-btn.added:hover {
+    background: var(--virto-accent);
+    border-color: var(--virto-accent);
+    color: white;
+  }
+  .backlog-btn .plus { font-size: 14px; line-height: 1; }
+  .backlog-btn .check { display: none; }
+  .backlog-btn.added .plus { display: none; }
+  .backlog-btn.added .check { display: inline; }
+  .backlog-btn.added .label-add { display: none; }
+  .backlog-btn.added .label-remove { display: inline; }
+  .backlog-btn .label-remove { display: none; }
+
+  /* Backlog counter in main nav */
+  .backlog-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--virto-blue);
+    color: white;
+    border: none;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    margin-left: 4px;
+  }
+  .backlog-link:disabled {
+    background: var(--virto-line);
+    color: var(--virto-muted);
+    cursor: not-allowed;
+  }
+  .backlog-link:not(:disabled):hover {
+    background: var(--virto-accent);
+    transform: translateY(-1px);
+  }
+  .backlog-link .count {
+    background: rgba(255,255,255,0.25);
+    padding: 1px 7px;
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 10px;
+  }
+  .backlog-link:disabled .count {
+    background: rgba(7, 37, 74, 0.1);
+  }
+
+  /* BACKLOG screen */
+  .backlog-screen {
+    background:
+      radial-gradient(ellipse at top right, rgba(43, 127, 255, 0.1), transparent 60%),
+      linear-gradient(135deg, var(--virto-bg) 0%, var(--virto-bg-2) 100%);
+  }
+  .backlog-screen .slide-inner {
+    padding: 36px 50px 24px;
+    grid-template-rows: auto 1fr auto;
+  }
+  .backlog-body {
+    display: flex; flex-direction: column;
+    gap: 18px;
+    overflow: hidden;
+    padding: 18px 0;
+  }
+  .backlog-head {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .backlog-title-block { flex: 1; min-width: 280px; }
+  .backlog-eyebrow {
+    color: var(--virto-blue);
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 2px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .backlog-eyebrow::before {
+    content: ""; width: 22px; height: 1.5px; background: var(--virto-blue);
+  }
+  .backlog-screen h1 {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--virto-navy);
+    letter-spacing: -1.2px;
+    margin: 8px 0 6px;
+  }
+  .backlog-screen h1 .grad {
+    background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan));
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  .backlog-sub {
+    font-size: 14px;
+    color: var(--virto-muted);
+    line-height: 1.5;
+    max-width: 560px;
+  }
+  .backlog-actions {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    align-items: center;
+  }
+  .bl-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--virto-line);
+    background: white;
+    color: var(--virto-navy);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .bl-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+    border-color: var(--virto-blue);
+  }
+  .bl-btn.primary {
+    background: var(--virto-blue);
+    color: white;
+    border-color: var(--virto-blue);
+  }
+  .bl-btn.primary:hover {
+    background: var(--virto-blue-2);
+    border-color: var(--virto-blue-2);
+  }
+  .bl-btn.primary.copied {
+    background: var(--size-s);
+    border-color: var(--size-s);
+  }
+  .bl-btn.danger:hover {
+    border-color: var(--virto-accent);
+    color: var(--virto-accent);
+  }
+
+  .backlog-list {
+    flex: 1;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid var(--virto-line);
+    border-radius: var(--radius);
+    padding: 0;
+    box-shadow: 0 6px 20px -10px rgba(7, 37, 74, 0.12);
+  }
+  .backlog-list::-webkit-scrollbar { width: 8px; }
+  .backlog-list::-webkit-scrollbar-thumb {
+    background: var(--virto-line);
+    border-radius: 4px;
+  }
+  .backlog-empty {
+    padding: 60px 40px;
+    text-align: center;
+    color: var(--virto-muted);
+  }
+  .backlog-empty .icon {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--virto-bg-2);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--virto-blue);
+    margin-bottom: 14px;
+  }
+  .backlog-empty h3 {
+    color: var(--virto-navy);
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+  .backlog-empty p { font-size: 13px; line-height: 1.5; }
+  .backlog-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--virto-line);
+    transition: background 0.15s;
+  }
+  .backlog-item:last-child { border-bottom: none; }
+  .backlog-item:hover { background: var(--virto-bg); }
+  .backlog-item-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--virto-muted);
+    width: 28px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .backlog-item-title {
+    flex: 1;
+    font-size: 14px;
+    color: var(--virto-navy);
+    font-weight: 500;
+    line-height: 1.4;
+    min-width: 0;
+  }
+  .backlog-item-cat {
+    font-size: 10px;
+    color: var(--virto-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .backlog-item-size {
+    flex-shrink: 0;
+  }
+  .backlog-item-size .ts-pill {
+    width: 28px; height: 22px;
+    border-radius: 6px;
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .backlog-item-remove {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--virto-muted);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .backlog-item-remove:hover {
+    background: rgba(255, 106, 61, 0.1);
+    color: var(--virto-accent);
+  }
+
+  /* Toast notification for copy success */
+  .toast {
+    position: fixed;
+    top: 24px; left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: var(--virto-navy);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 12px 30px -10px rgba(7, 37, 74, 0.5);
+    z-index: 300;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; align-items: center; gap: 10px;
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast .check-icon {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--size-s);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
+  .slide-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 22px 0;
+    overflow: hidden;
+  }
+  .content-col {
+    display: flex; flex-direction: column;
+    gap: 14px;
+    overflow: hidden; min-width: 0;
+  }
+
+  .topic-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    width: max-content;
+    background: linear-gradient(90deg, rgba(43, 127, 255, 0.1), rgba(43, 127, 255, 0));
+    color: var(--virto-blue);
+    padding: 6px 14px 6px 10px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1.2px;
+  }
+  .topic-tag::before {
+    content: ""; width: 6px; height: 6px;
+    background: var(--virto-blue); border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(43, 127, 255, 0.18);
+  }
+  .topic-tag.wow {
+    background: linear-gradient(90deg, rgba(251, 191, 36, 0.18), rgba(251, 191, 36, 0));
+    color: #B45309;
+  }
+  .topic-tag.wow::before {
+    background: var(--virto-gold);
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.25);
+  }
+
+  .slide-title {
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.15; font-weight: 800;
+    color: var(--virto-navy); letter-spacing: -0.7px;
+  }
+  .slide-title .accent {
+    background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .ps-block {
+    border-left: 3px solid var(--virto-line);
+    padding: 2px 0 2px 14px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .ps-block.problem { border-left-color: var(--virto-accent); }
+  .ps-block.solution { border-left-color: var(--virto-blue); }
+  .ps-block.integration { border-left-color: var(--virto-navy); }
+
+  .ps-label {
+    font-size: 10.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--virto-muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ps-block.problem .ps-label { color: var(--virto-accent); }
+  .ps-block.solution .ps-label { color: var(--virto-blue); }
+  .ps-block.integration .ps-label { color: var(--virto-navy); }
+
+  .ps-text {
+    font-size: 13px; line-height: 1.5;
+    color: var(--virto-text);
+  }
+  .ps-text strong { color: var(--virto-navy); font-weight: 600; }
+  .ps-text code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    background: var(--virto-bg-2);
+    color: var(--virto-navy);
+    padding: 2px 6px; border-radius: 6px;
+  }
+  .ps-text ul { margin-top: 4px; padding-left: 18px; }
+  .ps-text li { margin-bottom: 2px; }
+
+  .visual-col {
+    background: linear-gradient(135deg, var(--virto-bg) 0%, var(--virto-bg-2) 100%);
+    border-radius: var(--radius);
+    border: 1px solid var(--virto-line);
+    overflow: hidden; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 0;
+  }
+  .visual-col img {
+    max-width: 100%; max-height: 100%;
+    object-fit: contain; display: block;
+  }
+  .visual-caption {
+    position: absolute;
+    bottom: 12px; left: 12px; right: 12px;
+    background: rgba(7, 37, 74, 0.85);
+    color: white;
+    backdrop-filter: blur(8px);
+    padding: 8px 14px; border-radius: 10px;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 1.2px; font-weight: 500;
+  }
+
+  .no-visual {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 40px; gap: 18px;
+    color: var(--virto-navy);
+  }
+  .no-visual .icon-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--virto-blue), var(--virto-navy));
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    box-shadow: 0 12px 30px -8px rgba(43, 127, 255, 0.5);
+  }
+  .no-visual h3 {
+    font-size: 17px; font-weight: 700;
+    color: var(--virto-navy); letter-spacing: -0.3px;
+  }
+  .no-visual p {
+    font-size: 13px; color: var(--virto-muted);
+    line-height: 1.5; max-width: 280px;
+  }
+
+  .slide-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 12px; border-top: 1px solid var(--virto-line);
+    font-size: 12px; color: var(--virto-muted);
+  }
+  .slide-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500; color: var(--virto-navy);
+  }
+  .slide-counter .total { color: var(--virto-muted); }
+  .slide-category {
+    text-transform: uppercase; letter-spacing: 1.4px;
+    font-weight: 600; font-size: 11px;
+  }
+
+  /* COVER */
+  .cover {
+    background:
+      radial-gradient(ellipse at top right, rgba(43, 127, 255, 0.15), transparent 60%),
+      radial-gradient(ellipse at bottom left, rgba(56, 189, 248, 0.12), transparent 55%),
+      linear-gradient(135deg, #07254A 0%, #0B3270 50%, #07254A 100%);
+    color: white;
+  }
+  .cover .slide-header { border-color: rgba(255,255,255,0.15); }
+  .cover .brand-text .b1 { color: white; }
+  .cover .brand-text .b2 { color: rgba(255,255,255,0.6); }
+  .cover .brand-mark { background: white; padding: 2px; }
+  .cover .header-meta { color: rgba(255,255,255,0.7); }
+  .cover .header-meta .pill {
+    background: rgba(255,255,255,0.12); color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .cover-body {
+    display: flex; flex-direction: column;
+    justify-content: center; gap: 22px;
+    padding: 22px 0;
+  }
+  .cover-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    width: max-content;
+    color: var(--virto-cyan);
+    font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 2.5px;
+  }
+  .cover-eyebrow::before { content: ""; width: 28px; height: 1.5px; background: var(--virto-cyan); }
+  .cover-title {
+    font-size: clamp(36px, 5.5vw, 60px);
+    font-weight: 800; line-height: 1; letter-spacing: -2.5px;
+  }
+  .cover-title .grad {
+    background: linear-gradient(90deg, #38BDF8, #FFFFFF);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .cover-sub {
+    font-size: 15px; line-height: 1.55;
+    color: rgba(255,255,255,0.8);
+    max-width: 720px; font-weight: 300;
+  }
+  .cover-highlights {
+    display: flex; gap: 12px;
+    margin-top: 4px; flex-wrap: wrap;
+  }
+  .cover-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 9px 16px; border-radius: 12px;
+    font-size: 13px; color: white;
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cover-chip .num {
+    color: var(--virto-cyan); font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .ts-legend {
+    margin-top: 12px;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+  }
+  .ts-legend-title {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+    color: rgba(255,255,255,0.6); margin-bottom: 10px; font-weight: 600;
+  }
+  .ts-legend-items { display: flex; gap: 16px; flex-wrap: wrap; }
+  .ts-legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: rgba(255,255,255,0.85);
+  }
+  .ts-legend-item .ts-pill {
+    width: 28px; height: 22px;
+    border-radius: 6px;
+    color: white; font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 11px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .ts-legend-item[data-size="S"]  .ts-pill { background: var(--size-s);  }
+  .ts-legend-item[data-size="M"]  .ts-pill { background: var(--size-m);  }
+  .ts-legend-item[data-size="L"]  .ts-pill { background: var(--size-l);  }
+
+  .cover .slide-footer {
+    border-color: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.6);
+  }
+  .cover .slide-counter, .cover .slide-counter .total { color: rgba(255,255,255,0.85); }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    background: linear-gradient(135deg, var(--virto-navy) 0%, var(--virto-navy-2) 100%);
+    color: white; overflow: hidden;
+  }
+  .section-divider .slide-inner { padding: 0; }
+  .divider-body {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .divider-left {
+    padding: 60px;
+    display: flex; flex-direction: column;
+    justify-content: center; gap: 20px;
+  }
+  .divider-right {
+    background: linear-gradient(135deg, rgba(43,127,255,0.2), transparent),
+                radial-gradient(circle at 30% 30%, rgba(56,189,248,0.4), transparent 60%);
+    position: relative; overflow: hidden;
+  }
+  .divider-right::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .divider-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--virto-cyan);
+    letter-spacing: 3px;
+  }
+  .divider-title {
+    font-size: clamp(34px, 4.6vw, 52px);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -1.5px;
+  }
+  .divider-title .grad {
+    background: linear-gradient(90deg, #38BDF8, #2B7FFF);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .divider-desc {
+    font-size: 15px; line-height: 1.6;
+    color: rgba(255,255,255,0.7); max-width: 440px;
+  }
+  .divider-stat {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-top: 8px;
+  }
+  .divider-stat .v {
+    font-size: 52px; font-weight: 800;
+    color: var(--virto-cyan);
+    letter-spacing: -2px; line-height: 1;
+  }
+  .divider-stat .l {
+    font-size: 12px; color: rgba(255,255,255,0.65);
+    text-transform: uppercase; letter-spacing: 1.5px;
+  }
+
+  /* WOW divider */
+  .section-divider.wow {
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(251,191,36,0.25), transparent 55%),
+      radial-gradient(ellipse at 20% 80%, rgba(43,127,255,0.25), transparent 55%),
+      linear-gradient(135deg, #07254A 0%, #11305C 100%);
+  }
+  .section-divider.wow .divider-num { color: var(--virto-gold); }
+  .section-divider.wow .divider-title .grad {
+    background: linear-gradient(90deg, #FBBF24, #FF6A3D);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .section-divider.wow .divider-stat .v { color: var(--virto-gold); }
+
+  .shape {
+    position: absolute; border-radius: 50%;
+    filter: blur(40px);
+  }
+  .shape.s1 {
+    width: 280px; height: 280px;
+    background: rgba(43,127,255,0.5);
+    top: -40px; right: -40px;
+  }
+  .shape.s2 {
+    width: 220px; height: 220px;
+    background: rgba(56,189,248,0.4);
+    bottom: -60px; left: 30%;
+  }
+  .section-divider.wow .shape.s1 { background: rgba(251,191,36,0.4); }
+  .section-divider.wow .shape.s2 { background: rgba(255,106,61,0.4); }
+
+  /* NAV */
+  .nav {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--virto-line);
+    box-shadow: var(--shadow-soft);
+    padding: 8px 12px; border-radius: 999px;
+    z-index: 100;
+  }
+  .nav-btn {
+    width: 36px; height: 36px;
+    border: none; background: transparent;
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--virto-navy);
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--virto-bg-2); transform: translateY(-1px); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+  .nav-progress {
+    display: flex; align-items: center; gap: 6px;
+    padding: 0 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--virto-navy); font-weight: 600;
+  }
+  .nav-progress .total { color: var(--virto-muted); font-weight: 400; }
+  .nav-jump {
+    border-left: 1px solid var(--virto-line);
+    padding-left: 12px; display: flex; gap: 4px;
+  }
+  .jump-btn {
+    background: transparent; border: none; cursor: pointer;
+    padding: 6px 10px; font-size: 11px;
+    color: var(--virto-muted);
+    text-transform: uppercase; letter-spacing: 1px;
+    border-radius: 6px; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .jump-btn:hover { background: var(--virto-bg-2); color: var(--virto-navy); }
+
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan));
+    transition: width 0.3s ease;
+    z-index: 200;
+    box-shadow: 0 0 12px rgba(43,127,255,0.5);
+  }
+
+  .hint {
+    position: fixed; top: 24px; right: 28px;
+    font-size: 11px; color: var(--virto-muted);
+    text-transform: uppercase; letter-spacing: 1.4px;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+    z-index: 100;
+  }
+  .key {
+    background: white;
+    border: 1px solid var(--virto-line);
+    padding: 3px 8px; border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--virto-navy); font-weight: 600;
+    box-shadow: 0 2px 4px rgba(7,37,74,0.06);
+  }
+  button.key-btn {
+    cursor: pointer;
+    font-size: inherit;
+    line-height: 1;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  button.key-btn:hover {
+    background: var(--virto-blue);
+    color: white;
+    border-color: var(--virto-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(43, 127, 255, 0.3);
+  }
+  button.key-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(7,37,74,0.1);
+  }
+
+  /* THANKS */
+  .thanks {
+    background:
+      radial-gradient(ellipse at center, rgba(43,127,255,0.18), transparent 60%),
+      linear-gradient(135deg, #07254A 0%, #0B3270 100%);
+    color: white;
+  }
+  .thanks .slide-inner { padding: 0; }
+  .thanks-body {
+    height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 60px;
+    gap: 28px; position: relative;
+  }
+  .thanks-eyebrow {
+    color: var(--virto-cyan);
+    font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 3px;
+  }
+  .thanks-title {
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 800; line-height: 0.95;
+    letter-spacing: -3px;
+  }
+  .thanks-title .grad {
+    background: linear-gradient(90deg, #38BDF8, #FFFFFF);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .thanks-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    max-width: 600px; line-height: 1.6; font-weight: 300;
+  }
+  .thanks-cta {
+    display: flex; gap: 14px;
+    margin-top: 8px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .cta-btn {
+    background: var(--virto-blue); color: white;
+    padding: 14px 26px; border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600; font-size: 14px;
+    transition: all 0.25s;
+    border: 1px solid var(--virto-blue);
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .cta-btn:hover {
+    background: var(--virto-blue-2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -8px rgba(43,127,255,0.6);
+  }
+  .cta-btn.outline {
+    background: transparent;
+    border-color: rgba(255,255,255,0.3);
+  }
+  .cta-btn.outline:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.5);
+  }
+  .thanks-footer {
+    position: absolute; bottom: 32px;
+    left: 0; right: 0;
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .slide-body { grid-template-columns: 1fr; gap: 18px; padding: 18px 0; }
+    .visual-col { min-height: 180px; max-height: 240px; }
+    .slide-inner { padding: 22px 26px; }
+    .divider-body { grid-template-columns: 1fr; }
+    .divider-right { display: none; }
+    .nav { bottom: 16px; padding: 6px 8px; gap: 6px;}
+    .jump-btn { display: none; }
+    .nav-jump { border: none; padding: 0; }
+    .hint { display: none; }
+    .ts-legend-items { flex-direction: column; gap: 8px; }
+    .header-meta { gap: 6px; }
+    .backlog-btn { padding: 4px 10px; font-size: 10px; }
+    .backlog-link { font-size: 10px; padding: 5px 10px; }
+    .backlog-screen .slide-inner { padding: 22px 20px 20px; }
+    .backlog-head { flex-direction: column; }
+    .backlog-actions { width: 100%; }
+    .bl-btn { flex: 1; justify-content: center; min-width: 130px; }
+  }
+
+  @media print {
+    .nav, .progress-bar, .hint { display: none; }
+    .stage { padding: 0; }
+    .slide {
+      position: relative;
+      opacity: 1; transform: none; visibility: visible;
+      page-break-after: always;
+      box-shadow: none;
+      width: 100%; height: 100vh;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="hint">
+  <button class="key key-btn" id="hintPrev" aria-label="Previous slide">←</button><button class="key key-btn" id="hintNext" aria-label="Next slide">→</button> Navigate
+  <span style="margin: 0 6px;">·</span>
+  <button class="key key-btn" id="hintBacklog" aria-label="Add to backlog">B</button> Add to backlog
+  <span style="margin: 0 6px;">·</span>
+  <button class="key key-btn" id="hintFullscreen" aria-label="Toggle fullscreen">F</button> Fullscreen
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="toast" id="toast">
+  <span class="check-icon">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </span>
+  <span id="toastText">Copied to clipboard</span>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" aria-label="Previous slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="nav-progress">
+    <span id="currentSlide">01</span><span class="total">/<span id="totalSlides">00</span></span>
+  </div>
+  <button class="nav-btn" id="nextBtn" aria-label="Next slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <div class="nav-jump">
+    <button class="jump-btn" data-jump="0">Start</button>
+    <button class="jump-btn" data-jump="end">End</button>
+    <button class="backlog-link" id="backlogLink" disabled>
+      Backlog <span class="count" id="backlogCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+const slides = [
+  { type: 'cover' },
+
+  /* ===== SECTION 01: WOW BUSINESS FEATURES ===== */
+  {
+    type: 'divider', wow: true,
+    num: 'Section 01  ·  WOW',
+    title: 'Top Business',
+    titleAccent: 'Features',
+    desc: 'A focused start to the year — Stable Release 12, a brand-new Environments Comparison module, multicolor product variations, smoother checkout, and a redesigned search dropdown.',
+    statValue: '5',
+    statLabel: 'Business-critical features'
+  },
+  {
+    category: 'Business · Platform',
+    wow: true,
+    title: 'Stable Release <span class="accent">12</span> launched',
+    problem: 'Production teams need a known-good module bundle they can deploy with confidence — running a mix of edge-channel module versions in production is risky and unsupported.',
+    solution: 'The <strong>12th Stable release</strong> of the Virto Commerce Platform is now available, with the latest validated versions of <strong>53 modules</strong> bundled together. Stable releases pass full regression, end-to-end, and load testing — recommended for all production users.',
+    size: 'M',
+    integration: 'Plan an upgrade window for production. Use Virto Commerce CLI to apply the Stable Release 12 bundle. Re-test custom modules against the validated module versions; migrate edge-channel deployments to stable.',
+    noVisual: true,
+    icon: 'api'
+  },
+  {
+    category: 'Business · DevOps',
+    wow: true,
+    title: 'New: <span class="accent">Environments Comparison</span> module',
+    problem: 'When something works in staging but breaks in production, the first hour is usually spent manually comparing configs, settings, and system info between environments — slow, error-prone, and frustrating.',
+    solution: 'The new <strong>Environments Comparison module</strong> lets backend administrators compare platform settings, environment configurations, and system information across multiple Virto Commerce environments (development, staging, production, etc.). Surfaces configuration drift instantly.',
+    size: 'M',
+    integration: 'Install the new Environments Comparison module 3.800.0. Configure access to each environment to be compared. Train DevOps and SRE teams on the new comparison workflow.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/f/f480907f1667a86f6d4ab6654f3e8f6a4f2fe3b9.png',
+    caption: 'Side-by-side environment configuration comparison'
+  },
+  {
+    category: 'Business · Catalog UX',
+    wow: true,
+    title: '<span class="accent">Multicolor</span> product variations',
+    problem: 'Products with multiple color attributes — like a sneaker with separate sole, upper, and accent colors — could not be expressed cleanly. Category managers had to fake it with awkward attribute combinations or duplicate variants.',
+    solution: 'Product variations now support <strong>up to four color attributes</strong>, allowing category managers to define true multicolor combinations. The Frontend can display them as <strong>text labels and color thumbnails</strong>, improving both presentation and selection UX.',
+    size: 'S',
+    integration: 'Update Frontend 2.37.0. Configure multicolor properties in catalog admin per product. Validate the variation picker UX in custom themes.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/e/ef55dae5d5b20d79b1ff8027296b9f1a29e8dfa3_2_690x382.jpeg',
+    caption: 'Multicolor variations with text + thumbnails'
+  },
+  {
+    category: 'Business · Checkout',
+    wow: true,
+    title: '<span class="accent">Single-page</span> credit card checkout',
+    problem: 'Multi-step checkouts with redirected payment pages add friction and abandon points. Each extra page in the checkout flow is a measurable conversion drop.',
+    solution: 'Customers can now <strong>securely enter credit card details directly on the checkout page</strong> — no redirects, no separate payment page. Smoother purchase experience that should measurably reduce checkout abandonment.',
+    size: 'M',
+    integration: 'Update Payment 3.812.0, xCart 3.951.0, and CyberSource 3.803.0 (or your supported gateway equivalent). Re-validate PCI compliance scope and run end-to-end checkout tests in staging before production rollout.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/5/5cf8b0efd7e7f0fefeff0efb62b599c8e11d9bc9_2_690x410.png',
+    caption: 'Inline credit card entry on checkout'
+  },
+  {
+    category: 'Business · Search',
+    wow: true,
+    title: '<span class="accent">Search dropdown</span> redesigned',
+    problem: 'The previous search dropdown felt dated and made it hard to act on results — users had to navigate to the product page just to add a familiar item to cart.',
+    solution: 'The search dropdown has a <strong>more modern, user-friendly design</strong> that makes it easier to <strong>add products to cart directly from search results</strong>. Quick win for catalog familiarity and repeat purchases.',
+    size: 'S',
+    integration: 'Update Frontend 2.36.0. Drop-in for default Mercury theme; validate in custom themes. No backend changes.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/b/b8ad93c728bee339078035f4b19ae9584694033f_2_690x285.png',
+    caption: 'Modernized search dropdown with add-to-cart'
+  },
+
+  /* ===== SECTION 02: FRONTEND EXPERIENCE ===== */
+  {
+    type: 'divider',
+    num: 'Section 02',
+    title: 'Frontend',
+    titleAccent: 'Experience',
+    desc: 'Beyond the WOW search and multicolor updates, the product sidebar gets accessibility improvements that broaden reach.',
+    statValue: '1',
+    statLabel: 'Additional frontend update'
+  },
+  {
+    category: 'Frontend · 2.37.0',
+    title: 'Product sidebar <span class="accent">a11y improvements</span>',
+    problem: 'Customers using assistive technologies — screen readers, keyboard-only navigation — had a degraded experience on product detail pages, with the sidebar being a particular pain point.',
+    solution: 'The product sidebar has been <strong>enhanced for accessibility</strong>, with better support for assistive technologies and a more inclusive user experience. Quiet but meaningful improvement for compliance and customer reach.',
+    size: 'S',
+    integration: 'Update Frontend 2.37.0. Re-run accessibility audits against custom themes that override sidebar markup or styling.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/0/00552ab6f23099746beb7f80621b9ecb897d3da2.png',
+    caption: 'Improved sidebar accessibility'
+  },
+
+  /* ===== SECTION 03: CONTENT & MARKETPLACE ===== */
+  {
+    type: 'divider',
+    num: 'Section 03',
+    title: 'Content &',
+    titleAccent: 'Marketplace',
+    desc: 'Builder.io targeting now works consistently across page types, and Marketplace begins groundwork for AI agents while pruning legacy code.',
+    statValue: '3',
+    statLabel: 'Module updates'
+  },
+  {
+    category: 'Builder.io · 3.807.0',
+    title: '<span class="accent">Targeting attributes</span> on external pages',
+    problem: 'Targeting attributes (audience, locale, segment) were applied to locally defined pages, but pages loaded from external sources were second-class citizens — inconsistent targeting behavior depending on where the page came from.',
+    solution: 'Targeting attributes are now <strong>applied to pages loaded from external sources</strong>. Consistent targeting behavior across all page types, regardless of origin.',
+    size: 'S',
+    integration: 'Update Builder.io module 3.807.0. Re-validate targeting rules for any external content sources to ensure expected behavior.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/7/7961d9b38b7e8c360a8f841d9f7cbf547d89ed23_2_690x370.png',
+    caption: 'Consistent targeting on external pages'
+  },
+  {
+    category: 'Marketplace · AI groundwork',
+    title: 'Marketplace AI agent <span class="accent">groundwork</span>',
+    problem: 'Adding AI agent capabilities into a complex marketplace platform requires a solid backend architecture — rushing this step means rebuilding it later when scale or governance demands grow.',
+    solution: 'Initial <strong>research and groundwork are complete</strong> for introducing an AI agent backend to the Marketplace. Architecture and integration approaches have been explored, laying the foundation for upcoming intelligent features.',
+    size: 'S',
+    integration: 'No integration required — preparatory work only. Architecture and product teams should review upcoming Virto OZ Marketplace roadmap to align planning.',
+    noVisual: true,
+    icon: 'ai'
+  },
+  {
+    category: 'Marketplace · Cleanup',
+    title: 'Legacy features <span class="accent">removed</span> from Marketplace',
+    problem: 'Outdated and unused features in the Marketplace module were adding complexity and maintenance burden without delivering value — the kind of debt that compounds silently.',
+    solution: 'Outdated and unused features have been <strong>removed from the Marketplace module</strong> to reduce complexity, improve maintainability, and streamline overall functionality. Less surface area, easier upgrades.',
+    size: 'S',
+    integration: 'Update Marketplace module. Audit any custom code that depended on removed features; migrate to supported alternatives. Review release notes for the removal list.',
+    noVisual: true,
+    icon: 'speed'
+  },
+
+  /* ===== SECTION 04: PLATFORM & API ===== */
+  {
+    type: 'divider',
+    num: 'Section 04',
+    title: 'Platform &',
+    titleAccent: 'API',
+    desc: 'A modernization pass on file upload APIs across Platform, Assets, Content, and File xAPI — cleaner Swagger schemas, standard interfaces, fewer custom attributes.',
+    statValue: '1',
+    statLabel: 'API improvement'
+  },
+  {
+    category: 'Platform · 3.919.0',
+    title: '<span class="accent">Swagger schemas</span> for file uploads, modernized',
+    problem: 'File upload endpoints used custom upload attributes that did not generate proper Swagger schemas. API consumers, OpenAPI generators, and tooling like Postman could not auto-discover the upload contracts cleanly.',
+    solution: 'The REST API has been updated to use <strong>modern .NET 8 file upload mechanisms</strong>, replacing custom upload attributes with standard interfaces. Swagger schemas now fully support <strong>single and multiple file uploads, URL-based uploads, and file uploads across asset, local storage, content, and xFiles APIs</strong>.',
+    size: 'S',
+    integration: 'Update Platform 3.919.0, Assets 3.816.0, Content 3.835.0, File xAPI 3.907.0. Re-generate API client SDKs from the updated Swagger to take advantage of the cleaner contracts.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/b/b58c5308d64993b642b76e5e493ab5bfd2e2773d_2_644x500.png',
+    caption: 'Improved Swagger schema for file uploads'
+  },
+
+  { type: 'backlog' },
+  { type: 'thanks' }
+];
+
+const icons = {
+  network: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  api: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+  refund: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="3 4 3 12 11 12"/></svg>',
+  ai: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h.01M15 9h.01M9 15h6"/></svg>',
+  speed: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+  book: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  globe: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  moon: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+};
+
+const sizeLegend = [
+  { size: 'S', label: 'Light — config only' },
+  { size: 'M', label: 'Medium — setup + development' },
+  { size: 'L', label: 'Large — integration or migration' }
+];
+
+const stage = document.getElementById('stage');
+const totalSlides = slides.length;
+let currentIndex = 0;
+
+function stripHTML(str) { return str.replace(/<[^>]*>/g, ''); }
+
+function renderCover() {
+  return `
+    <div class="slide cover" data-index="0">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="brand">
+            <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
+            <div class="brand-text">
+              <span class="b1">Virto Commerce</span>
+              <span class="b2">Enterprise Commerce Platform</span>
+            </div>
+          </div>
+          <div class="header-meta">
+            <span class="pill">Release Notes</span>
+            <span>January 2026</span>
+          </div>
+        </div>
+
+        <div class="cover-body">
+          <span class="cover-eyebrow">What's new this month</span>
+          <h1 class="cover-title">
+            Release Notes<br/>
+            <span class="grad">January 2026</span>
+          </h1>
+          <p class="cover-sub">
+            A focused new-year release — fewer items, higher impact. <strong>Business-impact features come first</strong>, followed by frontend, platform, and ecosystem updates. Each slide includes a T-shirt size estimating integration complexity.
+          </p>
+          <div class="cover-highlights">
+            <span class="cover-chip"><span class="num">5</span>WOW business features</span>
+            <span class="cover-chip"><span class="num">SR12</span>Stable release launched</span>
+            <span class="cover-chip"><span class="num">53</span>Modules in the bundle</span>
+            <span class="cover-chip"><span class="num">1</span>New module — Environments Compare</span>
+          </div>
+
+          <div class="ts-legend">
+            <div class="ts-legend-title">Integration complexity (T-Shirt size)</div>
+            <div class="ts-legend-items">
+              ${sizeLegend.map(s => `
+                <span class="ts-legend-item" data-size="${s.size}">
+                  <span class="ts-pill">${s.size}</span>
+                  <span>${s.label}</span>
+                </span>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-footer">
+          <span>virtocommerce.com</span>
+          <span class="slide-counter">01 <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderDivider(slide, idx) {
+  const wowClass = slide.wow ? ' wow' : '';
+  return `
+    <div class="slide section-divider${wowClass}" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="divider-body">
+          <div class="divider-left">
+            <span class="divider-num">${slide.num}</span>
+            <h2 class="divider-title">
+              ${slide.title}<br/>
+              <span class="grad">${slide.titleAccent}</span>
+            </h2>
+            <p class="divider-desc">${slide.desc}</p>
+            <div class="divider-stat">
+              <span class="v">${slide.statValue}</span>
+              <span class="l">${slide.statLabel}</span>
+            </div>
+          </div>
+          <div class="divider-right">
+            <div class="shape s1"></div>
+            <div class="shape s2"></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderContent(slide, idx) {
+  const visualHTML = slide.noVisual
+    ? `<div class="visual-col">
+         <div class="no-visual">
+           <div class="icon-circle">${icons[slide.icon] || icons.api}</div>
+           <h3>${stripHTML(slide.title)}</h3>
+           <p>${slide.category}</p>
+         </div>
+       </div>`
+    : `<div class="visual-col">
+         <img src="${slide.image}" alt="${stripHTML(slide.title)}" loading="lazy" data-fallback-icon="${slide.icon || 'api'}" />
+         ${slide.caption ? `<div class="visual-caption">${slide.caption}</div>` : ''}
+       </div>`;
+
+  const tagClass = slide.wow ? 'topic-tag wow' : 'topic-tag';
+  const tagText = slide.wow ? '★ WOW Feature' : 'Update';
+
+  const tsBadgeHeader = slide.size
+    ? `<span class="ts-badge" data-size="${slide.size}" title="Integration complexity">
+         <span class="ts-pill">${slide.size}</span>
+       </span>`
+    : '';
+
+  const backlogBtnHeader = `
+    <button class="backlog-btn" data-backlog-toggle="${idx}" title="Add to backlog">
+      <span class="plus">+</span>
+      <span class="check">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </span>
+      <span class="label-add">Add to backlog</span>
+      <span class="label-remove">In backlog</span>
+    </button>`;
+
+  return `
+    <div class="slide" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="brand">
+            <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
+            <div class="brand-text">
+              <span class="b1">Virto Commerce</span>
+              <span class="b2">Release Notes — January 2026</span>
+            </div>
+          </div>
+          <div class="header-meta">
+            ${backlogBtnHeader}
+            ${tsBadgeHeader}
+            <span class="pill">${slide.category}</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="content-col">
+            <span class="${tagClass}">${tagText}</span>
+            <h2 class="slide-title">${slide.title}</h2>
+
+            <div class="ps-block problem">
+              <span class="ps-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Problem
+              </span>
+              <p class="ps-text">${slide.problem}</p>
+            </div>
+
+            <div class="ps-block solution">
+              <span class="ps-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Solution
+              </span>
+              <div class="ps-text">${slide.solution}</div>
+            </div>
+
+            ${slide.integration ? `
+            <div class="ps-block integration">
+              <span class="ps-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                Integration
+              </span>
+              <p class="ps-text">${slide.integration}</p>
+            </div>` : ''}
+          </div>
+
+          ${visualHTML}
+        </div>
+
+        <div class="slide-footer">
+          <span class="slide-category">${slide.category}</span>
+          <span class="slide-counter">${String(idx+1).padStart(2,'0')} <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderThanks(idx) {
+  return `
+    <div class="slide thanks" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="thanks-body">
+          <span class="thanks-eyebrow">That's a wrap</span>
+          <h1 class="thanks-title">Thank <span class="grad">you</span></h1>
+          <p class="thanks-sub">
+            Explore the full January 2026 release notes, learn about Stable Release 12, or request a Virto Commerce demo.
+          </p>
+          <div class="thanks-cta">
+            <a class="cta-btn" href="https://virtocommerce.com/request-demo" target="_blank" rel="noopener">
+              Request a Demo
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a class="cta-btn outline" href="https://www.virtocommerce.org/t/virto-s-release-notes-january-2026/821" target="_blank" rel="noopener">
+              Read full release notes
+            </a>
+            <a class="cta-btn outline" href="https://docs.virtocommerce.org/" target="_blank" rel="noopener">
+              Documentation
+            </a>
+          </div>
+          <div class="thanks-footer">
+            virtocommerce.com  ·  Release Notes January 2026
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderBacklog(idx) {
+  return `
+    <div class="slide backlog-screen" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="brand">
+            <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
+            <div class="brand-text">
+              <span class="b1">Virto Commerce</span>
+              <span class="b2">Release Notes — January 2026</span>
+            </div>
+          </div>
+          <div class="header-meta">
+            <span class="pill">Your Backlog</span>
+          </div>
+        </div>
+
+        <div class="backlog-body">
+          <div class="backlog-head">
+            <div class="backlog-title-block">
+              <span class="backlog-eyebrow">Selected features</span>
+              <h1>Your <span class="grad">implementation backlog</span></h1>
+              <p class="backlog-sub">
+                Features you marked across the deck. Copy as Markdown and paste into your tracker (Jira, Linear, GitHub, etc.). Each item becomes a ready-to-extend ticket.
+              </p>
+            </div>
+            <div class="backlog-actions">
+              <button class="bl-btn primary" id="copyBacklogBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span id="copyBtnLabel">Copy as Markdown</span>
+              </button>
+              <button class="bl-btn danger" id="clearBacklogBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                Clear all
+              </button>
+            </div>
+          </div>
+
+          <div class="backlog-list" id="backlogList">
+            <!-- populated dynamically -->
+          </div>
+        </div>
+
+        <div class="slide-footer">
+          <span class="slide-category">Backlog · Markdown export</span>
+          <span class="slide-counter">${String(idx+1).padStart(2,'0')} <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function attachImageFallbacks() {
+  document.querySelectorAll('.visual-col img').forEach(img => {
+    img.addEventListener('error', () => {
+      const iconKey = img.dataset.fallbackIcon || 'api';
+      const parent = img.parentElement;
+      parent.innerHTML = `
+        <div class="no-visual">
+          <div class="icon-circle">${icons[iconKey] || icons.api}</div>
+          <h3>Screenshot unavailable</h3>
+          <p>View at virtocommerce.org</p>
+        </div>`;
+    }, { once: true });
+  });
+}
+
+/* ---------------- BACKLOG STATE ---------------- */
+const backlog = new Set(); // stores slide indices
+const backlogLink = document.getElementById('backlogLink');
+const backlogCount = document.getElementById('backlogCount');
+const toast = document.getElementById('toast');
+const toastText = document.getElementById('toastText');
+
+function showToast(msg) {
+  toastText.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function findBacklogSlideIndex() {
+  return slides.findIndex(s => s.type === 'backlog');
+}
+
+function updateBacklogChrome() {
+  const n = backlog.size;
+  backlogCount.textContent = n;
+  backlogLink.disabled = n === 0;
+  // Sync all "+ Add" buttons to reflect current state
+  document.querySelectorAll('[data-backlog-toggle]').forEach(btn => {
+    const i = parseInt(btn.dataset.backlogToggle, 10);
+    btn.classList.toggle('added', backlog.has(i));
+  });
+  // Re-render backlog list if visible
+  renderBacklogList();
+}
+
+function renderBacklogList() {
+  const list = document.getElementById('backlogList');
+  if (!list) return;
+
+  if (backlog.size === 0) {
+    list.innerHTML = `
+      <div class="backlog-empty">
+        <div class="icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3>Your backlog is empty</h3>
+        <p>Browse the deck and click <strong>+ Add to backlog</strong> on any feature you want to bring to your team.</p>
+      </div>`;
+    return;
+  }
+
+  const items = [...backlog].sort((a, b) => a - b);
+  list.innerHTML = items.map((i, n) => {
+    const s = slides[i];
+    const sizeColor = `var(--size-${(s.size || 'm').toLowerCase()})`;
+    return `
+      <div class="backlog-item">
+        <span class="backlog-item-num">${String(n+1).padStart(2,'0')}</span>
+        <div class="backlog-item-title">
+          ${stripHTML(s.title)}
+          <div class="backlog-item-cat">${s.category}</div>
+        </div>
+        <div class="backlog-item-size">
+          <span class="ts-pill" style="background: ${sizeColor};">${s.size || '—'}</span>
+        </div>
+        <button class="backlog-item-remove" data-remove="${i}" title="Remove">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>`;
+  }).join('');
+
+  // Wire up remove buttons
+  list.querySelectorAll('[data-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const i = parseInt(btn.dataset.remove, 10);
+      backlog.delete(i);
+      updateBacklogChrome();
+    });
+  });
+}
+
+function buildMarkdown() {
+  const items = [...backlog].sort((a, b) => a - b);
+  const lines = [
+    '# Virto Commerce — January 2026 Backlog',
+    '',
+    `Selected ${items.length} feature${items.length === 1 ? '' : 's'} from the release notes.`,
+    '',
+    '| # | Feature | Size | Category |',
+    '| --- | --- | --- | --- |'
+  ];
+  items.forEach((i, n) => {
+    const s = slides[i];
+    const title = stripHTML(s.title).replace(/\|/g, '\\|');
+    const cat = s.category.replace(/\|/g, '\\|');
+    lines.push(`| ${n+1} | ${title} | ${s.size || '—'} | ${cat} |`);
+  });
+  lines.push('');
+  lines.push('---');
+  lines.push('Source: https://www.virtocommerce.org/t/virto-s-release-notes-january-2026/821');
+  return lines.join('\n');
+}
+
+async function copyBacklog() {
+  if (backlog.size === 0) return;
+  const md = buildMarkdown();
+  const btn = document.getElementById('copyBacklogBtn');
+  const label = document.getElementById('copyBtnLabel');
+  try {
+    await navigator.clipboard.writeText(md);
+    btn.classList.add('copied');
+    label.textContent = 'Copied!';
+    showToast(`${backlog.size} feature${backlog.size === 1 ? '' : 's'} copied as Markdown`);
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      label.textContent = 'Copy as Markdown';
+    }, 2000);
+  } catch (e) {
+    // Fallback: select-and-show
+    const ta = document.createElement('textarea');
+    ta.value = md;
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast(`${backlog.size} features copied`);
+    } catch (err) {
+      showToast('Copy failed — please select manually');
+    }
+    document.body.removeChild(ta);
+  }
+}
+
+function attachBacklogHandlers() {
+  // Per-slide "+ Add" buttons
+  document.querySelectorAll('[data-backlog-toggle]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const i = parseInt(btn.dataset.backlogToggle, 10);
+      if (backlog.has(i)) {
+        backlog.delete(i);
+        showToast('Removed from backlog');
+      } else {
+        backlog.add(i);
+        showToast('Added to backlog');
+      }
+      updateBacklogChrome();
+    });
+  });
+
+  // Backlog screen action buttons
+  const copyBtn = document.getElementById('copyBacklogBtn');
+  if (copyBtn) copyBtn.addEventListener('click', copyBacklog);
+
+  const clearBtn = document.getElementById('clearBacklogBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (backlog.size === 0) return;
+      if (confirm(`Clear all ${backlog.size} backlog items?`)) {
+        backlog.clear();
+        updateBacklogChrome();
+        showToast('Backlog cleared');
+      }
+    });
+  }
+
+  updateBacklogChrome();
+}
+
+// Backlog link in main nav
+backlogLink.addEventListener('click', () => {
+  if (backlog.size === 0) return;
+  showSlide(findBacklogSlideIndex());
+});
+
+function render() {
+  let html = '';
+  slides.forEach((s, i) => {
+    if (s.type === 'cover') html += renderCover();
+    else if (s.type === 'divider') html += renderDivider(s, i);
+    else if (s.type === 'backlog') html += renderBacklog(i);
+    else if (s.type === 'thanks') html += renderThanks(i);
+    else html += renderContent(s, i);
+  });
+  stage.innerHTML = html;
+  document.getElementById('totalSlides').textContent = String(totalSlides).padStart(2,'0');
+  attachImageFallbacks();
+  attachBacklogHandlers();
+  showSlide(0);
+}
+
+function showSlide(i) {
+  if (i < 0 || i >= totalSlides) return;
+  currentIndex = i;
+  document.querySelectorAll('.slide').forEach((el, idx) => {
+    el.classList.toggle('active', idx === i);
+  });
+  document.getElementById('currentSlide').textContent = String(i+1).padStart(2,'0');
+  document.getElementById('progressBar').style.width = `${((i+1)/totalSlides)*100}%`;
+  document.getElementById('prevBtn').disabled = i === 0;
+  document.getElementById('nextBtn').disabled = i === totalSlides - 1;
+  // Re-render backlog list whenever we land on the backlog slide
+  if (slides[i] && slides[i].type === 'backlog') {
+    renderBacklogList();
+  }
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => showSlide(currentIndex - 1));
+document.getElementById('nextBtn').addEventListener('click', () => showSlide(currentIndex + 1));
+document.querySelectorAll('.jump-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.jump;
+    showSlide(target === 'end' ? totalSlides - 1 : 0);
+  });
+});
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+function toggleCurrentInBacklog() {
+  const s = slides[currentIndex];
+  if (!s || !s.size || s.type) {
+    showToast('Nothing to add on this slide');
+    return;
+  }
+  if (backlog.has(currentIndex)) {
+    backlog.delete(currentIndex);
+    showToast('Removed from backlog');
+  } else {
+    backlog.add(currentIndex);
+    showToast('Added to backlog');
+  }
+  updateBacklogChrome();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    showSlide(currentIndex + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    e.preventDefault();
+    showSlide(currentIndex - 1);
+  } else if (e.key === 'Home') {
+    e.preventDefault();
+    showSlide(0);
+  } else if (e.key === 'End') {
+    e.preventDefault();
+    showSlide(totalSlides - 1);
+  } else if (e.key === 'f' || e.key === 'F') {
+    toggleFullscreen();
+  } else if (e.key === 'b' || e.key === 'B') {
+    toggleCurrentInBacklog();
+  }
+});
+
+// Clickable hint keys
+document.getElementById('hintPrev').addEventListener('click', () => showSlide(currentIndex - 1));
+document.getElementById('hintNext').addEventListener('click', () => showSlide(currentIndex + 1));
+document.getElementById('hintBacklog').addEventListener('click', toggleCurrentInBacklog);
+document.getElementById('hintFullscreen').addEventListener('click', toggleFullscreen);
+
+
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+document.addEventListener('touchend', (e) => {
+  const touchEndX = e.changedTouches[0].screenX;
+  const delta = touchEndX - touchStartX;
+  if (Math.abs(delta) > 60) {
+    if (delta < 0) showSlide(currentIndex + 1);
+    else showSlide(currentIndex - 1);
+  }
+});
+
+render();
+</script>
+</body>
+</html>
