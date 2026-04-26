@@ -677,6 +677,26 @@
     color: rgba(255,255,255,0.6);
   }
   .cover .slide-counter, .cover .slide-counter .total { color: rgba(255,255,255,0.85); }
+  .cover-nav {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cover-nav-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.2s;
+  }
+  .cover-nav-link:hover {
+    color: white;
+    border-color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.08);
+  }
+  .cover-nav-link svg { flex-shrink: 0; }
 
   /* SECTION DIVIDER */
   .section-divider {
@@ -769,6 +789,149 @@
   }
   .section-divider.wow .shape.s1 { background: rgba(251,191,36,0.4); }
   .section-divider.wow .shape.s2 { background: rgba(255,106,61,0.4); }
+
+  /* Section slide list (divider right column) */
+  .divider-toc {
+    display: flex; flex-direction: column;
+    padding: 28px 24px;
+    overflow-y: auto;
+    position: relative; z-index: 1;
+  }
+  .divider-toc::-webkit-scrollbar { width: 6px; }
+  .divider-toc::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+  .divider-toc-title {
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 14px; padding-left: 12px;
+  }
+  .dtoc-slide {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; padding: 7px 12px;
+    border: none; background: transparent;
+    cursor: pointer; text-align: left;
+    font-family: inherit;
+    font-size: 12px; color: rgba(255,255,255,0.6);
+    line-height: 1.35;
+    transition: all 0.15s;
+    border-left: 2px solid rgba(255,255,255,0.15);
+    border-radius: 0 6px 6px 0;
+  }
+  .dtoc-slide:hover {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.9);
+  }
+  .dtoc-slide-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; opacity: 0.5;
+    min-width: 18px; flex-shrink: 0;
+  }
+  .dtoc-slide-label { flex: 1; min-width: 0; }
+
+  /* TOC panel */
+  .toc-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(7, 37, 74, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 150;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  }
+  .toc-backdrop.open {
+    opacity: 1; visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s linear 0s;
+  }
+  .toc-panel {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 320px;
+    background: rgba(244, 247, 251, 0.97);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--virto-line);
+    box-shadow: 10px 0 40px -12px rgba(7, 37, 74, 0.25);
+    z-index: 160;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .toc-panel.open { transform: translateX(0); }
+  .toc-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid var(--virto-line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .toc-header h2 {
+    font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--virto-navy);
+  }
+  .toc-close {
+    width: 32px; height: 32px;
+    border: none; background: transparent;
+    border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--virto-muted); transition: all 0.15s;
+  }
+  .toc-close:hover { background: var(--virto-bg-2); color: var(--virto-navy); }
+  .toc-entries {
+    flex: 1; overflow-y: auto; padding: 12px 0;
+  }
+  .toc-entries::-webkit-scrollbar { width: 6px; }
+  .toc-entries::-webkit-scrollbar-thumb { background: var(--virto-line); border-radius: 3px; }
+  .toc-entry {
+    display: flex; align-items: center; gap: 12px;
+    width: 100%; padding: 12px 24px;
+    border: none; background: transparent;
+    cursor: pointer; text-align: left;
+    font-family: inherit; color: var(--virto-text);
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .toc-entry:hover { background: var(--virto-bg-2); }
+  .toc-entry.active {
+    border-left-color: var(--virto-blue);
+    background: rgba(43, 127, 255, 0.06);
+  }
+  .toc-entry.active .toc-entry-title { font-weight: 700; color: var(--virto-navy); }
+  .toc-entry-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--virto-muted);
+    min-width: 20px; flex-shrink: 0;
+  }
+  .toc-entry-body { flex: 1; min-width: 0; }
+  .toc-entry-title {
+    font-size: 13px; font-weight: 500;
+    color: var(--virto-navy); line-height: 1.3;
+  }
+  .toc-entry-count {
+    font-size: 11px; color: var(--virto-muted); margin-top: 2px;
+  }
+  .toc-entry-badge {
+    font-size: 10px; font-weight: 600;
+    color: var(--virto-muted); background: var(--virto-bg-2);
+    padding: 2px 8px; border-radius: 999px; flex-shrink: 0;
+  }
+  .toc-sub-entries { padding: 2px 0 4px 35px; display: none; }
+  .toc-sub-entries.expanded { display: block; }
+  .toc-sub-entry {
+    display: block; width: 100%;
+    padding: 5px 24px 5px 0;
+    border: none; background: transparent;
+    cursor: pointer; text-align: left;
+    font-family: inherit;
+    font-size: 12px; color: var(--virto-muted);
+    line-height: 1.35; transition: color 0.15s;
+  }
+  .toc-sub-entry:hover { color: var(--virto-navy); }
+  .toc-sub-entry.active { color: var(--virto-blue); font-weight: 600; }
+  .toc-nav-btn {
+    width: 36px; height: 36px;
+    border: none; background: transparent;
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--virto-navy); transition: all 0.2s;
+  }
+  .toc-nav-btn:hover { background: var(--virto-bg-2); transform: translateY(-1px); }
 
   /* NAV */
   .nav {
@@ -945,10 +1108,12 @@
     .backlog-head { flex-direction: column; }
     .backlog-actions { width: 100%; }
     .bl-btn { flex: 1; justify-content: center; min-width: 130px; }
+    .toc-panel { width: 100%; }
+    .toc-entry { min-height: 44px; }
   }
 
   @media print {
-    .nav, .progress-bar, .hint { display: none; }
+    .nav, .progress-bar, .hint, .toc-panel, .toc-backdrop { display: none; }
     .stage { padding: 0; }
     .slide {
       position: relative;
@@ -970,7 +1135,20 @@
   <button class="key key-btn" id="hintBacklog" aria-label="Add to backlog">B</button> Add to backlog
   <span style="margin: 0 6px;">·</span>
   <button class="key key-btn" id="hintFullscreen" aria-label="Toggle fullscreen">F</button> Fullscreen
+  <span style="margin: 0 6px;">·</span>
+  <button class="key key-btn" id="hintToc" aria-label="Toggle table of contents">T</button> Contents
 </div>
+
+<div class="toc-backdrop" id="tocBackdrop"></div>
+<aside class="toc-panel" id="tocPanel" role="navigation" aria-label="Table of contents">
+  <div class="toc-header">
+    <h2>Contents</h2>
+    <button class="toc-close" id="tocClose" aria-label="Close table of contents">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="toc-entries" id="tocEntries"></div>
+</aside>
 
 <div class="stage" id="stage"></div>
 
@@ -996,6 +1174,9 @@
     <button class="jump-btn" data-jump="end">End</button>
     <button class="backlog-link" id="backlogLink" disabled>
       Backlog <span class="count" id="backlogCount">0</span>
+    </button>
+    <button class="toc-nav-btn" id="tocToggleNav" aria-label="Table of contents" title="Table of contents (T)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><rect x="3" y="4.5" width="3" height="3" rx="0.5" fill="currentColor" stroke="none"/><rect x="3" y="10.5" width="3" height="3" rx="0.5" fill="currentColor" stroke="none"/><rect x="3" y="16.5" width="3" height="3" rx="0.5" fill="currentColor" stroke="none"/></svg>
     </button>
   </div>
 </nav>
@@ -1491,15 +1672,37 @@ function renderCover() {
         </div>
 
         <div class="slide-footer">
-          <span>virtocommerce.com</span>
+          <div class="cover-nav">
+            <a class="cover-nav-link" href="../2026-03/" title="March 2026">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              March 2026
+            </a>
+          </div>
           <span class="slide-counter">01 <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
         </div>
       </div>
     </div>`;
 }
 
+function buildDividerToc(dividerIdx) {
+  let html = '<div class="divider-toc-title">In this section</div>';
+  let n = 0;
+  for (let j = dividerIdx + 1; j < slides.length; j++) {
+    if (slides[j].type === 'divider' || slides[j].type === 'backlog' || slides[j].type === 'thanks') break;
+    if (!slides[j].type) {
+      n++;
+      html += `<button class="dtoc-slide" data-goto="${j}">
+        <span class="dtoc-slide-num">${String(n).padStart(2,'0')}</span>
+        <span class="dtoc-slide-label">${stripHTML(slides[j].title)}</span>
+      </button>`;
+    }
+  }
+  return html;
+}
+
 function renderDivider(slide, idx) {
   const wowClass = slide.wow ? ' wow' : '';
+  const tocHtml = buildDividerToc(idx);
   return `
     <div class="slide section-divider${wowClass}" data-index="${idx}">
       <div class="slide-inner">
@@ -1519,6 +1722,7 @@ function renderDivider(slide, idx) {
           <div class="divider-right">
             <div class="shape s1"></div>
             <div class="shape s2"></div>
+            <div class="divider-toc">${tocHtml}</div>
           </div>
         </div>
       </div>
@@ -1638,6 +1842,12 @@ function renderThanks(idx) {
             </a>
             <a class="cta-btn outline" href="https://docs.virtocommerce.org/" target="_blank" rel="noopener">
               Documentation
+            </a>
+          </div>
+          <div class="cover-nav" style="justify-content:center;">
+            <a class="cover-nav-link" href="../2026-03/" title="March 2026">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              March 2026
             </a>
           </div>
           <div class="thanks-footer">
@@ -1898,6 +2108,13 @@ function render() {
   document.getElementById('totalSlides').textContent = String(totalSlides).padStart(2,'0');
   attachImageFallbacks();
   attachBacklogHandlers();
+  // Wire up in-slide TOC navigation buttons
+  document.querySelectorAll('[data-goto]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showSlide(parseInt(btn.dataset.goto, 10));
+    });
+  });
   showSlide(0);
 }
 
@@ -1967,6 +2184,10 @@ document.addEventListener('keydown', (e) => {
     toggleFullscreen();
   } else if (e.key === 'b' || e.key === 'B') {
     toggleCurrentInBacklog();
+  } else if (e.key === 't' || e.key === 'T') {
+    toggleToc();
+  } else if (e.key === 'Escape') {
+    closeToc();
   }
 });
 
@@ -1975,6 +2196,7 @@ document.getElementById('hintPrev').addEventListener('click', () => showSlide(cu
 document.getElementById('hintNext').addEventListener('click', () => showSlide(currentIndex + 1));
 document.getElementById('hintBacklog').addEventListener('click', toggleCurrentInBacklog);
 document.getElementById('hintFullscreen').addEventListener('click', toggleFullscreen);
+document.getElementById('hintToc').addEventListener('click', toggleToc);
 
 
 let touchStartX = 0;
@@ -1990,7 +2212,125 @@ document.addEventListener('touchend', (e) => {
   }
 });
 
+/* ---------------- TOC PANEL ---------------- */
+const tocPanel = document.getElementById('tocPanel');
+const tocBackdrop = document.getElementById('tocBackdrop');
+const tocEntries = document.getElementById('tocEntries');
+const tocCloseBtn = document.getElementById('tocClose');
+const tocToggleNavBtn = document.getElementById('tocToggleNav');
+let tocOpen = false;
+
+function renderTocPanel() {
+  let html = '';
+  for (let i = 0; i < slides.length; i++) {
+    const s = slides[i];
+    if (s.type === 'cover') {
+      html += `<button class="toc-entry" data-toc-slide="0">
+        <span class="toc-entry-num">—</span>
+        <div class="toc-entry-body"><div class="toc-entry-title">Cover</div></div>
+      </button>`;
+    } else if (s.type === 'divider') {
+      const label = s.title + ' ' + s.titleAccent;
+      const badge = s.wow ? '<span class="toc-entry-badge" style="color:#B45309;background:rgba(251,191,36,0.18);">★ WOW</span>' : '';
+      // Count children
+      const children = [];
+      for (let j = i + 1; j < slides.length; j++) {
+        if (slides[j].type === 'divider' || slides[j].type === 'backlog' || slides[j].type === 'thanks') break;
+        if (!slides[j].type) children.push(j);
+      }
+      html += `<button class="toc-entry" data-toc-slide="${i}">
+        <span class="toc-entry-num">${s.num.replace(/Section\s*/i,'').replace(/\s*·.*/, '')}</span>
+        <div class="toc-entry-body">
+          <div class="toc-entry-title">${label}</div>
+          <div class="toc-entry-count">${children.length} feature${children.length !== 1 ? 's' : ''}</div>
+        </div>
+        ${badge}
+      </button>`;
+      if (children.length) {
+        html += '<div class="toc-sub-entries">';
+        children.forEach(j => {
+          html += `<button class="toc-sub-entry" data-toc-slide="${j}">${stripHTML(slides[j].title)}</button>`;
+        });
+        html += '</div>';
+      }
+    } else if (s.type === 'backlog') {
+      html += `<button class="toc-entry" data-toc-slide="${i}">
+        <span class="toc-entry-num">—</span>
+        <div class="toc-entry-body"><div class="toc-entry-title">Backlog</div></div>
+      </button>`;
+    } else if (s.type === 'thanks') {
+      html += `<button class="toc-entry" data-toc-slide="${i}">
+        <span class="toc-entry-num">—</span>
+        <div class="toc-entry-body"><div class="toc-entry-title">Thank You</div></div>
+      </button>`;
+    }
+  }
+  tocEntries.innerHTML = html;
+
+  tocEntries.querySelectorAll('[data-toc-slide]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeToc();
+      showSlide(parseInt(btn.dataset.tocSlide, 10));
+    });
+  });
+}
+
+function updateTocActive() {
+  let activeSection = 0;
+  for (let i = currentIndex; i >= 0; i--) {
+    if (i === 0 || slides[i].type === 'divider' || slides[i].type === 'backlog' || slides[i].type === 'thanks') {
+      activeSection = i; break;
+    }
+  }
+  tocEntries.querySelectorAll('.toc-entry').forEach(btn => {
+    const idx = parseInt(btn.dataset.tocSlide, 10);
+    const isActive = idx === activeSection;
+    btn.classList.toggle('active', isActive);
+    // Expand sub-entries only for the active section
+    const subs = btn.nextElementSibling;
+    if (subs && subs.classList.contains('toc-sub-entries')) {
+      subs.classList.toggle('expanded', isActive);
+    }
+  });
+  tocEntries.querySelectorAll('.toc-sub-entry').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.tocSlide, 10) === currentIndex);
+  });
+}
+
+function openToc() {
+  tocOpen = true;
+  tocPanel.classList.add('open');
+  tocBackdrop.classList.add('open');
+  updateTocActive();
+  const first = tocEntries.querySelector('.toc-entry.active') || tocEntries.querySelector('.toc-entry');
+  if (first) first.focus();
+}
+
+function closeToc() {
+  if (!tocOpen) return;
+  tocOpen = false;
+  tocPanel.classList.remove('open');
+  tocBackdrop.classList.remove('open');
+  tocToggleNavBtn.focus();
+}
+
+function toggleToc() {
+  if (tocOpen) closeToc(); else openToc();
+}
+
+tocCloseBtn.addEventListener('click', closeToc);
+tocBackdrop.addEventListener('click', closeToc);
+tocToggleNavBtn.addEventListener('click', toggleToc);
+
+// Mobile: swipe left to close
+let tocTouchStartX = 0;
+tocPanel.addEventListener('touchstart', (e) => { tocTouchStartX = e.changedTouches[0].screenX; });
+tocPanel.addEventListener('touchend', (e) => {
+  if (e.changedTouches[0].screenX - tocTouchStartX < -60) closeToc();
+});
+
 render();
+renderTocPanel();
 </script>
 </body>
 </html>
