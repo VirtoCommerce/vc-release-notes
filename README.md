@@ -22,7 +22,7 @@ what shipped, mark features for their own backlog, and export a ready-to-paste t
 
 ## Screenshots
 
-<img width="1219" height="761" alt="ReleaseNoteDemo" src="https://github.com/user-attachments/assets/4c912125-86b3-4765-859d-637b1bdbfd74" />
+![ReleaseNoteDemo](https://github.com/user-attachments/assets/4c912125-86b3-4765-859d-637b1bdbfd74)
 
 ## Features
 
