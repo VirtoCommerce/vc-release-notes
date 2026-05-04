@@ -50,7 +50,7 @@ No external dependencies except Google Fonts (Inter + JetBrains Mono) loaded fro
 
 ## STRUCTURE — FIXED ORDER
 
-1. **Cover slide** — release label, sub-headline, 3–4 highlight chips (e.g. "6 WOW features", "2 new modules"), a T-shirt size legend explaining complexity ratings, and **chronological navigation links** in the footer. The footer should show "← Previous Month" and/or "Next Month →" links pointing to the sibling release folders (e.g. `../2026-03/`). Only show links for months that exist. These are styled as subtle pill-shaped links on the dark cover background (`rgba(255,255,255,0.6)` text, `rgba(255,255,255,0.15)` border, hover to white).
+1. **Cover slide** — release label, sub-headline, 3–4 highlight chips (e.g. "6 WOW features", "2 new modules"), a T-shirt size legend explaining complexity ratings, and **chronological navigation links** in the footer. The footer should show "← Previous Month" and/or "Next Month →" links pointing to the sibling release folders (e.g. `../2026-03/`). Only show links for months that exist. These **replace** the brand-domain text (e.g. `virtocommerce.com`) on the left side of the footer, and are styled as subtle pill-shaped links on the dark cover background: `rgba(255,255,255,0.6)` text, `rgba(255,255,255,0.15)` border, `4px 10px` padding, `8px` border-radius, `12px / 500` font with a small chevron SVG. Hover lifts to white text, `rgba(255,255,255,0.4)` border, and `rgba(255,255,255,0.08)` background.
 
 2. **Section 01 · WOW Business Features** (special golden-accent divider)
    - Lead with highest-impact features for the business: revenue lift, UX wins, operational efficiency.
@@ -156,7 +156,7 @@ Navigation has two complementary TOC mechanisms:
 
 #### 4a. Section divider slide list (in-slide)
 
-Each section divider slide displays a **list of that section's feature slide titles** in the right column, overlaid on the gradient background. Each title is a clickable `<button>` (numbered sequentially, e.g. `01`, `02`) that navigates directly to that feature slide. Styled with semi-transparent white text on the dark divider background. This gives viewers a preview of what's in the section.
+Each section divider slide displays a **list of that section's feature slide titles** in the right column, overlaid on the gradient background. The list is preceded by a small uppercase header label: `IN THIS SECTION` (10px, letter-spacing 2px, `rgba(255,255,255,0.5)`). Each title below is a clickable `<button>` (numbered sequentially, e.g. `01`, `02`) that navigates directly to that feature slide via a `data-goto` attribute wired up at render time. Styled with semi-transparent white text on the dark divider background, a subtle 2px left border accent, and a hover state that brightens text and tints the row. This gives viewers a preview of what's in the section.
 
 #### 4b. Global TOC panel (slide-out)
 
@@ -166,11 +166,12 @@ A slide-out panel that lets users see and jump to any section or slide across th
 - **Position**: fixed panel on the left side of the viewport, overlaying the slides. Width ~320px on desktop, full-width on mobile. Semi-transparent backdrop behind the panel dims the rest of the deck.
 - **Animation**: slides in from the left, 0.3s ease. Backdrop fades in simultaneously.
 - **Content**: a vertical list of all sections derived from the `slides` array at runtime. Each **section entry** shows:
-  - Section number and title (pulled from divider slides' `num` and `title` + `titleAccent` fields)
-  - Number of feature slides in that section (count of content slides between this divider and the next)
-  - A highlighted/active state for the section the user is currently viewing
-  - **Nested slide titles**: below the section header, list the plain-text title of every feature slide in that section as indented sub-entries (smaller font, `--virto-muted` color). Each sub-entry is also a clickable button that jumps directly to that individual slide. **By default, only the current section's sub-entries are expanded** (visible). All other sections show only the section header. Sub-entries are hidden with CSS (`display: none`) and toggled to `display: block` via an `.expanded` class when the section is active.
-- **Special entries**: the Cover slide appears at the top as "Cover", and the Backlog/Thanks slides appear at the bottom by name.
+  - Section number and title (pulled from divider slides' `num` and `title` + `titleAccent` fields). Strip the leading `Section ` prefix and any trailing `· <version>` suffix from `num` so the badge shows just the number (e.g. `01`).
+  - Number of feature slides in that section (count of content slides between this divider and the next), with `feature` / `features` pluralization.
+  - **WOW badge**: divider entries flagged with `wow: true` get a small `★ WOW` pill (color `#B45309` on `rgba(251,191,36,0.18)`) in the right edge of the entry. Non-WOW entries omit the badge.
+  - A highlighted/active state for the section the user is currently viewing.
+  - **Nested slide titles**: below the section header, list the plain-text title of every feature slide in that section as indented sub-entries (smaller font, `--virto-muted` color). Each sub-entry is also a clickable button that jumps directly to that individual slide. **By default, only the current section's sub-entries are expanded** (visible). All other sections show only the section header. Sub-entries are hidden with CSS (`display: none`) and toggled to `display: block` via an `.expanded` class when the section is active. The `.toc-sub-entries` block is a **sibling** of its `.toc-entry`, not a child — toggle it via `entry.nextElementSibling`.
+- **Special entries**: the Cover slide appears at the top as "Cover", and the Backlog/Thanks slides appear at the bottom by name. These three entries use a `—` em-dash in place of the section number badge.
 - **Click to jump**: clicking a section header closes the TOC and navigates to that section's divider slide. Clicking an individual slide title closes the TOC and navigates directly to that feature slide.
 - **Current section indicator**: the entry for the section containing the currently active slide gets a left-border accent (using `--virto-blue`) and bold text. The current individual slide gets highlighted text.
 - **Styling**: matches the deck's design tokens — `Inter` font, `--virto-navy` text, `--virto-bg` background, `--virto-line` separators, `--virto-blue` for the active indicator. The panel has the same `backdrop-filter: blur(20px)` and soft shadow as the bottom nav.
@@ -194,7 +195,7 @@ When a screenshot fails to load, replace the `<img>` with a centered icon circle
 
 - Desktop first (1200×720), collapses to single column under 900px
 - On mobile: hide Start/End jump buttons, hide keyboard hint, stack problem/solution/integration above the visual, reduce paddings
-- Print CSS: make all slides visible and page-break between them
+- Print CSS: make all slides visible and page-break between them. Hide the `.toc-panel` and `.toc-backdrop` (in addition to `.nav`, `.progress-bar`, `.hint`).
 
 ## COPY STYLE
 
@@ -229,6 +230,9 @@ Before presenting the file, verify:
 - [ ] Hint keys at top are `<button>` elements, not `<span>`, and styled with hover state (includes `T` for TOC)
 - [ ] Each section divider slide lists that section's feature titles in the right column as clickable buttons
 - [ ] Global TOC panel lists all sections with nested slide titles, highlights the current one, and clicking any entry jumps to that slide
+- [ ] WOW divider entries in the global TOC show a `★ WOW` amber pill; non-WOW entries do not
+- [ ] Cover / Backlog / Thanks entries in the global TOC use `—` instead of a section number
+- [ ] Cover and Thanks slides show chronological prev/next links to sibling release folders (only those that exist)
 - [ ] TOC panel opens/closes with `T` key, nav TOC button, and `Escape`; focus is managed correctly
 - [ ] TOC nav button uses the outline icon (squares + lines), not a hamburger
 - [ ] No `onerror` attributes anywhere in the HTML
