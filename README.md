@@ -22,6 +22,12 @@ what shipped, mark features for their own backlog, and export a ready-to-paste t
 | **February 2026** | [📊 View deck](https://virtocommerce.github.io/vc-release-notes/2026-02/) | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-february-2026/834) |
 | **January 2026** | [📊 View deck](https://virtocommerce.github.io/vc-release-notes/2026-01/) | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-january-2026/821) |
 
+## Presentations
+
+| Title | Live deck | 
+| --- | --- |
+| Release Strategy for Business Users | [📜 View presentation](https://virtocommerce.github.io/vc-release-notes/presentations/release-strategy-for-business-users) |
+
 ## Screenshots
 
 ![ReleaseNoteDemo](https://github.com/user-attachments/assets/4c912125-86b3-4765-859d-637b1bdbfd74)
