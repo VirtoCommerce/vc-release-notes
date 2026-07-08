@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Virto Commerce – Release Notes | June 2026</title>
+<title>Virto Commerce – Release Notes | July 2026 (Stable 15)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -1191,362 +1191,230 @@ const slides = [
     num: 'Section 01  ·  WOW',
     title: 'Top Business',
     titleAccent: 'Features',
-    desc: 'Security, compliance, and stability headlines — SOC 2 renewal, encrypted backups, Login on Behalf, and the first stable VC-Shell. Start here if you have 5 minutes.',
+    desc: 'Stable 15 is the headline — the biggest platform jump in bundle history. Plus inline-checkout payments, mixed-currency loyalty carts, and AI in the Operator Portal.',
     statValue: '7',
     statLabel: 'Business-critical features'
   },
   {
-    category: 'Security · Compliance',
+    category: 'Platform · Stable 15 (v3-2026-S15)',
     wow: true,
-    title: '<span class="accent">SOC 2 Type 2</span> renewed',
-    problem: 'Enterprise B2B buyers — especially in regulated industries — require continuous third-party attestation that the platform manages security, availability, and confidentiality controls correctly. A lapsed certification stalls procurement.',
-    solution: 'Virto Commerce has <strong>successfully renewed SOC 2 Type 2 certification</strong>, reaffirming its commitment to high standards of security, availability, and operational excellence. Independent auditor evidence is available for procurement and vendor-risk reviews.',
-    size: 'S',
-    integration: 'No platform action required. Request the latest SOC 2 Type 2 report from your account team for procurement and vendor-risk reviews.',
-    noVisual: true,
-    icon: 'globe'
-  },
-  {
-    category: 'Frontend 2.49.0 + Platform 3.1027.0',
-    wow: true,
-    title: '<span class="accent">Login on Behalf</span> — secure delegation',
-    problem: 'B2B support and account teams had no secure way to act on behalf of a colleague or customer without sharing passwords — leaving an audit gap and forcing risky workarounds.',
-    solution: 'Authorized members can now <strong>log in on behalf of colleagues</strong> without password access. The flow covers both the storefront (browse catalogs, complete carts, place orders, use company features) and the backoffice (a dedicated security-verification page before the session starts). A persistent banner identifies the operator and the subject on every page, sessions auto-end, and a full audit trail is recorded — colleague data remains untouched.',
-    size: 'M',
-    integration: 'Update Frontend to 2.49.0 and Platform to 3.1027.0. Grant the Login-on-Behalf permission to a small, well-defined operator group. Communicate the change to customers and document the audit trail for compliance.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/8/84e154a0a941fa1ce2d058ceeffb73e636369023.gif',
-    caption: 'Operator banner shown throughout the on-behalf session'
-  },
-  {
-    category: 'Platform · 3.1032.0',
-    wow: true,
-    title: '<span class="accent">AES-256</span> backup encryption',
-    problem: 'Platform backups carried sensitive material — credentials, API keys, tenant secrets — at rest with no built-in protection. A leaked archive meant a leaked production environment.',
-    solution: 'Backups are now <strong>AES-256 encrypted with a one-time password</strong>. The password is shown <strong>once</strong> on creation — navigating away prevents recovery, so it must be stored in your secrets vault immediately. Restores fail safely without the password.',
-    size: 'S',
-    integration: 'Update Platform to 3.1032.0. Update runbooks to store the backup password in your secrets manager (e.g. Azure Key Vault, AWS Secrets Manager) at creation time. Test restore on staging before relying on it for DR.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/6/64103559f0e9b1a5e0cbfc990afea4492f3145d1_2_595x500.png',
-    caption: 'One-time password shown on backup creation'
-  },
-  {
-    category: 'Platform · 3.1027.0',
-    wow: true,
-    title: 'Sessions <span class="accent">invalidate on password change</span>',
-    problem: 'After a user changed their password, the old password kept working on other devices and browsers until those sessions naturally expired — a hole during incident response and account-takeover recovery.',
-    solution: 'On password change, <strong>all active sessions on other devices and browsers are automatically invalidated</strong>. Gated by the <code>EnablePersistentStorageTokenValidation</code> setting so operators can stage the rollout.',
-    size: 'S',
-    integration: 'Update Platform to 3.1027.0. Enable <code>EnablePersistentStorageTokenValidation</code> after notifying users that password changes will sign them out elsewhere.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/2/2e049447dedfe42438962003b55be9297f16c9e2.png',
-    caption: 'Other sessions terminated on password update'
-  },
-  {
-    category: 'Product Snapshot · 3.1000.0',
-    wow: true,
-    title: 'Order <span class="accent">Product Snapshot</span>',
-    problem: 'After a customer placed an order, catalog edits or product deletions retroactively changed how the order looked in history — names shifted, prices drifted, deleted SKUs vanished from order details. Customer service and audits suffered.',
-    solution: 'The new <strong>Product Snapshot module 3.1000.0</strong> captures full product state at the moment of order placement. Customers and operators always see the <strong>purchase-time</strong> view — independent of later catalog mutations.',
-    size: 'M',
-    integration: 'Install Product Snapshot 3.1000.0. Backfill is not required — snapshots are created on new orders going forward.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/1/1497d78dfe6a0863a534489cd3840fbc03e3b2cf_2_690x342.png',
-    caption: 'Order details preserved at purchase time'
-  },
-  {
-    category: 'xAPI 3.1009.0 + Frontend 2.50.0',
-    wow: true,
-    title: 'Frontend init via <span class="accent">capability manifest</span>',
-    problem: 'The storefront bootstrapped through several independent GraphQL calls with no single source of truth about backend capabilities — wasted requests for uninstalled modules, runtime errors on missing types, version drift between Frontend and modules, and no clear compatibility check.',
-    solution: 'A single <strong><code>initializeApplication</code></strong> query returns a <strong>capability manifest</strong>: store settings, installed modules with versions, and feature flags. The Frontend disables optional features automatically when modules are absent, and reports clear errors listing required modules and minimum versions.',
-    size: 'M',
-    integration: 'Update xAPI to 3.1009.0 and Frontend to 2.50.0. Custom storefronts should adopt the manifest-driven bootstrap path; legacy initialization continues to work during the transition.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/f/fdda1fd3a71a6c3deb9c647dbf28fcd51e1c2af5.png',
-    caption: 'Single query returns the platform capability manifest'
-  },
-  {
-    category: 'VC-Shell · 2.0.0',
-    wow: true,
-    title: 'VC-Shell <span class="accent">2.0.0</span> — first stable',
-    problem: 'Throughout 35 alpha iterations, the public API moved frequently — making it risky to pin a specific version and slowing custom-app development against the framework.',
-    solution: '<strong>VC-Shell 2.0.0</strong> is the first stable release. Public API is frozen, semver guarantees apply, and it is now safe to pin <code>^2.0.0</code>. Ships with a trunk-based PR pipeline (typecheck, tests, lint, locales, circular-dependency, architecture checks), Module Federation subpath-exports fix to eliminate duplicate runtime bundling, dashboard render gating, consumer UI fixes, and <strong>180 docs</strong> covering concepts, composables, components, plugins, and getting started.',
-    size: 'M',
-    integration: 'Run <code>/vc-app migrate</code> to apply codemods automatically. Review the generated <code>MIGRATION_REPORT.md</code> for items needing manual review. Pin <code>^2.0.0</code> in <code>package.json</code> once verified.',
-    noVisual: true,
-    icon: 'speed'
-  },
-
-  /* ===== SECTION 02: LOYALTY & CONFIGURABLE PRODUCTS ===== */
-  {
-    type: 'divider',
-    num: 'Section 02',
-    title: 'Loyalty &',
-    titleAccent: 'Configurable Products',
-    desc: 'Loyalty becomes a first-class shopping surface, and configurable products gain conditional visibility plus sensible defaults.',
-    statValue: '4',
-    statLabel: 'Loyalty & catalog updates'
-  },
-  {
-    category: 'Loyalty · 3.1003.0',
-    title: 'Browse the <span class="accent">loyalty catalog</span>',
-    problem: 'Point-redeemable rewards were buried in a separate flow — customers had to know they existed and navigate to a different surface to redeem.',
-    solution: 'A <strong>dedicated loyalty catalog</strong> sits alongside the regular catalog. Point-redeemable products appear in the normal browsing flow, with redemption options surfaced inline.',
-    size: 'S',
-    integration: 'Update Loyalty module to 3.1003.0. Configure which products participate in the loyalty catalog via standard catalog admin.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/d/d545392572b2bc4cf5ddfac662e85a9ddb5fbc70_2_690x332.jpeg',
-    caption: 'Loyalty catalog browsing in the storefront'
-  },
-  {
-    category: 'Loyalty · 3.1002.0',
-    title: 'Per-product <span class="accent">point multipliers</span>',
-    problem: 'Loyalty earning was a flat rule per tenant — there was no way to display per-product earnings or to reward premium customer groups differently from budget segments.',
-    solution: 'Per-product earning is now computed: <strong>Loyalty points = (Product price − Discount) × Multiply factor</strong>. Operators configure group-based multipliers — premium groups earn 2×, budget segments earn 0.5× — and the storefront displays the earned points on each product.',
-    size: 'S',
-    integration: 'Update Loyalty to 3.1002.0. Configure group multipliers and product overrides per your loyalty strategy.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/2/2cc2b8d72f82140d02b3095044bcd7894f490b0c_2_690x316.png',
-    caption: 'Earned points displayed per product'
-  },
-  {
-    category: 'Catalog 3.1020.0 + xCart 3.1009.0',
-    title: '<span class="accent">Conditional</span> configurable sections',
-    problem: 'Configurable product sections were always visible regardless of customer selections — leading to irrelevant choices, longer flows, and configuration errors when sections logically depended on each other.',
-    solution: 'Configuration sections can now be <strong>shown or hidden based on selections in other sections</strong>. Example: an "Installation Services" section appears only after the customer chooses "Ski Bindings." Text inputs gain a <strong>live character counter</strong> to make max-length feedback obvious.',
-    size: 'S',
-    integration: 'Update Catalog to 3.1020.0 and xCart to 3.1009.0. Define section-visibility rules per configurable product.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/c/c9fd342151d57a5c5ff7c9ceb14f73a1395ab134_2_690x305.png',
-    caption: 'Character counter on configurable text inputs'
-  },
-  {
-    category: 'Catalog · 3.1025.0',
-    title: '<span class="accent">Default options</span> for configurable products',
-    problem: 'Customers were forced to select every option even when the merchant had a sensible default — wasting clicks on common configurations and increasing abandonment.',
-    solution: 'Operators can <strong>mark one option per section as the default</strong>. Defaults are auto-selected with their price surcharges applied, and dependent sections display their own defaults too — producing a fully-priced suggested configuration the customer can adjust.',
-    size: 'S',
-    integration: 'Update Catalog to 3.1025.0. Assign defaults per configurable product. No customer action required.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/a/ab195153710d6231b49627c6f5288c6a64a64113_2_690x217.png',
-    caption: 'Default option auto-selected with cascading dependencies'
-  },
-
-  /* ===== SECTION 03: BACKOFFICE & PLATFORM ARCHITECTURE ===== */
-  {
-    type: 'divider',
-    num: 'Section 03',
-    title: 'Backoffice &',
-    titleAccent: 'Platform Architecture',
-    desc: 'A Module-Federation-driven backoffice, manifest-declared settings, an extension-point inspector, and a one-command local stack.',
-    statValue: '4',
-    statLabel: 'Architecture & DX updates'
-  },
-  {
-    category: 'Platform · 3.1027.0',
-    title: 'Backoffice <span class="accent">Module Federation 2.0</span>',
-    problem: 'The backoffice had limited runtime extensibility — plugin discovery required custom configuration, the three host tiers were entangled, and there was no convention for zero-config plugin loading.',
-    solution: 'A <strong>single platform-wide framework</strong> based on <strong>Module Federation 2.0</strong>. Plugins are discovered by convention from <code>plugins/{appId}/remoteEntry.js</code>, three host tiers are cleanly separated, and a single manifest endpoint serves all hosts. Discovery is dependency-graph-based — no new manifest elements required.',
+    title: '<span class="accent">Stable 15</span> — .NET 10 + PostgreSQL 18',
+    problem: 'Running on older .NET runtimes limited access to performance improvements, ecosystem libraries, and long-term support. Bundle upgrades were incremental and inconsistent across module versions.',
+    solution: 'Stable 15 is a <strong>production-validated bundle of 56 modules on .NET 10</strong> with <strong>PostgreSQL 18</strong> support. The <strong>biggest platform jump in bundle history</strong> (3.1007.16 → 3.1039.0) — deepened configurable products, matured Page Builder, sharpened catalog tooling, security hardening, and data-resilience improvements land together as one consistent release.',
     size: 'L',
-    integration: 'Update Platform to 3.1027.0. Migrate custom plugins to the <code>plugins/{appId}/remoteEntry.js</code> convention. Validate the three-tier separation against your customizations.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/0/046edac2452e59927b5d3091ef05790e488bbfdb_2_690x303.png',
-    caption: 'Three-tier backoffice separation under Module Federation 2.0'
-  },
-  {
-    category: 'Platform · 3.1027.0',
-    title: '<span class="accent">Manifest-declared</span> module settings',
-    problem: 'Frontend-only modules could not declare settings at all, and backend modules required programmatic registration code. Per-user settings (theme, layout density) had no first-class home.',
-    solution: 'Modules now declare settings in the manifest as an XML <code>&lt;settings&gt;</code> block. Two scopes ship: <strong>Global</strong> via <code>/api/platform/settings/v2/global/*</code>, and <strong>per-user</strong> via <code>/api/platform/settings/v2/me/*</code> (no permissions required). The <code>useModuleSettings</code> composable reads both scopes in a single round trip.',
-    size: 'S',
-    integration: 'Update Platform to 3.1027.0. Add a <code>&lt;settings&gt;</code> block to module manifests; use <code>useModuleSettings</code> from the frontend.',
-    noVisual: true,
-    icon: 'api'
-  },
-  {
-    category: 'Platform · 3.1027.0',
-    title: '<span class="accent">Extension Points Inspector</span>',
-    problem: 'Locating the right extension point for a customization meant grepping the source — slow, error-prone, and a hard onboarding step for new developers.',
-    solution: 'A new console command <strong>highlights all extension points on the current page</strong> with overlay labels. Each label has a <strong>"Copy snippet"</strong> button that generates ready-to-paste registration code.',
-    size: 'S',
-    integration: 'Update Platform to 3.1027.0. Available as a developer tool — no production action required.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/6/6e436e2b6613a882c980963dcbe2a953358579bd_2_690x334.png',
-    caption: 'Click an overlay to copy the registration snippet'
-  },
-  {
-    category: 'Developer · Tooling',
-    title: '<span class="accent">Start-Local</span> Docker environment',
-    problem: 'Bringing up a full local stack — Platform, Frontend, database, Redis, Elasticsearch, Kibana — required juggling multiple compose files, environment variables, and manual seeding. Onboarding took hours.',
-    solution: 'A <strong>single PowerShell command</strong> launches the full stack: Platform, Frontend, database, Redis, Elasticsearch, Kibana. Designed for trial environments and isolated development sandboxes.',
-    size: 'S',
-    integration: 'Clone the start-local repo and run the launch script. No platform action required.',
+    integration: 'Move the runtime to .NET 10 and (optionally) PostgreSQL 18. Note breaking changes: <code>ICancellationToken</code> replaced by standard .NET <code>CancellationToken</code>; obsolete <code>VC0012</code> APIs removed; <code>ProductSnapshot</code> extracted to its own module; SEO moved from Core to a dedicated <code>Seo</code> module. Full module matrix in the v3-2026-S15 docs.',
     noVisual: true,
     icon: 'speed'
   },
-
-  /* ===== SECTION 04: FRONTEND & STOREFRONT UX ===== */
   {
-    type: 'divider',
-    num: 'Section 04',
-    title: 'Frontend &',
-    titleAccent: 'Storefront UX',
-    desc: 'A cleaner coupons surface, GA4-aligned analytics, faster address selection, and a redesigned lists experience.',
-    statValue: '4',
-    statLabel: 'Storefront updates'
-  },
-  {
-    category: 'Frontend · 2.48.0',
-    title: '<span class="accent">Coupons widget</span> on the cart',
-    problem: 'The coupon interface was tucked into the order summary — hard to find, harder to browse, and depressing redemption rates of even well-promoted offers.',
-    solution: 'A <strong>dedicated coupons section on the cart page</strong>: customers can browse available offers, enter codes, and preview the discount before applying. A new <strong>Coupons and Promotions page</strong> in the customer account exposes the full catalog of offers tied to that account.',
-    size: 'S',
-    integration: 'Update Frontend to 2.48.0. Optionally tune the new account-page section copy for tenant tone.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/7/7bb5c5a56e948b8ae5e0b051683d4e7efbab24f4_2_690x460.jpeg',
-    caption: 'Coupons surfaced as their own cart section'
-  },
-  {
-    category: 'Frontend · 2.50.0',
-    title: '<span class="accent">GA4-aligned</span> analytics events',
-    problem: 'Storefront analytics events diverged from Google Analytics 4 ecommerce reference shapes — reports broke, attribution drifted, and analytics teams patched data layer transformations in their tag manager.',
-    solution: 'Data-layer events now match the GA4 reference: <code>view_item_list</code> sends an items array instead of a SKU string, <code>place_order</code> includes the transaction ID and the items array, and the <code>purchased</code> event propagates the transaction ID to GA4 cleanly.',
-    size: 'S',
-    integration: 'Update Frontend to 2.50.0. Audit any custom GTM tags that depended on the legacy SKU-string event shape.',
-    noVisual: true,
-    icon: 'api'
-  },
-  {
-    category: 'Frontend · 2.48.0',
-    title: '<span class="accent">Search and filter</span> address books',
-    problem: 'Large B2B accounts with dozens of shipping or billing addresses turned the address popup into an endless scroll — error-prone and slow at checkout.',
-    solution: 'The address popup now includes <strong>search, sorting, and filters by country, state, and city</strong>. Selection stays fast even with hundreds of saved addresses.',
-    size: 'S',
-    integration: 'Update Frontend to 2.48.0. No backend changes required.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/5/5b4d415d19d958cb0d4e71e4e33162a398e55fdb_2_690x235.png',
-    caption: 'Search + filter inside the address popup'
-  },
-  {
-    category: 'Frontend · 2.49.0',
-    title: '<span class="accent">Lists</span> redesign',
-    problem: 'The saved-and-shared product lists UI lacked structure — item rows were cluttered, sharing affordances were buried, and the layout did not scale to long lists.',
-    solution: 'The <strong>list-item layout</strong> has been redesigned for clarity — better information density, clearer share / edit actions, and improved performance on long B2B product collections and shared wishlists.',
-    size: 'S',
-    integration: 'Update Frontend to 2.49.0. No data migration required.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/7/73012a132f447cbe993b2eaf9cf4c46222b3be45_2_690x241.png',
-    caption: 'Cleaner list-item layout'
-  },
-
-  /* ===== SECTION 05: CATALOG, PAGES & TOOLS ===== */
-  {
-    type: 'divider',
-    num: 'Section 05',
-    title: 'Catalog,',
-    titleAccent: 'Pages & Tools',
-    desc: 'Pluggable CMS providers, granular catalog permissions, store-scoped filters, and tool migration for SQL Queries.',
-    statValue: '4',
-    statLabel: 'Catalog & content updates'
-  },
-  {
-    category: 'Pages 3.1004.0 + Builder.io / Contentful / Sanity',
-    title: '<span class="accent">Pluggable CMS</span> for pages',
-    problem: 'The Pages module was tightly coupled to a single CMS — switching providers or running multiple stores on different providers was not supported.',
-    solution: 'The Pages module is now <strong>provider-pluggable</strong> via store settings. Choose <strong>Virto Page Builder</strong>, <strong>Builder.io 3.1001.0</strong>, <strong>Contentful 3.1000.0</strong>, or <strong>Sanity 3.1001.0</strong> per store. Full-text search index management ships via UI and background jobs; pages participate in platform backup / restore and auto-reindex on import.',
+    category: 'Frontend 2.51.0 + Skyflow 3.1002.0 + Authorize.Net 3.1003.0',
+    wow: true,
+    title: 'Inline <span class="accent">Skyflow & Authorize.Net</span> checkout',
+    problem: 'Customers were sent through a multi-step, offsite payment entry flow — costing conversion at the moment of highest commercial intent.',
+    solution: 'Buyers can now <strong>enter Skyflow or Authorize.Net credit-card details directly on the checkout page</strong>. Behavior is controlled per payment method via the <code>AllowCartPayment</code> option, so operators can enable inline capture per store or per PSP.',
     size: 'M',
-    integration: 'Update Pages to 3.1004.0 and install the CMS provider module(s) you need. Configure provider selection in store settings.',
-    noVisual: true,
-    icon: 'book'
+    integration: 'Update Frontend to 2.51.0, Skyflow to 3.1002.0, and Authorize.Net to 3.1003.0. Enable <code>AllowCartPayment</code> on the relevant payment methods. PCI scope for inline capture is bounded by the Skyflow / Authorize.Net tokenization model.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/7/790612df4e78ccfe6da026a06a3b83d7930691e1.png',
+    caption: 'Inline card capture at checkout'
   },
   {
-    category: 'Catalog · 3.1002.4',
-    title: '<span class="accent">Granular</span> catalog permissions',
-    problem: 'Categories and products shared an umbrella <code>catalog:*</code> permission — operators with read-only product access still got full category-edit rights, and there was no way to split the two.',
-    solution: 'Eight granular permissions replace the umbrella: <code>catalog:categories:{create,read,update,delete}</code> and <code>catalog:products:{create,read,update,delete}</code>. Common use case — full category access with read-only products — is now expressible.',
+    category: 'Cart 3.1005.0 + xCart 3.1018.0',
+    wow: true,
+    title: '<span class="accent">Loyalty points</span> + mixed-currency cart',
+    problem: 'Cart totals in mixed-currency scenarios were coarse, and there was no first-class way for a customer to pay with loyalty points end-to-end — validation, redemption, and points reward all lived in separate flows.',
+    solution: 'Customers can <strong>pay with loyalty points end-to-end</strong>, including validation and the resulting points reward. A new <strong><code>cartTotals</code> GraphQL field</strong> supports multiple currencies — one query returns totals per currency for accurate mixed-currency carts.',
     size: 'M',
-    integration: 'Update Catalog to 3.1002.4. Review existing role definitions and split <code>catalog:*</code> into the granular set per your security model.',
+    integration: 'Update Cart to 3.1005.0 and xCart to 3.1018.0. Storefronts must adopt the new <code>cartTotals</code> shape. Configure loyalty-payment eligibility per store.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/b/bdf27d3577ddea52d2e3a28306b6d4fa0884d3a3_2_690x337.png',
+    caption: 'Mixed-currency cart totals with loyalty points'
+  },
+  {
+    category: 'Customer 3.1010.0 + Profile xAPI 3.1008.0',
+    wow: true,
+    title: '<span class="accent">Organization memberships</span> at a glance',
+    problem: 'B2B admins managing a contact who belonged to multiple organizations had to jump between records — role assignments and access locks were fragmented and easy to get wrong.',
+    solution: 'A <strong>single widget lists every organization a contact belongs to</strong>, with per-organization role assignment and per-organization lock state. Timed access locks and role changes happen inline, without leaving the contact record.',
+    size: 'S',
+    integration: 'Update Customer to 3.1010.0 and Profile Experience API to 3.1008.0. No data migration required.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/5/54ae5c316420055268632b43950ac95a188cfd05_2_689x323.png',
+    caption: 'Every membership for a contact in one widget'
+  },
+  {
+    category: 'SEO · Frontend',
+    wow: true,
+    title: 'Prerender.io <span class="accent">dynamic rendering</span>',
+    problem: 'A Vue 3 SPA delivers an essentially empty HTML shell to search-engine crawlers — meaning products, categories, and content risk being invisible to Google and other bots that do not fully render JavaScript.',
+    solution: 'A <strong>reverse proxy detects crawler user agents and serves cached, fully-rendered HTML snapshots</strong>, while human visitors still get the SPA. Virto Cloud now supports a <strong>self-hosted prerender service</strong> as a paid preview alternative to the SaaS.',
+    size: 'M',
+    integration: 'Configure prerender per storefront route in environment settings. Self-host or use the SaaS depending on cost, latency, and data-residency needs. Monitor crawl budget and cache-hit rates after cutover.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/e/eeac6c630ac14dfedd3791d70d1af0d17147172f_2_690x234.jpeg',
+    caption: 'Crawlers get rendered HTML, humans get the SPA'
+  },
+  {
+    category: 'Marketplace · Operator Portal',
+    wow: true,
+    title: 'Virto OZ <span class="accent">in the Operator Portal</span>',
+    problem: 'Operator routines — search, product and catalog management, offer curation — meant threading through many blades and forms. Repetitive and slow.',
+    solution: 'The <strong>Virto OZ AI assistant</strong> is now available in the Operator Portal from a dedicated blade, with <strong>blade-specific prompt shortcuts</strong> and natural-language capabilities across search, product/catalog management, and offer management.',
+    size: 'M',
+    integration: 'Requires a Virto OZ subscription. Configure LLM keys per tenant; onboard operators with the shortcut catalogue.',
     noVisual: true,
-    icon: 'refund'
-  },
-  {
-    category: 'Catalog · 3.1022.0',
-    title: 'Filters in <span class="accent">store settings</span>',
-    problem: 'Per-store filtering properties were stored as dynamic properties — opaque to operators, awkward to migrate between environments, and inconsistent with how other per-store config behaves.',
-    solution: 'Faceted-browsing filters are now stored as <strong>Store-level Settings</strong>. The change is invisible to end users and APIs, but it makes the data first-class and exportable through standard settings tooling.',
-    size: 'S',
-    integration: 'Update Catalog to 3.1022.0. Existing filters are migrated automatically; verify on staging before production rollout.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/0/0abd1c76ed8f32b127e3caed5a04f3b53a3be735_2_557x500.png',
-    caption: 'Filters surface in store settings'
-  },
-  {
-    category: 'SQL Queries · 3.1002.0',
-    title: 'SQL Queries <span class="accent">backup & restore</span>',
-    problem: 'SQL queries created in one environment could not be migrated to another — operators rebuilt them by hand across dev, staging, and production.',
-    solution: 'SQL queries now <strong>participate in the platform Backup and Restore pipeline</strong> — export from one environment and import into another for parity and DR.',
-    size: 'S',
-    integration: 'Update SQL Queries to 3.1002.0. Validate restore on staging before relying on it for production environments.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/e/e448229c1b181296f899f50842d8af0a6e31c113_2_690x346.png',
-    caption: 'SQL queries flow through Backup & Restore'
-  },
-
-  /* ===== SECTION 06: MARKETPLACE & AI ===== */
-  {
-    type: 'divider',
-    num: 'Section 06',
-    title: 'Marketplace',
-    titleAccent: '& AI',
-    desc: 'Vendor portal polish under the new Module Federation framework, plus Virto OZ catalog translation and tighter platform integration.',
-    statValue: '2',
-    statLabel: 'Marketplace & AI updates'
+    icon: 'ai'
   },
   {
     category: 'Marketplace · Vendor Portal',
-    title: 'Vendor portal <span class="accent">polish + tests</span>',
-    problem: 'Vendor portal blades sometimes showed expand chevrons on non-expandable items, organization validation was inconsistent across registration / editing / creation, and end-to-end coverage was thin in critical flows.',
-    solution: '<strong>Chevrons now appear only on truly expandable items</strong> (e.g. configurable products). The <strong>organization validator runs across all scenarios</strong> — registration, editing, creation — catching duplicate company or vendor names early with clear messaging. End-to-end test coverage is now in place for Orders, Products, Offers, Team, Fulfillment Centers, and Seller Details. The portal has been updated to the new Module Federation structure.',
-    size: 'S',
-    integration: 'Update the Marketplace Vendor Portal module. Onboarding flows and validators take effect automatically.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/c/c34da30b04a4fff7f3a50595a0b45e602fc54c9a_2_690x485.jpeg',
-    caption: 'Organization validation across all scenarios'
-  },
-  {
-    category: 'Virto OZ · AI',
-    title: 'Virto OZ — <span class="accent">catalog translation</span> in admin',
-    problem: 'Catalog translation lived outside the core admin portal — operators switched tools to localize product names and reviews, and translation changes required separate review processes.',
-    solution: 'Virto OZ moves <strong>closer to the core Platform</strong>. <strong>Catalog translation</strong> is now integrated into the admin portal: AI translates product names and reviews into all active languages, and changes go through an <strong>approval step</strong> before being written. Natural-language commands cover update / status-change / export.',
+    wow: true,
+    title: 'AI-powered <span class="accent">Vendor Portal</span>',
+    problem: 'Vendors doing product entry, translation, and offer creation at scale spent most of their time typing rather than deciding — and the portal lacked configurable-product support natively.',
+    solution: 'The AI assistant now automates <strong>natural-language search, product description generation and translation, and offer creation / updates</strong>. Configurable-product support lands in the Vendor Portal. Six external modules have been migrated to the Backoffice Modularity manifest contract.',
     size: 'M',
-    integration: 'Requires Virto OZ subscription. Configure LLM keys per tenant; define approval workflow for catalog translations. Tenant/agent management, Page Builder integration, and product localization to the Catalog module are in active development.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/0/0db55b0bb418dab5b7cb36164068f371f9f78891_2_351x500.jpeg',
-    caption: 'AI-driven catalog translation, approval-gated'
+    integration: 'Update the Marketplace Vendor Portal module. Configure AI prompts and translation targets per tenant.',
+    noVisual: true,
+    icon: 'ai'
   },
 
-  /* ===== SECTION 07: SECURITY, ADMIN & QUALITY ===== */
+  /* ===== SECTION 02: CART, CATALOG & SEARCH ===== */
   {
     type: 'divider',
-    num: 'Section 07',
-    title: 'Security, Admin',
-    titleAccent: '& Quality',
-    desc: 'Auth-flow polish, UI Kit refinements, and a broader, more reliable test pipeline.',
+    num: 'Section 02',
+    title: 'Cart, Catalog',
+    titleAccent: '& Search',
+    desc: 'Redesigned configurable-product carts, category-level default sorting, and one-category search-index rebuilds.',
     statValue: '3',
-    statLabel: 'Security & quality updates'
+    statLabel: 'Shopping & catalog updates'
   },
   {
-    category: 'Platform · 3.1022.0',
-    title: 'Hide the <span class="accent">forgot-password</span> link',
-    problem: 'Organizations running SSO or alternative auth flows still showed a "Forgot your password?" link on the login page — confusing for users whose passwords are managed elsewhere.',
-    solution: 'A new configuration option <strong>hides the "Forgot your password?" link</strong> on the login page. Use it for SSO-only deployments or where password recovery happens through a different channel.',
+    category: 'xCart · 3.1022.0',
+    title: '<span class="accent">Configurable products</span> in the cart, redesigned',
+    problem: 'Once a configured product landed in the cart, buyers could not easily review what they had chosen — options, files, and per-line prices were collapsed into a single line-item summary.',
+    solution: 'Each configured cart line now shows a <strong>Components dropdown</strong> plus a <strong>per-line summary of chosen options, attached files, and prices</strong> — buyers can review or edit without re-entering the configurator.',
     size: 'S',
-    integration: 'Update Platform to 3.1022.0. Toggle the new configuration option per tenant.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/d/d153e7db859654145a48e5bd7178873f962aea3b_2_690x302.png',
-    caption: 'Forgot-password link toggle in admin config'
+    integration: 'Update xCart to 3.1022.0. No data migration required.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/1/14d992a0617e66c93c4014f52486d0ba38a3aedd_2_690x301.png',
+    caption: 'Components dropdown per configured cart line'
   },
   {
-    category: 'UI Kit · Date Picker',
-    title: 'Date-Picker <span class="accent">refinements</span>',
-    problem: 'The date picker did not surface a clean change event for typed / pasted / picker-selected dates, prefilled date editing was awkward, and typing "0" mid-input could clear the field.',
-    solution: 'Enhanced <strong>keyboard input</strong>, a new <strong><code>change</code> event</strong> covering typed / pasted / picker-selected values, smoother prefilled-date editing, and a fix so that typing "0" no longer clears the field during input. Available in the Virto Commerce Storybook.',
+    category: 'Catalog 3.1032.0 + xCatalog 3.1009.0',
+    title: 'Configurable <span class="accent">featured sorting</span>',
+    problem: 'There was no way to set a default product ordering for a category, and facet configuration was scattered across several blades — merchants could not merchandise a category consistently.',
+    solution: 'Category managers can now <strong>define the default product order</strong> for browsing and search. Facet configuration is <strong>consolidated in a unified Search configuration widget</strong>, so the whole merchandising surface is edited in one place.',
     size: 'S',
-    integration: 'Update the UI Kit. Existing consumers continue to work; opt into the new <code>change</code> event for cleaner state handling.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/8/808a18862bf7ac9516ef95f56ecc45e56f10aa16_2_689x411.png',
-    caption: 'Refined keyboard behavior and change event'
+    integration: 'Update Catalog to 3.1032.0 and xCatalog to 3.1009.0. Review existing category sorting and migrate legacy facet config as needed.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/2/25795d18eae6a50ea85d9a2e8154782f7ad95ccc_2_690x420.png',
+    caption: 'Default sorting inside the Search configuration widget'
+  },
+  {
+    category: 'Catalog · 3.1031.0',
+    title: 'Rebuild search for <span class="accent">one category</span>',
+    problem: 'Bulk edits to a single category — new prices, refreshed metadata, restructured hierarchy — meant either waiting for a full index rebuild or rebuilding everything unnecessarily.',
+    solution: 'Operators can now <strong>trigger a search-index rebuild for a single category</strong>, including every product assigned to it directly or through the category hierarchy.',
+    size: 'S',
+    integration: 'Update Catalog to 3.1031.0. Use the new per-category rebuild action from the catalog admin.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/8/80cc07bb1af0a743bafda0a5234c390520f5873f_2_532x500.png',
+    caption: 'Rebuild the index for a single category, hierarchy included'
+  },
+
+  /* ===== SECTION 03: MARKETING & ADMIN UX ===== */
+  {
+    type: 'divider',
+    num: 'Section 03',
+    title: 'Marketing &',
+    titleAccent: 'Admin UX',
+    desc: 'Coupon input validation, richer dashboard cards, and refreshed module icons.',
+    statValue: '3',
+    statLabel: 'Admin experience updates'
+  },
+  {
+    category: 'Marketing · 3.1006.0',
+    title: 'Coupon-code <span class="accent">validation pattern</span>',
+    problem: 'Coupon inputs accepted arbitrary characters and gave no client-side feedback — customers submitted invalid codes and support tickets rose.',
+    solution: 'Coupon codes are now <strong>validated both client- and server-side</strong> against a new <strong>Coupon code validation pattern</strong> setting. Default enforcement is alphanumeric, and the pattern can be relaxed per tenant when the promotion program requires it.',
+    size: 'S',
+    integration: 'Update Marketing to 3.1006.0. Audit existing coupon programs against the default alphanumeric pattern; relax the pattern if needed.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/f/f45340b6c44cb9814699fc40eda8046f9f9fabaf.png',
+    caption: 'Configurable validation pattern for coupon inputs'
+  },
+  {
+    category: 'Platform · 3.1041.0',
+    title: 'Dashboard cards — <span class="accent">show every value</span>',
+    problem: 'Summary cards on the admin dashboard displayed only the first three values, hiding anything below and forcing operators to click through to see the full picture.',
+    solution: 'Cards now <strong>make every value visible and scrollable within the card</strong> — the full context is one glance away instead of one navigation away.',
+    size: 'S',
+    integration: 'Update Platform to 3.1041.0. Existing dashboards benefit automatically.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/5/5d007751ab1bba0774d8aaa53c1b3cfea6ea3b72.png',
+    caption: 'Scrollable card content on the admin dashboard'
+  },
+  {
+    category: 'Platform · 3.1036.0',
+    title: 'Refreshed <span class="accent">module icons</span>',
+    problem: 'Module iconography felt dated next to the rest of the admin surface — an inconsistent visual signal that undercut the modern feel of recent UI work.',
+    solution: 'Module icons across the admin have been <strong>updated to a fresher, more modern design</strong>. Purely visual — no behavioral change.',
+    size: 'S',
+    integration: 'Update Platform to 3.1036.0.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/2/20b4b12f14cbcf57222060348ceaf2e03adc3530_2_319x500.png',
+    caption: 'Modernized module iconography'
+  },
+
+  /* ===== SECTION 04: PLATFORM MODULARITY & DX ===== */
+  {
+    type: 'divider',
+    num: 'Section 04',
+    title: 'Platform Modularity',
+    titleAccent: '& DX',
+    desc: 'Backup and Restore lifts out of core, and VC-Shell 2.1.0 adds URL-state tables plus a full v2 Developer Guide.',
+    statValue: '2',
+    statLabel: 'Architecture & DX updates'
+  },
+  {
+    category: 'Backup and Restore · 3.1000.0',
+    title: 'Backup and Restore <span class="accent">as a module</span>',
+    problem: 'Backup functionality was tightly coupled to the platform core — upgrades and customization required touching platform internals, and deployments could not skip backup logic if it was not needed.',
+    solution: 'Backup and Restore is now a <strong>separate, default pre-installed module</strong>. Full backward compatibility with existing APIs, admin UI, roles, and previous backup ZIP files — but the code lives in its own module and follows the standard release cadence.',
+    size: 'S',
+    integration: 'The module is pre-installed by default on new installations. Existing environments upgrade transparently; backup archives from previous versions continue to restore cleanly.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/c/ce81c8239360087687039a73c33e011845a0d7fa.png',
+    caption: 'Backup and Restore ships as its own module'
+  },
+  {
+    category: 'VC-Shell · 2.1.0',
+    title: 'VC-Shell <span class="accent">2.1.0</span> — URL-state tables + docs',
+    problem: 'Sort / search / pagination state on list blades reset on navigation — operators lost context every time they came back. The v2 developer guide was still a work in progress.',
+    solution: 'VC-Shell 2.1.0 adds <strong>URL-state tables</strong> so sort, search, and pagination persist across navigation and can be shared as a link. Ships a completed <strong>v2 Developer Guide (180 pages)</strong>, migrates the host to the canonical manifest, moves npm publishing to token-free OIDC, and extracts an Asset Library module.',
+    size: 'S',
+    integration: 'Update to VC-Shell 2.1.0. Run <code>/vc-app migrate</code> to apply codemods. Adopt URL-state tables on list blades where shareable / persistent context matters.',
+    noVisual: true,
+    icon: 'book'
+  },
+
+  /* ===== SECTION 05: QUALITY & COMMUNITY ===== */
+  {
+    type: 'divider',
+    num: 'Section 05',
+    title: 'Quality &',
+    titleAccent: 'Community',
+    desc: 'Steadier CI, expanded AI-driven regression coverage, and fresh knowledge-hub resources.',
+    statValue: '2',
+    statLabel: 'Quality & community updates'
   },
   {
     category: 'QA · Test Infrastructure',
-    title: 'CI: <span class="accent">multi-DB</span> + AI-assisted testing',
-    problem: 'Test runs were single-database, diagnostics on failure were thin, and flaky tests slowed releases. AI-assisted regression coverage was experimental rather than systematic.',
-    solution: 'CI now runs <strong>PostgreSQL, MySQL, and SQL Server</strong> coverage. Failure diagnostics include Platform, database, and Elasticsearch logs. Test execution is more stable, with reduced flakiness via efficient indexing and selective optional-module testing. <strong>AI-driven regression testing</strong>, specialized agents for large-scale execution, self-healing workflows, and test-case generation are now part of the pipeline. The OPUS suite and Playwright-based staging automation are expanded.',
+    title: 'CI: <span class="accent">stabler</span> and AI-assisted',
+    problem: 'Flaky end-to-end tests slowed releases and eroded confidence. Manual regression authoring could not keep up with new features across the platform.',
+    solution: '<strong>Flaky end-to-end tests are stabilized</strong>, seeding is faster via bulk indexation, and automated regression coverage now includes <strong>AI-assisted test generation</strong>. A visual regression pack is in progress.',
     size: 'S',
-    integration: 'No customer action required — internal QA infrastructure improvements yielding earlier issue detection and higher shipping confidence.',
+    integration: 'No customer action required. Internal QA infrastructure improvement yielding earlier issue detection and higher release confidence.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/0/0f634826535da8e058bfeab4aaf656a3caab3f88_2_690x455.png',
+    caption: 'Expanded AI-assisted regression coverage'
+  },
+  {
+    category: 'Community · Knowledge Hub',
+    title: 'Case study, <span class="accent">webinar & whitepaper</span>',
+    problem: 'B2B teams looking at replatforming, conversational AI, accessibility, or multi-market expansion needed practical, up-to-date reference material — not marketing generalities.',
+    solution: 'Three new resources are available: the <strong>Notions Marketing case study</strong> (replatforming with Luminos Labs), the <strong>"B2B User Experience that Makes Sense" webinar recording</strong> (conversational AI, localized promotions, WCAG 2.2 AA, vendor-managed configurable products, loyalty), and the <strong>"Beyond Localization" whitepaper</strong> on managing B2B complexity in regulated multi-market expansion.',
+    size: 'S',
+    integration: 'No integration required — educational content for product, architecture, and go-to-market stakeholders.',
     noVisual: true,
-    icon: 'speed'
+    icon: 'book'
   },
 
   { type: 'backlog' },
@@ -1591,24 +1459,24 @@ function renderCover() {
           </div>
           <div class="header-meta">
             <span class="pill">Release Notes</span>
-            <span>June 2026</span>
+            <span>July 2026</span>
           </div>
         </div>
 
         <div class="cover-body">
-          <span class="cover-eyebrow">What's new this month</span>
+          <span class="cover-eyebrow">Stable 15 Edition · What's new this month</span>
           <h1 class="cover-title">
             Release Notes<br/>
-            <span class="grad">June 2026</span>
+            <span class="grad">July 2026</span>
           </h1>
           <p class="cover-sub">
-            Security, stability, and B2B operational depth — <strong>SOC 2 Type 2 renewed</strong>, encrypted backups, session invalidation on password change, the new <strong>Login on Behalf</strong> flow, and <strong>VC-Shell 2.0.0</strong>'s first stable release. Business-impact features come first, technical updates follow. Each slide includes a T-shirt size estimating integration complexity.
+            The <strong>biggest platform jump in bundle history</strong> — Stable 15 lands 56 modules on <strong>.NET 10</strong> with <strong>PostgreSQL 18</strong>, alongside inline-checkout payments, mixed-currency loyalty carts, and Virto OZ AI reaching the Operator Portal. Business-impact features come first, technical updates follow. Each slide includes a T-shirt size estimating integration complexity.
           </p>
           <div class="cover-highlights">
             <span class="cover-chip"><span class="num">7</span>WOW business features</span>
-            <span class="cover-chip"><span class="num">SOC 2</span>Type 2 renewal</span>
-            <span class="cover-chip"><span class="num">2.0.0</span>VC-Shell stable</span>
-            <span class="cover-chip"><span class="num">AES-256</span>Backup encryption</span>
+            <span class="cover-chip"><span class="num">S15</span>Stable 15 bundle</span>
+            <span class="cover-chip"><span class="num">.NET 10</span>+ PostgreSQL 18</span>
+            <span class="cover-chip"><span class="num">56</span>Production-validated modules</span>
           </div>
 
           <div class="ts-legend">
@@ -1625,13 +1493,9 @@ function renderCover() {
 
         <div class="slide-footer">
           <div class="cover-nav">
-            <a class="cover-nav-link" href="../2026-05/" title="May 2026">
+            <a class="cover-nav-link" href="../2026-06/" title="June 2026">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-              May 2026
-            </a>
-            <a class="cover-nav-link" href="../2026-07/" title="July 2026">
-              July 2026
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              June 2026
             </a>
           </div>
           <span class="slide-counter">01 <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
@@ -1726,7 +1590,7 @@ function renderContent(slide, idx) {
             <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
             <div class="brand-text">
               <span class="b1">Virto Commerce</span>
-              <span class="b2">Release Notes — June 2026</span>
+              <span class="b2">Release Notes — July 2026</span>
             </div>
           </div>
           <div class="header-meta">
@@ -1786,32 +1650,28 @@ function renderThanks(idx) {
           <span class="thanks-eyebrow">That's a wrap</span>
           <h1 class="thanks-title">Thank <span class="grad">you</span></h1>
           <p class="thanks-sub">
-            Explore the full June 2026 release notes, request a Virto OZ demo, or dive into our security, SOC 2, and B2B accessibility resources.
+            Explore the full July 2026 release notes, request a Virto OZ demo, or dive into the Stable 15 upgrade guide.
           </p>
           <div class="thanks-cta">
             <a class="cta-btn" href="https://virtocommerce.com/request-demo" target="_blank" rel="noopener">
               Request a Demo
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
-            <a class="cta-btn outline" href="https://www.virtocommerce.org/t/virto-s-release-notes-june-2026/854" target="_blank" rel="noopener">
+            <a class="cta-btn outline" href="https://www.virtocommerce.org/t/virto-s-release-notes-july-2026/857" target="_blank" rel="noopener">
               Read full release notes
             </a>
-            <a class="cta-btn outline" href="https://docs.virtocommerce.org/" target="_blank" rel="noopener">
-              Documentation
+            <a class="cta-btn outline" href="https://docs.virtocommerce.org/platform/user-guide/latest/versions/v3-2026-S15/" target="_blank" rel="noopener">
+              Stable 15 docs
             </a>
           </div>
           <div class="cover-nav" style="justify-content:center;">
-            <a class="cover-nav-link" href="../2026-05/" title="May 2026">
+            <a class="cover-nav-link" href="../2026-06/" title="June 2026">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-              May 2026
-            </a>
-            <a class="cover-nav-link" href="../2026-07/" title="July 2026">
-              July 2026
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              June 2026
             </a>
           </div>
           <div class="thanks-footer">
-            virtocommerce.com  ·  Release Notes June 2026
+            virtocommerce.com  ·  Release Notes July 2026 · Stable 15
           </div>
         </div>
       </div>
@@ -1827,7 +1687,7 @@ function renderBacklog(idx) {
             <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
             <div class="brand-text">
               <span class="b1">Virto Commerce</span>
-              <span class="b2">Release Notes — June 2026</span>
+              <span class="b2">Release Notes — July 2026</span>
             </div>
           </div>
           <div class="header-meta">
@@ -1964,7 +1824,7 @@ function renderBacklogList() {
 function buildMarkdown() {
   const items = [...backlog].sort((a, b) => a - b);
   const lines = [
-    '# Virto Commerce — June 2026 Backlog',
+    '# Virto Commerce — July 2026 Backlog (Stable 15)',
     '',
     `Selected ${items.length} feature${items.length === 1 ? '' : 's'} from the release notes.`,
     '',
@@ -1979,7 +1839,7 @@ function buildMarkdown() {
   });
   lines.push('');
   lines.push('---');
-  lines.push('Source: https://www.virtocommerce.org/t/virto-s-release-notes-june-2026/854');
+  lines.push('Source: https://www.virtocommerce.org/t/virto-s-release-notes-july-2026/857');
   return lines.join('\n');
 }
 
