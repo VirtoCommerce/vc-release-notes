@@ -933,7 +933,96 @@
   }
   .toc-nav-btn:hover { background: var(--virto-bg-2); transform: translateY(-1px); }
 
-  /* NAV */
+/* Nav Add-to-backlog toggle button (visible on all resolutions) */
+  .nav-backlog-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--virto-blue);
+    color: white;
+    border: none;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-backlog-toggle:disabled {
+    background: var(--virto-line);
+    color: var(--virto-muted);
+    cursor: not-allowed;
+  }
+  .nav-backlog-toggle.added {
+    background: var(--size-s);
+  }
+  .nav-backlog-toggle svg { flex-shrink: 0; }
+  .nav-backlog-toggle .plus-icon { display: inline-flex; }
+  .nav-backlog-toggle .check-icon { display: none; }
+  .nav-backlog-toggle.added .plus-icon { display: none; }
+  .nav-backlog-toggle.added .check-icon { display: inline-flex; }
+
+  /* Fullscreen image lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 37, 74, 0.92);
+    backdrop-filter: blur(10px);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+    cursor: zoom-out;
+  }
+  .lightbox.open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s ease, visibility 0s linear 0s;
+  }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .lightbox-close {
+    position: fixed;
+    top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.28); }
+  .lightbox-caption {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.9);
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 8px 16px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 8px;
+    max-width: 90vw;
+  }
+
+    /* NAV */
   .nav {
     position: fixed; bottom: 28px; left: 50%;
     transform: translateX(-50%);
@@ -964,17 +1053,8 @@
   .nav-progress .total { color: var(--virto-muted); font-weight: 400; }
   .nav-jump {
     border-left: 1px solid var(--virto-line);
-    padding-left: 12px; display: flex; gap: 4px;
+    padding-left: 12px; display: flex; gap: 6px; align-items: center;
   }
-  .jump-btn {
-    background: transparent; border: none; cursor: pointer;
-    padding: 6px 10px; font-size: 11px;
-    color: var(--virto-muted);
-    text-transform: uppercase; letter-spacing: 1px;
-    border-radius: 6px; font-weight: 600;
-    transition: all 0.2s;
-  }
-  .jump-btn:hover { background: var(--virto-bg-2); color: var(--virto-navy); }
 
   .progress-bar {
     position: fixed; top: 0; left: 0;
@@ -1090,26 +1170,170 @@
     text-transform: uppercase;
   }
 
+/* ========== TABLET (<= 900px) ========== */
   @media (max-width: 900px) {
-    .slide-body { grid-template-columns: 1fr; gap: 18px; padding: 18px 0; }
-    .visual-col { min-height: 180px; max-height: 240px; }
-    .slide-inner { padding: 22px 26px; }
-    .divider-body { grid-template-columns: 1fr; }
+    /* Let the page scroll vertically when slide content is taller than the viewport */
+    html, body { overflow-x: hidden; overflow-y: auto; height: auto; }
+    /* Stage is a normal-flow container, not a fixed overlay */
+    .stage {
+      position: static;
+      inset: auto;
+      display: block;
+      padding: 16px 16px 96px; /* bottom padding leaves room for the fixed nav pill */
+      min-height: 100vh;
+    }
+    /* Only the active slide participates in the layout — no more absolute stacking on mobile */
+    .slide {
+      display: none;
+      position: static;
+      width: 100%;
+      height: auto;
+      min-height: calc(100vh - 112px); /* fills viewport at minimum */
+      max-height: none;
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+      transition: none;
+      pointer-events: auto;
+    }
+    .slide.active { display: block; }
+    /* Grid columns constrained to container width — fixes cover-header overflow (brand+meta wider than 302px) */
+    .slide-inner {
+      height: auto;
+      min-height: calc(100vh - 112px);
+      padding: 22px 22px 20px;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto auto;
+    }
+    /* Content flows naturally — no internal scroll containers, page scrolls instead */
+    .slide-body, .cover-body { overflow: visible; max-height: none; min-width: 0; min-height: 0; }
+    .slide-body { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 14px 0; }
+    .visual-col { min-height: 160px; max-height: 220px; min-width: 0; }
+    .content-col { min-width: 0; }
+
+    /* Header: brand on the left, size badge in the top-right corner */
+    .slide-header { flex-wrap: nowrap; padding-bottom: 10px; gap: 8px; align-items: center; }
+    .brand-text .b2 { display: none; }
+    .brand-mark { width: 32px; height: 32px; flex-shrink: 0; }
+    .brand-text .b1 { font-size: 13px; }
+    .header-meta { gap: 6px; font-size: 10px; letter-spacing: 1px; flex-shrink: 0; margin-left: auto; }
+    /* Category pill duplicates the slide footer — hide from the header on mobile */
+    .header-meta .pill { display: none; }
+
+    /* Divider */
+    .divider-body { grid-template-columns: minmax(0, 1fr); }
     .divider-right { display: none; }
-    .nav { bottom: 16px; padding: 6px 8px; gap: 6px;}
-    .jump-btn { display: none; }
+    .divider-left { padding: 40px 24px; gap: 16px; }
+    .divider-title { font-size: clamp(28px, 8vw, 40px); }
+
+    /* Cover: tighter typography + spacing */
+    .cover .slide-inner { padding: 22px 20px 20px; }
+    .cover-title { font-size: clamp(30px, 9vw, 44px); letter-spacing: -1.5px; overflow-wrap: break-word; }
+    .cover-sub { font-size: 13px; max-width: 100%; overflow-wrap: break-word; }
+    /* Cover eyebrow: allow wrap so long labels do not push past slide edge */
+    .cover-eyebrow { width: auto; max-width: 100%; white-space: normal; font-size: 12px; letter-spacing: 2px; }
+    .cover-highlights { gap: 8px; }
+    .cover-chip { font-size: 12px; padding: 8px 12px; }
+    .ts-legend { padding: 12px 14px; }
+    .ts-legend-items { flex-direction: column; gap: 8px; }
+
+    /* Topic tag: allow wrap so long labels fit on narrow content slides */
+    .topic-tag { width: auto; max-width: 100%; }
+
+    /* Content slide typography */
+    .slide-title { font-size: clamp(20px, 5.5vw, 24px); overflow-wrap: break-word; }
+    .ps-block { padding: 2px 0 2px 12px; }
+    .ps-text { font-size: 12.5px; overflow-wrap: break-word; word-break: break-word; }
+    /* Prevent long <code> tokens or version strings from causing horizontal overflow */
+    .ps-text code { word-break: break-all; }
+
+    /* Backlog eyebrow: same treatment as cover eyebrow */
+    .backlog-eyebrow { width: auto; max-width: 100%; }
+
+    /* Nav pill */
+    .nav { bottom: 12px; padding: 6px 8px; gap: 6px; }
     .nav-jump { border: none; padding: 0; }
     .hint { display: none; }
-    .ts-legend-items { flex-direction: column; gap: 8px; }
-    .header-meta { gap: 6px; }
+    .progress-bar { height: 2px; }
+    /* Hide the top-right in-header Add button; the nav-pill Add is the primary control */
+    .slide-header .backlog-btn { display: none; }
+
+    /* Image visual caption sits BELOW image on mobile (no overlap on the image itself) */
+    .visual-col {
+      flex-direction: column;
+      min-height: 200px;
+      max-height: none;   /* let image size determine height */
+      padding: 12px;
+      gap: 8px;
+    }
+    .visual-col img {
+      max-width: 100%;
+      max-height: 55vh;   /* cap on tall images so caption + rest stay visible */
+      width: auto;
+      cursor: zoom-in;
+    }
+    .visual-caption {
+      position: static;
+      margin-top: 0;
+      background: transparent;
+      color: var(--virto-muted);
+      backdrop-filter: none;
+      padding: 0;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    /* Backlog: single control (nav-backlog-toggle) — hide the redundant Backlog counter link. Backlog screen still reachable via TOC. */
     .backlog-btn { padding: 4px 10px; font-size: 10px; }
-    .backlog-link { font-size: 10px; padding: 5px 10px; }
+    .backlog-link { display: none; }
     .backlog-screen .slide-inner { padding: 22px 20px 20px; }
     .backlog-head { flex-direction: column; }
     .backlog-actions { width: 100%; }
     .bl-btn { flex: 1; justify-content: center; min-width: 130px; }
+
+    /* Thanks slide */
+    .thanks-body { padding: 40px 24px; gap: 20px; }
+    .thanks-title { font-size: clamp(48px, 12vw, 72px); }
+    .thanks-sub { font-size: 15px; }
+    .thanks-cta { flex-direction: column; width: 100%; }
+    .cta-btn { justify-content: center; width: 100%; }
+
+    /* TOC */
     .toc-panel { width: 100%; }
     .toc-entry { min-height: 44px; }
+  }
+
+/* ========== PHONE (<= 480px) — tighter still ========== */
+  @media (max-width: 480px) {
+    /* Keep bottom padding so the fixed nav pill does not overlap the slide footer */
+    .stage { padding: 12px 12px 88px; }
+    .slide { min-height: calc(100vh - 100px); }
+    .slide-inner { padding: 18px 16px 16px; min-height: calc(100vh - 100px); }
+    .cover .slide-inner { padding: 18px 16px 16px; }
+    .brand { gap: 8px; }
+    /* Keep header-meta pinned to top-right on the smallest phones — do not wrap to a second row */
+    .header-meta { flex-basis: auto; justify-content: flex-end; }
+    .cover-title { font-size: clamp(28px, 10vw, 38px); }
+    .cover-sub { font-size: 12.5px; line-height: 1.5; }
+    .cover-chip { font-size: 11px; padding: 6px 10px; }
+    .cover-chip .num { font-size: 11px; }
+    .ts-legend { padding: 10px 12px; }
+    .ts-legend-title { font-size: 9px; }
+    .slide-title { font-size: clamp(18px, 5.5vw, 22px); }
+    .ps-label { font-size: 10px; }
+    .ps-text { font-size: 12px; line-height: 1.45; }
+    .divider-left { padding: 32px 20px; }
+    .divider-stat .v { font-size: 40px; }
+    .backlog-item { padding: 12px 14px; gap: 10px; }
+    .backlog-item-title { font-size: 13px; }
+    .nav { bottom: 10px; }
+    .nav-btn { width: 32px; height: 32px; }
+    .toc-nav-btn { width: 32px; height: 32px; }
+    .backlog-link .count { font-size: 9px; }
   }
 
   @media print {
@@ -1159,6 +1383,15 @@
   <span id="toastText">Copied to clipboard</span>
 </div>
 
+
+<div class="lightbox" id="lightbox" role="dialog" aria-label="Enlarged image" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <img id="lightboxImg" alt="" />
+  <div class="lightbox-caption" id="lightboxCaption" style="display:none;"></div>
+</div>
+
 <nav class="nav">
   <button class="nav-btn" id="prevBtn" aria-label="Previous slide">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1170,8 +1403,11 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
   <div class="nav-jump">
-    <button class="jump-btn" data-jump="0">Start</button>
-    <button class="jump-btn" data-jump="end">End</button>
+    <button class="nav-backlog-toggle" id="navBacklogToggle" aria-label="Add current slide to backlog" title="Add current slide to backlog">
+      <span class="plus-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+      <span class="check-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      <span class="label" id="navBacklogLabel">Add</span>
+    </button>
     <button class="backlog-link" id="backlogLink" disabled>
       Backlog <span class="count" id="backlogCount">0</span>
     </button>
@@ -1929,8 +2165,53 @@ function attachImageFallbacks() {
           <p>View at virtocommerce.org</p>
         </div>`;
     }, { once: true });
+    // Tap image to open the fullscreen lightbox
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => openLightbox(img));
   });
 }
+
+/* ---------------- IMAGE LIGHTBOX ---------------- */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCaption = document.getElementById('lightboxCaption');
+const lightboxClose = document.getElementById('lightboxClose');
+let lightboxOpen = false;
+let lightboxLastFocus = null;
+
+function openLightbox(img) {
+  lightboxImg.src = img.currentSrc || img.src;
+  lightboxImg.alt = img.alt || '';
+  const cap = img.parentElement.querySelector('.visual-caption');
+  if (cap && cap.textContent.trim()) {
+    lightboxCaption.textContent = cap.textContent.trim();
+    lightboxCaption.style.display = 'block';
+  } else {
+    lightboxCaption.style.display = 'none';
+  }
+  lightboxLastFocus = document.activeElement;
+  lightbox.classList.add('open');
+  lightbox.setAttribute('aria-hidden', 'false');
+  lightboxOpen = true;
+  document.body.style.overflow = 'hidden';
+  lightboxClose.focus();
+}
+
+function closeLightbox() {
+  if (!lightboxOpen) return;
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  lightboxOpen = false;
+  document.body.style.overflow = '';
+  if (lightboxLastFocus && lightboxLastFocus.focus) lightboxLastFocus.focus();
+}
+
+lightbox.addEventListener('click', (e) => {
+  // Close on backdrop click (not when the image itself is clicked)
+  if (e.target === lightbox || e.target === lightboxCaption) closeLightbox();
+});
+lightboxClose.addEventListener('click', closeLightbox);
+
 
 /* ---------------- BACKLOG STATE ---------------- */
 const backlog = new Set(); // stores slide indices
@@ -1960,8 +2241,34 @@ function updateBacklogChrome() {
     btn.classList.toggle('added', backlog.has(i));
   });
   // Re-render backlog list if visible
+  // Sync the mobile nav-pill Add-to-backlog toggle to the current slide
+  syncNavBacklogToggle();
   renderBacklogList();
 }
+
+const navBacklogToggle = document.getElementById('navBacklogToggle');
+const navBacklogLabel = document.getElementById('navBacklogLabel');
+
+function syncNavBacklogToggle() {
+  const s = slides[currentIndex];
+  if (!s || !s.size || s.type) {
+    navBacklogToggle.disabled = true;
+    navBacklogToggle.classList.remove('added');
+    navBacklogLabel.textContent = 'Add';
+    return;
+  }
+  navBacklogToggle.disabled = false;
+  const inList = backlog.has(currentIndex);
+  navBacklogToggle.classList.toggle('added', inList);
+  navBacklogLabel.textContent = inList ? 'Added' : 'Add';
+  navBacklogToggle.title = inList ? 'Remove from backlog' : 'Add current slide to backlog';
+}
+
+navBacklogToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  toggleCurrentInBacklog();
+});
+
 
 function renderBacklogList() {
   const list = document.getElementById('backlogList');
@@ -2134,6 +2441,9 @@ function showSlide(i) {
   });
   document.getElementById('currentSlide').textContent = String(i+1).padStart(2,'0');
   document.getElementById('progressBar').style.width = `${((i+1)/totalSlides)*100}%`;
+  // Sync mobile Add-to-backlog toggle and reset scroll for the new slide
+  syncNavBacklogToggle();
+  window.scrollTo(0, 0);
   document.getElementById('prevBtn').disabled = i === 0;
   document.getElementById('nextBtn').disabled = i === totalSlides - 1;
   // Re-render backlog list whenever we land on the backlog slide
@@ -2144,12 +2454,7 @@ function showSlide(i) {
 
 document.getElementById('prevBtn').addEventListener('click', () => showSlide(currentIndex - 1));
 document.getElementById('nextBtn').addEventListener('click', () => showSlide(currentIndex + 1));
-document.querySelectorAll('.jump-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.jump;
-    showSlide(target === 'end' ? totalSlides - 1 : 0);
-  });
-});
+
 
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
@@ -2195,7 +2500,8 @@ document.addEventListener('keydown', (e) => {
   } else if (e.key === 't' || e.key === 'T') {
     toggleToc();
   } else if (e.key === 'Escape') {
-    closeToc();
+    if (lightboxOpen) closeLightbox();
+    else closeToc();
   }
 });
 
