@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Virto Commerce — Interactive Release Notes</title>
+<meta name="description" content="Interactive, self-contained HTML presentations of every Virto Commerce monthly release. Business-first ordering, T-shirt sizing, backlog builder, and Markdown export." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="icon" href="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" />
+<style>
+  :root {
+    --virto-navy: #07254A;
+    --virto-navy-2: #0B3270;
+    --virto-blue: #2B7FFF;
+    --virto-blue-2: #1A6CFF;
+    --virto-cyan: #38BDF8;
+    --virto-accent: #FF6A3D;
+    --virto-gold: #FBBF24;
+    --virto-bg: #F4F7FB;
+    --virto-bg-2: #EAF1FA;
+    --virto-white: #FFFFFF;
+    --virto-text: #0F172A;
+    --virto-muted: #5B6B82;
+    --virto-line: #DCE5F1;
+    --shadow-soft: 0 10px 40px -12px rgba(7, 37, 74, 0.15);
+    --shadow-lift: 0 20px 60px -18px rgba(7, 37, 74, 0.28);
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  html, body { min-height: 100%; }
+  body {
+    background: var(--virto-bg);
+    color: var(--virto-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  /* ================= TOP BAR ================= */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--virto-line);
+  }
+  .topbar-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--virto-navy);
+    font-weight: 700;
+  }
+  .brand img {
+    width: 32px; height: 32px; border-radius: 8px;
+  }
+  .brand-name { font-size: 15px; letter-spacing: -0.2px; }
+  .brand-sub {
+    font-size: 10px; color: var(--virto-muted);
+    text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
+    margin-top: 1px;
+  }
+  .topbar-links { display: flex; align-items: center; gap: 14px; }
+  .topbar-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--virto-navy);
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: background 0.15s;
+  }
+  .topbar-link:hover { background: var(--virto-bg-2); }
+  .topbar-link.primary {
+    background: var(--virto-navy); color: white;
+  }
+  .topbar-link.primary:hover { background: var(--virto-navy-2); }
+
+  /* ================= HERO ================= */
+  .hero {
+    position: relative; overflow: hidden;
+    background:
+      radial-gradient(ellipse at top right, rgba(43, 127, 255, 0.20), transparent 55%),
+      radial-gradient(ellipse at bottom left, rgba(56, 189, 248, 0.16), transparent 55%),
+      linear-gradient(135deg, #07254A 0%, #0B3270 50%, #07254A 100%);
+    color: white;
+    padding: 80px 32px 100px;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.3fr 1fr;
+    gap: 60px; align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--virto-cyan);
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 2.5px;
+    margin-bottom: 20px;
+  }
+  .hero-eyebrow::before {
+    content: ""; width: 28px; height: 1.5px; background: var(--virto-cyan);
+  }
+  .hero h1 {
+    font-size: clamp(36px, 5.2vw, 60px);
+    font-weight: 800; line-height: 1.02; letter-spacing: -2px;
+    margin-bottom: 20px;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(90deg, #38BDF8, #FFFFFF);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p {
+    font-size: 17px; line-height: 1.6;
+    color: rgba(255,255,255,0.82);
+    max-width: 560px; font-weight: 300;
+    margin-bottom: 30px;
+  }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-weight: 600; font-size: 14px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-primary { background: var(--virto-blue); color: white; border-color: var(--virto-blue); }
+  .btn-primary:hover { background: var(--virto-blue-2); transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(43,127,255,0.6); }
+  .btn-ghost { background: transparent; color: white; border-color: rgba(255,255,255,0.3); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.5); }
+
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 4/3;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.15);
+    overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.5);
+  }
+  .hero-visual::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(251,191,36,0.25), transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(43,127,255,0.35), transparent 45%);
+  }
+  .hero-visual-cards {
+    position: absolute; inset: 24px;
+    display: flex; flex-direction: column; gap: 12px; justify-content: center;
+  }
+  .hv-card {
+    background: rgba(255,255,255,0.10);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 12px;
+    color: white; font-size: 13px;
+  }
+  .hv-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 22px; border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; color: white;
+    flex-shrink: 0;
+  }
+  .hv-badge.s { background: #22C55E; }
+  .hv-badge.m { background: #FBBF24; }
+  .hv-badge.l { background: #F97316; }
+  .hv-badge.wow { background: rgba(251,191,36,0.25); color: #FBBF24; width: auto; padding: 0 8px; font-size: 10px; }
+  .hv-title { flex: 1; font-weight: 500; letter-spacing: -0.2px; }
+  .hv-cat { font-size: 10px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 1.2px; }
+
+  /* ================= SECTION ================= */
+  section { padding: 80px 32px; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-head { margin-bottom: 40px; }
+  .section-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--virto-blue);
+    font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .section-eyebrow::before {
+    content: ""; width: 22px; height: 1.5px; background: var(--virto-blue);
+  }
+  .section-head h2 {
+    font-size: clamp(28px, 3.4vw, 40px);
+    font-weight: 800; letter-spacing: -1.2px;
+    color: var(--virto-navy);
+    line-height: 1.1;
+    max-width: 720px;
+  }
+  .section-head p {
+    font-size: 16px; color: var(--virto-muted);
+    max-width: 640px;
+    margin-top: 12px;
+  }
+
+  /* ================= LATEST RELEASE SPOTLIGHT ================= */
+  .spotlight {
+    background: white;
+    border: 1px solid var(--virto-line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    display: grid; grid-template-columns: 1.15fr 1fr;
+    gap: 0;
+  }
+  .spotlight-body { padding: 44px 44px 40px; display: flex; flex-direction: column; gap: 18px; }
+  .spotlight-eyebrow {
+    color: var(--virto-blue);
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .spotlight-eyebrow::before {
+    content: ""; width: 20px; height: 1.5px; background: var(--virto-blue);
+  }
+  .spotlight h3 {
+    font-size: clamp(28px, 3vw, 38px);
+    font-weight: 800; letter-spacing: -1px;
+    color: var(--virto-navy); line-height: 1.05;
+  }
+  .spotlight h3 .grad {
+    background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .spotlight p {
+    font-size: 15px; color: var(--virto-muted); line-height: 1.6;
+  }
+  .spotlight-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--virto-bg-2);
+    color: var(--virto-navy);
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+  .chip.wow { background: rgba(251,191,36,0.18); color: #B45309; }
+  .chip .num {
+    color: var(--virto-blue); font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .spotlight-cta { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .spotlight-visual {
+    background:
+      radial-gradient(ellipse at top right, rgba(43, 127, 255, 0.20), transparent 60%),
+      radial-gradient(ellipse at bottom left, rgba(56, 189, 248, 0.14), transparent 55%),
+      linear-gradient(135deg, #07254A 0%, #0B3270 50%, #07254A 100%);
+    position: relative; overflow: hidden;
+    color: white;
+    padding: 44px;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 20px;
+    min-height: 320px;
+  }
+  .spotlight-visual::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .spotlight-visual > * { position: relative; z-index: 1; }
+  .spotlight-visual .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(251,191,36,0.20);
+    color: #FBBF24;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    width: fit-content;
+  }
+  .spotlight-visual .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(56px, 8vw, 92px);
+    font-weight: 800; line-height: 1;
+    color: white; letter-spacing: -2px;
+  }
+  .spotlight-visual .num .accent {
+    background: linear-gradient(90deg, #FBBF24, #FF6A3D);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .spotlight-visual .label {
+    color: rgba(255,255,255,0.7);
+    font-size: 12px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;
+  }
+
+  /* ================= RELEASES GRID ================= */
+  .releases {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .release-card {
+    background: white;
+    border: 1px solid var(--virto-line);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative; overflow: hidden;
+  }
+  .release-card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan));
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .release-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+    border-color: transparent;
+  }
+  .release-card:hover::before { opacity: 1; }
+  .release-month {
+    display: inline-flex; align-items: baseline; gap: 8px;
+  }
+  .release-month .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--virto-muted);
+    letter-spacing: 1px;
+  }
+  .release-month h3 {
+    font-size: 22px; font-weight: 800; color: var(--virto-navy);
+    letter-spacing: -0.5px;
+  }
+  .release-tags {
+    display: flex; gap: 6px; flex-wrap: wrap; min-height: 22px;
+  }
+  .tag-mini {
+    font-size: 10px; font-weight: 700;
+    color: var(--virto-blue);
+    background: rgba(43,127,255,0.10);
+    padding: 3px 8px; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .tag-mini.wow { color: #B45309; background: rgba(251,191,36,0.18); }
+  .release-sub {
+    font-size: 13px; color: var(--virto-muted); line-height: 1.5;
+    flex: 1;
+  }
+  .release-links {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1px solid var(--virto-line);
+  }
+  .release-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600;
+    color: var(--virto-blue);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: rgba(43,127,255,0.08);
+    transition: background 0.15s;
+  }
+  .release-link:hover { background: rgba(43,127,255,0.14); }
+  .release-link.ghost { color: var(--virto-muted); background: transparent; }
+  .release-link.ghost:hover { background: var(--virto-bg-2); }
+
+  /* ================= PRESENTATIONS ================= */
+  .pres-list { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .pres-card {
+    background: white;
+    border: 1px solid var(--virto-line);
+    border-radius: var(--radius);
+    padding: 28px;
+    display: flex; gap: 18px; align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none; color: inherit;
+  }
+  .pres-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+  .pres-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--virto-blue), var(--virto-navy));
+    display: flex; align-items: center; justify-content: center;
+    color: white; flex-shrink: 0;
+    box-shadow: 0 10px 20px -8px rgba(43,127,255,0.45);
+  }
+  .pres-body { flex: 1; min-width: 0; }
+  .pres-body h3 {
+    font-size: 17px; color: var(--virto-navy); font-weight: 700; letter-spacing: -0.3px;
+  }
+  .pres-body p {
+    font-size: 13px; color: var(--virto-muted); margin-top: 4px; line-height: 1.5;
+  }
+  .pres-arrow {
+    color: var(--virto-blue); flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+  .pres-card:hover .pres-arrow { transform: translateX(4px); }
+
+  /* ================= FEATURES ================= */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .feature {
+    background: white;
+    border: 1px solid var(--virto-line);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .feature-icon {
+    width: 44px; height: 44px; border-radius: 11px;
+    background: var(--virto-bg-2);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--virto-blue);
+    margin-bottom: 4px;
+  }
+  .feature h4 {
+    font-size: 15px; color: var(--virto-navy); font-weight: 700;
+  }
+  .feature p {
+    font-size: 13px; color: var(--virto-muted); line-height: 1.5;
+  }
+  .feature code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    background: var(--virto-bg-2);
+    color: var(--virto-navy);
+    padding: 1px 5px; border-radius: 4px;
+  }
+
+  /* ================= CTA STRIP ================= */
+  .cta-strip {
+    background: linear-gradient(135deg, #07254A 0%, #0B3270 100%);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap;
+    color: white;
+    position: relative; overflow: hidden;
+  }
+  .cta-strip::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 90% 20%, rgba(251,191,36,0.2), transparent 40%),
+      radial-gradient(circle at 10% 80%, rgba(56,189,248,0.25), transparent 45%);
+  }
+  .cta-strip > * { position: relative; z-index: 1; }
+  .cta-strip h2 {
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 800; letter-spacing: -0.8px;
+    line-height: 1.15;
+  }
+  .cta-strip p {
+    color: rgba(255,255,255,0.75);
+    font-size: 14px;
+    max-width: 500px;
+    margin-top: 8px;
+  }
+
+  /* ================= FOOTER ================= */
+  footer {
+    padding: 48px 32px 40px;
+    background: var(--virto-navy);
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px;
+  }
+  .footer-brand-name { color: white; font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+  footer h4 {
+    color: white; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+  footer a:hover { color: white; }
+  footer ul { list-style: none; }
+  footer li { margin-bottom: 6px; }
+  .footer-legal {
+    max-width: 1200px; margin: 32px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    font-size: 11px; color: rgba(255,255,255,0.5);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 960px) {
+    .hero { padding: 60px 24px 80px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { max-width: 520px; margin: 0 auto; }
+    section { padding: 60px 24px; }
+    .spotlight { grid-template-columns: 1fr; }
+    .spotlight-body { padding: 32px 28px; }
+    .spotlight-visual { padding: 32px 28px; min-height: 220px; }
+    .pres-list { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .cta-strip { padding: 32px; }
+  }
+
+  @media (max-width: 640px) {
+    .topbar-inner { padding: 12px 20px; }
+    .brand-name { font-size: 13px; }
+    .brand-sub { display: none; }
+    .topbar-link { padding: 6px 10px; font-size: 12px; }
+    .hero { padding: 50px 20px 60px; }
+    .hero p { font-size: 15px; }
+    section { padding: 48px 20px; }
+    .section-head { margin-bottom: 28px; }
+    .releases { grid-template-columns: 1fr; gap: 14px; }
+    .release-card { padding: 20px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    footer { padding: 40px 20px 32px; }
+    .cta-strip { padding: 28px 24px; text-align: center; justify-content: center; }
+    .cta-strip .cta-actions { width: 100%; justify-content: center; display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn { padding: 12px 20px; font-size: 13px; }
+    .hero-cta { justify-content: flex-start; }
+    .spotlight-visual { min-height: 180px; }
+    .spotlight-visual .num { font-size: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================ TOP BAR ============================ -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="./">
+      <img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce" />
+      <div>
+        <div class="brand-name">Virto Commerce</div>
+        <div class="brand-sub">Release Notes</div>
+      </div>
+    </a>
+    <nav class="topbar-links">
+      <a class="topbar-link" href="#releases">Releases</a>
+      <a class="topbar-link" href="#presentations">Presentations</a>
+      <a class="topbar-link" href="#features">Features</a>
+      <a class="topbar-link primary" href="https://github.com/VirtoCommerce/vc-release-notes" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.4-1.34-1.78-1.34-1.78-1.1-.75.08-.74.08-.74 1.21.09 1.85 1.24 1.85 1.24 1.07 1.84 2.82 1.31 3.51 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z"/></svg>
+        GitHub
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero" style="padding-top: 100px;">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Interactive · Self-Contained · Mobile-Ready</div>
+      <h1>
+        Virto Commerce<br/>
+        <span class="grad">release decks</span>
+      </h1>
+      <p>
+        Every monthly release, rendered as an interactive slide deck.
+        Product, engineering, and business stakeholders review what shipped,
+        mark features for their own backlog, then export a ready-to-paste
+        Markdown table for Jira, Linear, or GitHub Issues.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="./2026-07/">
+          Latest release · July 2026
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#releases">Browse archive</a>
+      </div>
+    </div>
+
+    <!-- Sample slide card visual -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-visual-cards">
+        <div class="hv-card">
+          <span class="hv-badge wow">★ WOW</span>
+          <div class="hv-title">
+            Stable 15 — .NET 10 + PostgreSQL 18
+            <div class="hv-cat">Platform · v3-2026-S15</div>
+          </div>
+          <span class="hv-badge l">L</span>
+        </div>
+        <div class="hv-card">
+          <span class="hv-badge wow">★ WOW</span>
+          <div class="hv-title">
+            Inline Skyflow &amp; Authorize.Net checkout
+            <div class="hv-cat">Payments · Frontend 2.51.0</div>
+          </div>
+          <span class="hv-badge m">M</span>
+        </div>
+        <div class="hv-card">
+          <span class="hv-badge wow">★ WOW</span>
+          <div class="hv-title">
+            Virto OZ in the Operator Portal
+            <div class="hv-cat">Marketplace · AI</div>
+          </div>
+          <span class="hv-badge m">M</span>
+        </div>
+        <div class="hv-card">
+          <div class="hv-title">
+            Loyalty catalog browsing
+            <div class="hv-cat">Loyalty · 3.1003.0</div>
+          </div>
+          <span class="hv-badge s">S</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ LATEST SPOTLIGHT ============================ -->
+<section id="releases">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-eyebrow">Latest release</div>
+      <h2>July 2026 — Stable 15 lands</h2>
+      <p>56 production-validated modules on .NET 10 with PostgreSQL 18. Plus inline checkout, mixed-currency loyalty, and AI in the Operator Portal.</p>
+    </div>
+
+    <article class="spotlight">
+      <div class="spotlight-body">
+        <span class="spotlight-eyebrow">July 2026 — 25 slides</span>
+        <h3>The biggest platform jump in <span class="grad">bundle history</span></h3>
+        <p>
+          Stable 15 consolidates months of work — deepened configurable products, matured Page Builder,
+          sharpened catalog tooling, security hardening, and data-resilience improvements all ship together.
+          Loyalty payments end-to-end, GA4-aligned analytics, dynamic prerender for SPA SEO, and VC-Shell 2.1.0.
+        </p>
+        <div class="spotlight-chips">
+          <span class="chip wow"><span>★</span> 7 WOW features</span>
+          <span class="chip"><span class="num">S15</span> Stable 15 bundle</span>
+          <span class="chip"><span class="num">.NET 10</span> + PostgreSQL 18</span>
+          <span class="chip"><span class="num">56</span> production modules</span>
+        </div>
+        <div class="spotlight-cta">
+          <a class="btn btn-primary" href="./2026-07/">
+            Open the deck
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="https://www.virtocommerce.org/t/virto-s-release-notes-july-2026/857" target="_blank" rel="noopener" style="color: var(--virto-navy); border-color: var(--virto-line);">
+            Source notes
+          </a>
+        </div>
+      </div>
+      <div class="spotlight-visual">
+        <span class="tag">★ Stable 15 Edition</span>
+        <div>
+          <div class="num"><span class="accent">07</span> · 2026</div>
+          <div class="label" style="margin-top: 12px;">Release Notes · July</div>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <span class="hv-badge s">S</span>
+          <span class="hv-badge m">M</span>
+          <span class="hv-badge l">L</span>
+          <span style="color: rgba(255,255,255,0.55); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; align-self: center;">T-shirt sizing</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ RELEASES ARCHIVE ============================ -->
+<section style="background: var(--virto-bg-2); padding-top: 60px;">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-eyebrow">Archive</div>
+      <h2>Every monthly release</h2>
+      <p>Chronological archive of Virto Commerce releases. Each deck is a self-contained HTML file — open it, mark features you want in your backlog, and export a ready-to-paste Markdown list.</p>
+    </div>
+
+    <div class="releases">
+      <!-- July -->
+      <div class="release-card">
+        <div class="release-month">
+          <span class="num">07 · 2026</span>
+        </div>
+        <h3 style="font-size: 22px; font-weight: 800; color: var(--virto-navy); letter-spacing: -0.5px;">July 2026</h3>
+        <div class="release-tags">
+          <span class="tag-mini wow">★ Stable 15</span>
+          <span class="tag-mini">25 slides</span>
+        </div>
+        <div class="release-sub">Stable 15 bundle (.NET 10 + PostgreSQL 18), inline checkout, loyalty payments, Virto OZ in Operator Portal.</div>
+        <div class="release-links">
+          <a class="release-link" href="./2026-07/">Open deck →</a>
+          <a class="release-link ghost" href="https://www.virtocommerce.org/t/virto-s-release-notes-july-2026/857" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+
+      <!-- June -->
+      <div class="release-card">
+        <div class="release-month"><span class="num">06 · 2026</span></div>
+        <h3 style="font-size: 22px; font-weight: 800; color: var(--virto-navy); letter-spacing: -0.5px;">June 2026</h3>
+        <div class="release-tags">
+          <span class="tag-mini wow">★ SOC 2</span>
+          <span class="tag-mini">38 slides</span>
+        </div>
+        <div class="release-sub">SOC 2 Type 2 renewal, Login on Behalf, AES-256 backups, session invalidation, VC-Shell 2.0.0 stable.</div>
+        <div class="release-links">
+          <a class="release-link" href="./2026-06/">Open deck →</a>
+          <a class="release-link ghost" href="https://www.virtocommerce.org/t/virto-s-release-notes-june-2026/854" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+
+      <!-- May -->
+      <div class="release-card">
+        <div class="release-month"><span class="num">05 · 2026</span></div>
+        <h3 style="font-size: 22px; font-weight: 800; color: var(--virto-navy); letter-spacing: -0.5px;">May 2026</h3>
+        <div class="release-tags">
+          <span class="tag-mini wow">★ Comics Edition</span>
+          <span class="tag-mini">44 slides</span>
+        </div>
+        <div class="release-sub">WCAG 2.2 AA, /vc-app AI skill, OpenSearch + Azure App Config + System Ops modules, dark-mode themes.</div>
+        <div class="release-links">
+          <a class="release-link" href="./2026-05/">Open deck →</a>
+          <a class="release-link ghost" href="https://www.virtocommerce.org/t/virto-s-release-notes-may-2026-comics-edition/849/" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+
+      <!-- April -->
+      <div class="release-card">
+        <div class="release-month"><span class="num">04 · 2026</span></div>
+        <h3 style="font-size: 22px; font-weight: 800; color: var(--virto-navy); letter-spacing: -0.5px;">April 2026</h3>
+        <div class="release-tags">
+          <span class="tag-mini">43 slides</span>
+        </div>
+        <div class="release-sub">Coupons hub, Virto OZ CSV product creation, dark-mode Mercury &amp; Coffee, shareable variant links, Sanity CMS.</div>
+        <div class="release-links">
+          <a class="release-link" href="./2026-04/">Open deck →</a>
+          <a class="release-link ghost" href="https://www.virtocommerce.org/t/virto-s-release-notes-april-2026/847" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+
+      <!-- March -->
+      <div class="release-card">
+        <div class="release-month"><span class="num">03 · 2026</span></div>
+        <h3 style="font-size: 22px; font-weight: 800; color: var(--virto-navy); letter-spacing: -0.5px;">March 2026</h3>
+        <div class="release-tags">
+          <span class="tag-mini">31 slides</span>
+        </div>
+        <div class="release-sub">.NET 10 preview, marketplace vendor portal, configurable product improvements, catalog performance.</div>
+        <div class="release-links">
+          <a class="release-link" href="./2026-03/">Open deck →</a>
+          <a class="release-link ghost" href="https://www.virtocommerce.org/t/virto-s-release-notes-march-2026/839" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+
+      <!-- February -->
+      <div class="release-card">
+        <div class="release-month"><span class="num">02 · 2026</span></div>
+        <h3 style="font-size: 22px; font-weight: 800; color: var(--virto-navy); letter-spacing: -0.5px;">February 2026</h3>
+        <div class="release-tags">
+          <span class="tag-mini">23 slides</span>
+        </div>
+        <div class="release-sub">Cart improvements, order updates, promotions engine, storefront refinements.</div>
+        <div class="release-links">
+          <a class="release-link" href="./2026-02/">Open deck →</a>
+          <a class="release-link ghost" href="https://www.virtocommerce.org/t/virto-s-release-notes-february-2026/834" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+
+      <!-- January -->
+      <div class="release-card">
+        <div class="release-month"><span class="num">01 · 2026</span></div>
+        <h3 style="font-size: 22px; font-weight: 800; color: var(--virto-navy); letter-spacing: -0.5px;">January 2026</h3>
+        <div class="release-tags">
+          <span class="tag-mini">17 slides</span>
+        </div>
+        <div class="release-sub">The first monthly release of the year — kickoff themes and platform groundwork for 2026.</div>
+        <div class="release-links">
+          <a class="release-link" href="./2026-01/">Open deck →</a>
+          <a class="release-link ghost" href="https://www.virtocommerce.org/t/virto-s-release-notes-january-2026/821" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PRESENTATIONS ============================ -->
+<section id="presentations">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-eyebrow">Strategic decks</div>
+      <h2>Additional presentations</h2>
+      <p>Deeper dives for specific audiences — release strategy, adoption guides, and cross-cutting themes.</p>
+    </div>
+
+    <div class="pres-list">
+      <a class="pres-card" href="./presentations/release-strategy-for-business-users.html">
+        <div class="pres-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="pres-body">
+          <h3>Release Strategy for Business Users</h3>
+          <p>How Virto Commerce ships — modules, bundles, cadence, and what it means for your roadmap.</p>
+        </div>
+        <svg class="pres-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FEATURES ============================ -->
+<section id="features" style="background: var(--virto-bg-2);">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-eyebrow">What's inside every deck</div>
+      <h2>Built for decision-making, not slideshows</h2>
+      <p>Every deck follows the same interactive pattern — designed so product, engineering, and business stakeholders can review what shipped and turn it into a concrete backlog in minutes.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h4>Business-first ordering</h4>
+        <p>"WOW Business Features" always come first with a golden divider. Executives and PMs get impact up front, not buried under platform notes.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <h4>T-shirt sizing</h4>
+        <p><code>S</code> · <code>M</code> · <code>L</code> per feature. Estimates integration complexity, not calendar time — your team's context decides the days.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h4>Backlog export</h4>
+        <p>Tap <strong>+ Add to backlog</strong> on any feature, hit <strong>Copy as Markdown</strong>, paste straight into Jira, Linear, or GitHub Issues.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h4>Table of contents</h4>
+        <p>Every deck has a slide-out TOC panel — jump between sections, preview features, or navigate by feature title. Press <code>T</code> to open.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h4>Keyboard + touch</h4>
+        <p><code>← →</code> navigate · <code>B</code> add to backlog · <code>F</code> fullscreen · <code>T</code> contents. Swipe left/right on mobile. Tap any image to zoom.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h4>Zero dependencies</h4>
+        <p>Pure HTML/CSS/JS in a single file. Clone, open, or drop on Netlify. No build, no framework, no CDN scripts required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CTA STRIP ============================ -->
+<section>
+  <div class="section-inner">
+    <div class="cta-strip">
+      <div>
+        <h2>Ready to plan your roadmap?</h2>
+        <p>Open the latest deck, mark the features that matter for your team, export a Markdown backlog, ship it into your tracker.</p>
+      </div>
+      <div class="cta-actions" style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a class="btn btn-primary" href="./2026-07/">Open July 2026</a>
+        <a class="btn btn-ghost" href="https://github.com/VirtoCommerce/vc-release-notes" target="_blank" rel="noopener">Star on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Virto Commerce · Release Notes</div>
+      <p>Interactive, self-contained release-note decks for every monthly Virto Commerce update. Based on the official release posts on the Virto community forum.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="https://virtocommerce.com/" target="_blank" rel="noopener">virtocommerce.com</a></li>
+        <li><a href="https://www.virtocommerce.org/" target="_blank" rel="noopener">Community forum</a></li>
+        <li><a href="https://docs.virtocommerce.org/" target="_blank" rel="noopener">Documentation</a></li>
+        <li><a href="https://www.virtocommerce.org/c/news-digest/15" target="_blank" rel="noopener">All release notes</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Repository</h4>
+      <ul>
+        <li><a href="https://github.com/VirtoCommerce/vc-release-notes" target="_blank" rel="noopener">GitHub source</a></li>
+        <li><a href="https://github.com/VirtoCommerce/vc-release-notes/blob/main/prompts/release-notes-presentation-prompt.md" target="_blank" rel="noopener">Deck prompt</a></li>
+        <li><a href="https://github.com/VirtoCommerce/vc-release-notes/issues" target="_blank" rel="noopener">Report an issue</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-legal">
+    <span>© Virto Solutions LTD · Virto Commerce Open Software License</span>
+    <span><a href="http://virtocommerce.com/opensourcelicense" target="_blank" rel="noopener">License terms</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
