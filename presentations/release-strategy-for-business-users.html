@@ -505,9 +505,7 @@
   .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
   .nav-progress { display: flex; align-items: center; gap: 6px; padding: 0 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--virto-navy); font-weight: 600; }
   .nav-progress .total { color: var(--virto-muted); font-weight: 400; }
-  .nav-jump { border-left: 1px solid var(--virto-line); padding-left: 12px; display: flex; gap: 4px; }
-  .jump-btn { background: transparent; border: none; cursor: pointer; padding: 6px 10px; font-size: 11px; color: var(--virto-muted); text-transform: uppercase; letter-spacing: 1px; border-radius: 6px; font-weight: 600; transition: all 0.2s; }
-  .jump-btn:hover { background: var(--virto-bg-2); color: var(--virto-navy); }
+  .nav-jump { border-left: 1px solid var(--virto-line); padding-left: 12px; display: flex; gap: 6px; align-items: center; }
 
   .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan)); transition: width 0.3s ease; z-index: 200; box-shadow: 0 0 12px rgba(43,127,255,0.5); }
 
@@ -865,24 +863,108 @@
   .svc-card.preview { border-color: rgba(56,189,248,0.55); background: linear-gradient(135deg, rgba(56,189,248,0.08), white); }
   .svc-card.preview .svc-ic { background: rgba(56,189,248,0.18); color: #0369A1; }
 
+  /* ========== TABLET (<= 900px) ========== */
   @media (max-width: 900px) {
-    .slide-body { grid-template-columns: 1fr; gap: 16px; padding: 16px 0; overflow-y: auto; }
-    .visual-col { min-height: 200px; max-height: 280px; }
+    /* Let the page scroll vertically when slide content is taller than the viewport */
+    html, body { overflow-x: hidden; overflow-y: auto; height: auto; }
+    /* Stage is a normal-flow container, not a fixed overlay */
+    .stage {
+      position: static;
+      inset: auto;
+      display: block;
+      padding: 16px 16px 96px;
+      min-height: 100vh;
+    }
+    /* Only the active slide participates in the layout — no more absolute stacking on mobile */
+    .slide {
+      display: none;
+      position: static;
+      width: 100%;
+      height: auto;
+      min-height: calc(100vh - 112px);
+      max-height: none;
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+      transition: none;
+      pointer-events: auto;
+    }
+    .slide.active { display: block; }
+    /* Grid columns constrained to container width — prevents header overflow */
+    .slide-inner {
+      height: auto;
+      min-height: calc(100vh - 112px);
+      padding: 22px 22px 20px;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto auto;
+    }
+    /* Content flows naturally — no internal scroll containers, page scrolls instead */
+    .slide-body { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 14px 0; overflow: visible; max-height: none; min-width: 0; min-height: 0; }
+    .visual-col { min-height: 160px; max-height: none; min-width: 0; flex-direction: column; padding: 12px; gap: 8px; }
+    .visual-col img { max-width: 100%; max-height: 55vh; width: auto; }
     .diagram-col { min-height: auto; max-height: none; }
-    .slide-inner { padding: 22px 26px; }
-    .divider-body { grid-template-columns: 1fr; }
+
+    /* Header: brand on the left, meta pinned right, single row */
+    .slide-header { flex-wrap: nowrap; padding-bottom: 10px; gap: 8px; align-items: center; }
+    .brand-text .b2 { display: none; }
+    .brand-mark { width: 32px; height: 32px; flex-shrink: 0; }
+    .brand-text .b1 { font-size: 13px; }
+    .header-meta { gap: 6px; font-size: 10px; letter-spacing: 1px; flex-shrink: 0; margin-left: auto; }
+
+    /* Divider */
+    .divider-body { grid-template-columns: minmax(0, 1fr); }
     .divider-right { display: none; }
-    .divider-left { padding: 36px; }
-    .nav { bottom: 16px; padding: 6px 8px; gap: 6px; }
-    .jump-btn { display: none; }
+    .divider-left { padding: 40px 24px; gap: 16px; }
+
+    /* Cover eyebrow / topic tag wrap safely */
+    .cover-eyebrow { width: auto; max-width: 100%; white-space: normal; font-size: 12px; letter-spacing: 2px; }
+    .cover-title { font-size: clamp(30px, 9vw, 44px); letter-spacing: -1.5px; overflow-wrap: break-word; }
+    .cover-sub { font-size: 13px; max-width: 100%; overflow-wrap: break-word; }
+    .topic-tag { width: auto; max-width: 100%; }
+    .slide-title { font-size: clamp(20px, 5.5vw, 24px); overflow-wrap: break-word; }
+    .ps-block { padding: 2px 0 2px 12px; }
+    .ps-text { font-size: 12.5px; overflow-wrap: break-word; word-break: break-word; }
+    .ps-text code { word-break: break-all; }
+
+    /* Nav pill */
+    .nav { bottom: 12px; padding: 6px 8px; gap: 6px; }
     .nav-jump { border: none; padding: 0; }
     .hint { display: none; }
-    .header-meta { gap: 6px; }
-    .gloss-grid { grid-template-columns: 1fr 1fr; }
+    .progress-bar { height: 2px; }
+
+    /* Presentation-specific grid collapses */
+    .gloss-grid { grid-template-columns: 1fr; }
     .myth-row { grid-template-columns: 1fr; }
     .myth-x { border-right: none; border-bottom: 1px solid var(--virto-line); }
+
+    /* Thanks slide */
+    .thanks-body { padding: 40px 24px; gap: 20px; }
+    .thanks-title { font-size: clamp(48px, 12vw, 72px); }
+    .thanks-sub { font-size: 15px; }
+    .thanks-cta { flex-direction: column; width: 100%; }
+    .cta-btn { justify-content: center; width: 100%; }
+
+    /* TOC */
     .toc-panel { width: 100%; }
     .toc-entry { min-height: 44px; }
+  }
+
+  /* ========== PHONE (<= 480px) — tighter still ========== */
+  @media (max-width: 480px) {
+    .stage { padding: 12px 12px 88px; }
+    .slide { min-height: calc(100vh - 100px); }
+    .slide-inner { padding: 18px 16px 16px; min-height: calc(100vh - 100px); }
+    .brand { gap: 8px; }
+    .header-meta { flex-basis: auto; justify-content: flex-end; }
+    .cover-title { font-size: clamp(28px, 10vw, 38px); }
+    .cover-sub { font-size: 12.5px; line-height: 1.5; }
+    .slide-title { font-size: clamp(18px, 5.5vw, 22px); }
+    .ps-label { font-size: 10px; }
+    .ps-text { font-size: 12px; line-height: 1.45; }
+    .divider-left { padding: 32px 20px; }
+    .nav { bottom: 10px; }
+    .nav-btn { width: 32px; height: 32px; }
+    .toc-nav-btn { width: 32px; height: 32px; }
   }
 
   @media print {
@@ -928,8 +1010,6 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
   <div class="nav-jump">
-    <button class="jump-btn" data-jump="0">Start</button>
-    <button class="jump-btn" data-jump="end">End</button>
     <button class="toc-nav-btn" id="tocToggleNav" aria-label="Table of contents" title="Table of contents (T)">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><rect x="3" y="4.5" width="3" height="3" rx="0.5" fill="currentColor" stroke="none"/><rect x="3" y="10.5" width="3" height="3" rx="0.5" fill="currentColor" stroke="none"/><rect x="3" y="16.5" width="3" height="3" rx="0.5" fill="currentColor" stroke="none"/></svg>
     </button>
@@ -2015,16 +2095,12 @@ function showSlide(i) {
   document.getElementById('prevBtn').disabled = i === 0;
   document.getElementById('nextBtn').disabled = i === totalSlides - 1;
   if (tocOpen) updateTocActive();
+  // Reset page scroll to the top of the newly active slide on mobile
+  window.scrollTo(0, 0);
 }
 
 document.getElementById('prevBtn').addEventListener('click', () => showSlide(currentIndex - 1));
 document.getElementById('nextBtn').addEventListener('click', () => showSlide(currentIndex + 1));
-document.querySelectorAll('.jump-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.jump;
-    showSlide(target === 'end' ? totalSlides - 1 : 0);
-  });
-});
 
 function toggleFullscreen() {
   if (!document.fullscreenElement) document.documentElement.requestFullscreen();
