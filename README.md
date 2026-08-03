@@ -26,6 +26,7 @@ Product, engineering, and business stakeholders review what shipped, mark featur
 
 | Month | Deck | Highlights | Source |
 | :--- | :--- | :--- | :--- |
+| **August 2026** | [📊 Open](https://virtocommerce.github.io/vc-release-notes/2026-08/) | Native MCP for UCP (AI-agent commerce), Sales Rep Hub, engine-agnostic Background Jobs, VC-Shell 2.2.0, vc-fix QA plugin, Paradigm B2B 5-gold | [Notes](https://www.virtocommerce.org/t/virtos-release-notes-august-2026/858/1) |
 | **July 2026** · Stable 15 | [📊 Open](https://virtocommerce.github.io/vc-release-notes/2026-07/) | .NET 10 + PostgreSQL 18, inline checkout, loyalty payments, Virto OZ in Operator Portal | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-july-2026/857) |
 | **June 2026** | [📊 Open](https://virtocommerce.github.io/vc-release-notes/2026-06/) | SOC 2 Type 2 renewal, Login on Behalf, AES-256 backups, VC-Shell 2.0.0 stable | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-june-2026/854) |
 | **May 2026** · Comics Edition | [📊 Open](https://virtocommerce.github.io/vc-release-notes/2026-05/) | WCAG 2.2 AA, `/vc-app` AI skill, OpenSearch + Azure App Config + System Ops modules | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-may-2026-comics-edition/849/) |
