@@ -48,6 +48,16 @@
   }
 
   #bubbles { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .6s ease; }
+  #catEgg { position: fixed; top: 0; left: 0; width: 170px; z-index: 55; pointer-events: none; opacity: 0; transform: translateY(-10px); transition: opacity .35s ease, transform .35s ease; }
+  #catEgg.show { opacity: 1; transform: translateY(0); }
+  #catEgg svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 7px 10px rgba(7,37,74,.28)); }
+  #catEgg .cat-tail { transform-box: view-box; transform-origin: 58px 82px; animation: catWag 2.4s ease-in-out infinite; }
+  @keyframes catWag { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }
+  #catEgg .cat-pupil { transition: transform .12s ease-out; }
+  #catEgg .eyes-closed { display: none; }
+  #catEgg.sleeping .eyes-open { display: none; }
+  #catEgg.sleeping .eyes-closed { display: block; }
+  @media (prefers-reduced-motion: reduce) { #catEgg .cat-tail { animation: none; } }
 
   .stage {
     position: fixed;
@@ -1124,6 +1134,43 @@
 <body>
 
 <canvas id="bubbles" aria-hidden="true"></canvas>
+
+<div id="catEgg" aria-hidden="true">
+  <svg viewBox="0 0 190 112" xmlns="http://www.w3.org/2000/svg">
+    <g class="cat-tail">
+      <path d="M58 84 C26 99 2 76 7 49 C10 32 31 28 35 44 C39 57 26 64 20 53 C23 74 40 90 60 79 Z" fill="#EA9440"/>
+      <path d="M20 51 q6 3 12 0 M15 61 q7 3 13 0 M15 71 q7 3 13 0" stroke="#CE7620" stroke-width="3.4" fill="none" stroke-linecap="round" opacity=".68"/>
+    </g>
+    <ellipse cx="98" cy="82" rx="60" ry="24" fill="#EA9440"/>
+    <ellipse cx="100" cy="92" rx="50" ry="11" fill="#F6C486"/>
+    <path d="M80 60 q6 11 0 22" stroke="#CE7620" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M99 59 q6 12 0 24" stroke="#CE7620" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M118 60 q6 11 0 22" stroke="#CE7620" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="112" cy="103" rx="13" ry="7.5" fill="#F3BC7E"/>
+    <ellipse cx="136" cy="103" rx="13" ry="7.5" fill="#F6C486"/>
+    <path d="M107 100.5 v6 M112.5 101 v6.2 M118 100.5 v6" stroke="#E1A45F" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M131 100.5 v6 M136.5 101 v6.2 M142 100.5 v6" stroke="#E7B06B" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M137 42 L139 18 L157 35 Z" fill="#EA9440"/>
+    <path d="M177 38 L179 15 L160 31 Z" fill="#EA9440"/>
+    <path d="M141 36 L142 25 L152 34 Z" fill="#F4A9A0"/>
+    <path d="M172 34 L174 23 L163 31 Z" fill="#F4A9A0"/>
+    <circle cx="158" cy="60" r="27" fill="#EA9440"/>
+    <path d="M158 35 l0 10" stroke="#CE7620" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <g class="eyes-open">
+      <ellipse cx="150" cy="58" rx="6.6" ry="7.6" fill="#fff"/>
+      <ellipse cx="167" cy="58" rx="6.6" ry="7.6" fill="#fff"/>
+      <g class="cat-pupil"><ellipse cx="150" cy="58" rx="4.6" ry="6.4" fill="#7FB03A"/><ellipse cx="150" cy="58" rx="1.7" ry="5.4" fill="#20180a"/><circle cx="148.3" cy="55.3" r="1.1" fill="#fff" opacity=".9"/></g>
+      <g class="cat-pupil"><ellipse cx="167" cy="58" rx="4.6" ry="6.4" fill="#7FB03A"/><ellipse cx="167" cy="58" rx="1.7" ry="5.4" fill="#20180a"/><circle cx="165.3" cy="55.3" r="1.1" fill="#fff" opacity=".9"/></g>
+    </g>
+    <g class="eyes-closed">
+      <path d="M143 57 q7 6 14 0" stroke="#33240f" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M160 57 q7 6 14 0" stroke="#33240f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <path d="M162 66 l7 0 l-3.5 4.5 Z" fill="#C4626A"/>
+    <path d="M165.5 70 q-3 5 -8 3 M165.5 70 q3 5 8 3" stroke="#33240f" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M150 66 L127 62 M150 71 L127 73 M182 66 L205 62 M182 71 L205 73" stroke="#ffffff" stroke-width="1.5" opacity=".85"/>
+  </svg>
+</div>
 
 <div class="progress-bar" id="progressBar"></div>
 
@@ -2297,7 +2344,7 @@ function renderThanks(idx) {
             Virto runs the infrastructure, operations and SLAs underneath — the ease of a managed cloud <strong>with the SLAs to back it</strong>, and you keep ownership of your solution and your data.
           </p>
           <div class="thanks-cta">
-            <a class="cta-btn" href="https://virtocommerce.com/virto-cloud" target="_blank" rel="noopener">
+            <a class="cta-btn" href="https://virtocommerce.com/virto-commerce-cloud" target="_blank" rel="noopener">
               Virto Cloud
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
@@ -2466,6 +2513,36 @@ tocPanel.addEventListener('touchend', (e) => { if (e.changedTouches[0].screenX -
 render();
 initDemoCarousels();
 initDemoLightbox();
+
+/* ---- hidden toggle: press c → ginger cat naps on the slide's top-right edge ---- */
+(function(){
+  const cat=document.getElementById('catEgg'); if(!cat) return;
+  function place(){
+    const card=document.querySelector('.slide.active')||document.querySelector('.slide');
+    if(!card) return;
+    const r=card.getBoundingClientRect();
+    cat.style.left=Math.round(r.right - cat.offsetWidth - 26)+'px';
+    cat.style.top=Math.round(r.top - cat.offsetHeight + 32)+'px';
+  }
+  const pupils=cat.querySelectorAll('.cat-pupil');
+  const WAKE=250; // px: mouse closer than this wakes the cat
+  addEventListener('mousemove',(ev)=>{
+    if(!cat.classList.contains('show')) return;
+    const r=cat.getBoundingClientRect();
+    const ex=r.left+(158/190)*r.width, ey=r.top+(58/112)*r.height;
+    const dx=ev.clientX-ex, dy=ev.clientY-ey, d=Math.hypot(dx,dy);
+    if(d>WAKE){ cat.classList.add('sleeping'); return; }
+    cat.classList.remove('sleeping');
+    const m=2.6, ox=(dx/(d||1)*m).toFixed(2), oy=(dy/(d||1)*m).toFixed(2);
+    pupils.forEach(p=>{ p.style.transform='translate('+ox+'px,'+oy+'px)'; });
+  });
+  addEventListener('resize',()=>{ if(cat.classList.contains('show')) place(); });
+  addEventListener('keydown',(e)=>{
+    const el=e.target, tag=(el&&el.tagName)||'';
+    if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable)) return;
+    if(e.code==='KeyC'){ if(cat.classList.contains('show')){ cat.classList.remove('show','sleeping'); } else { place(); cat.classList.add('show','sleeping'); } }
+  });
+})();
 
 /* ---- effervescent bubbles (background) — hidden toggle: press b ---- */
 (function(){
