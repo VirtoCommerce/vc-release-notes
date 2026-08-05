@@ -47,6 +47,8 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  #bubbles { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .6s ease; }
+
   .stage {
     position: fixed;
     inset: 0;
@@ -1121,6 +1123,8 @@
 </head>
 <body>
 
+<canvas id="bubbles" aria-hidden="true"></canvas>
+
 <div class="progress-bar" id="progressBar"></div>
 
 <div class="hint">
@@ -1610,7 +1614,7 @@ const SLA_VIS = `<div style="width:100%;display:flex;flex-direction:column;gap:7
   <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--virto-line);border-radius:10px;padding:9px 13px"><span style="font-size:12.5px;font-weight:700;color:var(--virto-navy)">User request</span><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;color:var(--ink-blue)">within 8 business hrs</span></div>
   <div style="margin-top:5px;background:linear-gradient(135deg,var(--virto-navy),var(--virto-navy-2));color:#fff;border-radius:12px;padding:12px 15px;display:flex;align-items:center;justify-content:space-between">
     <span style="font-size:12px;color:#C7DAF2">System availability SLA</span>
-    <span style="font-family:'JetBrains Mono',monospace;font-weight:800;font-size:22px;color:var(--virto-cyan)">&ge;99.5%</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-weight:800;font-size:22px;color:var(--virto-cyan)">99.9%</span>
   </div>
 </div>`;
 
@@ -1667,11 +1671,10 @@ const slides = [
 
   /* ===== SECTION 02 ===== */
   { type:'divider', num:'Section 02  ·  Support & SLAs', title:'The foundation', titleAccent:'you deliver on',
-    desc:'Virto operates the platform 24×7 with contractual response-time and availability SLAs — so you can make firm commitments to your client.',
-    statValue:'≥99.5%', statLabel:'System availability SLA' },
+    desc:'Virto operates the platform 24×7 with contractual response-time and availability SLAs — so you can make firm commitments to your client.' },
   { topic:'Support & SLAs', category:'Support & SLAs', title:'SLA-backed support — <span class="accent">so you can commit</span>', visualHTML: SLA_VIS,
     blocks:[
-      { kind:'a', html:'A follow-the-sun team across <strong>AMER, EMEA and APAC</strong> provides support <strong>09:00–18:00</strong> in your business hours; for <strong>Priority-1</strong> incidents, coverage is <strong>24×7</strong>. Response-time SLAs are shown alongside, with a <strong>≥99.5%</strong> system-availability commitment.' },
+      { kind:'a', html:'A follow-the-sun team across <strong>AMER, EMEA and APAC</strong> provides support <strong>09:00–18:00</strong> in your business hours; for <strong>Priority-1</strong> incidents, coverage is <strong>24×7</strong>. Response-time SLAs are shown alongside, with a <strong>99.9%</strong> system-availability commitment.' },
       { kind:'t', html:'Virto owns the platform layer, so you can promise uptime and response times you know are backed. Priority definitions and legal details are part of the Virto Cloud Support agreement.' }
     ] },
   { type:'stack', category:'Self-service dashboard', eyebrow:'Interactive solution map · one window',
@@ -1821,7 +1824,7 @@ function renderCover() {
             The managed foundation your delivery team builds on. Virto <strong>builds, runs and operates</strong> the infrastructure — with SLAs — so your people stay on <strong>customization and features</strong>, not servers. The flexibility of PaaS with the ease of SaaS.
           </p>
           <div class="cover-highlights">
-            <span class="cover-chip"><span class="num">Weeks→Min</span><span class="lbl">DevOps operations, faster</span></span>
+            <span class="cover-chip"><span class="num">Weeks→Minutes</span><span class="lbl">DevOps operations, faster</span></span>
             <span class="cover-chip"><span class="num">24×7</span><span class="lbl">P1 support</span></span>
             <span class="cover-chip"><span class="num">99.9%</span><span class="lbl">Uptime SLA</span></span>
             <span class="cover-chip"><span class="num">1</span><span class="lbl">Tool 4 All operations</span></span>
@@ -2463,6 +2466,38 @@ tocPanel.addEventListener('touchend', (e) => { if (e.changedTouches[0].screenX -
 render();
 initDemoCarousels();
 initDemoLightbox();
+
+/* ---- effervescent bubbles (background) — hidden toggle: press b ---- */
+(function(){
+  const cv=document.getElementById('bubbles'); if(!cv) return;
+  const ctx=cv.getContext('2d'); if(!ctx) return;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W=0,H=0,dpr=1,bubbles=[],running=false,raf=0,t=0;
+  function mk(init){ const r=1.5+Math.random()*3.2; return {x:Math.random()*W, y: init? Math.random()*H : H+r+Math.random()*30, r, v:.5+Math.random()*1.0, ph:Math.random()*6.28, wob:.3+Math.random()*.6}; }
+  function size(){ dpr=Math.min(2,devicePixelRatio||1); W=innerWidth; H=innerHeight; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+  function seed(){ const n=Math.max(28,Math.round(W/16)); bubbles=Array.from({length:n},()=>mk(true)); }
+  function burst(){ const n=Math.max(18,Math.round(W/26)); for(let i=0;i<n;i++){ const b=mk(false); b.y=H*(0.55+Math.random()*0.45); bubbles.push(b); } }
+  function frame(){
+    ctx.clearRect(0,0,W,H); t+=0.016;
+    for(const b of bubbles){
+      b.y-=b.v; b.x+=Math.sin(t*0.9+b.ph)*b.wob*0.3;
+      if(b.y+b.r<-4) Object.assign(b, mk(false));
+      ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,6.283);
+      ctx.fillStyle='rgba(43,127,255,0.20)'; ctx.fill();
+      ctx.lineWidth=1; ctx.strokeStyle='rgba(56,189,248,0.45)'; ctx.stroke();
+    }
+    if(running && !reduce) raf=requestAnimationFrame(frame);
+  }
+  function start(){ if(running) return; running=true; if(!W) size(); seed(); burst(); cv.style.opacity='1'; frame(); }
+  function stop(){ running=false; cancelAnimationFrame(raf); cv.style.opacity='0'; setTimeout(()=>{ if(!running) ctx.clearRect(0,0,W,H); },650); }
+  function toggle(){ running? stop() : start(); }
+  addEventListener('resize',()=>{ if(running){ size(); seed(); } });
+  addEventListener('keydown',(e)=>{
+    const el=e.target, tag=(el&&el.tagName)||'';
+    if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable)) return;
+    if(e.code==='KeyB') toggle();
+  });
+})();
 renderTocPanel();
 </script>
 </body>
