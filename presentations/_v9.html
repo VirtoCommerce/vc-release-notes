@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Virto Commerce – Integration Capabilities | A Guide for Business Users</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --virto-navy: #07254A;
+    --virto-navy-2: #0B3270;
+    --virto-blue: #2B7FFF;
+    --virto-blue-2: #1A6CFF;
+    --virto-cyan: #38BDF8;
+    --virto-accent: #FF6A3D;
+    --virto-gold: #FBBF24;
+    --virto-bg: #F4F7FB;
+    --virto-bg-2: #EAF1FA;
+    --virto-white: #FFFFFF;
+    --virto-text: #0F172A;
+    --virto-muted: #4F5E78;
+    --virto-line: #DCE5F1;
+    --virto-green: #22C55E;
+    /* AA-passing "ink" colors for small text on white (WCAG 2.1 AA, >=4.5:1) */
+    --ink-blue: #1763D6;
+    --ink-green: #15803D;
+    --ink-gold: #B45309;
+    --ink-orange: #C2410C;
+
+    --shadow-soft: 0 10px 40px -12px rgba(7, 37, 74, 0.18);
+    --shadow-deep: 0 30px 80px -30px rgba(7, 37, 74, 0.35);
+
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--virto-bg);
+    color: var(--virto-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .stage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .slide {
+    position: absolute;
+    width: min(1200px, calc(100vw - 48px));
+    height: min(720px, calc(100vh - 48px));
+    background: var(--virto-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-deep);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(40px) scale(0.98);
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s linear 0.45s;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s linear 0s;
+  }
+
+  .slide-inner {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 36px 50px 24px;
+  }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--virto-gold);
+    gap: 12px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--virto-blue), var(--virto-navy));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 18px;
+    letter-spacing: -0.5px;
+    box-shadow: 0 4px 12px rgba(43, 127, 255, 0.4);
+    overflow: hidden;
+  }
+  .brand-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-text .b1 { font-weight: 700; font-size: 14px; color: var(--virto-navy); letter-spacing: -0.2px; }
+  .brand-text .b2 { font-size: 11px; color: var(--virto-muted); text-transform: uppercase; letter-spacing: 1.2px; }
+  .header-meta {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--virto-muted);
+    text-transform: uppercase; letter-spacing: 1.4px;
+    flex-wrap: wrap; justify-content: flex-end;
+  }
+  .header-meta .pill {
+    background: var(--virto-bg-2); color: var(--virto-navy);
+    padding: 6px 12px; border-radius: 999px;
+    font-weight: 600; letter-spacing: 0.8px;
+  }
+
+  .slide-body {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 32px;
+    padding: 22px 0;
+    overflow: hidden;
+  }
+  .content-col {
+    display: flex; flex-direction: column;
+    gap: 13px;
+    overflow-y: auto; overflow-x: hidden; min-width: 0;
+    justify-content: center;
+  }
+  .content-col::-webkit-scrollbar { width: 6px; }
+  .content-col::-webkit-scrollbar-thumb { background: var(--virto-line); border-radius: 3px; }
+
+  .topic-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    width: max-content;
+    background: linear-gradient(90deg, rgba(43, 127, 255, 0.12), rgba(43, 127, 255, 0));
+    color: var(--ink-blue);
+    padding: 6px 14px 6px 10px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1.2px;
+  }
+  .topic-tag::before {
+    content: ""; width: 6px; height: 6px;
+    background: var(--virto-blue); border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(43, 127, 255, 0.18);
+  }
+
+  .slide-title {
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.15; font-weight: 800;
+    color: var(--virto-navy); letter-spacing: -0.7px;
+  }
+  .slide-title .accent {
+    background: linear-gradient(90deg, var(--ink-blue), var(--virto-blue));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .ps-block {
+    border-left: 3px solid var(--virto-line);
+    padding: 2px 0 2px 14px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .ps-block.question { border-left-color: var(--ink-blue); }
+  .ps-block.answer { border-left-color: var(--virto-navy); }
+  .ps-block.whenuse { border-left-color: var(--virto-gold); }
+  .ps-block.takeaway { border-left-color: var(--virto-green); }
+
+  .ps-label {
+    font-size: 10.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--virto-muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ps-block.question .ps-label { color: var(--ink-blue); }
+  .ps-block.answer .ps-label { color: var(--virto-navy); }
+  .ps-block.whenuse .ps-label { color: var(--ink-gold); }
+  .ps-block.takeaway .ps-label { color: #15803D; }
+
+  .ps-text {
+    font-size: 13px; line-height: 1.5;
+    color: var(--virto-text);
+  }
+  .ps-text strong { color: var(--virto-navy); font-weight: 600; }
+  .ps-text em { font-style: normal; color: var(--ink-blue); font-weight: 600; }
+  .ps-text mark, .demo-cap mark { background: linear-gradient(180deg, transparent 55%, rgba(251,191,36,0.5) 55%); color: var(--virto-navy); font-weight: 700; padding: 0 2px; border-radius: 2px; }
+  .ps-text code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    background: var(--virto-bg-2);
+    color: var(--virto-navy);
+    padding: 2px 6px; border-radius: 6px;
+  }
+  .ps-text ul { margin-top: 4px; padding-left: 18px; }
+  .ps-text li { margin-bottom: 3px; }
+  .ps-text a { color: var(--ink-blue); text-decoration: none; border-bottom: 1px solid rgba(23,99,214,0.5); }
+
+  .visual-col {
+    background: linear-gradient(135deg, var(--virto-bg) 0%, var(--virto-bg-2) 100%);
+    border-radius: var(--radius);
+    border: 1px solid var(--virto-line);
+    overflow: hidden; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 0;
+  }
+  .diagram-col { padding: 22px; }
+  .diagram-col > * { width: 100%; }
+
+  .no-visual {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 40px; gap: 18px;
+    color: var(--virto-navy);
+  }
+  .no-visual .icon-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--virto-blue), var(--virto-navy));
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    box-shadow: 0 12px 30px -8px rgba(43, 127, 255, 0.5);
+  }
+  .no-visual h3 { font-size: 17px; font-weight: 700; color: var(--virto-navy); letter-spacing: -0.3px; }
+  .no-visual p { font-size: 13px; color: var(--virto-muted); line-height: 1.5; max-width: 280px; }
+
+  /* ---------- ARCHITECTURE DIAGRAMS ---------- */
+  .ax { display: flex; flex-direction: column; gap: 8px; width: 100%; justify-content: center; }
+  .ax-cap { font-size: 9.5px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--virto-muted); font-weight: 700; text-align: center; }
+  .ax-foot { font-size: 10px; color: var(--virto-muted); text-align: center; line-height: 1.45; margin-top: 3px; }
+  .ax-foot strong { color: var(--virto-navy); }
+
+  /* a box in a flow */
+  .ax-node {
+    border: 1px solid var(--virto-line); background: #fff; border-radius: 10px;
+    padding: 9px 12px; display: flex; flex-direction: column; gap: 2px; text-align: center;
+    box-shadow: 0 5px 16px -13px rgba(7,37,74,0.45);
+  }
+  .ax-node .n { font-size: 11.5px; font-weight: 700; color: var(--virto-navy); line-height: 1.25; }
+  .ax-node .s { font-size: 9.5px; color: var(--virto-muted); line-height: 1.4; }
+  .ax-node.ext { background: var(--virto-bg-2); border-style: dashed; }
+  .ax-node.door { border-color: var(--ink-blue); background: linear-gradient(180deg, rgba(43,127,255,0.11), #fff); }
+  .ax-node.door .n { color: var(--ink-blue); }
+  .ax-node.you { border-color: var(--virto-gold); background: linear-gradient(180deg, rgba(251,191,36,0.14), #fff); }
+  .ax-node.you .n { color: var(--ink-gold); }
+  .ax-node.ai { border-color: rgba(56,189,248,0.7); background: linear-gradient(180deg, rgba(56,189,248,0.15), #fff); }
+  .ax-node.ai .n { color: #0369A1; }
+
+  /* vertical connector with a travelling pulse */
+  .ax-link { position: relative; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .ax-link::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; transform: translateX(-50%); background: var(--virto-line); }
+  .ax-link .l {
+    position: relative; z-index: 1; font-size: 8px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.7px; color: var(--virto-navy);
+    background: #fff; border: 1px solid var(--virto-line); border-radius: 999px;
+    padding: 3px 9px; white-space: nowrap;
+  }
+  .ax-link .p { position: absolute; left: 50%; top: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--virto-blue); transform: translateX(-50%); box-shadow: 0 0 6px rgba(43,127,255,0.75); opacity: 0; }
+  .slide.active .ax-link .p { animation: axDrop 3.6s linear infinite; }
+  .slide.active .ax-link.d2 .p { animation-delay: 0.9s; }
+  .slide.active .ax-link.d3 .p { animation-delay: 1.8s; }
+  .slide.active .ax-link.d4 .p { animation-delay: 2.7s; }
+  @keyframes axDrop { 0% { top: 0; opacity: 0; } 6% { opacity: 1; } 82% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+  .ax-link.ret::before { background: rgba(34,197,94,0.5); }
+  .ax-link.ret .l { border-color: rgba(34,197,94,0.5); color: #15803D; }
+  .ax-link.ret .p { background: var(--virto-green); box-shadow: 0 0 6px rgba(34,197,94,0.75); }
+
+  /* rows of small chips */
+  .ax-row { display: grid; gap: 8px; }
+  .ax-row.c2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .ax-row.c3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .ax-row.c4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .ax-chip { border: 1px solid var(--virto-line); background: #fff; border-radius: 9px; padding: 7px 6px; text-align: center; font-size: 10px; font-weight: 700; color: var(--virto-navy); line-height: 1.3; }
+  .ax-chip.ext { background: var(--virto-bg-2); border-style: dashed; color: var(--virto-muted); }
+  .ax-chip.ai { border-color: rgba(56,189,248,0.6); color: #0369A1; background: rgba(56,189,248,0.09); }
+
+  /* audience bands stacked around the platform */
+  .ax-lane-h {
+    font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.9px;
+    text-align: center; padding: 5px 8px; border-radius: 8px; line-height: 1.2;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ax-lane-h.buyer { color: var(--ink-blue); background: rgba(43,127,255,0.13); }
+  .ax-lane-h.seller { color: var(--ink-gold); background: rgba(251,191,36,0.20); }
+  .ax-lane-h.vendor { color: var(--ink-green); background: rgba(34,197,94,0.14); }
+  .ax-door { font-size: 10.5px; font-weight: 700; color: var(--virto-navy); background: #fff; border: 1px solid var(--virto-line); border-radius: 8px; padding: 9px 5px; text-align: center; line-height: 1.25; box-shadow: 0 4px 12px -11px rgba(7,37,74,0.4); }
+  .ax-client {
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    border: 1px dashed var(--virto-line); background: var(--virto-bg-2);
+    border-radius: 8px; padding: 6px 5px;
+    font-size: 9.5px; font-weight: 600; color: var(--virto-muted);
+    line-height: 1.2; text-align: center;
+  }
+  .ax-client svg { flex-shrink: 0; opacity: 0.75; }
+  .ax.dense { gap: 6px; }
+  .ax.dense .ax-lane-h { margin-top: 2px; }
+  .ax-link.short { height: 16px; }
+  .ax-row.buyer .ax-door { border-color: rgba(43,127,255,0.45); }
+  .ax-row.seller .ax-door { border-color: rgba(251,191,36,0.6); }
+  .ax-row.vendor .ax-door { border-color: rgba(34,197,94,0.5); }
+
+  /* the platform bar */
+  .ax-core { border-radius: 12px; padding: 11px 12px; background: linear-gradient(135deg, var(--virto-navy), var(--virto-navy-2)); color: #fff; text-align: center; }
+  .ax-core .t { font-size: 12px; font-weight: 800; letter-spacing: -0.2px; }
+  .ax-core .m { font-size: 9.5px; color: rgba(255,255,255,0.84); margin-top: 3px; line-height: 1.45; }
+
+  /* self-service checklists */
+  .ax-list { display: flex; flex-direction: column; gap: 7px; }
+  .ax-item { display: flex; align-items: center; gap: 10px; border: 1px solid var(--virto-line); border-radius: 9px; background: #fff; padding: 8px 11px; font-size: 11px; font-weight: 600; color: var(--virto-navy); line-height: 1.3; opacity: 0; transform: translateX(-7px); }
+  .slide.active .ax-item { animation: axIn 0.45s ease forwards; }
+  .slide.active .ax-item:nth-child(2) { animation-delay: 0.12s; }
+  .slide.active .ax-item:nth-child(3) { animation-delay: 0.24s; }
+  .slide.active .ax-item:nth-child(4) { animation-delay: 0.36s; }
+  .slide.active .ax-item:nth-child(5) { animation-delay: 0.48s; }
+  @keyframes axIn { to { opacity: 1; transform: translateX(0); } }
+  .ax-item .tick { width: 19px; height: 19px; border-radius: 50%; background: var(--virto-green); color: #fff; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  /* two-column good / bad framing */
+  .dg-two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .dg-box { border-radius: 12px; padding: 14px; border: 1px solid var(--virto-line); background: white; display: flex; flex-direction: column; gap: 8px; }
+  .dg-box h5 { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 7px; }
+  .dg-box.bad { border-color: rgba(255,106,61,0.5); }
+  .dg-box.bad h5 { color: var(--ink-orange); }
+  .dg-box.good { border-color: rgba(34,197,94,0.6); }
+  .dg-box.good h5 { color: var(--ink-green); }
+  .dg-box p { font-size: 11px; color: var(--virto-muted); line-height: 1.45; }
+  .dg-mark { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+  .dg-box.bad .dg-mark { background: var(--virto-accent); }
+  .dg-box.good .dg-mark { background: var(--virto-green); }
+
+  .slide-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 12px; border-top: 2px solid var(--virto-gold);
+    font-size: 12px; color: var(--virto-muted);
+  }
+  .slide-counter { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: var(--virto-navy); }
+  .slide-counter .total { color: var(--virto-muted); }
+  .slide-category { text-transform: uppercase; letter-spacing: 1.4px; font-weight: 600; font-size: 11px; }
+
+  /* COVER */
+  .cover {
+    background:
+      radial-gradient(ellipse at top right, rgba(43, 127, 255, 0.15), transparent 60%),
+      radial-gradient(ellipse at bottom left, rgba(56, 189, 248, 0.12), transparent 55%),
+      linear-gradient(135deg, #07254A 0%, #0B3270 50%, #07254A 100%);
+    color: white;
+  }
+  .cover .slide-header { border-bottom-color: rgba(251,191,36,0.55); }
+  .cover .brand-text .b1 { color: white; }
+  .cover .brand-text .b2 { color: rgba(255,255,255,0.82); }
+  .cover .brand-mark { background: white; padding: 2px; }
+  .cover .header-meta { color: rgba(255,255,255,0.85); }
+  .cover .header-meta .pill { background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.2); }
+  .cover-body { display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: 22px 0; }
+  .cover-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    width: max-content; color: var(--virto-cyan);
+    font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2.5px;
+  }
+  .cover-eyebrow::before { content: ""; width: 28px; height: 1.5px; background: var(--virto-cyan); }
+  .cover-title { font-size: clamp(34px, 5.2vw, 58px); font-weight: 800; line-height: 1; letter-spacing: -2.5px; }
+  .cover-title .grad {
+    background: linear-gradient(90deg, #38BDF8, #FFFFFF);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .cover-sub { font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.92); max-width: 720px; font-weight: 400; }
+  .cover-highlights { display: flex; gap: 14px; margin-top: 8px; flex-wrap: wrap; }
+  .cover-chip {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+    padding: 12px 18px; border-radius: 14px; font-size: 13px; color: #FFFFFF;
+    backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 2px; align-items: flex-start;
+  }
+  .cover-chip .num {
+    color: var(--virto-cyan); font-weight: 800; font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(24px, 2.6vw, 32px); line-height: 1; letter-spacing: -1px;
+  }
+  .cover-chip .lbl { font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; }
+  .cover-chip.persona { flex: 1 1 210px; max-width: 300px; padding: 13px 18px; gap: 4px; }
+  .cover-chip.persona .who {
+    color: var(--virto-cyan); font-weight: 800; font-size: clamp(15px, 1.5vw, 18px);
+    letter-spacing: -0.3px; line-height: 1.15;
+  }
+  .cover-chip.persona .lbl { font-size: 11.5px; line-height: 1.4; color: rgba(255,255,255,0.8); }
+  .cover-note {
+    display: flex; gap: 12px; align-items: flex-start; margin-top: 4px;
+    padding: 12px 16px; border-radius: 12px; max-width: 860px;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.16);
+  }
+  .cover-note svg { flex-shrink: 0; color: var(--virto-cyan); margin-top: 1px; }
+  .cover-note p { font-size: 12.5px; line-height: 1.5; color: rgba(255,255,255,0.86); }
+  .cover-note strong { color: #fff; font-weight: 700; }
+  .cover .slide-footer { border-top-color: rgba(251,191,36,0.55); color: rgba(255,255,255,0.6); }
+  .cover .slide-counter, .cover .slide-counter .total { color: rgba(255,255,255,0.85); }
+
+  /* SECTION DIVIDER */
+  .section-divider { background: linear-gradient(135deg, var(--virto-navy) 0%, var(--virto-navy-2) 100%); color: white; overflow: hidden; }
+  .section-divider .slide-inner { padding: 0; }
+  .divider-body { height: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+  .divider-left { padding: 60px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+  .divider-right {
+    background: linear-gradient(135deg, rgba(43,127,255,0.2), transparent),
+                radial-gradient(circle at 30% 30%, rgba(56,189,248,0.4), transparent 60%);
+    position: relative; overflow: hidden;
+  }
+  .divider-right::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .divider-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--virto-cyan); letter-spacing: 3px; }
+  .divider-title { font-size: clamp(32px, 4.4vw, 50px); font-weight: 800; line-height: 1.05; letter-spacing: -1.5px; }
+  .divider-title .grad {
+    background: linear-gradient(90deg, #38BDF8, #2B7FFF);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .divider-desc { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.9); max-width: 440px; }
+  .divider-stat { display: flex; align-items: baseline; gap: 14px; margin-top: 8px; }
+  .divider-stat .v { font-size: 52px; font-weight: 800; color: var(--virto-cyan); letter-spacing: -2px; line-height: 1; }
+  .divider-stat .l { font-size: 12px; color: rgba(255,255,255,0.85); text-transform: uppercase; letter-spacing: 1.5px; max-width: 160px; }
+  .shape { position: absolute; border-radius: 50%; filter: blur(40px); }
+  .shape.s1 { width: 280px; height: 280px; background: rgba(43,127,255,0.5); top: -40px; right: -40px; }
+  .shape.s2 { width: 220px; height: 220px; background: rgba(56,189,248,0.4); bottom: -60px; left: 30%; }
+  .divider-toc { display: flex; flex-direction: column; padding: 28px 24px; overflow-y: auto; position: relative; z-index: 1; }
+  .divider-toc::-webkit-scrollbar { width: 6px; }
+  .divider-toc::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+  .divider-toc-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.82); margin-bottom: 14px; padding-left: 12px; }
+  .dtoc-slide {
+    display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 12px;
+    border: none; background: transparent; cursor: pointer; text-align: left; font-family: inherit;
+    font-size: 12px; color: rgba(255,255,255,0.9); line-height: 1.35; transition: all 0.15s;
+    border-left: 2px solid rgba(255,255,255,0.3); border-radius: 0 6px 6px 0;
+  }
+  .dtoc-slide:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
+  .dtoc-slide-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--virto-cyan); opacity: 0.95; min-width: 18px; flex-shrink: 0; }
+  .dtoc-slide-label { flex: 1; min-width: 0; }
+
+  /* GLOSSARY */
+  .gloss-wrap { display: flex; flex-direction: column; gap: 14px; overflow: hidden; padding: 16px 0; }
+  .gloss-head { display: flex; flex-direction: column; gap: 6px; }
+  .gloss-eyebrow { color: var(--ink-blue); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+  .gloss-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; overflow-y: auto; padding-right: 6px; }
+  .gloss-grid::-webkit-scrollbar { width: 6px; }
+  .gloss-grid::-webkit-scrollbar-thumb { background: var(--virto-line); border-radius: 3px; }
+  .gloss-card { border: 1px solid var(--virto-line); border-radius: 12px; padding: 10px 13px; background: white; box-shadow: 0 4px 14px -10px rgba(7,37,74,0.18); }
+  .gloss-term { font-size: 12.5px; font-weight: 700; color: var(--virto-navy); margin-bottom: 4px; }
+  .gloss-term code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .gloss-def { font-size: 10.8px; color: var(--virto-muted); line-height: 1.45; }
+  .gloss-def strong { color: var(--virto-navy); }
+
+  /* DECISION PLAYBOOK */
+  .pb-wrap { display: flex; flex-direction: column; gap: 11px; overflow: hidden; padding: 12px 0; }
+  .pb-head { display: flex; flex-direction: column; gap: 5px; }
+  .pb-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; overflow-y: auto; padding-right: 4px; align-items: stretch; }
+  .pb-grid::-webkit-scrollbar { width: 6px; }
+  .pb-grid::-webkit-scrollbar-thumb { background: var(--virto-line); border-radius: 3px; }
+
+  .pb-col { border: 1px solid var(--virto-line); border-radius: 13px; background: #fff; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 5px 16px -13px rgba(7,37,74,0.45); }
+  .pb-col.buyer { border-top: 3px solid var(--virto-blue); }
+  .pb-col.seller { border-top: 3px solid var(--virto-gold); }
+  .pb-col.vendor { border-top: 3px solid var(--virto-green); }
+
+  .pb-col-h { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border-bottom: 1px solid var(--virto-line); }
+  .pb-col.buyer .pb-col-h { background: rgba(43,127,255,0.07); }
+  .pb-col.seller .pb-col-h { background: rgba(251,191,36,0.11); }
+  .pb-col.vendor .pb-col-h { background: rgba(34,197,94,0.08); }
+  .pb-ic { width: 25px; height: 25px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; }
+  .pb-col.buyer .pb-ic { background: var(--virto-blue); }
+  .pb-col.seller .pb-ic { background: #D9A21B; }
+  .pb-col.vendor .pb-ic { background: var(--virto-green); }
+  .pb-who { min-width: 0; }
+  .pb-who .n { font-size: 12.5px; font-weight: 800; color: var(--virto-navy); letter-spacing: -0.2px; line-height: 1.2; }
+  .pb-who .s { font-size: 8.5px; color: var(--virto-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-top: 2px; }
+
+  .pb-plays { display: flex; flex-direction: column; }
+  .pb-play { padding: 8px 12px; border-top: 1px solid var(--virto-bg-2); display: flex; flex-direction: column; gap: 4px; }
+  .pb-play:first-child { border-top: none; }
+  .pb-need { font-size: 10.5px; color: var(--virto-muted); line-height: 1.35; }
+  .pb-need b { color: var(--virto-navy); font-weight: 700; }
+  .pb-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .pb-path { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+  .pb-col.buyer .pb-path { background: rgba(43,127,255,0.13); color: var(--ink-blue); }
+  .pb-col.seller .pb-path { background: rgba(251,191,36,0.24); color: var(--ink-gold); }
+  .pb-col.vendor .pb-path { background: rgba(34,197,94,0.15); color: var(--ink-green); }
+  .pb-owner { font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: var(--virto-muted); }
+  .pb-why { font-size: 9.8px; color: var(--virto-muted); line-height: 1.4; }
+  .pb-why strong { color: var(--virto-navy); font-weight: 600; }
+
+  /* "none of these fit" — ask the Virto Commerce team */
+  .pb-ask {
+    display: flex; align-items: center; gap: 14px;
+    border: 1px solid rgba(43,127,255,0.42); border-radius: 13px; padding: 11px 16px;
+    background: linear-gradient(90deg, rgba(43,127,255,0.10), rgba(56,189,248,0.04));
+  }
+  .pb-ask-ic {
+    width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--virto-blue), var(--virto-navy)); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 18px -10px rgba(43,127,255,0.75);
+  }
+  .pb-ask-b { min-width: 0; flex: 1; }
+  .pb-ask-t { font-size: 12.5px; font-weight: 800; color: var(--virto-navy); letter-spacing: -0.2px; }
+  .pb-ask-d { font-size: 10.5px; color: var(--virto-muted); line-height: 1.45; margin-top: 2px; }
+  .pb-ask-d strong { color: var(--virto-navy); font-weight: 600; }
+  .pb-ask-tag { font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: #fff; background: var(--virto-blue); padding: 5px 11px; border-radius: 999px; flex-shrink: 0; white-space: nowrap; }
+
+  /* TOC panel */
+  .toc-backdrop {
+    position: fixed; inset: 0; background: rgba(7, 37, 74, 0.4); backdrop-filter: blur(4px);
+    z-index: 150; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  }
+  .toc-backdrop.open { opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s linear 0s; }
+  .toc-panel {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 320px;
+    background: rgba(244, 247, 251, 0.97); backdrop-filter: blur(20px);
+    border-right: 1px solid var(--virto-line); box-shadow: 10px 0 40px -12px rgba(7, 37, 74, 0.25);
+    z-index: 160; transform: translateX(-100%); transition: transform 0.3s ease;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .toc-panel.open { transform: translateX(0); }
+  .toc-header { padding: 24px 24px 16px; border-bottom: 1px solid var(--virto-line); display: flex; align-items: center; justify-content: space-between; }
+  .toc-header h2 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--virto-navy); }
+  .toc-close { width: 32px; height: 32px; border: none; background: transparent; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--virto-muted); transition: all 0.15s; }
+  .toc-close:hover { background: var(--virto-bg-2); color: var(--virto-navy); }
+  .toc-entries { flex: 1; overflow-y: auto; padding: 12px 0; }
+  .toc-entries::-webkit-scrollbar { width: 6px; }
+  .toc-entries::-webkit-scrollbar-thumb { background: var(--virto-line); border-radius: 3px; }
+  .toc-entry {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 24px;
+    border: none; background: transparent; cursor: pointer; text-align: left; font-family: inherit;
+    color: var(--virto-text); transition: all 0.15s; border-left: 3px solid transparent;
+  }
+  .toc-entry:hover { background: var(--virto-bg-2); }
+  .toc-entry.active { border-left-color: var(--ink-blue); background: rgba(43, 127, 255, 0.06); }
+  .toc-entry.active .toc-entry-title { font-weight: 700; color: var(--virto-navy); }
+  .toc-entry-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--virto-muted); min-width: 20px; flex-shrink: 0; }
+  .toc-entry-body { flex: 1; min-width: 0; }
+  .toc-entry-title { font-size: 13px; font-weight: 500; color: var(--virto-navy); line-height: 1.3; }
+  .toc-entry-count { font-size: 11px; color: var(--virto-muted); margin-top: 2px; }
+  .toc-sub-entries { padding: 2px 0 4px 35px; display: none; }
+  .toc-sub-entries.expanded { display: block; }
+  .toc-sub-entry {
+    display: block; width: 100%; padding: 5px 24px 5px 0; border: none; background: transparent;
+    cursor: pointer; text-align: left; font-family: inherit; font-size: 12px; color: var(--virto-muted);
+    line-height: 1.35; transition: color 0.15s;
+  }
+  .toc-sub-entry:hover { color: var(--virto-navy); }
+  .toc-sub-entry.active { color: var(--ink-blue); font-weight: 600; }
+  .toc-nav-btn { width: 36px; height: 36px; border: none; background: transparent; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--virto-navy); transition: all 0.2s; }
+  .toc-nav-btn:hover { background: var(--virto-bg-2); transform: translateY(-1px); }
+
+  /* NAV */
+  .nav {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+    border: 1px solid var(--virto-line); box-shadow: var(--shadow-soft);
+    padding: 8px 12px; border-radius: 999px; z-index: 100;
+  }
+  .nav-btn { width: 36px; height: 36px; border: none; background: transparent; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--virto-navy); transition: all 0.2s; }
+  .nav-btn:hover { background: var(--virto-bg-2); transform: translateY(-1px); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+  .nav-progress { display: flex; align-items: center; gap: 6px; padding: 0 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--virto-navy); font-weight: 600; }
+  .nav-progress .total { color: var(--virto-muted); font-weight: 400; }
+  .nav-jump { border-left: 1px solid var(--virto-line); padding-left: 12px; display: flex; gap: 6px; align-items: center; }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--virto-blue), var(--virto-cyan)); transition: width 0.3s ease; z-index: 200; box-shadow: 0 0 12px rgba(43,127,255,0.5); }
+
+  .hint { position: fixed; top: 24px; right: 28px; font-size: 11px; color: var(--virto-muted); text-transform: uppercase; letter-spacing: 1.4px; font-weight: 500; display: flex; align-items: center; gap: 8px; z-index: 100; }
+  .key { background: white; border: 1px solid var(--virto-line); padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; color: var(--virto-navy); font-weight: 600; box-shadow: 0 2px 4px rgba(7,37,74,0.06); }
+  button.key-btn { cursor: pointer; font-size: inherit; line-height: 1; transition: all 0.15s; user-select: none; }
+  button.key-btn:hover { background: var(--virto-blue); color: white; border-color: var(--ink-blue); transform: translateY(-1px); box-shadow: 0 4px 8px rgba(43, 127, 255, 0.3); }
+  button.key-btn:active { transform: translateY(0); box-shadow: 0 1px 2px rgba(7,37,74,0.1); }
+
+  /* THANKS */
+  .thanks { background: radial-gradient(ellipse at center, rgba(43,127,255,0.18), transparent 60%), linear-gradient(135deg, #07254A 0%, #0B3270 100%); color: white; }
+  .thanks .slide-inner { padding: 0; }
+  .thanks-body { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px; gap: 22px; position: relative; }
+  .thanks-eyebrow { color: var(--virto-cyan); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; }
+  .thanks-title { font-size: clamp(40px, 6vw, 80px); font-weight: 800; line-height: 0.98; letter-spacing: -3px; }
+  .thanks-title .grad { background: linear-gradient(90deg, #38BDF8, #FFFFFF); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .thanks-sub { font-size: 17px; color: rgba(255,255,255,0.9); max-width: 640px; line-height: 1.6; font-weight: 400; }
+  .thanks-cta { display: flex; gap: 14px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
+  .cta-btn { background: var(--virto-blue); color: white; padding: 13px 24px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 14px; transition: all 0.25s; border: 1px solid var(--virto-blue); display: inline-flex; align-items: center; gap: 10px; }
+  .cta-btn:hover { background: var(--virto-blue-2); transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(43,127,255,0.6); }
+  .cta-btn.outline { background: transparent; border-color: rgba(255,255,255,0.3); }
+  .cta-btn.outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.5); }
+  .thanks-footer { position: absolute; bottom: 32px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.4); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+
+
+  /* ========== TABLET / NARROW DESKTOP (<= 1024px) ==========
+     Stacked single column + page scroll: the two-column slide gets too
+     tall to fit below ~1050px, and clipped copy is worse than scrolling. */
+  @media (max-width: 1024px) {
+    /* Let the page scroll vertically when slide content is taller than the viewport */
+    html, body { overflow-x: hidden; overflow-y: auto; height: auto; }
+    /* Stage is a normal-flow container, not a fixed overlay */
+    .stage {
+      position: static;
+      inset: auto;
+      display: block;
+      padding: 16px 16px 96px;
+      min-height: 100vh;
+    }
+    /* Only the active slide participates in the layout — no more absolute stacking on mobile */
+    .slide {
+      display: none;
+      position: static;
+      width: 100%;
+      height: auto;
+      min-height: calc(100vh - 112px);
+      max-height: none;
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+      transition: none;
+      pointer-events: auto;
+    }
+    .slide.active { display: block; }
+    /* Grid columns constrained to container width — prevents header overflow */
+    .slide-inner {
+      height: auto;
+      min-height: calc(100vh - 112px);
+      padding: 22px 22px 20px;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto auto;
+    }
+    /* Content flows naturally — no internal scroll containers, page scrolls instead */
+    .slide-body { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 14px 0; overflow: visible; max-height: none; min-width: 0; min-height: 0; }
+    .visual-col { min-height: 160px; max-height: none; min-width: 0; flex-direction: column; padding: 12px; gap: 8px; }
+    .visual-col img { max-width: 100%; max-height: 55vh; width: auto; }
+    .diagram-col { min-height: auto; max-height: none; }
+
+    /* Header: brand on the left, meta pinned right, single row */
+    .slide-header { flex-wrap: nowrap; padding-bottom: 10px; gap: 8px; align-items: center; }
+    .brand-text .b2 { display: none; }
+    .brand-mark { width: 32px; height: 32px; flex-shrink: 0; }
+    .brand-text .b1 { font-size: 13px; }
+    .header-meta { gap: 6px; font-size: 10px; letter-spacing: 1px; flex-shrink: 0; margin-left: auto; }
+
+    /* Divider */
+    .divider-body { grid-template-columns: minmax(0, 1fr); }
+    .divider-right { display: none; }
+    .divider-left { padding: 40px 24px; gap: 16px; }
+
+    /* Cover eyebrow / topic tag wrap safely */
+    .cover-eyebrow { width: auto; max-width: 100%; white-space: normal; font-size: 12px; letter-spacing: 2px; }
+    .cover-title { font-size: clamp(30px, 9vw, 44px); letter-spacing: -1.5px; overflow-wrap: break-word; }
+    .cover-sub { font-size: 13px; max-width: 100%; overflow-wrap: break-word; }
+    .topic-tag { width: auto; max-width: 100%; }
+    .slide-title { font-size: clamp(20px, 5.5vw, 24px); overflow-wrap: break-word; }
+    .ps-block { padding: 2px 0 2px 12px; }
+    .ps-text { font-size: 12.5px; overflow-wrap: break-word; word-break: break-word; }
+    .ps-text code { word-break: break-all; }
+
+    /* Nav pill */
+    .nav { bottom: 12px; padding: 6px 8px; gap: 6px; }
+    .nav-jump { border: none; padding: 0; }
+    .hint { display: none; }
+    .progress-bar { height: 2px; }
+
+    /* Presentation-specific grid collapses */
+    .gloss-grid { grid-template-columns: 1fr; }
+    .ax-lanes { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .ax-row.c4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .ax-link .l { white-space: normal; text-align: center; }
+    .dg-two { grid-template-columns: minmax(0, 1fr); }
+    .pb-grid { grid-template-columns: minmax(0, 1fr); }
+    .pb-ask { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .pb-ask-tag { order: -1; }
+
+    /* Thanks slide */
+    .thanks-body { padding: 40px 24px; gap: 20px; }
+    .thanks-title { font-size: clamp(48px, 12vw, 72px); }
+    .thanks-sub { font-size: 15px; }
+    .thanks-cta { flex-direction: column; width: 100%; }
+    .cta-btn { justify-content: center; width: 100%; }
+
+    /* TOC */
+    .toc-panel { width: 100%; }
+    .toc-entry { min-height: 44px; }
+  }
+
+  /* ========== PHONE (<= 480px) — tighter still ========== */
+  @media (max-width: 480px) {
+    .stage { padding: 12px 12px 88px; }
+    .slide { min-height: calc(100vh - 100px); }
+    .slide-inner { padding: 18px 16px 16px; min-height: calc(100vh - 100px); }
+    .brand { gap: 8px; }
+    .header-meta { flex-basis: auto; justify-content: flex-end; }
+    .cover-title { font-size: clamp(28px, 10vw, 38px); }
+    .cover-sub { font-size: 12.5px; line-height: 1.5; }
+    .slide-title { font-size: clamp(18px, 5.5vw, 22px); }
+    .ps-label { font-size: 10px; }
+    .ps-text { font-size: 12px; line-height: 1.45; }
+    .divider-left { padding: 32px 20px; }
+    .nav { bottom: 10px; }
+    .nav-btn { width: 32px; height: 32px; }
+    .toc-nav-btn { width: 32px; height: 32px; }
+  }
+
+  @media print {
+    .nav, .progress-bar, .hint, .toc-panel, .toc-backdrop { display: none; }
+    .stage { padding: 0; }
+    .slide { position: relative; opacity: 1; transform: none; visibility: visible; page-break-after: always; box-shadow: none; width: 100%; height: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="hint">
+  <button class="key key-btn" id="hintPrev" aria-label="Previous slide">←</button><button class="key key-btn" id="hintNext" aria-label="Next slide">→</button> Navigate
+  <span style="margin: 0 6px;">·</span>
+  <button class="key key-btn" id="hintFullscreen" aria-label="Toggle fullscreen">F</button> Fullscreen
+  <span style="margin: 0 6px;">·</span>
+  <button class="key key-btn" id="hintToc" aria-label="Toggle table of contents">T</button> Contents
+</div>
+
+<div class="toc-backdrop" id="tocBackdrop"></div>
+<aside class="toc-panel" id="tocPanel" role="navigation" aria-label="Table of contents">
+  <div class="toc-header">
+    <h2>Contents</h2>
+    <button class="toc-close" id="tocClose" aria-label="Close table of contents">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="toc-entries" id="tocEntries"></div>
+</aside>
+
+<div class="stage" id="stage"></div>
+
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" aria-label="Previous slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="nav-progress">
+    <span id="currentSlide">01</span><span class="total">/<span id="totalSlides">00</span></span>
+  </div>
+  <button class="nav-btn" id="nextBtn" aria-label="Next slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <div class="nav-jump">
+    <button class="toc-nav-btn" id="tocToggleNav" aria-label="Table of contents" title="Table of contents (T)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><rect x="3" y="4.5" width="3" height="3" rx="0.5" fill="currentColor" stroke="none"/><rect x="3" y="10.5" width="3" height="3" rx="0.5" fill="currentColor" stroke="none"/><rect x="3" y="16.5" width="3" height="3" rx="0.5" fill="currentColor" stroke="none"/></svg>
+    </button>
+  </div>
+</nav>
+
+<script>
+/* ============================================================
+   VIRTO COMMERCE — INTEGRATION CAPABILITIES (BUSINESS GUIDE)
+   Sources:
+   - https://virtocommerce.com/integrations/ecommerce-erp-integrations
+   - https://virtocommerce.com/features/punchout-catalogs
+   - https://virtocommerce.com/blog/low-code-integration  (Azure Logic Apps)
+   - https://virtocommerce.com/blog/erp-integrations-part6 (integration middleware)
+   - https://github.com/VirtoCommerce/vc-release-notes  (UCP / MCP, Vendor Portal)
+   ============================================================ */
+
+const icons = {
+  spark: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>',
+  plug: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6M15 2v6M6 8h12v4a6 6 0 0 1-12 0zM12 18v4"/></svg>'
+};
+
+/* Small inline icons used inside diagrams and labels */
+const SI = {
+  a:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  t:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  w:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16.5 7.5 10.6 10.6 7.5 16.5 13.4 13.4"/></svg>',
+  x:  '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+  ok: '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+};
+
+/* Tiny icons for the client boxes on the architecture map */
+const IC = {
+  screen: '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
+  cart:   '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L23 7H6"/></svg>',
+  bot:    '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/><path d="M12 4v4M2 13h2M20 13h2"/></svg>',
+  erp:    '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>',
+  code:   '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+  user:   '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  file:   '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
+};
+
+/* Persona icons for the playbook */
+const PBI = {
+  buyer:  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/><path d="M2 3h3l2.6 12.1a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L22 7H6"/></svg>',
+  seller: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M2 13h20"/></svg>',
+  vendor: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1zM14 8h4l3 3v5h-7z"/><circle cx="5.5" cy="19" r="2"/><circle cx="17.5" cy="19" r="2"/></svg>',
+  ask:    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="12" y1="7" x2="12" y2="13"/><line x1="9" y1="10" x2="15" y2="10"/></svg>'
+};
+
+const BLOCK_META = {
+  q: { cls: 'question', label: 'The Challenge',       icon: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg>' },
+  a: { cls: 'answer',   label: 'How It Works',        icon: SI.a },
+  w: { cls: 'whenuse',  label: 'When To Choose This', icon: SI.w },
+  t: { cls: 'takeaway', label: 'Business Value',      icon: SI.t }
+};
+
+/* ---------------- ARCHITECTURE DIAGRAMS ---------------- */
+const DG = {
+  /* Why one generic API for everyone is the expensive answer */
+  stakes: `
+    <div class="dg-two">
+      <div class="dg-box bad">
+        <h5><span class="dg-mark">${SI.x}</span> One door for everyone</h5>
+        <p>Every party meets the same generic interface. Buyers wait on custom frontend work, your ERP team hand-writes glue code, and small suppliers email spreadsheets that someone re-types.</p>
+        <p><strong style="color:var(--virto-accent)">Integration becomes the project.</strong></p>
+      </div>
+      <div class="dg-box good">
+        <h5><span class="dg-mark">${SI.ok}</span> A door per audience</h5>
+        <p>Buyers get an experience API and their own procurement channel, your systems get REST plus Integration Middleware, suppliers get a portal they can use unaided.</p>
+        <p><strong style="color:var(--ink-green)">Every party self-serves.</strong></p>
+      </div>
+    </div>`,
+
+  /* Ready-made doors onto one platform */
+  overview: `
+    <div class="ax dense">
+      <div class="ax-lane-h buyer">For your buyers</div>
+      <div class="ax-row c3 buyer">
+        <div class="ax-client">${IC.screen}<span>Storefront &middot; app</span></div>
+        <div class="ax-client">${IC.cart}<span>Coupa &middot; Ariba</span></div>
+        <div class="ax-client">${IC.bot}<span>AI agents</span></div>
+      </div>
+      <div class="ax-row c3 buyer">
+        <div class="ax-door">XAPI</div>
+        <div class="ax-door">Punchout</div>
+        <div class="ax-door">UCP</div>
+      </div>
+      <div class="ax-link"><span class="l">same data &middot; same rules</span><span class="p"></span></div>
+      <div class="ax-core">
+        <div class="t">Virto Commerce</div>
+        <div class="m">All your business rules and business logic</div>
+      </div>
+      <div class="ax-link short d2"><span class="p"></span></div>
+      <div class="ax-lane-h seller">For your own team</div>
+      <div class="ax-row c3 seller">
+        <div class="ax-door">REST API</div>
+        <div class="ax-door">Integration Middleware</div>
+        <div class="ax-door">Admin UI</div>
+      </div>
+      <div class="ax-row c3 seller">
+        <div class="ax-client">${IC.code}<span>Custom apps &middot; BI</span></div>
+        <div class="ax-client">${IC.erp}<span>ERP &middot; PIM &middot; OMS &middot; DAM</span></div>
+        <div class="ax-client">${IC.user}<span>Your business team</span></div>
+      </div>
+      <div class="ax-lane-h vendor">For your suppliers</div>
+      <div class="ax-row c3 vendor">
+        <div class="ax-door">Vendor API</div>
+        <div class="ax-door">Integration Middleware</div>
+        <div class="ax-door">Vendor Portal</div>
+      </div>
+      <div class="ax-row c3 vendor">
+        <div class="ax-client">${IC.erp}<span>Supplier systems</span></div>
+        <div class="ax-client">${IC.file}<span>Feeds &middot; CSV &middot; SFTP</span></div>
+        <div class="ax-client">${IC.user}<span>Small vendors</span></div>
+      </div>
+      <div class="ax-foot">Each column is one path &mdash; pick one, combine several, or add your own.</div>
+    </div>`,
+
+  /* XAPI */
+  xapi: `
+    <div class="ax">
+      <div class="ax-cap">Buying surfaces</div>
+      <div class="ax-row c4">
+        <div class="ax-chip">Web store</div>
+        <div class="ax-chip">Mobile app</div>
+        <div class="ax-chip">Sales-rep tool</div>
+        <div class="ax-chip">Customer portal</div>
+      </div>
+      <div class="ax-link"><span class="l">one request per screen</span><span class="p"></span></div>
+      <div class="ax-node door">
+        <span class="n">XAPI &mdash; the Experience API</span>
+        <span class="s">Resolves who the buyer is, their organization and their agreed prices before answering</span>
+      </div>
+      <div class="ax-link d2"><span class="l">reads &amp; writes</span><span class="p"></span></div>
+      <div class="ax-row c4">
+        <div class="ax-chip">Catalog</div>
+        <div class="ax-chip">Pricing</div>
+        <div class="ax-chip">Cart</div>
+        <div class="ax-chip">Orders</div>
+      </div>
+      <div class="ax-foot">A new surface is a <strong>new front end</strong>, not a new back end.</div>
+    </div>`,
+
+  /* Punchout */
+  punchout: `
+    <div class="ax">
+      <div class="ax-node ext">
+        <span class="n">Buyer inside Coupa &middot; Ariba &middot; Jaggaer</span>
+        <span class="s">Their procurement system, their budget, their approval chain</span>
+      </div>
+      <div class="ax-link"><span class="l">punchout request (cXML)</span><span class="p"></span></div>
+      <div class="ax-node door">
+        <span class="n">Virto Commerce Punchout module</span>
+        <span class="s">Verifies the buyer and opens a session with the right organization and contract</span>
+      </div>
+      <div class="ax-link d2"><span class="l">authenticated session</span><span class="p"></span></div>
+      <div class="ax-node">
+        <span class="n">Your storefront, over XAPI</span>
+        <span class="s">Your catalog and content &mdash; at their negotiated prices</span>
+      </div>
+      <div class="ax-link ret d3"><span class="l">cart handed back (cXML)</span><span class="p"></span></div>
+      <div class="ax-node ext">
+        <span class="n">Approval &rarr; purchase order &rarr; order in Virto Commerce</span>
+      </div>
+    </div>`,
+
+  /* Agentic / UCP */
+  ucp: `
+    <div class="ax">
+      <div class="ax-cap">AI agents shopping on behalf of a buyer</div>
+      <div class="ax-row c3">
+        <div class="ax-chip ai">Consumer AI assistants</div>
+        <div class="ax-chip ai">Buyer-side procurement agents</div>
+        <div class="ax-chip ai">Your own agent</div>
+      </div>
+      <div class="ax-link"><span class="l">UCP over MCP</span><span class="p"></span></div>
+      <div class="ax-node ai">
+        <span class="n">One verified endpoint</span>
+        <span class="s">Speaks the Universal Commerce Protocol &mdash; no adapter to build per agent</span>
+      </div>
+      <div class="ax-link d2"><span class="l">discover &middot; cart &middot; check out</span><span class="p"></span></div>
+      <div class="ax-core">
+        <div class="t">Your real catalog, pricing and orders</div>
+        <div class="m">Same data, same rules and same audit trail as every human channel</div>
+      </div>
+      <div class="ax-foot">A new agent launches? <strong>You are already compatible.</strong></div>
+    </div>`,
+
+  /* Seller REST API */
+  restSeller: `
+    <div class="ax">
+      <div class="ax-cap">Systems you already own</div>
+      <div class="ax-row c3">
+        <div class="ax-chip ext">ERP</div>
+        <div class="ax-chip ext">CRM</div>
+        <div class="ax-chip ext">PIM &middot; DAM</div>
+      </div>
+      <div class="ax-row c3">
+        <div class="ax-chip ext">Warehouse</div>
+        <div class="ax-chip ext">BI &amp; reporting</div>
+        <div class="ax-chip ext">Tax &amp; payments</div>
+      </div>
+      <div class="ax-link"><span class="l">REST &middot; OpenAPI &middot; token auth</span><span class="p"></span></div>
+      <div class="ax-node door">
+        <span class="n">Virto Commerce REST API</span>
+        <span class="s">Every module publishes a schema &mdash; and it is the same API the admin screens use</span>
+      </div>
+      <div class="ax-link d2"><span class="l">nothing held back</span><span class="p"></span></div>
+      <div class="ax-cap">Every module, through the same API</div>
+      <div class="ax-row c3">
+        <div class="ax-chip">Catalog</div>
+        <div class="ax-chip">Pricing</div>
+        <div class="ax-chip">Inventory</div>
+      </div>
+      <div class="ax-row c3">
+        <div class="ax-chip">Cart</div>
+        <div class="ax-chip">Orders</div>
+        <div class="ax-chip">Customers</div>
+      </div>
+      <div class="ax-foot">&hellip; and every other module you have installed.</div>
+    </div>`,
+
+  /* Integration Middleware — worked SAP example */
+  middleware: `
+    <div class="ax">
+      <div class="ax-cap">Example &mdash; connecting SAP</div>
+      <div class="ax-node ext">
+        <span class="n">SAP ERP</span>
+        <span class="s">System of record for customers, credit, stock, prices and invoices</span>
+      </div>
+      <div class="ax-link"><span class="l">IDoc &middot; BAPI &middot; OData</span><span class="p"></span></div>
+      <div class="ax-node you">
+        <span class="n">Virto Commerce Integration Middleware</span>
+        <span class="s">Map fields, transform messages, schedule syncs, retry failures and alert on errors &mdash; drawn, not coded</span>
+      </div>
+      <div class="ax-link d2"><span class="l">OpenAPI connector</span><span class="p"></span></div>
+      <div class="ax-node door"><span class="n">Virto Commerce REST API</span></div>
+      <div class="ax-row c3">
+        <div class="ax-chip">Prices &amp; stock in</div>
+        <div class="ax-chip">Orders out</div>
+        <div class="ax-chip">Invoices back</div>
+      </div>
+      <div class="ax-foot">Powered by <strong>Azure Logic Apps</strong> &mdash; Boomi and MuleSoft work the same way.</div>
+    </div>`,
+
+  /* Admin UI self-service */
+  adminUi: `
+    <div class="ax">
+      <div class="ax-cap">Changed by your team &mdash; no ticket, no release</div>
+      <div class="ax-list">
+        <div class="ax-item"><span class="tick">${SI.ok}</span>Catalogs, categories &amp; product content</div>
+        <div class="ax-item"><span class="tick">${SI.ok}</span>Price lists, contract pricing &amp; promotions</div>
+        <div class="ax-item"><span class="tick">${SI.ok}</span>Customer organizations, roles &amp; approval limits</div>
+        <div class="ax-item"><span class="tick">${SI.ok}</span>Stores, currencies, languages &amp; content</div>
+        <div class="ax-item"><span class="tick">${SI.ok}</span>Integration settings, API keys &amp; permissions</div>
+      </div>
+      <div class="ax-foot">If it is a <strong>business decision</strong>, it is a setting &mdash; not a project.</div>
+    </div>`,
+
+  /* Vendor API */
+  vendorApi: `
+    <div class="ax">
+      <div class="ax-node ext">
+        <span class="n">Supplier or distributor system</span>
+        <span class="s">Their ERP, their product data, their live stock</span>
+      </div>
+      <div class="ax-link"><span class="l">REST, scoped to their account</span><span class="p"></span></div>
+      <div class="ax-node door">
+        <span class="n">Vendor APIs</span>
+        <span class="s">Products &amp; offers, price, inventory, orders and fulfilment</span>
+      </div>
+      <div class="ax-link d2"><span class="l">your moderation rules apply</span><span class="p"></span></div>
+      <div class="ax-core">
+        <div class="t">Your catalog and your storefront</div>
+        <div class="m">Each supplier sees and touches only their own data</div>
+      </div>
+    </div>`,
+
+  /* Vendor middleware */
+  vendorMiddleware: `
+    <div class="ax">
+      <div class="ax-cap">Whatever the supplier is able to produce</div>
+      <div class="ax-row c3">
+        <div class="ax-chip ext">CSV &middot; Excel</div>
+        <div class="ax-chip ext">SFTP feed</div>
+        <div class="ax-chip ext">Their own API</div>
+      </div>
+      <div class="ax-link"><span class="l">scheduled pickup</span><span class="p"></span></div>
+      <div class="ax-node you">
+        <span class="n">One reusable Integration Middleware flow</span>
+        <span class="s">Validate, normalize, enrich &mdash; then clone the flow per supplier and change only the mapping</span>
+      </div>
+      <div class="ax-link d2"><span class="l">clean, consistent data</span><span class="p"></span></div>
+      <div class="ax-node door"><span class="n">Vendor APIs &rarr; your catalog</span></div>
+      <div class="ax-foot">Every supplier after the first costs a <strong>mapping</strong>, not a project.</div>
+    </div>`,
+
+  /* Vendor Portal */
+  vendorPortal: `
+    <div class="ax">
+      <div class="ax-cap">Self-service for suppliers with no IT at all</div>
+      <div class="ax-list">
+        <div class="ax-item"><span class="tick">${SI.ok}</span>Register, onboard and get approved</div>
+        <div class="ax-item"><span class="tick">${SI.ok}</span>Create products &amp; offers, or bulk-import them</div>
+        <div class="ax-item"><span class="tick">${SI.ok}</span>Keep their own price and stock current</div>
+        <div class="ax-item"><span class="tick">${SI.ok}</span>See, accept and fulfil their own orders</div>
+        <div class="ax-item"><span class="tick">${SI.ok}</span>AI assistant drafts descriptions &amp; translations</div>
+      </div>
+      <div class="ax-foot">Nothing to build per supplier &mdash; and <strong>you</strong> still approve what goes live.</div>
+    </div>`
+};
+
+/* ---------------- SLIDE DATA ---------------- */
+const slides = [
+  { type: 'cover' },
+
+  /* ===== SECTION 01 ===== */
+  {
+    type: 'divider',
+    num: 'Section 01  ·  Why It Matters',
+    title: 'Integration Is',
+    titleAccent: 'the Real Project',
+    desc: 'Where commerce programmes actually spend their time and budget — and why offering everyone the same generic interface is the most expensive answer.',
+  },
+  {
+    category: 'Why It Matters',
+    title: 'Projects rarely fail on the <span class="accent">storefront</span>',
+    visualHTML: DG.stakes,
+    blocks: [
+      { kind: 'q', html: 'Ask any team that has replatformed where the time actually went. Almost never the product pages — it went into connecting the store to the ERP, to customers’ procurement systems, and to the suppliers whose stock they were selling.' },
+      { kind: 'a', html: 'Integration is not one problem. It is <strong>a different problem for every audience</strong>: the people buying from you, your own commercial and IT teams, and the vendors supplying you. Each has a completely different appetite for technology — and handing every one of them the same generic API is how budgets disappear.' },
+      { kind: 't', html: 'Match the door to whoever is knocking, and integration stops being the risk line in your business case.' }
+    ]
+  },
+  {
+    category: 'Why It Matters',
+    title: 'One platform, <span class="accent">ready-made doors</span>',
+    visualHTML: DG.overview,
+    blocks: [
+      { kind: 'q', html: 'If every connection has to be custom-built, then every new customer, system and supplier arrives as a project — with a budget, a specification and a place in the queue.' },
+      { kind: 'a', html: '<strong>Virto Commerce holds all your business rules and business logic</strong> — catalog, pricing, inventory, cart, orders, customers — and opens <strong>ready-made doors</strong> onto it: for your buyers, for your own team, and for your suppliers. Every door reads and writes the same data under the same rules, so nothing drifts apart.' },
+      { kind: 'w', html: 'The paths shown here are the <strong>most common</strong> ones, and they are not mutually exclusive — most projects run several in parallel. Which you need depends on your requirements.' },
+      { kind: 't', html: 'Because the platform is <strong>composable</strong>, you enable only the doors you need today and add new integrations — including your own — whenever the business asks for them.' }
+    ]
+  },
+
+  /* ===== SECTION 02 ===== */
+  {
+    type: 'divider',
+    num: 'Section 02  ·  Buyer Experience',
+    title: 'How Buyers',
+    titleAccent: 'Reach You',
+    desc: 'Doors on the demand side — your own buying surfaces, the procurement system your customer is obliged to use, and the AI agents now shopping on their behalf.',
+  },
+  {
+    category: 'Buyer Experience',
+    title: 'One API behind <span class="accent">every buying surface</span>',
+    visualHTML: DG.xapi,
+    blocks: [
+      { kind: 'q', html: 'A web store, a mobile app, a sales-rep tool and a customer portal all show the same products at different prices to different people. Built separately, they drift apart — and every one of them gets slower to change.' },
+      { kind: 'a', html: 'XAPI is the Virto Commerce <strong>Experience API</strong>. A screen asks for exactly the data it needs in a single request, and the platform works out <strong>who the buyer is, which organization they belong to and what they have negotiated</strong> before it answers. The commercial logic stays in one place, server-side.' },
+      { kind: 'w', html: 'Choose XAPI whenever <strong>a person is looking at a screen</strong> — your storefront, a mobile app, a partner-branded portal, or a rep selling on a customer’s behalf.' },
+      { kind: 't', html: 'Launch the next buying channel in weeks instead of quarters — and know that every channel quotes the same price.' }
+    ]
+  },
+  {
+    category: 'Buyer Experience',
+    title: 'Sell inside your customer’s <span class="accent">procurement system</span>',
+    visualHTML: DG.punchout,
+    blocks: [
+      { kind: 'q', html: 'Your largest customers do not buy from websites. Their staff buy from Coupa, Ariba or Jaggaer, because that is where budgets and approvals live. If you are not in there, every order from them is a manual exception someone has to justify.' },
+      { kind: 'a', html: 'The <strong>Punchout module</strong> answers those systems in their own language. The buyer clicks your catalog from inside their procurement tool and lands in <strong>your storefront already identified</strong> — correct organization, correct contract prices — shops normally, and the finished cart is handed straight back for approval and a purchase order.' },
+      { kind: 'w', html: 'Choose Punchout the moment a customer says <em>“we can only buy through our procurement platform”</em> — typically enterprise, public sector, healthcare and education accounts.' },
+      { kind: 't', html: 'You become a one-click approved supplier inside the buyer’s own process. No re-keying, no lost orders — and a switching cost your competitors have to beat.' }
+    ]
+  },
+  {
+    category: 'Buyer Experience',
+    title: 'When the buyer is an <span class="accent">AI agent</span>',
+    visualHTML: DG.ucp,
+    blocks: [
+      { kind: 'q', html: 'Buyers have started delegating: <em>“find this part, compare it, buy it.”</em> An agent that cannot read your catalog cannot recommend you — and building a custom adapter for every AI platform is a race nobody wins.' },
+      { kind: 'a', html: 'Virto Commerce exposes the <strong>Universal Commerce Protocol</strong> through a verified <strong>MCP endpoint</strong> — an open standard for agent-driven commerce. Agents discover products, build a cart and complete checkout against your real catalog, pricing and order rules. <strong>One endpoint, every compliant agent</strong>, no per-agent integration.' },
+      { kind: 'w', html: 'Choose UCP when you want to be <strong>discoverable and buyable by AI assistants</strong> — or to give your own customers a conversational way to reorder.' },
+      { kind: 't', html: 'You show up in a channel most competitors are still scoping, and when the next agent launches you need to do nothing at all.' }
+    ]
+  },
+
+  /* ===== SECTION 03 ===== */
+  {
+    type: 'divider',
+    num: 'Section 03  ·  Your Team',
+    title: 'How Your Business',
+    titleAccent: 'Runs On It',
+    desc: 'Doors for the commerce owner — full API control where you need it, Integration Middleware for the back office, and self-service configuration for the business team.',
+  },
+  {
+    category: 'Your Team',
+    title: 'Everything the admin can do, <span class="accent">your systems can do</span>',
+    visualHTML: DG.restSeller,
+    blocks: [
+      { kind: 'q', html: 'Sooner or later a system you already own needs commerce data. The ERP owns stock and credit, the CRM owns the relationship, finance owns the invoice. Nightly spreadsheet drops and screen-scraping are where data quality goes to die.' },
+      { kind: 'a', html: 'Every Virto Commerce module publishes an <strong>open REST API with an OpenAPI schema</strong> — and it is the very same API the admin screens use, so there is no functionality locked away behind a button. Your developers generate a client straight from the schema and work against documented, versioned endpoints.' },
+      { kind: 'w', html: 'Choose the REST API for <strong>logic your business is genuinely built on</strong>, for high-volume data movement, or for an internal tool that needs complete control.' },
+      { kind: 't', html: 'No capability is trapped in a screen, and no roadmap of yours waits on a vendor deciding what to expose next.' }
+    ]
+  },
+  {
+    category: 'Your Team',
+    title: 'Connect ERP and CRM <span class="accent">without writing code</span>',
+    visualHTML: DG.middleware,
+    blocks: [
+      { kind: 'q', html: 'Hand-written integration code has an unpleasant habit: every field the ERP team renames becomes a ticket, a release and a deployment window. Keeping the connection alive quietly costs more than building it did.' },
+      { kind: 'a', html: 'Put the <strong>Virto Commerce Integration Middleware</strong> in between. It imports the Virto Commerce OpenAPI schema, so the flow is <strong>drawn rather than coded</strong>: map fields, transform messages, schedule syncs, retry failures, alert on errors. Connecting SAP means mapping IDoc or OData messages once — prices and stock in, orders out, invoices back.' },
+      { kind: 'w', html: 'Choose Integration Middleware for <strong>standard back-office traffic</strong> — orders out to the ERP, customers to the CRM, price and stock in, invoices back — especially when the integration team is not the commerce team.' },
+      { kind: 't', html: 'Business change stops queuing behind a release train, and the integration stays readable by someone other than the person who built it.' }
+    ]
+  },
+  {
+    category: 'Your Team',
+    title: 'The changes your team makes <span class="accent">without IT</span>',
+    visualHTML: DG.adminUi,
+    blocks: [
+      { kind: 'q', html: 'The most expensive integration is the one that never needed to exist — a ticket raised because a price list, a promotion or an approval limit could only be changed by a developer.' },
+      { kind: 'a', html: 'A large share of what looks like integration work is simply <strong>configuration in the Admin UI</strong>: catalogs and content, price lists and contracts, promotions, customer organizations and roles, stores, currencies, languages — and the settings of the integrations themselves. All of it <strong>self-service, permission-controlled and live immediately</strong>.' },
+      { kind: 'w', html: 'Check this door first, every time. If a business person can describe the change in business terms, it is usually <strong>a setting rather than a project</strong>.' },
+      { kind: 't', html: 'Your commercial team moves at its own speed, and your developers spend their time on the things only developers can do.' }
+    ]
+  },
+
+  /* ===== SECTION 04 ===== */
+  {
+    type: 'divider',
+    num: 'Section 04  ·  Suppliers &amp; Vendors',
+    title: 'How Partners',
+    titleAccent: 'Plug In',
+    desc: 'Doors for suppliers, distributors and vendors — from system-to-system integration for the largest, down to a portal login for the ones with no IT at all.',
+  },
+  {
+    category: 'Suppliers &amp; Vendors',
+    title: 'Let suppliers push <span class="accent">catalog, price and stock</span>',
+    visualHTML: DG.vendorApi,
+    blocks: [
+      { kind: 'q', html: 'Growing your assortment through distributors and vendors only pays off if their data arrives accurately and often. Manual re-entry caps how many suppliers you can carry — and guarantees the prices on your site are yesterday’s.' },
+      { kind: 'a', html: 'The Virto Commerce <strong>vendor APIs</strong> let a supplier’s own systems create products and offers, update price and inventory, and receive and fulfil their orders — <strong>scoped strictly to their own account</strong> and still subject to your moderation and approval rules. Nothing reaches your storefront that you did not allow.' },
+      { kind: 'w', html: 'Choose this for <strong>strategic suppliers that have their own IT</strong> and enough volume to justify a system-to-system link.' },
+      { kind: 't', html: 'Assortment breadth and stock accuracy scale with the number of suppliers — not with the size of your data-entry team.' }
+    ]
+  },
+  {
+    category: 'Suppliers &amp; Vendors',
+    title: 'Onboard a supplier <span class="accent">in days, not quarters</span>',
+    visualHTML: DG.vendorMiddleware,
+    blocks: [
+      { kind: 'q', html: 'Most suppliers cannot meet you at your API. They have a spreadsheet, an SFTP drop, or an API built for something else entirely — and every single one of them is different.' },
+      { kind: 'a', html: 'Integration Middleware absorbs that difference. One flow <strong>collects whatever the supplier can produce</strong> — file, feed or API — validates and normalizes it, and calls the vendor APIs on their behalf. Onboarding the next supplier means <strong>cloning the flow and changing the mapping</strong>, not starting again.' },
+      { kind: 'w', html: 'Choose this for the <strong>long tail of suppliers</strong>: many sources, many formats, none of them worth a bespoke project on its own.' },
+      { kind: 't', html: 'The cost of adding a supplier falls with every supplier you add — which is exactly what turns a catalog into a marketplace.' }
+    ]
+  },
+  {
+    category: 'Suppliers &amp; Vendors',
+    title: 'For the suppliers with <span class="accent">no IT team</span>',
+    visualHTML: DG.vendorPortal,
+    blocks: [
+      { kind: 'q', html: 'A good part of your most interesting assortment sits with small vendors who have no systems to integrate and no budget to build any. Wait for them to be ready and you simply never list their products.' },
+      { kind: 'a', html: 'The <strong>Vendor Portal</strong> gives every supplier a login instead of an integration. They register and get approved, create products and offers or bulk-import them, keep price and stock current, and see and fulfil their own orders. An <strong>AI assistant drafts descriptions and translations</strong>, so thin supplier data still becomes a sellable listing.' },
+      { kind: 'w', html: 'Make the portal the <strong>default for every new supplier</strong> — then graduate the high-volume ones to middleware or API once the volume justifies it.' },
+      { kind: 't', html: 'Onboarding cost per supplier falls to almost nothing, while you keep full control over what actually goes live.' }
+    ]
+  },
+
+  /* ===== SECTION 05 ===== */
+  {
+    type: 'divider',
+    num: 'Section 05  ·  Choosing',
+    title: 'Which Door',
+    titleAccent: 'Do I Open?',
+    desc: 'A playbook per audience — the need, the path that serves it, why it wins and who does the work. Plus what to do when none of them fit.',
+  },
+  {
+    type: 'playbook',
+    category: 'Choosing',
+    title: 'Your integration <span class="accent">playbook</span>',
+    intro: 'Start from who you are serving and what they need — not from the technology. Most programmes use several of these together.',
+    groups: [
+      {
+        cls: 'buyer', icon: PBI.buyer, name: 'Buyers', sub: 'Your customers',
+        plays: [
+          { need: 'You want to <b>launch a branded store, app or customer portal</b>', path: 'XAPI', who: 'Frontend team',
+            why: 'One request per screen, with each buyer’s own <strong>contract pricing</strong> already resolved' },
+          { need: 'Your customer <b>can only buy through Coupa or Ariba</b>', path: 'Punchout', who: 'Module + config',
+            why: 'You appear <strong>inside their approval flow</strong> — no manual purchase orders, no re-keying' },
+          { need: 'You want to be <b>found and bought by AI agents</b>', path: 'UCP &middot; MCP', who: 'Enable the module',
+            why: 'One endpoint that <strong>every compliant agent</strong> already knows how to talk to' }
+        ]
+      },
+      {
+        cls: 'seller', icon: PBI.seller, name: 'eCommerce Team', sub: 'You and your systems',
+        plays: [
+          { need: 'You need <b>ERP, CRM and stock in step</b> with the store', path: 'Integration Middleware', who: 'Integration team',
+            why: 'Visual mapping you can <strong>change without a release</strong> or a deployment window' },
+          { need: 'You need <b>bespoke logic, or data moved at volume</b>', path: 'REST API', who: 'Your developers',
+            why: 'Full coverage, generated clients, <strong>nothing hidden</strong> behind the admin screens' },
+          { need: 'You want to <b>change prices, promotions, roles or approvals</b>', path: 'Admin UI', who: 'Your business team',
+            why: 'A business decision handled as <strong>a setting</strong> — live immediately and audited' }
+        ]
+      },
+      {
+        cls: 'vendor', icon: PBI.vendor, name: 'Suppliers', sub: 'Vendors &amp; distributors',
+        plays: [
+          { need: 'Your supplier <b>has its own systems and real volume</b>', path: 'Vendor API', who: 'Supplier + you',
+            why: 'Their systems write into your catalog, <strong>scoped and moderated</strong> by you' },
+          { need: 'Your supplier <b>can only send a file or a feed</b>', path: 'Integration Middleware', who: 'Integration team',
+            why: 'One reusable flow — <strong>the next supplier is a mapping</strong>, not a project' },
+          { need: 'Your supplier <b>has no IT at all</b>', path: 'Vendor Portal', who: 'Nobody: it ships',
+            why: 'They self-serve from day one — <strong>nothing to build</strong> per supplier' }
+        ]
+      }
+    ],
+    ask: {
+      tag: 'Ask us',
+      title: 'None of these fit? Ask the Virto Commerce team.',
+      desc: 'Bring us the scenario. We review integration requests with you regularly, and when it is a need shared by others we <strong>build it into the platform</strong> — so it reaches you as a standard update instead of custom code you have to maintain.'
+    }
+  },
+  {
+    type: 'glossary',
+    category: 'Reference',
+    title: 'Glossary — words <span class="accent">we just used</span>',
+    intro: 'A shared vocabulary, so “API”, “middleware” and “agent” mean the same thing to everyone in the room.',
+    terms: [
+      { t: 'API', d: 'A defined way for two systems to talk. If it is in the API, another system can do it <strong>without a human</strong>.' },
+      { t: 'REST API', d: 'The classic, universally supported API style. Virto Commerce publishes one for <strong>every module</strong>.' },
+      { t: 'OpenAPI', d: 'A machine-readable description of an API. Integration Middleware and code generators read it and wire themselves up.' },
+      { t: 'GraphQL', d: 'A query language where the caller asks for exactly the fields it needs — one round trip instead of many.' },
+      { t: 'XAPI', d: 'The Virto Commerce <strong>Experience API</strong>: a GraphQL layer built for buying surfaces, with pricing and permissions already applied.' },
+      { t: 'Punchout', d: 'A standard that lets a buyer “punch out” of their procurement system into your catalog and bring a cart back.' },
+      { t: 'cXML', d: 'The message format procurement systems such as Coupa and Ariba use to talk to suppliers.' },
+      { t: 'eProcurement', d: 'The software large organizations buy through — Coupa, Ariba, Jaggaer, Oracle. Budgets and approvals live here.' },
+      { t: 'UCP', d: '<strong>Universal Commerce Protocol</strong> — an open standard that lets AI agents browse, build a cart and check out.' },
+      { t: 'MCP', d: '<strong>Model Context Protocol</strong> — how an AI agent reaches tools and data such as your catalog.' },
+      { t: 'Integration Middleware', d: 'A system sitting between two others to map, transform, schedule and retry messages. Logic Apps, Boomi, MuleSoft.' },
+      { t: 'Azure Logic Apps', d: 'Microsoft’s low-code workflow service. Imports the Virto Commerce OpenAPI schema, so flows are drawn instead of coded.' },
+      { t: 'Vendor Portal', d: 'A self-service application where suppliers manage their own products, offers, stock and orders.' },
+      { t: 'Headless', d: 'The storefront is separate from the commerce engine and talks to it over an API — change one without touching the other.' },
+      { t: 'PBC', d: '<strong>Packaged Business Capability</strong> — a ready-made block of commerce functionality you switch on rather than build.' }
+    ]
+  },
+
+  { type: 'thanks' }
+];
+
+/* ---------------- ELEMENTS / HELPERS ---------------- */
+const stage = document.getElementById('stage');
+const totalSlides = slides.length;
+let currentIndex = 0;
+
+function stripHTML(str) { return String(str).replace(/<[^>]*>/g, ''); }
+
+/* ---------------- RENDERERS ---------------- */
+function header(category) {
+  return `
+    <div class="slide-header">
+      <div class="brand">
+        <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
+        <div class="brand-text">
+          <span class="b1">Virto Commerce</span>
+          <span class="b2">Integration Capabilities — Business Guide</span>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span class="pill">${category || 'Integration'}</span>
+      </div>
+    </div>`;
+}
+
+function renderCover() {
+  return `
+    <div class="slide cover" data-index="0">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="brand">
+            <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
+            <div class="brand-text">
+              <span class="b1">Virto Commerce</span>
+              <span class="b2">Enterprise Commerce Platform</span>
+            </div>
+          </div>
+          <div class="header-meta">
+            <span class="pill">Guide</span>
+            <span>Integration Capabilities</span>
+          </div>
+        </div>
+
+        <div class="cover-body">
+          <span class="cover-eyebrow">A guide for business decision makers</span>
+          <h1 class="cover-title">
+            Integration Capabilities<br/>
+            <span class="grad">of Virto Commerce</span>
+          </h1>
+          <p class="cover-sub">
+            Commerce never runs alone. It has to meet your customers’ procurement platforms, your own ERP and CRM, the suppliers whose stock you sell, and now the AI agents buying on a customer’s behalf. This guide walks through the integration path built for each audience, <strong>what it is good for</strong>, and how to choose between them.
+          </p>
+          <div class="cover-highlights">
+            <span class="cover-chip persona"><span class="who">Buyers</span><span class="lbl">Storefronts, procurement systems, AI agents</span></span>
+            <span class="cover-chip persona"><span class="who">eCommerce Team</span><span class="lbl">Your systems, your back office, your rules</span></span>
+            <span class="cover-chip persona"><span class="who">Suppliers</span><span class="lbl">Vendors, distributors, drop-shippers</span></span>
+          </div>
+          <div class="cover-note">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <p>These are the <strong>most common</strong> integration paths, not a closed list. Most projects run several in parallel, and which ones you need depends on your requirements. Because Virto Commerce is <strong>composable</strong>, you switch on only the paths you need today — and add new integrations, including your own, whenever they become necessary.</p>
+          </div>
+        </div>
+
+        <div class="slide-footer">
+          <span class="slide-category">Virto Commerce · Integration Capabilities</span>
+          <span class="slide-counter">01 <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildDividerToc(dividerIdx) {
+  let html = '<div class="divider-toc-title">In this section</div>';
+  let n = 0;
+  for (let j = dividerIdx + 1; j < slides.length; j++) {
+    const s = slides[j];
+    if (s.type === 'divider' || s.type === 'thanks') break;
+    n++;
+    html += `<button class="dtoc-slide" data-goto="${j}">
+      <span class="dtoc-slide-num">${String(n).padStart(2,'0')}</span>
+      <span class="dtoc-slide-label">${stripHTML(s.title)}</span>
+    </button>`;
+  }
+  return html;
+}
+
+function renderDivider(slide, idx) {
+  const tocHtml = buildDividerToc(idx);
+  return `
+    <div class="slide section-divider" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="divider-body">
+          <div class="divider-left">
+            <span class="divider-num">${slide.num}</span>
+            <h2 class="divider-title">${slide.title}<br/><span class="grad">${slide.titleAccent}</span></h2>
+            <p class="divider-desc">${slide.desc}</p>
+            ${slide.statValue ? `<div class="divider-stat">
+              <span class="v">${slide.statValue}</span>
+              <span class="l">${slide.statLabel}</span>
+            </div>` : ''}
+          </div>
+          <div class="divider-right">
+            <div class="shape s1"></div>
+            <div class="shape s2"></div>
+            <div class="divider-toc">${tocHtml}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderContent(slide, idx) {
+  const visualHTML = slide.visualHTML
+    ? `<div class="visual-col diagram-col">${slide.visualHTML}</div>`
+    : `<div class="visual-col">
+         <div class="no-visual">
+           <div class="icon-circle">${icons[slide.icon] || icons.spark}</div>
+           <h3>${stripHTML(slide.title)}</h3>
+           <p>${slide.category}</p>
+         </div>
+       </div>`;
+
+  const blocksHTML = slide.blocks.map(b => {
+    const m = BLOCK_META[b.kind];
+    return `
+      <div class="ps-block ${m.cls}">
+        <span class="ps-label">${b.icon || m.icon}${b.label || m.label}</span>
+        <div class="ps-text">${b.html}</div>
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="slide" data-index="${idx}">
+      <div class="slide-inner">
+        ${header(slide.category)}
+        <div class="slide-body">
+          <div class="content-col">
+            <span class="topic-tag">${slide.tag || 'Challenge &amp; Approach'}</span>
+            <h2 class="slide-title">${slide.title}</h2>
+            ${blocksHTML}
+          </div>
+          ${visualHTML}
+        </div>
+        <div class="slide-footer">
+          <span class="slide-category">${slide.category}</span>
+          <span class="slide-counter">${String(idx+1).padStart(2,'0')} <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderPlaybook(slide, idx) {
+  const col = g => `
+    <div class="pb-col ${g.cls}">
+      <div class="pb-col-h">
+        <span class="pb-ic">${g.icon}</span>
+        <div class="pb-who">
+          <div class="n">${g.name}</div>
+          <div class="s">${g.sub}</div>
+        </div>
+      </div>
+      <div class="pb-plays">
+        ${g.plays.map(p => `
+          <div class="pb-play">
+            <div class="pb-need">${p.need}</div>
+            <div class="pb-line">
+              <span class="pb-path">${p.path}</span>
+              <span class="pb-owner">${p.who}</span>
+            </div>
+            <div class="pb-why">${p.why}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  return `
+    <div class="slide" data-index="${idx}">
+      <div class="slide-inner">
+        ${header(slide.category)}
+        <div class="pb-wrap">
+          <div class="pb-head">
+            <span class="topic-tag">Decision guide</span>
+            <h2 class="slide-title">${slide.title}</h2>
+            <p class="ps-text" style="color:var(--virto-muted)">${slide.intro}</p>
+          </div>
+          <div class="pb-grid">${slide.groups.map(col).join('')}</div>
+          <div class="pb-ask">
+            <span class="pb-ask-ic">${PBI.ask}</span>
+            <div class="pb-ask-b">
+              <div class="pb-ask-t">${slide.ask.title}</div>
+              <div class="pb-ask-d">${slide.ask.desc}</div>
+            </div>
+            <span class="pb-ask-tag">${slide.ask.tag}</span>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span class="slide-category">${slide.category}</span>
+          <span class="slide-counter">${String(idx+1).padStart(2,'0')} <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderGlossary(slide, idx) {
+  const cards = slide.terms.map(tm => `
+    <div class="gloss-card">
+      <div class="gloss-term">${tm.t}</div>
+      <div class="gloss-def">${tm.d}</div>
+    </div>`).join('');
+
+  return `
+    <div class="slide" data-index="${idx}">
+      <div class="slide-inner">
+        ${header(slide.category)}
+        <div class="gloss-wrap">
+          <div class="gloss-head">
+            <span class="gloss-eyebrow">Reference</span>
+            <h2 class="slide-title">${slide.title}</h2>
+            <p class="ps-text" style="color:var(--virto-muted)">${slide.intro}</p>
+          </div>
+          <div class="gloss-grid">${cards}</div>
+        </div>
+        <div class="slide-footer">
+          <span class="slide-category">${slide.category}</span>
+          <span class="slide-counter">${String(idx+1).padStart(2,'0')} <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderThanks(idx) {
+  return `
+    <div class="slide thanks" data-index="${idx}">
+      <div class="slide-inner">
+        <div class="thanks-body">
+          <span class="thanks-eyebrow">Every party, its own door</span>
+          <h1 class="thanks-title">Integrate on <span class="grad">your terms</span></h1>
+          <p class="thanks-sub">
+            Buyers, your own teams and your suppliers each get a path matched to what they can actually handle — from a full API down to a portal login — while one commerce core keeps the data, the prices and the rules identical for all of them.
+          </p>
+          <div class="thanks-cta">
+            <a class="cta-btn" href="https://virtocommerce.com/integrations/ecommerce-erp-integrations" target="_blank" rel="noopener">
+              ERP &amp; system integrations
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a class="cta-btn outline" href="https://virtocommerce.com/features/punchout-catalogs" target="_blank" rel="noopener">PunchOut catalogs</a>
+            <a class="cta-btn outline" href="https://virtocommerce.com/blog/low-code-integration" target="_blank" rel="noopener">Low-code integration</a>
+          </div>
+          <div class="thanks-footer">virtocommerce.com · Integration Capabilities</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function render() {
+  let html = '';
+  slides.forEach((s, i) => {
+    if (s.type === 'cover') html += renderCover();
+    else if (s.type === 'divider') html += renderDivider(s, i);
+    else if (s.type === 'playbook') html += renderPlaybook(s, i);
+    else if (s.type === 'glossary') html += renderGlossary(s, i);
+    else if (s.type === 'thanks') html += renderThanks(i);
+    else html += renderContent(s, i);
+  });
+  stage.innerHTML = html;
+  document.getElementById('totalSlides').textContent = String(totalSlides).padStart(2,'0');
+  document.querySelectorAll('[data-goto]').forEach(btn => {
+    btn.addEventListener('click', (e) => { e.stopPropagation(); showSlide(parseInt(btn.dataset.goto, 10)); });
+  });
+  showSlide(0);
+}
+
+function showSlide(i) {
+  if (i < 0 || i >= totalSlides) return;
+  currentIndex = i;
+  document.querySelectorAll('.slide').forEach((el, idx) => el.classList.toggle('active', idx === i));
+  document.getElementById('currentSlide').textContent = String(i+1).padStart(2,'0');
+  document.getElementById('progressBar').style.width = `${((i+1)/totalSlides)*100}%`;
+  document.getElementById('prevBtn').disabled = i === 0;
+  document.getElementById('nextBtn').disabled = i === totalSlides - 1;
+  if (tocOpen) updateTocActive();
+  // Reset page scroll to the top of the newly active slide on mobile
+  window.scrollTo(0, 0);
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => showSlide(currentIndex - 1));
+document.getElementById('nextBtn').addEventListener('click', () => showSlide(currentIndex + 1));
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); showSlide(currentIndex + 1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); showSlide(currentIndex - 1); }
+  else if (e.key === 'Home') { e.preventDefault(); showSlide(0); }
+  else if (e.key === 'End') { e.preventDefault(); showSlide(totalSlides - 1); }
+  else if (e.key === 'f' || e.key === 'F') { toggleFullscreen(); }
+  else if (e.key === 't' || e.key === 'T') { toggleToc(); }
+  else if (e.key === 'Escape') { closeToc(); }
+});
+
+document.getElementById('hintPrev').addEventListener('click', () => showSlide(currentIndex - 1));
+document.getElementById('hintNext').addEventListener('click', () => showSlide(currentIndex + 1));
+document.getElementById('hintFullscreen').addEventListener('click', toggleFullscreen);
+document.getElementById('hintToc').addEventListener('click', toggleToc);
+
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', (e) => {
+  const delta = e.changedTouches[0].screenX - touchStartX;
+  if (Math.abs(delta) > 60) { if (delta < 0) showSlide(currentIndex + 1); else showSlide(currentIndex - 1); }
+});
+
+/* ---------------- TOC PANEL ---------------- */
+const tocPanel = document.getElementById('tocPanel');
+const tocBackdrop = document.getElementById('tocBackdrop');
+const tocEntries = document.getElementById('tocEntries');
+const tocCloseBtn = document.getElementById('tocClose');
+const tocToggleNavBtn = document.getElementById('tocToggleNav');
+let tocOpen = false;
+
+function renderTocPanel() {
+  let html = '';
+  for (let i = 0; i < slides.length; i++) {
+    const s = slides[i];
+    if (s.type === 'cover') {
+      html += `<button class="toc-entry" data-toc-slide="0"><span class="toc-entry-num">—</span><div class="toc-entry-body"><div class="toc-entry-title">Cover</div></div></button>`;
+    } else if (s.type === 'divider') {
+      const label = (s.title + ' ' + s.titleAccent).replace(/&amp;/g, '&');
+      const children = [];
+      for (let j = i + 1; j < slides.length; j++) {
+        if (slides[j].type === 'divider' || slides[j].type === 'thanks') break;
+        children.push(j);
+      }
+      html += `<button class="toc-entry" data-toc-slide="${i}">
+        <span class="toc-entry-num">${s.num.replace(/Section\s*/i,'').replace(/\s*·.*/, '')}</span>
+        <div class="toc-entry-body">
+          <div class="toc-entry-title">${label}</div>
+          <div class="toc-entry-count">${children.length} slide${children.length !== 1 ? 's' : ''}</div>
+        </div>
+      </button>`;
+      if (children.length) {
+        html += '<div class="toc-sub-entries">';
+        children.forEach(j => { html += `<button class="toc-sub-entry" data-toc-slide="${j}">${stripHTML(slides[j].title)}</button>`; });
+        html += '</div>';
+      }
+    } else if (s.type === 'thanks') {
+      html += `<button class="toc-entry" data-toc-slide="${i}"><span class="toc-entry-num">—</span><div class="toc-entry-body"><div class="toc-entry-title">Wrap-up</div></div></button>`;
+    }
+  }
+  tocEntries.innerHTML = html;
+  tocEntries.querySelectorAll('[data-toc-slide]').forEach(btn => {
+    btn.addEventListener('click', () => { closeToc(); showSlide(parseInt(btn.dataset.tocSlide, 10)); });
+  });
+}
+
+function updateTocActive() {
+  let activeSection = 0;
+  for (let i = currentIndex; i >= 0; i--) {
+    if (i === 0 || slides[i].type === 'divider' || slides[i].type === 'thanks') { activeSection = i; break; }
+  }
+  tocEntries.querySelectorAll('.toc-entry').forEach(btn => {
+    const idx = parseInt(btn.dataset.tocSlide, 10);
+    const isActive = idx === activeSection;
+    btn.classList.toggle('active', isActive);
+    const subs = btn.nextElementSibling;
+    if (subs && subs.classList.contains('toc-sub-entries')) subs.classList.toggle('expanded', isActive);
+  });
+  tocEntries.querySelectorAll('.toc-sub-entry').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.tocSlide, 10) === currentIndex);
+  });
+}
+
+function openToc() {
+  tocOpen = true;
+  tocPanel.classList.add('open');
+  tocBackdrop.classList.add('open');
+  updateTocActive();
+  const first = tocEntries.querySelector('.toc-entry.active') || tocEntries.querySelector('.toc-entry');
+  if (first) first.focus();
+}
+function closeToc() {
+  if (!tocOpen) return;
+  tocOpen = false;
+  tocPanel.classList.remove('open');
+  tocBackdrop.classList.remove('open');
+  tocToggleNavBtn.focus();
+}
+function toggleToc() { if (tocOpen) closeToc(); else openToc(); }
+
+tocCloseBtn.addEventListener('click', closeToc);
+tocBackdrop.addEventListener('click', closeToc);
+tocToggleNavBtn.addEventListener('click', toggleToc);
+
+let tocTouchStartX = 0;
+tocPanel.addEventListener('touchstart', (e) => { tocTouchStartX = e.changedTouches[0].screenX; });
+tocPanel.addEventListener('touchend', (e) => { if (e.changedTouches[0].screenX - tocTouchStartX < -60) closeToc(); });
+
+render();
+renderTocPanel();
+</script>
+</body>
+</html>

@@ -39,6 +39,7 @@ Product, engineering, and business stakeholders review what shipped, mark featur
 
 | Title | Deck |
 | :--- | :--- |
+| **Integration Capabilities of Virto Commerce** | [🔌 Open](https://virtocommerce.github.io/vc-release-notes/presentations/integration-capabilities.html) |
 | **Virto Cloud — Enterprise Commerce, Fully Managed** | [☁️ Open](https://virtocommerce.github.io/vc-release-notes/presentations/virto-cloud.html) |
 | **Release Strategy for Business Users** | [📜 Open](https://virtocommerce.github.io/vc-release-notes/presentations/release-strategy-for-business-users.html) |
 
