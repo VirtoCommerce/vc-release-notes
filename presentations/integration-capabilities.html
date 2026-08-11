@@ -906,8 +906,8 @@ const DG = {
       </div>
       <div class="dg-box good">
         <h5><span class="dg-mark">${SI.ok}</span> A door per audience</h5>
-        <p>Buyers get an experience API and their own procurement channel, your systems get REST plus Integration Middleware, suppliers get a portal they can use unaided.</p>
-        <p><strong style="color:var(--ink-green)">Every party self-serves.</strong></p>
+        <p>Buyers get an experience API and their own procurement channel, your systems get REST plus your integration middleware, suppliers get a portal they can use unaided.</p>
+        <p><strong style="color:var(--ink-green)">Every party gets a door built for them.</strong></p>
       </div>
     </div>`,
 
@@ -921,7 +921,7 @@ const DG = {
         <div class="ax-client">${IC.bot}<span>AI agents</span></div>
       </div>
       <div class="ax-row c3 buyer">
-        <div class="ax-door">XAPI</div>
+        <div class="ax-door">xAPI</div>
         <div class="ax-door">Punchout</div>
         <div class="ax-door">UCP</div>
       </div>
@@ -934,7 +934,7 @@ const DG = {
       <div class="ax-lane-h seller">For your own team</div>
       <div class="ax-row c3 seller">
         <div class="ax-door">REST API</div>
-        <div class="ax-door">Integration Middleware</div>
+        <div class="ax-door">Integration middleware</div>
         <div class="ax-door">Admin UI</div>
       </div>
       <div class="ax-row c3 seller">
@@ -945,7 +945,7 @@ const DG = {
       <div class="ax-lane-h vendor">For your suppliers</div>
       <div class="ax-row c3 vendor">
         <div class="ax-door">Vendor API</div>
-        <div class="ax-door">Integration Middleware</div>
+        <div class="ax-door">Integration middleware</div>
         <div class="ax-door">Vendor Portal</div>
       </div>
       <div class="ax-row c3 vendor">
@@ -956,7 +956,7 @@ const DG = {
       <div class="ax-foot">Each column is one path &mdash; pick one, combine several, or add your own.</div>
     </div>`,
 
-  /* XAPI */
+  /* xAPI */
   xapi: `
     <div class="ax">
       <div class="ax-cap">Buying surfaces</div>
@@ -968,7 +968,7 @@ const DG = {
       </div>
       <div class="ax-link"><span class="l">one request per screen</span><span class="p"></span></div>
       <div class="ax-node door">
-        <span class="n">XAPI &mdash; the Experience API</span>
+        <span class="n">xAPI &mdash; the Experience API</span>
         <span class="s">Resolves who the buyer is, their organization and their agreed prices before answering</span>
       </div>
       <div class="ax-link d2"><span class="l">reads &amp; writes</span><span class="p"></span></div>
@@ -995,7 +995,7 @@ const DG = {
       </div>
       <div class="ax-link d2"><span class="l">authenticated session</span><span class="p"></span></div>
       <div class="ax-node">
-        <span class="n">Your storefront, over XAPI</span>
+        <span class="n">Your storefront, over xAPI</span>
         <span class="s">Your catalog and content &mdash; at their negotiated prices</span>
       </div>
       <div class="ax-link ret d3"><span class="l">cart handed back (cXML)</span><span class="p"></span></div>
@@ -1023,7 +1023,7 @@ const DG = {
         <div class="t">Your real catalog, pricing and orders</div>
         <div class="m">Same data, same rules and same audit trail as every human channel</div>
       </div>
-      <div class="ax-foot">A new agent launches? <strong>You are already compatible.</strong></div>
+      <div class="ax-foot">A new agent launches — <strong>no per-agent integration</strong>.</div>
     </div>`,
 
   /* Seller REST API */
@@ -1045,7 +1045,7 @@ const DG = {
         <span class="n">Virto Commerce REST API</span>
         <span class="s">Every module publishes a schema &mdash; and it is the same API the admin screens use</span>
       </div>
-      <div class="ax-link d2"><span class="l">nothing held back</span><span class="p"></span></div>
+      <div class="ax-link d2"><span class="l">the same API the admin screens use</span><span class="p"></span></div>
       <div class="ax-cap">Every module, through the same API</div>
       <div class="ax-row c3">
         <div class="ax-chip">Catalog</div>
@@ -1060,18 +1060,18 @@ const DG = {
       <div class="ax-foot">&hellip; and every other module you have installed.</div>
     </div>`,
 
-  /* Integration Middleware — worked SAP example */
+  /* Integration middleware — worked SAP example */
   middleware: `
     <div class="ax">
-      <div class="ax-cap">Example &mdash; connecting SAP</div>
+      <div class="ax-cap">Example &mdash; connecting SAP. Any ERP connects the same way.</div>
       <div class="ax-node ext">
         <span class="n">SAP ERP</span>
         <span class="s">System of record for customers, credit, stock, prices and invoices</span>
       </div>
       <div class="ax-link"><span class="l">IDoc &middot; BAPI &middot; OData</span><span class="p"></span></div>
       <div class="ax-node you">
-        <span class="n">Virto Commerce Integration Middleware</span>
-        <span class="s">Map fields, transform messages, schedule syncs, retry failures and alert on errors &mdash; drawn, not coded</span>
+        <span class="n">Your integration middleware</span>
+        <span class="s">Map fields, transform messages, schedule syncs, retry failures, alert on errors &mdash; and hold enterprise-specific orchestration and business logic in one place</span>
       </div>
       <div class="ax-link d2"><span class="l">OpenAPI connector</span><span class="p"></span></div>
       <div class="ax-node door"><span class="n">Virto Commerce REST API</span></div>
@@ -1080,7 +1080,7 @@ const DG = {
         <div class="ax-chip">Orders out</div>
         <div class="ax-chip">Invoices back</div>
       </div>
-      <div class="ax-foot">Powered by <strong>Azure Logic Apps</strong> &mdash; Boomi and MuleSoft work the same way.</div>
+      <div class="ax-foot"><strong>Azure Function Apps</strong> is the delivery default; <strong>client-owned middleware</strong> is normal practice. Logic Apps, Boomi and MuleSoft work the same way.</div>
     </div>`,
 
   /* Admin UI self-service */
@@ -1127,7 +1127,7 @@ const DG = {
       </div>
       <div class="ax-link"><span class="l">scheduled pickup</span><span class="p"></span></div>
       <div class="ax-node you">
-        <span class="n">One reusable Integration Middleware flow</span>
+        <span class="n">One reusable middleware flow</span>
         <span class="s">Validate, normalize, enrich &mdash; then clone the flow per supplier and change only the mapping</span>
       </div>
       <div class="ax-link d2"><span class="l">clean, consistent data</span><span class="p"></span></div>
@@ -1158,18 +1158,18 @@ const slides = [
   {
     type: 'divider',
     num: 'Section 01  ·  Why It Matters',
-    title: 'Integration Is',
-    titleAccent: 'the Real Project',
-    desc: 'Where commerce programmes actually spend their time and budget — and why offering everyone the same generic interface is the most expensive answer.',
+    title: 'Commerce That',
+    titleAccent: 'Keeps Evolving',
+    desc: 'Commerce keeps changing alongside your ERP, PIM, CMS, payments, search and fulfilment — with less risk and without another replatforming. Cost is evidence, not the story.',
   },
   {
     category: 'Why It Matters',
-    title: 'Projects rarely fail on the <span class="accent">storefront</span>',
+    title: 'Where <span class="accent">commerce actually meets your business</span>',
     visualHTML: DG.stakes,
     blocks: [
-      { kind: 'q', html: 'Ask any team that has replatformed where the time actually went. Almost never the product pages — it went into connecting the store to the ERP, to customers’ procurement systems, and to the suppliers whose stock they were selling.' },
+      { kind: 'q', html: 'Ask any team that has replatformed where the time actually went. It rarely went into product pages. It went into how you actually sell — through distributors and dealers, through procurement-mandated accounts, through marketplace vendors — and into the systems behind them: ERP, CRM, PIM, warehouses, payments. <strong>Replatforming lives or dies at the integration layer.</strong>' },
       { kind: 'a', html: 'Integration is not one problem. It is <strong>a different problem for every audience</strong>: the people buying from you, your own commercial and IT teams, and the vendors supplying you. Each has a completely different appetite for technology — and handing every one of them the same generic API is how budgets disappear.' },
-      { kind: 't', html: 'Match the door to whoever is knocking, and integration stops being the risk line in your business case.' }
+      { kind: 't', html: '<strong>Match the door to whoever is knocking</strong>, and integration stops being the risk line in your business case.' }
     ]
   },
   {
@@ -1177,10 +1177,10 @@ const slides = [
     title: 'One platform, <span class="accent">ready-made doors</span>',
     visualHTML: DG.overview,
     blocks: [
-      { kind: 'q', html: 'If every connection has to be custom-built, then every new customer, system and supplier arrives as a project — with a budget, a specification and a place in the queue.' },
-      { kind: 'a', html: '<strong>Virto Commerce holds all your business rules and business logic</strong> — catalog, pricing, inventory, cart, orders, customers — and opens <strong>ready-made doors</strong> onto it: for your buyers, for your own team, and for your suppliers. Every door reads and writes the same data under the same rules, so nothing drifts apart.' },
+      { kind: 'q', html: 'If every connection has to be custom-built, then every new customer, system and supplier arrives as a project — with a budget, a specification and a place in the queue. Every replatforming brings the same problem back.' },
+      { kind: 'a', html: '<strong>Virto Commerce holds all your business rules and business logic</strong> — catalog, pricing, inventory, cart, orders, customers — and opens <strong>ready-made doors</strong> onto it: for your buyers, for your own team, and for your suppliers. Every door reads and writes the same data under the same rules, so nothing drifts apart. For multi-system enterprise landscapes, <strong>integration middleware is the normal architecture</strong>, not the fallback — REST and Admin UI are the other doors, not the only ones.' },
       { kind: 'w', html: 'The paths shown here are the <strong>most common</strong> ones, and they are not mutually exclusive — most projects run several in parallel. Which you need depends on your requirements.' },
-      { kind: 't', html: 'Because the platform is <strong>composable</strong>, you enable only the doors you need today and add new integrations — including your own — whenever the business asks for them.' }
+      { kind: 't', html: 'You switch on only what you need today — and <strong>add new integrations whenever the business asks for them</strong>, without another replatforming.' }
     ]
   },
 
@@ -1198,9 +1198,9 @@ const slides = [
     visualHTML: DG.xapi,
     blocks: [
       { kind: 'q', html: 'A web store, a mobile app, a sales-rep tool and a customer portal all show the same products at different prices to different people. Built separately, they drift apart — and every one of them gets slower to change.' },
-      { kind: 'a', html: 'XAPI is the Virto Commerce <strong>Experience API</strong>. A screen asks for exactly the data it needs in a single request, and the platform works out <strong>who the buyer is, which organization they belong to and what they have negotiated</strong> before it answers. The commercial logic stays in one place, server-side.' },
-      { kind: 'w', html: 'Choose XAPI whenever <strong>a person is looking at a screen</strong> — your storefront, a mobile app, a partner-branded portal, or a rep selling on a customer’s behalf.' },
-      { kind: 't', html: 'Launch the next buying channel in weeks instead of quarters — and know that every channel quotes the same price.' }
+      { kind: 'a', html: 'xAPI is the Virto Commerce <strong>Experience API</strong>. A screen asks for exactly the data it needs in a single request, and the platform works out <strong>who the buyer is, which organization they belong to and what they have negotiated</strong> before it answers. The commercial logic stays in one place, server-side.' },
+      { kind: 'w', html: 'Choose xAPI whenever <strong>a person is looking at a screen</strong> — your storefront, a mobile app, a partner-branded portal, or a rep selling on a customer’s behalf.' },
+      { kind: 't', html: 'A new surface is a <strong>new front end, not a new back end</strong> — and every channel quotes the same price.' }
     ]
   },
   {
@@ -1211,7 +1211,7 @@ const slides = [
       { kind: 'q', html: 'Your largest customers do not buy from websites. Their staff buy from Coupa, Ariba or Jaggaer, because that is where budgets and approvals live. If you are not in there, every order from them is a manual exception someone has to justify.' },
       { kind: 'a', html: 'The <strong>Punchout module</strong> answers those systems in their own language. The buyer clicks your catalog from inside their procurement tool and lands in <strong>your storefront already identified</strong> — correct organization, correct contract prices — shops normally, and the finished cart is handed straight back for approval and a purchase order.' },
       { kind: 'w', html: 'Choose Punchout the moment a customer says <em>“we can only buy through our procurement platform”</em> — typically enterprise, public sector, healthcare and education accounts.' },
-      { kind: 't', html: 'You become a one-click approved supplier inside the buyer’s own process. No re-keying, no lost orders — and a switching cost your competitors have to beat.' }
+      { kind: 't', html: 'You appear inside the buyer’s own approval flow as an approved supplier. No re-keying, no lost orders — and a switching cost your competitors have to beat.' }
     ]
   },
   {
@@ -1222,7 +1222,7 @@ const slides = [
       { kind: 'q', html: 'Buyers have started delegating: <em>“find this part, compare it, buy it.”</em> An agent that cannot read your catalog cannot recommend you — and building a custom adapter for every AI platform is a race nobody wins.' },
       { kind: 'a', html: 'Virto Commerce exposes the <strong>Universal Commerce Protocol</strong> through a verified <strong>MCP endpoint</strong> — an open standard for agent-driven commerce. Agents discover products, build a cart and complete checkout against your real catalog, pricing and order rules. <strong>One endpoint, every compliant agent</strong>, no per-agent integration.' },
       { kind: 'w', html: 'Choose UCP when you want to be <strong>discoverable and buyable by AI assistants</strong> — or to give your own customers a conversational way to reorder.' },
-      { kind: 't', html: 'You show up in a channel most competitors are still scoping, and when the next agent launches you need to do nothing at all.' }
+      { kind: 't', html: 'UCP is the <strong>open standard Shopify, Walmart and Target are adopting</strong>. When the next agent launches, <strong>no per-agent integration</strong>.' }
     ]
   },
 
@@ -1232,7 +1232,7 @@ const slides = [
     num: 'Section 03  ·  Your Team',
     title: 'How Your Business',
     titleAccent: 'Runs On It',
-    desc: 'Doors for the commerce owner — full API control where you need it, Integration Middleware for the back office, and self-service configuration for the business team.',
+    desc: 'Doors for the commerce owner — full API control where you need it, integration middleware for the back office, and self-service configuration for the business team.',
   },
   {
     category: 'Your Team',
@@ -1240,7 +1240,7 @@ const slides = [
     visualHTML: DG.restSeller,
     blocks: [
       { kind: 'q', html: 'Sooner or later a system you already own needs commerce data. The ERP owns stock and credit, the CRM owns the relationship, finance owns the invoice. Nightly spreadsheet drops and screen-scraping are where data quality goes to die.' },
-      { kind: 'a', html: 'Every Virto Commerce module publishes an <strong>open REST API with an OpenAPI schema</strong> — and it is the very same API the admin screens use, so there is no functionality locked away behind a button. Your developers generate a client straight from the schema and work against documented, versioned endpoints.' },
+      { kind: 'a', html: 'Every Virto Commerce module publishes an <strong>open REST API with an OpenAPI schema</strong> — <strong>the same API the admin screens use</strong>. Your developers generate a client straight from the schema and work against documented, versioned endpoints.' },
       { kind: 'w', html: 'Choose the REST API for <strong>logic your business is genuinely built on</strong>, for high-volume data movement, or for an internal tool that needs complete control.' },
       { kind: 't', html: 'No capability is trapped in a screen, and no roadmap of yours waits on a vendor deciding what to expose next.' }
     ]
@@ -1251,8 +1251,8 @@ const slides = [
     visualHTML: DG.middleware,
     blocks: [
       { kind: 'q', html: 'Hand-written integration code has an unpleasant habit: every field the ERP team renames becomes a ticket, a release and a deployment window. Keeping the connection alive quietly costs more than building it did.' },
-      { kind: 'a', html: 'Put the <strong>Virto Commerce Integration Middleware</strong> in between. It imports the Virto Commerce OpenAPI schema, so the flow is <strong>drawn rather than coded</strong>: map fields, transform messages, schedule syncs, retry failures, alert on errors. Connecting SAP means mapping IDoc or OData messages once — prices and stock in, orders out, invoices back.' },
-      { kind: 'w', html: 'Choose Integration Middleware for <strong>standard back-office traffic</strong> — orders out to the ERP, customers to the CRM, price and stock in, invoices back — especially when the integration team is not the commerce team.' },
+      { kind: 'a', html: 'Put <strong>your integration middleware</strong> in between — <strong>Azure Function Apps, Logic Apps, Boomi, MuleSoft — or your own</strong>. Middleware is where the enterprise-specific work belongs: orchestration, transformation, routing, retries and client-owned business logic. It imports the Virto Commerce OpenAPI schema, so connecting SAP means mapping IDoc or OData messages — prices and stock in, orders out, invoices back — and the mapping keeps evolving as the ERP does.' },
+      { kind: 'w', html: 'For <strong>multi-system, multi-entity landscapes middleware is the normal architecture, not the fallback</strong> — standard back-office traffic (orders out to the ERP, customers to the CRM, price and stock in, invoices back) belongs here, especially when the integration team is not the commerce team.' },
       { kind: 't', html: 'Business change stops queuing behind a release train, and the integration stays readable by someone other than the person who built it.' }
     ]
   },
@@ -1289,11 +1289,11 @@ const slides = [
   },
   {
     category: 'Suppliers &amp; Vendors',
-    title: 'Onboard a supplier <span class="accent">in days, not quarters</span>',
+    title: 'The next supplier is <span class="accent">a mapping, not a project</span>',
     visualHTML: DG.vendorMiddleware,
     blocks: [
       { kind: 'q', html: 'Most suppliers cannot meet you at your API. They have a spreadsheet, an SFTP drop, or an API built for something else entirely — and every single one of them is different.' },
-      { kind: 'a', html: 'Integration Middleware absorbs that difference. One flow <strong>collects whatever the supplier can produce</strong> — file, feed or API — validates and normalizes it, and calls the vendor APIs on their behalf. Onboarding the next supplier means <strong>cloning the flow and changing the mapping</strong>, not starting again.' },
+      { kind: 'a', html: 'Your integration middleware absorbs that difference. One flow <strong>collects whatever the supplier can produce</strong> — file, feed or API — validates and normalizes it, and calls the vendor APIs on their behalf. Onboarding the next supplier means <strong>cloning the flow and changing the mapping</strong>, not starting again.' },
       { kind: 'w', html: 'Choose this for the <strong>long tail of suppliers</strong>: many sources, many formats, none of them worth a bespoke project on its own.' },
       { kind: 't', html: 'The cost of adding a supplier falls with every supplier you add — which is exactly what turns a catalog into a marketplace.' }
     ]
@@ -1306,7 +1306,7 @@ const slides = [
       { kind: 'q', html: 'A good part of your most interesting assortment sits with small vendors who have no systems to integrate and no budget to build any. Wait for them to be ready and you simply never list their products.' },
       { kind: 'a', html: 'The <strong>Vendor Portal</strong> gives every supplier a login instead of an integration. They register and get approved, create products and offers or bulk-import them, keep price and stock current, and see and fulfil their own orders. An <strong>AI assistant drafts descriptions and translations</strong>, so thin supplier data still becomes a sellable listing.' },
       { kind: 'w', html: 'Make the portal the <strong>default for every new supplier</strong> — then graduate the high-volume ones to middleware or API once the volume justifies it.' },
-      { kind: 't', html: 'Onboarding cost per supplier falls to almost nothing, while you keep full control over what actually goes live.' }
+      { kind: 't', html: 'Onboarding cost <strong>falls with every supplier you add</strong>, and you keep full control over what actually goes live.' }
     ]
   },
 
@@ -1327,7 +1327,7 @@ const slides = [
       {
         cls: 'buyer', icon: PBI.buyer, name: 'Buyers', sub: 'Your customers',
         plays: [
-          { need: 'You want to <b>launch a branded store, app or customer portal</b>', path: 'XAPI', who: 'Frontend team',
+          { need: 'You want to <b>launch a branded store, app or customer portal</b>', path: 'xAPI', who: 'Frontend team',
             why: 'One request per screen, with each buyer’s own <strong>contract pricing</strong> already resolved' },
           { need: 'Your customer <b>can only buy through Coupa or Ariba</b>', path: 'Punchout', who: 'Module + config',
             why: 'You appear <strong>inside their approval flow</strong> — no manual purchase orders, no re-keying' },
@@ -1338,10 +1338,10 @@ const slides = [
       {
         cls: 'seller', icon: PBI.seller, name: 'eCommerce Team', sub: 'You and your systems',
         plays: [
-          { need: 'You need <b>ERP, CRM and stock in step</b> with the store', path: 'Integration Middleware', who: 'Integration team',
-            why: 'Visual mapping you can <strong>change without a release</strong> or a deployment window' },
+          { need: 'You need <b>ERP, CRM and stock in step</b> with the store', path: 'Integration middleware', who: 'Integration team',
+            why: 'Enterprise-specific orchestration and transformation you can revise <strong>between releases</strong>, not per release' },
           { need: 'You need <b>bespoke logic, or data moved at volume</b>', path: 'REST API', who: 'Your developers',
-            why: 'Full coverage, generated clients, <strong>nothing hidden</strong> behind the admin screens' },
+            why: 'Full coverage and generated clients — <strong>the same API the admin screens use</strong>' },
           { need: 'You want to <b>change prices, promotions, roles or approvals</b>', path: 'Admin UI', who: 'Your business team',
             why: 'A business decision handled as <strong>a setting</strong> — live immediately and audited' }
         ]
@@ -1351,10 +1351,10 @@ const slides = [
         plays: [
           { need: 'Your supplier <b>has its own systems and real volume</b>', path: 'Vendor API', who: 'Supplier + you',
             why: 'Their systems write into your catalog, <strong>scoped and moderated</strong> by you' },
-          { need: 'Your supplier <b>can only send a file or a feed</b>', path: 'Integration Middleware', who: 'Integration team',
+          { need: 'Your supplier <b>can only send a file or a feed</b>', path: 'Integration middleware', who: 'Integration team',
             why: 'One reusable flow — <strong>the next supplier is a mapping</strong>, not a project' },
-          { need: 'Your supplier <b>has no IT at all</b>', path: 'Vendor Portal', who: 'Nobody: it ships',
-            why: 'They self-serve from day one — <strong>nothing to build</strong> per supplier' }
+          { need: 'Your supplier <b>has no IT at all</b>', path: 'Vendor Portal', who: 'You — as configuration, not a build',
+            why: 'They self-serve from day one — <strong>onboarding cost falls with every supplier you add</strong>' }
         ]
       }
     ],
@@ -1365,6 +1365,31 @@ const slides = [
     }
   },
   {
+    category: 'Choosing',
+    title: 'In practice — <span class="accent">at enterprise scale</span>',
+    visualHTML: `
+      <div class="ax">
+        <div class="ax-cap">Live at enterprise scale</div>
+        <div class="ax-node">
+          <span class="n">HEINEKEN &mdash; 250 integrations across 25 operating companies</span>
+          <span class="s">One commerce foundation, many local realities &mdash; integrations are the substance of that scale</span>
+        </div>
+        <div class="ax-node">
+          <span class="n">Technical wholesaler integration stack</span>
+          <span class="s">Multi-system landscape connecting ERP, product data, warehouses and buying-channel routes end to end</span>
+        </div>
+        <div class="ax-node">
+          <span class="n">Hundreds of enterprise-system integrations delivered</span>
+          <span class="s">Across ERP, CRM, PIM, WMS, payments, tax, search and marketplaces (as of 2026-06-30)</span>
+        </div>
+      </div>`,
+    blocks: [
+      { kind: 'q', html: 'Every replatforming pitch sounds the same in the room. What proves an integration story is the number of enterprise systems already talking to the platform — at scale, across geographies, in production.' },
+      { kind: 'a', html: 'HEINEKEN runs <strong>250 integrations across 25 operating companies</strong> on one Virto Commerce foundation. A large technical wholesaler runs its full enterprise integration stack on it. Across the customer base, <strong>hundreds of enterprise-system integrations</strong> are already delivered, covering ERP, CRM, PIM, WMS, payments, tax, search and marketplaces (as of 2026-06-30).' },
+      { kind: 't', html: 'You are choosing a platform whose <strong>integration layer is proven at your scale</strong> — not a demo of one connector on stage.' }
+    ]
+  },
+  {
     type: 'glossary',
     category: 'Reference',
     title: 'Glossary — words <span class="accent">we just used</span>',
@@ -1372,19 +1397,17 @@ const slides = [
     terms: [
       { t: 'API', d: 'A defined way for two systems to talk. If it is in the API, another system can do it <strong>without a human</strong>.' },
       { t: 'REST API', d: 'The classic, universally supported API style. Virto Commerce publishes one for <strong>every module</strong>.' },
-      { t: 'OpenAPI', d: 'A machine-readable description of an API. Integration Middleware and code generators read it and wire themselves up.' },
+      { t: 'OpenAPI', d: 'A machine-readable description of an API. Middleware and code generators read it and wire themselves up.' },
       { t: 'GraphQL', d: 'A query language where the caller asks for exactly the fields it needs — one round trip instead of many.' },
-      { t: 'XAPI', d: 'The Virto Commerce <strong>Experience API</strong>: a GraphQL layer built for buying surfaces, with pricing and permissions already applied.' },
+      { t: 'xAPI', d: 'The Virto Commerce <strong>Experience API</strong>: the platform\'s unified API layer for frontend applications, integrations, <strong>AI agents</strong> and external digital experiences — with pricing and permissions already applied server-side.' },
       { t: 'Punchout', d: 'A standard that lets a buyer “punch out” of their procurement system into your catalog and bring a cart back.' },
       { t: 'cXML', d: 'The message format procurement systems such as Coupa and Ariba use to talk to suppliers.' },
       { t: 'eProcurement', d: 'The software large organizations buy through — Coupa, Ariba, Jaggaer, Oracle. Budgets and approvals live here.' },
       { t: 'UCP', d: '<strong>Universal Commerce Protocol</strong> — an open standard that lets AI agents browse, build a cart and check out.' },
       { t: 'MCP', d: '<strong>Model Context Protocol</strong> — how an AI agent reaches tools and data such as your catalog.' },
-      { t: 'Integration Middleware', d: 'A system sitting between two others to map, transform, schedule and retry messages. Logic Apps, Boomi, MuleSoft.' },
-      { t: 'Azure Logic Apps', d: 'Microsoft’s low-code workflow service. Imports the Virto Commerce OpenAPI schema, so flows are drawn instead of coded.' },
+      { t: 'Integration middleware', d: 'A system sitting between two others to map, transform, schedule, route and retry messages — and to hold enterprise-specific business logic. In Virto Commerce delivery the default is <strong>Azure Function Apps</strong>; other common options are Azure Logic Apps, Boomi, MuleSoft, Kafka, other iPaaS, or client-owned middleware.' },
       { t: 'Vendor Portal', d: 'A self-service application where suppliers manage their own products, offers, stock and orders.' },
       { t: 'Headless', d: 'The storefront is separate from the commerce engine and talks to it over an API — change one without touching the other.' },
-      { t: 'PBC', d: '<strong>Packaged Business Capability</strong> — a ready-made block of commerce functionality you switch on rather than build.' }
     ]
   },
 
