@@ -359,7 +359,7 @@
 
   /* SECTION DIVIDER */
   .section-divider { background: linear-gradient(135deg, var(--virto-navy) 0%, var(--virto-navy-2) 100%); color: white; overflow: hidden; }
-  .section-divider .slide-inner { padding: 0; }
+  .section-divider .slide-inner { padding: 0; grid-template-rows: 1fr; }
   .divider-body { height: 100%; display: grid; grid-template-columns: 1fr 1fr; }
   .divider-left { padding: 60px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
   .divider-right {
@@ -394,7 +394,7 @@
   .dtoc-slide {
     display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 12px;
     border: none; background: transparent; cursor: pointer; text-align: left; font-family: inherit;
-    font-size: 12px; color: rgba(255,255,255,0.9); line-height: 1.35; transition: all 0.15s;
+    font-size: 15px; color: rgba(255,255,255,0.9); line-height: 1.35; transition: all 0.15s;
     border-left: 2px solid rgba(255,255,255,0.3); border-radius: 0 6px 6px 0;
   }
   .dtoc-slide:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
@@ -876,6 +876,37 @@
   .svc-card.preview .svc-ic { background: rgba(56,189,248,0.18); color: #0369A1; }
 
   /* ========== TABLET (<= 900px) ========== */
+  /* ============================================================
+     FULLSCREEN MODE ONLY — kicks in when the browser is in real
+     fullscreen (F key or fullscreen button). Windowed view stays as
+     the bounded-card layout above.
+     ============================================================ */
+  :fullscreen .stage { padding: 0; }
+  :fullscreen .slide {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  /* Scale all font-sizes and layout inside the slide by 125% in fullscreen — reads better on a big screen */
+  :fullscreen .slide-inner { zoom: 1.25; }
+  :fullscreen .hint { display: none; }
+  :fullscreen .nav {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(12px);
+    border-color: rgba(220, 229, 241, 0.35);
+    box-shadow: 0 4px 20px -8px rgba(7, 37, 74, 0.15);
+    opacity: 0.35;
+  }
+  :fullscreen .nav:hover, :fullscreen .nav:focus-within {
+    opacity: 1;
+    background: rgba(255,255,255,0.98);
+    border-color: var(--virto-line);
+    box-shadow: var(--shadow-soft);
+  }
+
   @media (max-width: 900px) {
     /* Let the page scroll vertically when slide content is taller than the viewport */
     html, body { overflow-x: hidden; overflow-y: auto; height: auto; }

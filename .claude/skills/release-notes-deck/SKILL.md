@@ -75,7 +75,29 @@ The slides array is bounded by `const slides = [` and the matching `];` right be
 
 Prefer authoring the new slides array as a plain text file, then splicing with a small Python script (see the example in `scratchpad/port/apply.py` from the mobile-port work — same brace-matching pattern).
 
-### 5. Wire the previous month's forward link
+### 5. Verify fullscreen-mode enhancements are present (mandatory)
+
+Every deck in this repo ships with a `:fullscreen` CSS block that swaps the bounded card for edge-to-edge presentation when the user presses `F` or the fullscreen button. Because you copied the previous month as template, this block is already there — but if you started from an older reference or the block is missing, run:
+
+```bash
+python .scripts/port_fullscreen.py 2026-<NEW>/index.html
+```
+
+The script is idempotent — files that already have `:fullscreen .slide` are skipped. Grep to confirm:
+
+```bash
+grep -c ':fullscreen' 2026-<NEW>/index.html   # should print 6
+```
+
+**What the block gives you in fullscreen mode:**
+- Slide fills the whole viewport (100vw × 100vh, no radius, no shadow, no stage padding).
+- Slide content scales 1.25× via `zoom` so text and layout read well on a projector or 4K screen.
+- Keyboard-shortcut hint bar hides.
+- Bottom nav pill fades to `opacity: 0.35`; hover / focus-within restores it to `opacity: 1` so it's usable when needed.
+
+Windowed view stays exactly as before — nothing changes until fullscreen is entered.
+
+### 6. Wire the previous month's forward link
 
 In `2026-<PREV>/index.html`, both cover and thanks slides have `<div class="cover-nav">…</div>`. Add a second `<a class="cover-nav-link">` alongside the existing back-link, this time pointing forward with a right-chevron:
 
@@ -88,12 +110,12 @@ In `2026-<PREV>/index.html`, both cover and thanks slides have `<div class="cove
 
 Do this for **both** the cover-slide footer and the thanks-slide `.cover-nav`.
 
-### 6. Update the README + landing page
+### 7. Update the README + landing page
 
 - `README.md`: insert a new row at the top of the Releases table, format matching existing rows (Month · Highlights · Deck link · Source link).
 - `index.html`: insert a new `<article class="release-card">` at the top of the `.releases` grid. Update the Hero + Spotlight + CTA-strip primary CTAs to point to the new month.
 
-### 7. Verify
+### 8. Verify
 
 Run the following checks against the new file. If any fails, fix and re-run.
 
@@ -121,7 +143,7 @@ Visual verification with the browser pane (if available), at four viewports:
 - iPhone 17 Pro **402×874**, iPhone SE **375×667**, iPad portrait **820×1180**, desktop **1280×800**.
 - Check: no horizontal overflow, nav pill doesn't overlap slide-footer at end of scroll, `+ Add` button in nav enabled on content slides / disabled on cover-divider-backlog-thanks, image click opens the lightbox.
 
-### 8. Ask the user (only if genuinely blocked)
+### 9. Ask the user (only if genuinely blocked)
 
 Don't ask about anything already in the source URL or the spec. Do ask if:
 

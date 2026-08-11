@@ -98,7 +98,29 @@ The `visualHTML` field on a content slide lets you insert an inline SVG for the 
 
 Wrap custom SVGs in `<div class="visual-col diagram-col">…</div>` (the class already exists in the CSS shell and gets special mobile treatment).
 
-### 6. Wire up the hidden easter eggs (mandatory)
+### 6. Wire up fullscreen-mode enhancements (mandatory)
+
+Every deck in this repo behaves better in real browser fullscreen (user presses `F` or the fullscreen button) than in the default windowed card. The `:fullscreen` CSS pseudo-class isolates a small block that swaps the bounded card for edge-to-edge presentation without affecting the windowed view.
+
+**What the block does when the user hits fullscreen:**
+- Slide fills the whole viewport — `100vw × 100vh`, no border-radius, no shadow, no stage padding.
+- Slide content scales **1.25× via `zoom`** so text and layout read well at 3–5 meters viewing distance.
+- The keyboard-shortcut hint bar in the top-right hides.
+- The bottom nav pill fades to `opacity: 0.35` with a translucent white glass background so slide content stays visible. Hover or focus-within snaps it back to `opacity: 1` and opaque white so it's usable when needed.
+
+Windowed view is untouched — same bounded 1200×720 card as before.
+
+**Automation** — a reusable idempotent script lives at [.scripts/port_fullscreen.py](../../../.scripts/port_fullscreen.py). Run it on every new deck:
+
+```bash
+python .scripts/port_fullscreen.py presentations/<new-deck>.html
+```
+
+The script extracts the current `:fullscreen` block from `presentations/integration-capabilities.html` (the reference source of truth) and injects it before the mobile `@media (max-width: 900px)` block. Files that already have `:fullscreen .slide` are skipped, so the script is safe to re-run.
+
+If you're authoring by hand, the block goes right before the mobile media query and contains six selectors: `:fullscreen .stage`, `:fullscreen .slide`, `:fullscreen .slide-inner`, `:fullscreen .hint`, `:fullscreen .nav`, `:fullscreen .nav:hover, :fullscreen .nav:focus-within`.
+
+### 7. Wire up the hidden easter eggs (mandatory)
 
 Every business deck in this repo ships with **two hidden delighter interactions**. They are opt-in via keyboard shortcut, add no visual weight until triggered, and take almost nothing to include. Ship them by default; they're part of the house style.
 
@@ -128,7 +150,7 @@ If the scratchpad snippets aren't present, extract them fresh from `presentation
 
 **Do not** advertise the shortcuts anywhere in the deck's TOC, hint bar, or nav pill — the whole point is that they're a hidden delighter. If someone asks, tell them in text; do not surface in UI.
 
-### 7. Update the top-level landing pages
+### 8. Update the top-level landing pages
 
 Add an entry for the new deck to:
 
@@ -137,7 +159,7 @@ Add an entry for the new deck to:
 
 Both need: title, short one-line description, link to the deck path.
 
-### 8. Verify
+### 9. Verify
 
 The reference file has all the mobile fixes already ported (see the wider mobile audit in this repo's history). Just confirm nothing broke:
 
