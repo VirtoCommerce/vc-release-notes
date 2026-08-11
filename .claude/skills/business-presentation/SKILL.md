@@ -98,7 +98,37 @@ The `visualHTML` field on a content slide lets you insert an inline SVG for the 
 
 Wrap custom SVGs in `<div class="visual-col diagram-col">…</div>` (the class already exists in the CSS shell and gets special mobile treatment).
 
-### 6. Update the top-level landing pages
+### 6. Wire up the hidden easter eggs (mandatory)
+
+Every business deck in this repo ships with **two hidden delighter interactions**. They are opt-in via keyboard shortcut, add no visual weight until triggered, and take almost nothing to include. Ship them by default; they're part of the house style.
+
+| Key | Element | Effect |
+| :-- | :-- | :-- |
+| <kbd>B</kbd> | `<canvas id="bubbles">` background canvas | Effervescent blue-cyan bubbles rise up the whole viewport, respects `prefers-reduced-motion`. Press again to hide. |
+| <kbd>C</kbd> | `<div id="catEgg">` inline-SVG ginger cat | A small napping cat appears at the top-right of the active slide. Cursor within 250px wakes it and its pupils track the mouse; move away and it sleeps again. |
+
+**How to port them into a new deck** — the reference source of truth is `presentations/virto-cloud.html`. Three pieces to copy:
+
+1. **CSS** — a ~11-line block containing `#bubbles`, `#catEgg`, `#catEgg.show`, `#catEgg svg`, `#catEgg .cat-tail`, the `@keyframes catWag`, `#catEgg .cat-pupil`, `.eyes-closed`, `.eyes-open`, `.sleeping` variants, and the `prefers-reduced-motion` guard. Insert **right before the `.stage {` rule**.
+2. **Markup** — `<canvas id="bubbles" aria-hidden="true"></canvas>` plus `<div id="catEgg" aria-hidden="true">…the inline SVG…</div>`. Insert **right before `<div class="progress-bar" …>`** so the canvas sits behind slide content and the cat overlays it.
+3. **JavaScript** — two self-executing IIFEs at the end of the `<script>` block:
+   - `press c → cat toggle` — reads slide bounding-rect, positions the cat at slide top-right, wires `mousemove` to move pupils / sleep the cat.
+   - `press b → bubbles toggle` — sets up canvas, seeds ~28 bubbles, animates via `requestAnimationFrame`, hides on second press. Respects `prefers-reduced-motion`.
+
+Insert both IIFEs **just before the final `</script>`**. Both listeners guard against input focus (`INPUT` / `TEXTAREA` / `contentEditable`) so they don't fire while the user is typing.
+
+**Automation shortcut** — a reusable port script and pre-extracted snippets live in `scratchpad/eggs/` (created when porting the first deck). Reuse them:
+
+```bash
+# Copies CSS/HTML/JS from virto-cloud.html into a target deck, idempotent
+python .scripts/port_eggs.py presentations/<new-deck>.html
+```
+
+If the scratchpad snippets aren't present, extract them fresh from `presentations/virto-cloud.html` using the same anchors — the canonical layout locations described above.
+
+**Do not** advertise the shortcuts anywhere in the deck's TOC, hint bar, or nav pill — the whole point is that they're a hidden delighter. If someone asks, tell them in text; do not surface in UI.
+
+### 7. Update the top-level landing pages
 
 Add an entry for the new deck to:
 
@@ -107,7 +137,7 @@ Add an entry for the new deck to:
 
 Both need: title, short one-line description, link to the deck path.
 
-### 7. Verify
+### 8. Verify
 
 The reference file has all the mobile fixes already ported (see the wider mobile audit in this repo's history). Just confirm nothing broke:
 
