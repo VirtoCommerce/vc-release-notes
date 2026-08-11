@@ -790,6 +790,120 @@
   .section-divider.wow .shape.s1 { background: rgba(251,191,36,0.4); }
   .section-divider.wow .shape.s2 { background: rgba(255,106,61,0.4); }
 
+  .toc-nav-btn {
+    width: 36px; height: 36px;
+    border: none; background: transparent;
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--virto-navy); transition: all 0.2s;
+  }
+  .toc-nav-btn:hover { background: var(--virto-bg-2); transform: translateY(-1px); }
+
+  /* TOC panel */
+  .toc-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(7, 37, 74, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 150;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  }
+  .toc-backdrop.open {
+    opacity: 1; visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s linear 0s;
+  }
+  .toc-panel {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 320px;
+    background: rgba(244, 247, 251, 0.97);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--virto-line);
+    box-shadow: 10px 0 40px -12px rgba(7, 37, 74, 0.25);
+    z-index: 160;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .toc-panel.open { transform: translateX(0); }
+  .toc-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid var(--virto-line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .toc-header h2 {
+    font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--virto-navy);
+  }
+  .toc-close {
+    width: 32px; height: 32px;
+    border: none; background: transparent;
+    border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--virto-muted); transition: all 0.15s;
+  }
+  .toc-close:hover { background: var(--virto-bg-2); color: var(--virto-navy); }
+  .toc-entries {
+    flex: 1; overflow-y: auto; padding: 12px 0;
+  }
+  .toc-entries::-webkit-scrollbar { width: 6px; }
+  .toc-entries::-webkit-scrollbar-thumb { background: var(--virto-line); border-radius: 3px; }
+  .toc-entry {
+    display: flex; align-items: center; gap: 12px;
+    width: 100%; padding: 12px 24px;
+    border: none; background: transparent;
+    cursor: pointer; text-align: left;
+    font-family: inherit; color: var(--virto-text);
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .toc-entry:hover { background: var(--virto-bg-2); }
+  .toc-entry.active {
+    border-left-color: var(--virto-blue);
+    background: rgba(43, 127, 255, 0.06);
+  }
+  .toc-entry.active .toc-entry-title { font-weight: 700; color: var(--virto-navy); }
+  .toc-entry-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--virto-muted);
+    min-width: 20px; flex-shrink: 0;
+  }
+  .toc-entry-body { flex: 1; min-width: 0; }
+  .toc-entry-title {
+    font-size: 13px; font-weight: 500;
+    color: var(--virto-navy); line-height: 1.3;
+  }
+  .toc-entry-count {
+    font-size: 11px; color: var(--virto-muted); margin-top: 2px;
+  }
+  .toc-entry-badge {
+    font-size: 10px; font-weight: 600;
+    color: var(--virto-muted); background: var(--virto-bg-2);
+    padding: 2px 8px; border-radius: 999px; flex-shrink: 0;
+  }
+  .toc-sub-entries { padding: 2px 0 4px 35px; display: none; }
+  .toc-sub-entries.expanded { display: block; }
+  .toc-sub-entry {
+    display: block; width: 100%;
+    padding: 5px 24px 5px 0;
+    border: none; background: transparent;
+    cursor: pointer; text-align: left;
+    font-family: inherit;
+    font-size: 12px; color: var(--virto-muted);
+    line-height: 1.35; transition: color 0.15s;
+  }
+  .toc-sub-entry:hover { color: var(--virto-navy); }
+  .toc-sub-entry.active { color: var(--virto-blue); font-weight: 600; }
+  .toc-nav-btn {
+    width: 36px; height: 36px;
+    border: none; background: transparent;
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--virto-navy); transition: all 0.2s;
+  }
+  .toc-nav-btn:hover { background: var(--virto-bg-2); transform: translateY(-1px); }
+
 /* Nav Add-to-backlog toggle button (visible on all resolutions) */
   .nav-backlog-toggle {
     display: inline-flex;
@@ -1248,6 +1362,17 @@
   <span style="margin: 0 6px;">·</span>
   <button class="key key-btn" id="hintFullscreen" aria-label="Toggle fullscreen">F</button> Fullscreen
 </div>
+
+<div class="toc-backdrop" id="tocBackdrop"></div>
+<aside class="toc-panel" id="tocPanel" role="navigation" aria-label="Table of contents">
+  <div class="toc-header">
+    <h2>Contents</h2>
+    <button class="toc-close" id="tocClose" aria-label="Close table of contents">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="toc-entries" id="tocEntries"></div>
+</aside>
 
 <div class="stage" id="stage"></div>
 
@@ -2075,8 +2200,11 @@ document.addEventListener('keydown', (e) => {
     toggleFullscreen();
   } else if (e.key === 'b' || e.key === 'B') {
     toggleCurrentInBacklog();
+  } else if (e.key === 't' || e.key === 'T') {
+    toggleToc();
   } else if (e.key === 'Escape') {
     if (lightboxOpen) closeLightbox();
+    else closeToc();
   }
 });
 
@@ -2100,7 +2228,125 @@ document.addEventListener('touchend', (e) => {
   }
 });
 
+/* ---------------- TOC PANEL ---------------- */
+const tocPanel = document.getElementById('tocPanel');
+const tocBackdrop = document.getElementById('tocBackdrop');
+const tocEntries = document.getElementById('tocEntries');
+const tocCloseBtn = document.getElementById('tocClose');
+const tocToggleNavBtn = document.getElementById('tocToggleNav');
+let tocOpen = false;
+
+function renderTocPanel() {
+  let html = '';
+  for (let i = 0; i < slides.length; i++) {
+    const s = slides[i];
+    if (s.type === 'cover') {
+      html += `<button class="toc-entry" data-toc-slide="0">
+        <span class="toc-entry-num">—</span>
+        <div class="toc-entry-body"><div class="toc-entry-title">Cover</div></div>
+      </button>`;
+    } else if (s.type === 'divider') {
+      const label = s.title + ' ' + s.titleAccent;
+      const badge = s.wow ? '<span class="toc-entry-badge" style="color:#B45309;background:rgba(251,191,36,0.18);">★ WOW</span>' : '';
+      // Count children
+      const children = [];
+      for (let j = i + 1; j < slides.length; j++) {
+        if (slides[j].type === 'divider' || slides[j].type === 'backlog' || slides[j].type === 'thanks') break;
+        if (!slides[j].type) children.push(j);
+      }
+      html += `<button class="toc-entry" data-toc-slide="${i}">
+        <span class="toc-entry-num">${s.num.replace(/Section\s*/i,'').replace(/\s*·.*/, '')}</span>
+        <div class="toc-entry-body">
+          <div class="toc-entry-title">${label}</div>
+          <div class="toc-entry-count">${children.length} feature${children.length !== 1 ? 's' : ''}</div>
+        </div>
+        ${badge}
+      </button>`;
+      if (children.length) {
+        html += '<div class="toc-sub-entries">';
+        children.forEach(j => {
+          html += `<button class="toc-sub-entry" data-toc-slide="${j}">${stripHTML(slides[j].title)}</button>`;
+        });
+        html += '</div>';
+      }
+    } else if (s.type === 'backlog') {
+      html += `<button class="toc-entry" data-toc-slide="${i}">
+        <span class="toc-entry-num">—</span>
+        <div class="toc-entry-body"><div class="toc-entry-title">Backlog</div></div>
+      </button>`;
+    } else if (s.type === 'thanks') {
+      html += `<button class="toc-entry" data-toc-slide="${i}">
+        <span class="toc-entry-num">—</span>
+        <div class="toc-entry-body"><div class="toc-entry-title">Thank You</div></div>
+      </button>`;
+    }
+  }
+  tocEntries.innerHTML = html;
+
+  tocEntries.querySelectorAll('[data-toc-slide]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeToc();
+      showSlide(parseInt(btn.dataset.tocSlide, 10));
+    });
+  });
+}
+
+function updateTocActive() {
+  let activeSection = 0;
+  for (let i = currentIndex; i >= 0; i--) {
+    if (i === 0 || slides[i].type === 'divider' || slides[i].type === 'backlog' || slides[i].type === 'thanks') {
+      activeSection = i; break;
+    }
+  }
+  tocEntries.querySelectorAll('.toc-entry').forEach(btn => {
+    const idx = parseInt(btn.dataset.tocSlide, 10);
+    const isActive = idx === activeSection;
+    btn.classList.toggle('active', isActive);
+    // Expand sub-entries only for the active section
+    const subs = btn.nextElementSibling;
+    if (subs && subs.classList.contains('toc-sub-entries')) {
+      subs.classList.toggle('expanded', isActive);
+    }
+  });
+  tocEntries.querySelectorAll('.toc-sub-entry').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.tocSlide, 10) === currentIndex);
+  });
+}
+
+function openToc() {
+  tocOpen = true;
+  tocPanel.classList.add('open');
+  tocBackdrop.classList.add('open');
+  updateTocActive();
+  const first = tocEntries.querySelector('.toc-entry.active') || tocEntries.querySelector('.toc-entry');
+  if (first) first.focus();
+}
+
+function closeToc() {
+  if (!tocOpen) return;
+  tocOpen = false;
+  tocPanel.classList.remove('open');
+  tocBackdrop.classList.remove('open');
+  tocToggleNavBtn.focus();
+}
+
+function toggleToc() {
+  if (tocOpen) closeToc(); else openToc();
+}
+
+tocCloseBtn.addEventListener('click', closeToc);
+tocBackdrop.addEventListener('click', closeToc);
+tocToggleNavBtn.addEventListener('click', toggleToc);
+
+// Mobile: swipe left to close
+let tocTouchStartX = 0;
+tocPanel.addEventListener('touchstart', (e) => { tocTouchStartX = e.changedTouches[0].screenX; });
+tocPanel.addEventListener('touchend', (e) => {
+  if (e.changedTouches[0].screenX - tocTouchStartX < -60) closeToc();
+});
+
 render();
+renderTocPanel();
 </script>
 </body>
 </html>
