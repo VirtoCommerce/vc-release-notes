@@ -2,14 +2,13 @@
 
 <img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce" width="80" height="80" style="border-radius: 16px;" />
 
-# Virto Commerce · Interactive Release Notes
+# Virto Commerce · Interactive Presentation
 
 **Every monthly Virto Commerce release, rendered as an interactive slide deck.**
 
 Product, engineering, and business stakeholders review what shipped, mark features for their own backlog, and export a ready-to-paste Markdown table for Jira, Linear, or GitHub Issues.
 
 [![View live site](https://img.shields.io/badge/View_live-virtocommerce.github.io-2B7FFF?style=for-the-badge&logo=github&logoColor=white)](https://virtocommerce.github.io/vc-release-notes/)
-[![License](https://img.shields.io/badge/License-Virto_OSL-07254A?style=for-the-badge)](http://virtocommerce.com/opensourcelicense)
 
 [**🌐 Latest release · August 2026 →**](https://virtocommerce.github.io/vc-release-notes/2026-08/)
 
