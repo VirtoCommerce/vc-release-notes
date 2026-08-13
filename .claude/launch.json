@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "release-notes",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8901", "--directory", "."],
+      "port": 8901,
+      "url": "http://localhost:8901"
+    }
+  ]
+}
