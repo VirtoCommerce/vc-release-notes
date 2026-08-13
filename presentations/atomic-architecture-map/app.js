@@ -17,7 +17,22 @@
   var FAMILIES = window.VC_MAP_FAMILIES || [];
   var ATOMS = window.VC_MAP_ATOMS || [];
   var CELLS = window.VC_MAP_CELLS || [];
-  var MOLECULES = window.VC_MAP_MOLECULES || [];
+  /* Molecules = every active Virto Commerce module, plus the composite topics that are written
+     across several of them. The module half is a projection of the registry (see
+     tools/build-active-modules.js) rather than a hand-kept list, so "what ships today" cannot go
+     stale here; the topic half stays authored. Both are normalised to one shape so every code path
+     downstream — rendering, filtering, deep links, the drawer — sees a single kind of thing. */
+  var MODULE_TILES = (window.VC_ACTIVE_MODULES || []).map(function (m) {
+    return {
+      id: m.moleculeId, kind: 'module', name: m.name, moduleId: m.id, version: m.version,
+      sub: m.description || '', group: (m.groups && m.groups[0]) || 'extension',
+      dependsOn: m.dependsOn, optional: m.optional, incompatibleWith: m.incompatibleWith,
+      platformVersion: m.platformVersion, tags: m.tags, registryTitle: m.registryTitle,
+      repo: m.repoUrl || (m.repo ? 'https://github.com/VirtoCommerce/' + m.repo : null)
+    };
+  });
+  var TOPIC_TILES = (window.VC_MAP_MOLECULES || []).filter(function (m) { return m.kind !== 'module'; });
+  var MOLECULES = MODULE_TILES.concat(TOPIC_TILES);
 
   var ADOPTION = {
     'platform':  { glyph: '●', label: 'Platform',  cls: 'adopt-platform',  blurb: 'Platform-native. This is the Virto way.' },
@@ -232,30 +247,18 @@
 
   // ---------------------------------------------------------------- topbar / legend
 
-  function renderBrandAndFooter() {
+  function renderBrand() {
     var sub = document.getElementById('brand-sub');
     sub.textContent = 'verified against platform ' + (META.platformVersion || '?') +
       (META.updated ? ' · updated ' + META.updated : '');
 
-    var counts = {};
-    ATOMS.forEach(function (a) { counts[a.adoption] = (counts[a.adoption] || 0) + 1; });
-
-    var footer = document.getElementById('footer');
-    footer.textContent = '';
-    var moduleMolecules = MOLECULES.filter(function (m) { return m.kind === 'module'; }).length;
-    append(footer, el('span', {}, ATOMS.length + ' atoms · ' + FAMILIES.length + ' families · ' +
-      moduleMolecules + ' modules · ' + (MOLECULES.length - moduleMolecules) + ' topics · ' +
-      CELLS.length + ' cells'));
-    append(footer, el('span', {}, ADOPTION_ORDER.filter(function (k) { return counts[k]; }).map(function (k) {
-      return el('span', {}, el('span', { class: adoptionOf(k).cls, text: adoptionOf(k).glyph + ' ' }),
-        counts[k] + ' ' + adoptionOf(k).label.toLowerCase() + '  ');
-    })));
-    append(footer, el('span', {}, rich('Source of truth: this repository. Each atom records the platform version it was last checked against — see `README.md` to add or refresh one.')));
-
+    /* The counts the footer used to print live in the section headings and the legend now. What the
+       footer alone carried is the schema alarm, and that has to stay loud, so it moves next to the
+       version line where it cannot be missed. */
     var problems = ATOMS.filter(function (a) { return a._problems.length; });
     if (problems.length) {
-      append(footer, el('span', { class: 'adopt-schema' },
-        '⚠ ' + problems.length + ' atom(s) fail the content schema — open them for details.'));
+      append(document.getElementById('brand-sub'), el('span', { class: 'adopt-schema' },
+        '  ⚠ ' + problems.length + ' atom(s) fail the content schema'));
     }
   }
 
@@ -304,9 +307,19 @@
         el('span', { text: '— ' + n + ' atoms' }));
     }));
 
+    /* Module families read their colour from the icon set rather than from a hue token, so the
+       legend swatch is filled with the exact accent the icons and the tile borders use. */
+    var moduleFamilyList = el('ul', { class: 'legend-list' }, (window.VC_MODULE_FAMILY_ORDER || []).map(function (g) {
+      return el('li', {},
+        el('span', { class: 'legend-swatch is-flat', style: '--flat:' + (g.hex || 'var(--border-strong)'), 'aria-hidden': 'true' }),
+        el('b', { text: g.name }),
+        el('span', { text: '— ' + g.count + (g.count === 1 ? ' module' : ' modules') }));
+    }));
+
     append(host, el('div', { class: 'legend-cols' },
       el('div', {}, el('h3', { text: 'Adoption state — read this first' }), adoptionList),
-      el('div', {}, el('h3', { text: 'Families' }), familyList)));
+      el('div', {}, el('h3', { text: 'Atom families' }), familyList),
+      el('div', {}, el('h3', { text: 'Module families — the colour is the module’s own icon' }), moduleFamilyList)));
 
     append(host, el('div', { class: 'legend-keys' },
       el('span', {}, el('kbd', { text: '/' }), ' search'),
@@ -431,24 +444,97 @@
 
   // ---------------------------------------------------------------- molecules
 
+  /* The generated pair. Absent files must not break the page: the map still opens from a bare
+     checkout, it just draws chips without icons and pages without profiles. */
+  var MODULE_ACCENTS = window.VC_MODULE_ACCENTS || {};
+  var MODULE_PROFILES = window.VC_MODULE_PROFILES || [];
+
+  function profileOf(moduleId) {
+    for (var i = 0; i < MODULE_PROFILES.length; i++) {
+      if (MODULE_PROFILES[i].id === moduleId) return MODULE_PROFILES[i];
+    }
+    return null;
+  }
+
+  /* An icon as <img>, not inline SVG. Every icon in the set declares gradients as id="bg", so
+     inlining ninety of them would collide on ids and paint the wrong colours; an <img> is its own
+     document. Falls back to the accent as a plain swatch when the file is missing. */
+  function moduleIcon(moduleId, size) {
+    var accent = MODULE_ACCENTS[moduleId];
+    if (!MODULE_ACCENTS[moduleId]) return el('span', { class: 'mod-icon is-blank', 'aria-hidden': 'true' });
+    return el('img', { class: 'mod-icon', src: 'assets/module-icons/' + moduleId + '.svg',
+                       width: size || 22, height: size || 22, alt: '', loading: 'lazy',
+                       style: '--accent:' + accent });
+  }
+
+  /* Same shape as the atoms table: one column per family, a coloured label at its head, the tiles
+     flowing beneath it. Everything is visible at once — nothing to expand, nothing hidden behind a
+     count — which is the point of an inventory. A family bigger than SPAN_AT gets a wider column so
+     its tiles flow two and three abreast instead of building a tower that sets the whole row's
+     height; the widths come from the grid, so this stays one declaration rather than per-family
+     tuning. */
+  function renderMoleculeFamilies(host, tiles) {
+    var order = window.VC_MODULE_FAMILY_ORDER || [];
+    var familyOf = window.VC_MODULE_FAMILY || {};
+    var groups = order.map(function (g) {
+      return { meta: g, members: tiles.filter(function (t) { return familyOf[t.moduleId] === g.id; }) };
+    }).filter(function (g) { return g.members.length; });
+
+    var unfiled = tiles.filter(function (t) { return !familyOf[t.moduleId]; });
+    if (unfiled.length) groups.push({ meta: { id: 'other', name: 'Other', hex: null }, members: unfiled });
+
+    nodes.moleculeFamilies = {};
+    groups.forEach(function (g) {
+      var body = el('div', { class: 'mol-family-tiles' });
+      g.members.forEach(function (t) { body.appendChild(moleculeTile(t)); });
+
+      var head = el('div', { class: 'mol-family-label' },
+        el('span', { class: 'mol-family-swatch', 'aria-hidden': 'true' }),
+        el('span', { class: 'mol-family-name', text: g.meta.name }),
+        el('span', { class: 'mol-family-n', text: String(g.members.length) }));
+
+      var wrap = el('div', {
+        class: 'mol-family',
+        style: g.meta.hex ? '--accent:' + g.meta.hex : null
+      }, head, body);
+
+      nodes.moleculeFamilies[g.meta.id] = { wrap: wrap, head: head, body: body, members: g.members };
+      host.appendChild(wrap);
+    });
+  }
+
+  function moleculeTile(molecule) {
+    var isModule = molecule.kind === 'module';
+    var accent = isModule ? MODULE_ACCENTS[molecule.moduleId] : null;
+    var profiled = isModule && profileOf(molecule.moduleId);
+    var node = el('button', {
+      type: 'button',
+      class: 'molecule' + (isModule ? ' is-module' : '') + (accent ? ' has-icon' : '') + (profiled ? ' is-profiled' : ''),
+      /* The accent is the module icon's own first gradient stop, so the border and the icon
+         cannot drift apart — see tools/sync-module-icons.js. */
+      style: accent ? '--accent:' + accent : null,
+      'aria-label': molecule.name + (isModule ? ' — module ' + molecule.moduleId + ' ' + molecule.version + '. '
+                                              : ' — reserved molecule. ') + (molecule.sub || ''),
+      title: isModule ? molecule.moduleId + ' ' + molecule.version + ' — ' + (molecule.sub || '') : (molecule.sub || ''),
+      dataset: { id: molecule.id },
+      onclick: function () { openHash('molecule', molecule.id, node); }
+    },
+      accent ? moduleIcon(molecule.moduleId) : null,
+      el('span', { class: 'mol-name', text: molecule.name }),
+      el('span', { class: 'mol-sub', text: molecule.sub || '' }));
+    nodes.molecules[molecule.id] = node;
+    return node;
+  }
+
   function renderMolecules() {
     var host = document.getElementById('molecules');
     host.textContent = '';
-    MOLECULES.forEach(function (molecule) {
-      var isModule = molecule.kind === 'module';
-      var node = el('button', {
-        type: 'button', class: 'molecule' + (isModule ? ' is-module' : ''),
-        'aria-label': molecule.name + (isModule ? ' — module ' + molecule.moduleId + ' ' + molecule.version + '. '
-                                                : ' — reserved molecule. ') + (molecule.sub || ''),
-        title: isModule ? molecule.moduleId + ' ' + molecule.version + ' — ' + (molecule.sub || '') : (molecule.sub || ''),
-        dataset: { id: molecule.id },
-        onclick: function () { openHash('molecule', molecule.id, node); }
-      },
-        el('span', { class: 'mol-name', text: molecule.name }),
-        el('span', { class: 'mol-sub', text: molecule.sub || '' }));
-      nodes.molecules[molecule.id] = node;
-      host.appendChild(node);
-    });
+
+    renderMoleculeFamilies(host, MODULE_TILES);
+
+    /* No column for the authored topics. They are still in MOLECULES, so an atom's "Part of" link
+       and a #/molecule/<topic> deep link both still open them — they simply do not take space in an
+       inventory of installable modules. */
   }
 
   // ---------------------------------------------------------------- filtering
@@ -480,10 +566,28 @@
 
     MOLECULES.forEach(function (molecule) {
       var node = nodes.molecules[molecule.id];
+      if (!node) return;
       var dim = tokens.length ? !tokens.every(function (t) { return moleculeHaystack(molecule).indexOf(t) !== -1; })
         : false;
       node.classList.toggle('is-dim', !!dim);
     });
+
+    /* Nothing collapses any more, so a search only greys out the families it did not hit and swaps
+       their count for hits/total — the column keeps its place, which is what makes the shape of a
+       result readable at a glance. */
+    if (nodes.moleculeFamilies) {
+      Object.keys(nodes.moleculeFamilies).forEach(function (fid) {
+        var f = nodes.moleculeFamilies[fid];
+        var hits = tokens.length ? f.members.filter(function (m) {
+          var node = nodes.molecules[m.id];
+          return node && !node.classList.contains('is-dim');
+        }).length : 0;
+        f.wrap.classList.toggle('is-dim', !!tokens.length && !hits);
+        f.head.querySelector('.mol-family-n').textContent = tokens.length
+          ? hits + '/' + f.members.length
+          : String(f.members.length);
+      });
+    }
 
     var label = document.getElementById('atoms-count');
     label.textContent = shown === ATOMS.length
@@ -1308,7 +1412,163 @@
     return el('div', { class: 'tag-row is-left' }, required, optional);
   }
 
+  /* One vocabulary for every module's links, read off the URL instead of the README's wording:
+     eleven modules called the same page eleven things. Unrecognised URLs keep their own label. */
+  var REFERENCE_NAMES = [
+    /* Specific pages first: modules-installation and deploy-module-from-source-code both live under
+       the guides, so a generic /user-guide/ rule above them would swallow both. */
+    [/modules-installation/i,                    'How to install a module'],
+    [/deploy-module-from-source-code/i,          'How to deploy from source'],
+    [/\/releases\/latest/i,                     'Download the latest release'],
+    [/github\.com\/VirtoCommerce\/[^/]+\/?$/i,   'Source code on GitHub'],
+    [/swagger|urls\.primaryName=|\/docs\/index\.html/i, 'REST API reference'],
+    [/graphql|playground|graphiql/i,             'GraphQL API reference'],
+    [/docs\.virtocommerce\.org\/.*\/user-guide\//i,      'User documentation'],
+    [/docs\.virtocommerce\.org\/.*\/developer-guide\//i, 'Developer documentation'],
+    [/docs\.virtocommerce\.org/i,                'Documentation'],
+    [/virtocommerce\.org\/?$/i,                  'Community'],
+    [/virtocommerce\.com\/?$/i,                  'Virto Commerce']
+  ];
+
+  function referenceName(link) {
+    for (var i = 0; i < REFERENCE_NAMES.length; i++) {
+      if (REFERENCE_NAMES[i][0].test(link.href)) return REFERENCE_NAMES[i][1];
+    }
+    /* Fall back to the README's own label, minus the module name it usually repeats. */
+    return String(link.label || link.href).replace(/\s*module\s*/i, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  /* Same URL twice under two labels is common — the README links GitHub in Documentation and again in
+     References. First occurrence wins, and the generic name makes duplicates visible. */
+  function referenceLinks(list) {
+    var seen = {}, out = [];
+    list.forEach(function (l) {
+      if (!l || !l.href) return;
+      var key = l.href.replace(/\/+$/, '');
+      if (seen[key]) return;
+      seen[key] = true;
+      out.push({ label: referenceName(l), href: l.href });
+    });
+    return out;
+  }
+
+  /* A row of parsed facts. Deliberately plain: this is the half of the page no one wrote, and it
+     should look like a readout rather than like prose. */
+  function factRows(pairs) {
+    return el('div', { class: 'fact-grid' }, pairs.filter(Boolean).map(function (p) {
+      return el('div', { class: 'fact-row' },
+        el('span', { class: 'fact-key', text: p[0] }),
+        el('span', { class: 'fact-val' }, typeof p[1] === 'string' ? rich(p[1]) : p[1]));
+    }));
+  }
+
+  function depChipsFromProfile(profile) {
+    var req = (profile.facts.dependsOn || []).map(function (d) {
+      return el('span', { class: 'tag-chip', title: 'Required — ' + d.version, text: d.id.replace('VirtoCommerce.', '') });
+    });
+    var opt = (profile.facts.optionalDependencies || []).map(function (d) {
+      return el('span', { class: 'tag-chip is-optional', title: 'optional="true" in module.manifest — ' + d.version },
+        d.id.replace('VirtoCommerce.', ''), el('span', { class: 'opt-mark', text: 'opt' }));
+    });
+    if (!req.length && !opt.length) {
+      return el('p', { class: 'd-lead is-quiet' }, rich('Nothing — `<dependencies/>` is empty in `module.manifest`, so this module can be installed on any host.'));
+    }
+    return el('div', { class: 'tag-row is-left' }, req, opt);
+  }
+
+  /* The module page. Facts come from the profile and are labelled as parsed; the three audience
+     notes are authored and labelled as such. A module with no profile yet falls through to the
+     registry-only page below, which is honest about knowing less. */
+  function renderModuleProfileDrawer(molecule, p) {
+    var eyebrow = document.getElementById('drawer-eyebrow');
+    eyebrow.textContent = '';
+    append(eyebrow, [
+      molecule.group ? el('span', { class: 'mol-group is-' + molecule.group, text: molecule.group }) : null,
+      el('span', { text: '· ' + p.id }),
+      el('span', { text: '· ' + p.latestVersion }),
+      p.facts.platformVersion ? el('span', { text: '· platform ' + p.facts.platformVersion }) : null
+    ].filter(Boolean));
+
+    var title = document.getElementById('drawer-title');
+    title.textContent = '';
+    append(title, [moduleIcon(p.id, 26), el('span', { text: p.name })]);
+
+    var body = document.getElementById('drawer-body');
+    clearDrawerBody(body);
+
+    if (p.tagline && p.tagline.toLowerCase() !== p.name.toLowerCase()) {
+      append(body, el('p', { class: 'd-lead' }, rich(p.tagline)));
+    }
+
+    var n = p.notes || {};
+    var f = p.facts;
+
+    append(body, [
+      p.readme.overview ? block('Overview', el('p', { class: 'dg-cap' }, rich(p.readme.overview)), true) : null,
+
+      n.forAnalyst || n.forArchitect || n.forDeveloper
+        ? block('What it means for you', factRows([
+            n.forAnalyst ? ['Business analyst', n.forAnalyst] : null,
+            n.forArchitect ? ['Solution architect', n.forArchitect] : null,
+            n.forDeveloper ? ['Developer', n.forDeveloper] : null
+          ]), true)
+        : null,
+
+      (p.readme.keyFeatures || []).length ? block('Key features', list(p.readme.keyFeatures), true) : null,
+
+      /* A matched pair, half width each: they are read against one another, so they should be the
+         same size and side by side rather than a quarter-width column apiece. */
+      (n.reachForItWhen || []).length ? block('Reach for it when', list(n.reachForItWhen, 'good'), 'is-half') : null,
+      (n.doNotReachForItWhen || []).length ? block('Do not reach for it when', list(n.doNotReachForItWhen, 'bad'), 'is-half') : null,
+
+
+      /* One readout for the whole module. Dependencies lead it: whether this module can be
+         deployed on its own is the first thing a solution architect needs, and it used to sit in a
+         separate block below the prose. Counts are gone from the rows — "4 — A, B, C, D" made the
+         reader check the arithmetic instead of reading the names. */
+      block('Module summary', factRows([
+        ['Depends on', depChipsFromProfile(p)],
+        (f.databaseProviders || []).length ? ['Databases', f.databaseProviders.join(' · ')] : null,
+        (f.permissions || []).length ? ['Permissions', f.permissions.map(function (x) { return '`' + x + '`'; }).join(' ')] : null,
+        (f.settings || []).length ? ['Settings', f.settings.map(function (x) { return '`' + x + '`'; }).join(' ')] : null,
+        (f.entities || []).length ? ['Entities', f.entities.join(', ')] : null,
+        (f.domainEventsPublished || []).length ? ['Events published', f.domainEventsPublished.join(', ')] : null,
+        /* The events, not the count. A module that subscribes through IEventHandlerRegistrar picks
+           them at runtime instead, which is a different fact and says so. */
+        (f.handledEvents || []).length ? ['Events handled', f.handledEvents.join(', ')]
+          : (f.subscribesDynamically ? ['Events handled', 'chosen at runtime through `IEventHandlerRegistrar` — every domain event in the process is available'] : null),
+        (f.graphqlBuilders || []).length ? ['GraphQL', String(f.graphqlBuilders.length) + ' schema builders'] : null,
+        (f.indexDocumentBuilders || []).length ? ['Search index', 'feeds it — bulk writes need a reindex'] : null,
+        (f.localizations || []).length ? ['Languages', f.localizations.join(' ')] : null
+      ]), true),
+
+      /* Paired with Reference below: two half-width blocks close the page on one row. */
+      (n.owns || []).length ? block('EF Core entities', list(n.owns), 'is-half') : null,
+      /* Source first, then documentation, then the how-tos. Every label is derived from its URL, so
+         the same kind of link is called the same thing on all 96 module pages. The marketing footer
+         every README carries — Home, Community, Blog, social — is dropped: it is not a reference to
+         this module, and it would bury the two links that are. */
+      block('Reference', docLinks(referenceLinks(
+        [{ label: 'Source code on GitHub', href: p.repoUrl }]
+          .concat((p.documentation && p.documentation.links) || [])
+          .concat(p.readme.docs || [])
+          .concat(p.readme.references || [])
+      ).filter(function (l) {
+        return !/^(Virto Commerce|Community)$/.test(l.label);
+      }).slice(0, 8)), 'is-half')
+    ]);
+
+    append(body, el('div', { class: 'd-meta' },
+      rich('Facts parsed from `' + p.repo + '` on branch `' + (f.git && f.git.branch || '?') + '`' +
+           (f.git && f.git.lastCommitDate ? ', last commit ' + f.git.lastCommitDate : '') +
+           ' · extracted ' + p.extractedAt + ' by `' + p.extractedBy + '`' +
+           (n.forAnalyst ? ' · notes authored' : ' · notes not written yet'))));
+  }
+
   function renderModuleMoleculeDrawer(molecule) {
+    var p = profileOf(molecule.moduleId);
+    if (p) { renderModuleProfileDrawer(molecule, p); return; }
+
     document.getElementById('drawer-eyebrow').textContent = '';
     append(document.getElementById('drawer-eyebrow'), [
       el('span', { class: 'mol-group is-' + molecule.group, text: molecule.group }),
@@ -1557,7 +1817,7 @@
     renderAtoms();
     renderMolecules();
     renderCells();
-    renderBrandAndFooter();
+    renderBrand();
     applyFilter();
 
     document.getElementById('search').addEventListener('input', function (event) { setQuery(event.target.value); });
@@ -1588,4 +1848,98 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+
+  /* ---------- hidden toggles, shared with the other presentations ----------
+     b = bubbles, c = a ginger cat that naps until the pointer comes near. Copied from
+     presentations/virto-cloud.html; the only local changes are where the cat perches (there are no
+     slides here, so it sits on the poster's top-right corner) and the bubble colours, which come
+     from the map's own tokens instead of a hard-coded blue. */
+  function typingInAField(e) {
+    var el = e.target, tag = (el && el.tagName) || '';
+    return tag === 'INPUT' || tag === 'TEXTAREA' || (el && el.isContentEditable);
+  }
+
+  (function catToggle() {
+    var cat = document.getElementById('catEgg');
+    if (!cat) return;
+    function place() {
+      var host = document.querySelector('main') || document.body;
+      var r = host.getBoundingClientRect();
+      cat.style.left = Math.round(r.right - cat.offsetWidth - 26) + 'px';
+      cat.style.top = Math.round(r.top - cat.offsetHeight + 34) + 'px';
+    }
+    var pupils = cat.querySelectorAll('.cat-pupil');
+    var WAKE = 250;                      // px: a pointer closer than this wakes it
+    addEventListener('mousemove', function (ev) {
+      if (!cat.classList.contains('show')) return;
+      var r = cat.getBoundingClientRect();
+      var ex = r.left + (158 / 190) * r.width, ey = r.top + (58 / 112) * r.height;
+      var dx = ev.clientX - ex, dy = ev.clientY - ey, d = Math.hypot(dx, dy);
+      if (d > WAKE) { cat.classList.add('sleeping'); return; }
+      cat.classList.remove('sleeping');
+      var m = 2.6, ox = (dx / (d || 1) * m).toFixed(2), oy = (dy / (d || 1) * m).toFixed(2);
+      pupils.forEach(function (pupil) { pupil.style.transform = 'translate(' + ox + 'px,' + oy + 'px)'; });
+    });
+    addEventListener('resize', function () { if (cat.classList.contains('show')) place(); });
+    addEventListener('scroll', function () { if (cat.classList.contains('show')) place(); }, { passive: true });
+    addEventListener('keydown', function (e) {
+      if (typingInAField(e) || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.code !== 'KeyC') return;
+      if (cat.classList.contains('show')) cat.classList.remove('show', 'sleeping');
+      else { place(); cat.classList.add('show', 'sleeping'); }
+    });
+  })();
+
+  (function bubbleToggle() {
+    var cv = document.getElementById('bubbles');
+    if (!cv) return;
+    var ctx = cv.getContext('2d');
+    if (!ctx) return;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var W = 0, H = 0, dpr = 1, bubbles = [], running = false, raf = 0, t = 0;
+    function mk(init) {
+      var r = 1.5 + Math.random() * 3.2;
+      return { x: Math.random() * W, y: init ? Math.random() * H : H + r + Math.random() * 30,
+               r: r, v: .5 + Math.random() * 1.0, ph: Math.random() * 6.28, wob: .3 + Math.random() * .6 };
+    }
+    function size() {
+      dpr = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight;
+      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function seed() { bubbles = Array.from({ length: Math.max(28, Math.round(W / 16)) }, function () { return mk(true); }); }
+    function burst() {
+      var n = Math.max(18, Math.round(W / 26));
+      for (var i = 0; i < n; i++) { var b = mk(false); b.y = H * (0.55 + Math.random() * 0.45); bubbles.push(b); }
+    }
+    /* --focus is the map's own accent, so the bubbles read as part of this poster rather than as a
+       transplant from the deck they came from. */
+    function ink(alpha) {
+      var focus = getComputedStyle(document.documentElement).getPropertyValue('--focus').trim() || '#1668dc';
+      return focus + (alpha === 'fill' ? '33' : '73');   // 20% / 45% as hex alpha
+    }
+    function frame() {
+      ctx.clearRect(0, 0, W, H); t += 0.016;
+      var fill = ink('fill'), stroke = ink('stroke');
+      for (var i = 0; i < bubbles.length; i++) {
+        var b = bubbles[i];
+        b.y -= b.v; b.x += Math.sin(t * 0.9 + b.ph) * b.wob * 0.3;
+        if (b.y + b.r < -4) bubbles[i] = mk(false);
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, 6.283);
+        ctx.fillStyle = fill; ctx.fill();
+        ctx.lineWidth = 1; ctx.strokeStyle = stroke; ctx.stroke();
+      }
+      if (running && !reduce) raf = requestAnimationFrame(frame);
+    }
+    function start() { if (running) return; running = true; if (!W) size(); seed(); burst(); cv.style.opacity = '1'; frame(); }
+    function stop() {
+      running = false; cancelAnimationFrame(raf); cv.style.opacity = '0';
+      setTimeout(function () { if (!running) ctx.clearRect(0, 0, W, H); }, 650);
+    }
+    addEventListener('resize', function () { if (running) { size(); seed(); } });
+    addEventListener('keydown', function (e) {
+      if (typingInAField(e) || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.code === 'KeyB') { if (running) stop(); else start(); }
+    });
+  })();
+
 })();

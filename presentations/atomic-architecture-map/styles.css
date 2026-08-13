@@ -221,6 +221,11 @@ h2 { margin: 0; }
   flex: none; width: 12px; height: 12px; border-radius: 3px;
   background: hsl(var(--h) 62% 88%); border: 1px solid hsl(var(--h) 40% 68%);
 }
+/* A module family's colour is a literal hex read from its icon, not a hue token like the atom
+   families, so its swatch takes a flat fill. Declared after the base rule rather than shouting
+   with !important. */
+.legend-swatch.is-flat { background: var(--flat); border-color: var(--flat); }
+.legend-swatch.is-dashed { background: transparent; border: 1px dashed var(--border-strong); }
 .legend-keys { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px;
   padding-top: 10px; border-top: 1px dashed var(--border); font-size: 12px; color: var(--muted); }
 .legend-keys kbd {
@@ -344,36 +349,128 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 /* A chip row, not a grid of cards. These are reserved placeholders: they exist so the shape of
    the picture is honest, and that costs one line each. The room they gave up is what the Cells
    tier — which is authored — now occupies, so the poster still fits one screen at 1440x900. */
-.molecule-shelf { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.molecule {
-  display: flex; align-items: baseline; gap: 6px; text-align: left;
-  font: inherit; cursor: pointer;
-  padding: 1px 7px; min-height: 0;
-  background: transparent; color: var(--text);
-  border: 1px dashed var(--border-strong); border-radius: 999px;
+/* One grid for the whole shelf, seven columns wide. `display: contents` on the family wrapper and
+   its tile container lifts the label and every tile into that grid, so a label spans the row and the
+   tiles below it line up with the tiles of every other family — seven per row, always. Family blocks
+   of different widths could not do that: a row held two families or five, and no two families shared
+   a column edge. */
+.molecule-shelf {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 3px 8px;
+  align-items: start;
 }
-.molecule:hover { border-style: solid; background: var(--surface); }
-.molecule .mol-name { font-size: 10.5px; font-weight: 600; line-height: 1.4; white-space: nowrap; }
-/* A module chip is solid-edged: unlike a composite topic, its identity and dependency graph are
-   verified — only the write-up is missing. */
-.molecule.is-module { border-style: solid; border-color: var(--border); }
-.molecule.is-module .mol-name { font-family: var(--mono); font-size: 9.5px; font-weight: 700; }
+/* Seven columns need ~1330px to keep a tile wider than the names it carries; at 768px they came out
+   96px and every name was an ellipsis. The count steps down with the width, and the phone rule at the
+   end of this file takes it to one. */
+@media (max-width: 1199px) { .molecule-shelf { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 899px)  { .molecule-shelf { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.mol-family { display: contents; }
+.mol-family-label { grid-column: 1 / -1; }
+.mol-family:first-child .mol-family-label { margin-top: 0; }
+.mol-family-tiles { display: contents; }
+/* Greying a family out means greying its own rows, not the grid — there is no wrapper box left. */
+.mol-family.is-dim .mol-family-label, .mol-family.is-dim .molecule { opacity: .3; }
+
+/* ---------- the tile ----------
+   A module is one row: its icon, its name, and a coloured left edge taken from that icon. The
+   description is in the DOM for search and in the tooltip, but drawing it would treble the height of
+   the shelf — it is the first thing the module page shows instead. */
+.molecule {
+  display: grid; grid-template-columns: auto minmax(0, 1fr);
+  align-items: center; column-gap: 6px; text-align: left;
+  font: inherit; cursor: pointer; min-width: 0;
+  padding: 2px 7px 2px 4px;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent, var(--border-strong));
+  border-radius: 7px;
+}
+.molecule:hover { border-color: var(--accent, var(--border-strong)); background: var(--surface-2); }
+.molecule .mol-name {
+  font: 9.5px var(--mono); font-weight: 700; letter-spacing: -.1px; line-height: 1.3;
+  min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.molecule .mol-sub { display: none; }
+/* A profiled module has a written page behind it; the extra weight on the edge says so without
+   spending room on a badge. */
+.molecule.is-profiled { border-left-width: 5px; }
+.molecule.is-active { border-color: var(--accent, var(--focus)); box-shadow: 0 0 0 2px hsl(212 90% 60% / .3); }
+.molecule.is-dim { opacity: .3; }
+
+/* A topic is not a module: no icon, no colour, dashed like every reserved thing on the map. */
+.molecule:not(.is-module) {
+  grid-template-columns: minmax(0, 1fr);
+  background: transparent;
+  border: 1px dashed var(--border-strong); border-radius: 999px;
+  padding: 1px 9px;
+}
+.molecule:not(.is-module) .mol-name { font-family: var(--font); font-size: 10.5px; font-weight: 600; white-space: normal; }
+
 .mol-group {
   font: 8.5px var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .8px;
   padding: 1px 6px; border-radius: 999px; border: 1px solid currentColor;
 }
 .mol-group.is-commerce { color: var(--info); }
 .mol-group.is-extension { color: var(--muted); }
-/* No scroll: the whole inventory is on the poster, which is the point of a poster. It fits by
-   being set tighter than the other tiers rather than by hiding rows behind a scrollbar. */
-.molecule-shelf { gap: 4px; }
 .d-lead.is-quiet { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
-/* The one-liner is still in the DOM for search and for screen readers; it is simply not drawn
-   on the poster. It is the first thing the panel shows when the tile is opened. */
-.molecule .mol-sub { display: none; }
-.molecule.is-active { border-style: solid; border-color: var(--accent); box-shadow: 0 0 0 2px hsl(350 70% 55% / .25); }
-.molecule.is-dim { opacity: .3; }
+
+/* The same rule the atom family labels use: name on a coloured underline, count pushed right. */
+.mol-family-label {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 7px; padding-bottom: 3px;
+  border-bottom: 2px solid var(--accent, var(--border-strong));
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+}
+.mol-family-swatch { width: 8px; height: 8px; border-radius: 2px; flex: none; background: var(--accent, var(--border-strong)); }
+/* Topics are authored placeholders, not modules — dashed, the same language every reserved tile uses. */
+.mol-family-swatch.is-dashed { background: transparent; border: 1px dashed var(--border-strong); }
+.mol-family-label.is-topics { border-bottom-style: dashed; border-bottom-width: 1.5px; }
+.mol-family-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mol-family-n {
+  margin-left: auto; font: 9.5px var(--mono); font-weight: 700; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Inside a family column the tile is a line, not a card: a 30px icon, the name, and the description
+   in the tooltip and on the page. */
+.mol-family-tiles .mod-icon { width: 30px; height: 30px; border-radius: 7px; }
+/* The name column must be allowed to shrink — `1fr` alone floors at the longest word, which is how
+   "Marketing Experience API" grew past its tile and over the one beside it. minmax(0, 1fr) plus an
+   ellipsis keeps a long name inside its own border; the full name is in the tooltip and the page. */
+.mol-family-tiles .molecule .mol-name {
+  font-size: 9.5px; letter-spacing: -.1px; min-width: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.mod-icon { display: block; border-radius: 5px; flex: none; }
+.mod-icon.is-blank {
+  width: 22px; height: 22px; border-radius: 5px;
+  background: var(--surface-2); border: 1px dashed var(--border-strong);
+}
+.drawer-title .mod-icon { border-radius: 6px; }
+.drawer-title { display: flex; align-items: center; gap: 9px; }
+
+/* ---------- fact readout ----------
+   Key on the left, value on the right, in a grid so every key column lines up down the block. This
+   is the parsed half of a module page: it should read as instrument output, not as writing. */
+.fact-grid { display: grid; gap: 5px; }
+.fact-row { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.fact-key {
+  font: 10px var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+  color: var(--muted); padding-top: 2px;
+}
+/* The same measure the prose uses. In a full-width block a value line ran ~130 characters, which is
+   past the point where the eye finds the start of the next line. */
+.fact-val { font-size: 13.5px; line-height: 1.5; overflow-wrap: anywhere; max-width: 44rem; }
+/* A hairline between rows: ten stacked key/value pairs read as a table with them and as a paragraph
+   without. Not on the last row — a trailing rule looks like a missing row. */
+.fact-row + .fact-row { border-top: 1px dashed var(--border); padding-top: 5px; }
+@media (max-width: 560px) {
+  /* 132px of key column inside a 394px body leaves nothing for the value. */
+  .fact-row { grid-template-columns: minmax(0, 1fr); gap: 1px; }
+}
 
 /* A prose cross-reference to another atom — underlined on hover only, so a paragraph with three
    of them still reads as a paragraph rather than as a list of links. */
@@ -386,13 +483,7 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 
 /* ---------- footer ---------- */
 
-.footer {
-  margin: 8px 16px 10px; padding-top: 6px;
-  border-top: 1px solid var(--border);
-  display: flex; gap: 16px; flex-wrap: wrap;
-  font-size: 11.5px; color: var(--muted);
-}
-.footer code { font: 11px var(--mono); }
+
 
 /* ---------- drawer ---------- */
 
@@ -461,7 +552,7 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
    Gotchas 2/4, Docs 1/4, and the stacked pill column 1/4. minmax(0,1fr) lets a long
    snippet scroll inside its own box instead of stretching its track. */
 .drawer.is-full .drawer-body {
-  padding: 4px 18px 40px;
+  padding: 10px 18px 40px;
   max-width: 1360px; width: 100%; margin: 0 auto;
   display: grid; align-items: start;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1361,7 +1452,6 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
   .tile, .layer, .molecule { break-inside: avoid; box-shadow: none; }
   .tile { background: #fff !important; color: #000 !important; border-color: #666 !important; }
   .tile.is-dim, .layer.is-dim, .molecule.is-dim { opacity: 1; }
-  .footer { margin: 8pt 0 0; }
   body::before { display: none; }
   .layer .layer-sub { -webkit-line-clamp: unset; overflow: visible; }
   /* On paper there is no one-screen budget, so the reserved tiles say what they are. */
@@ -1385,6 +1475,10 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
   .topbar { gap: 8px; }
   #search { width: 100%; max-width: none; }
   .search-wrap { flex: 1 1 100%; }
+  /* Seven 190px columns need 1330px. Below that the count comes down rather than the tiles getting
+     narrower than the names they carry. */
+  .molecule-shelf { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
   .drawer { width: 100%; }
   /* The drawer already fills the screen here, so expanding is a no-op. */
   #drawer-expand { display: none; }
@@ -1426,6 +1520,8 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
   .band { grid-template-columns: 1fr; }
   .atom-grid { grid-template-columns: 1fr; }
   .cell-shelf { grid-template-columns: minmax(0, 1fr); }
+  /* One module per row on a phone, like every other section. */
+  .molecule-shelf { grid-template-columns: minmax(0, 1fr); }
   /* Without min-width the cell refuses to go under the min-content width of its nowrap
      module list, and the shelf grows past the screen instead of clipping. */
   .cell { min-width: 0; }
@@ -1446,3 +1542,29 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ---------- hidden toggles: b = bubbles, c = cat ----------
+   Lifted from presentations/virto-cloud.html so the same easter eggs live on every presentation.
+   Both are aria-hidden and pointer-events: none — decoration that never touches the reading order
+   or the tab order. */
+#bubbles {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+  opacity: 0; transition: opacity .6s ease;
+}
+#catEgg {
+  position: fixed; top: 0; left: 0; width: 150px;
+  z-index: 55; pointer-events: none;
+  opacity: 0; transform: translateY(-10px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+#catEgg.show { opacity: 1; transform: translateY(0); }
+#catEgg svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 7px 10px rgba(7, 37, 74, .28)); }
+#catEgg .cat-tail { transform-box: view-box; transform-origin: 58px 82px; animation: catWag 2.4s ease-in-out infinite; }
+#catEgg .cat-pupil { transition: transform .12s ease-out; }
+#catEgg .eyes-closed { display: none; }
+#catEgg.sleeping .eyes-open { display: none; }
+#catEgg.sleeping .eyes-closed { display: block; }
+@keyframes catWag { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); }
+@media (prefers-reduced-motion: reduce) { #catEgg .cat-tail { animation: none; } }
+@media print { #bubbles, #catEgg { display: none !important; } }

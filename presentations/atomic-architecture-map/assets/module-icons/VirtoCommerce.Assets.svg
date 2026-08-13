@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Assets">
+  <title>Assets</title>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="92%" y2="100%">
+      <stop offset="0%" stop-color="#5FC8F5"/>
+      <stop offset="100%" stop-color="#265FC6"/>
+    </linearGradient>
+    <filter id="lift" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#0B3F66" flood-opacity="0.30"/>
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <g transform="translate(64,66)" filter="url(#lift)">
+    <!-- Folder back wall -->
+    <rect x="-46" y="-14" width="92" height="46" rx="11" fill="#FFD27A"/>
+
+    <!-- Documents stored inside, peeking above -->
+    <rect x="-28" y="-32" width="30" height="42" rx="3" fill="#5FC8F5"/>
+    <g>
+      <rect x="-8" y="-36" width="30" height="46" rx="3" fill="#ffffff"/>
+      <line x1="-2" y1="-28" x2="16" y2="-28" stroke="#9FB6CC" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-2" y1="-21" x2="16" y2="-21" stroke="#9FB6CC" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-2" y1="-14" x2="10" y2="-14" stroke="#9FB6CC" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+    <rect x="13" y="-30" width="26" height="40" rx="3" fill="#9D86F5"/>
+
+    <!-- Folder front pocket -->
+    <path d="M-46 -4 h32 l6 7 h54 v25 a4 4 0 0 1 -4 4 h-84 a4 4 0 0 1 -4 -4 Z" fill="#F8A93A"/>
+    <path d="M-46 -4 h32 l6 7 h54" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="2"/>
+  </g>
+</svg>

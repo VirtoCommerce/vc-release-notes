@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="GDPR">
+  <title>GDPR</title>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="92%" y2="100%">
+      <stop offset="0%" stop-color="#6E7E97"/>
+      <stop offset="100%" stop-color="#3E4C63"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4F8BE8"/>
+      <stop offset="100%" stop-color="#2457B0"/>
+    </linearGradient>
+    <filter id="lift" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#10161F" flood-opacity="0.34"/>
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <g transform="translate(64,64)" filter="url(#lift)">
+    <!-- Shield -->
+    <path d="M0,-46 L38,-31 V4 C38,29 21,42 0,48 C-21,42 -38,29 -38,4 V-31 Z" fill="url(#shield)"/>
+
+    <!-- EU-style stars -->
+    <g fill="#FFD24D">
+      <circle cx="-16" cy="-26" r="2.6"/><circle cx="-8" cy="-31" r="2.6"/>
+      <circle cx="0" cy="-32.5" r="2.6"/><circle cx="8" cy="-31" r="2.6"/><circle cx="16" cy="-26" r="2.6"/>
+    </g>
+
+    <!-- Padlock -->
+    <path d="M-9,-3 v-9 a9,9 0 0 1 18,0 v9" fill="none" stroke="#ffffff" stroke-width="4.5"/>
+    <rect x="-14" y="-3" width="28" height="25" rx="4" fill="#ffffff"/>
+    <circle cx="0" cy="7" r="4" fill="#2457B0"/>
+    <rect x="-2" y="7" width="4" height="9" rx="2" fill="#2457B0"/>
+  </g>
+</svg>

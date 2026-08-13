@@ -1,0 +1,187 @@
+{
+ "id": "VirtoCommerce.WebHooks",
+ "repo": "vc-module-webhooks",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-webhooks",
+ "name": "Webhooks",
+ "tagline": "Manage user defined webhooks",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.WebHooks.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.WebhooksModule.Web.dll",
+  "authors": [
+   "Eugeny Tatarincev",
+   "Andrey Kozlov",
+   "Aleksandr Andreev"
+  ],
+  "tags": "webhooks module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.WebHooksModule.Core",
+   "VirtoCommerce.WebHooksModule.Data",
+   "VirtoCommerce.WebhooksModule.Data.MySql",
+   "VirtoCommerce.WebhooksModule.Data.PostgreSql",
+   "VirtoCommerce.WebhooksModule.Data.SqlServer",
+   "VirtoCommerce.WebHooksModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.WebHooksModule.Web/Controllers/Api/WebhooksController.cs",
+    "route": "api/webhooks",
+    "actions": 9,
+    "authorizedActions": 8
+   }
+  ],
+  "permissions": [
+   "webhooks:access",
+   "webhooks:delete",
+   "webhooks:feed:read",
+   "webhooks:read",
+   "webhooks:update"
+  ],
+  "settings": [
+   "Webhooks.General.LatestErrorCount",
+   "Webhooks.General.SendRetryCount"
+  ],
+  "domainEventsPublished": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": true,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 17,
+  "hasAdminUi": true,
+  "adminUiFiles": 20,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "WebHookPayloadEntity",
+   "WebhookEntity",
+   "WebhookEventEntity",
+   "WebhookFeedEntryEntity"
+  ],
+  "git": {
+   "branch": "feat/VCST-5163-stable-15",
+   "lastCommit": "bb5e583 2026-06-19 VCST-5163: Stable 15 — WebHooks (platform 3.1039.0)",
+   "lastCommitDate": "2026-06-19"
+  }
+ },
+ "readme": {
+  "overview": "The Webhooks module enables real-time event-driven notifications within the Virto Commerce platform. It automatically discovers all domain events raised by installed modules and delivers HTTP POST notifications with JSON-serialized event data to user-configured endpoints. The module supports selective payload composition, multiple authentication schemes, and resilient delivery with exponential-backoff retries.",
+  "keyFeatures": [
+   "**Automatic event discovery** — resolves all `DomainEvent` types from the platform and installed modules at runtime",
+   "**Selective payload composition** — choose specific entity properties to include in the notification body, with access to previous values for change tracking",
+   "**Multiple authentication schemes** — None, HTTP Basic, Bearer Token, and Custom Header",
+   "**Resilient delivery** — configurable retry policy with exponential backoff powered by Polly (default: 3 retries at 1, 2, 4 minute intervals)",
+   "**Execution audit log (Feed)** — records request/response headers, body, HTTP status, error messages, and attempt counts for every webhook invocation",
+   "**Background processing** — notifications are dispatched asynchronously via Hangfire with a 5-second debounce delay and processed in batches of 20",
+   "**Permission-based access control** — granular permissions for read, update, delete, and feed access",
+   "**Multi-database support** — SQL Server, MySQL, and PostgreSQL via dedicated EF Core provider assemblies"
+  ],
+  "docs": [
+   {
+    "label": "Webhooks module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/webhooks/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.WebHooks"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-webhooks/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-webhooks/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": "Lets the business subscribe an external system to things that happen in the store — an order placed, a price changed — without a developer writing an integration for each one. Someone configures the endpoint and the fields to send in the back office, and every delivery attempt is auditable afterwards.",
+  "forArchitect": "The platform's only built-in outbound integration edge. It turns in-process domain events into HTTP POSTs, which means it is the boundary where a Virto event stops being transactional: delivery is a background job with retries, not part of the writing transaction. It declares no module dependencies, so it can be installed on any host — but it needs a background-jobs worker to deliver anything, and it owns four tables of its own.",
+  "forDeveloper": "You rarely code against it. Raise a proper domain event in your module and it becomes subscribable automatically, because the module resolves DomainEvent types from every loaded assembly at runtime. The two knobs that change behaviour are settings, not code: Webhooks.General.SendRetryCount and Webhooks.General.LatestErrorCount.",
+  "owns": [
+   "WebhookEntity",
+   "WebhookEventEntity",
+   "WebHookPayloadEntity",
+   "WebhookFeedEntryEntity"
+  ],
+  "reachForItWhen": [
+   "An external system needs to react to store changes and you do not want it polling your API",
+   "Integration middleware wants a change stream rather than a nightly diff",
+   "A partner asked for callbacks and you need the delivery attempts on record"
+  ],
+  "doNotReachForItWhen": [
+   "The reaction belongs inside the platform — that is a domain event handler, in-process and transactional",
+   "You need guaranteed, ordered delivery: this is retried HTTP with exponential backoff, not a broker. Reach for EventBus and a real queue",
+   "The payload would carry data the receiving endpoint should not see — field selection is per webhook and easy to over-share",
+   "The events come from a bulk import: suppress events or turn event-based indexation off first, or one import fans out into thousands of callbacks"
+  ]
+ },
+ "extractedAt": "2026-08-13",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-webhooks",
+  "links": [
+   {
+    "label": "Webhooks module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/webhooks/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

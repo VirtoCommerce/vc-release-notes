@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Contentful">
+  <title>Contentful</title>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="92%" y2="100%">
+      <stop offset="0%" stop-color="#5FD080"/>
+      <stop offset="100%" stop-color="#2FA85A"/>
+    </linearGradient>
+    <filter id="lift" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#0B4F2A" flood-opacity="0.30"/>
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <g transform="translate(62,64)" filter="url(#lift)">
+    <!-- concentric "C" arcs (brand-colored, centered) -->
+    <path d="M20.6,24.5 A32,32 0 1 1 20.6,-24.5" fill="none" stroke="#1F73C4" stroke-width="12" stroke-linecap="round"/>
+    <path d="M10.3,12.3 A16,16 0 1 1 10.3,-12.3" fill="none" stroke="#FFD63A" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>

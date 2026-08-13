@@ -30,11 +30,14 @@ if (REPO) {
 }
 
 global.window = {};
-for (const f of ['content/meta.js', 'content/architecture.js', 'content/atoms.js', 'content/cells.js', 'content/molecules.js']) {
+for (const f of ['content/meta.js', 'content/architecture.js', 'content/atoms.js', 'content/cells.js', 'content/molecules.js',
+                 'content/module-accents.js', 'content/modules-active.js']) {
   new Function(fs.readFileSync(path.join(MAP, f), 'utf8')).call(global);
 }
 const { VC_MAP_META: META, VC_MAP_ARCHITECTURE: LAYERS, VC_MAP_FAMILIES: FAMILIES,
-        VC_MAP_ATOMS: ATOMS, VC_MAP_CELLS: CELLS, VC_MAP_MOLECULES: MOLECULES } = global.window;
+        VC_MAP_ATOMS: ATOMS, VC_MAP_CELLS: CELLS, VC_MAP_MOLECULES: MOLECULES,
+        VC_ACTIVE_MODULES: ACTIVE_MODULES = [], VC_MODULE_ACCENTS: ACCENTS = {},
+        VC_MODULE_FAMILY: FAMILY_OF = {} } = global.window;
 
 const problems = [];
 const add = (kind, id, msg) => problems.push(`${kind} ${id}: ${msg}`);
@@ -131,7 +134,7 @@ const ADOPTIONS = new Set(['platform','module','available','in-flight','legacy']
 const atomIds = new Set(ATOMS.map(a => a.id));
 const layerIds = new Set(LAYERS.map(l => l.id));
 const familyIds = new Set(FAMILIES.map(f => f.id));
-const moleculeIds = new Set(MOLECULES.map(m => m.id));
+const moleculeIds = new Set(MOLECULES.map(m => m.id).concat(ACTIVE_MODULES.map(m => m.moleculeId)));
 
 for (const a of ATOMS) {
   for (const f of REQUIRED) {
@@ -474,6 +477,115 @@ for (const a of ATOMS) {
 
 // ---- report
 const byFamily = FAMILIES.map(f => `${f.name}: ${ATOMS.filter(a => a.family === f.id).length}`).join('  |  ');
+/* ---------- the generated module catalogue ----------
+   These tiles are a projection of modules_v3.json, so the checks are about the projection being
+   current rather than about typing: a tile whose version no longer matches the registry means the
+   generator has not been re-run, and a silently stale catalogue is worse than an empty one. */
+let REGISTRY_SOURCE = 'none';
+const MODULE_REGISTRY = (function () {
+  /* Master first when --online: the catalogue is generated from master, and a local clone that is a
+     few entries behind would report freshly published modules as invented ones. */
+  if (ONLINE) {
+    try {
+      const raw = require('child_process').execFileSync('curl',
+        ['-s', '--max-time', '30', 'https://raw.githubusercontent.com/VirtoCommerce/vc-modules/refs/heads/master/modules_v3.json'],
+        { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+      const parsed = JSON.parse(raw);
+      REGISTRY_SOURCE = 'master (' + parsed.length + ' entries)';
+      return parsed;
+    } catch (e) { console.log('online registry fetch failed (' + e.message + ') — falling back to the clone'); }
+  }
+  const candidates = [process.env.VC_MODULES_REGISTRY,
+    path.resolve(REPO || '.', '../vc-modules/modules_v3.json'),
+    'C:/Projects/git/VirtoCommerce/vc-modules/modules_v3.json'].filter(Boolean);
+  for (const c of candidates) {
+    if (fs.existsSync(c)) {
+      const parsed = JSON.parse(fs.readFileSync(c, 'utf8'));
+      REGISTRY_SOURCE = 'local clone (' + parsed.length + ' entries)';
+      return parsed;
+    }
+  }
+  console.log('module registry NOT FOUND — catalogue versions were not cross-checked.');
+  return [];
+})();
+const activeFloor = '3.1000.0';
+const profileDir = path.join(MAP, 'content/modules');
+const profileFiles = fs.existsSync(profileDir) ? fs.readdirSync(profileDir).filter(f => f.endsWith('.json')) : [];
+
+if (!ACTIVE_MODULES.length) {
+  add('catalogue', 'modules-active.js', 'no active modules — run node tools/build-active-modules.js');
+}
+
+const registryById = new Map(MODULE_REGISTRY.map(m => [m.Id, m]));
+const tileIds = new Set();
+const registryGaps = [];
+const previews = [];
+const staleClone = [];
+for (const m of ACTIVE_MODULES) {
+  const where = m.id || m.moleculeId || '(anonymous)';
+  const entry = registryById.get(m.id);
+
+  if (m.unreleased) {
+    /* Deliberately absent from the registry: read from a checkout instead. What matters is that the
+       checkout is really there and that the tile admits what it is. */
+    previews.push(m.id + ' ' + m.version + ' (' + (m.source || 'no source recorded') + ')');
+    if (entry) add('catalogue', where, 'flagged unreleased but modules_v3.json now HAS it — drop it from UNRELEASED and re-run the generator');
+    if (!m.source) add('catalogue', where, 'unreleased tiles must record the source they were read from');
+    if (!m.repo || !fs.existsSync(path.join('C:/Projects/git/VirtoCommerce', m.repo))) {
+      add('catalogue', where, `no checkout at ${m.repo} to read from`);
+    }
+  } else {
+    if (!entry) {
+    /* Against a clone this is almost always the clone being behind, not the map being wrong. */
+    if (/local clone/.test(REGISTRY_SOURCE)) { staleClone.push(m.id); continue; }
+    add('catalogue', where, 'not a module id in modules_v3.json'); continue;
+  }
+
+    const newest = (entry.Versions || []).map(v => v.Version).sort(verCompare).pop();
+    if (m.version !== newest) {
+      add('catalogue', where, `version ${m.version} is stale — the registry now publishes ${newest}; re-run tools/build-active-modules.js`);
+    }
+    if (verCompare(m.version, activeFloor) < 0) {
+      add('catalogue', where, `version ${m.version} is below the ${activeFloor} active floor and must not be listed`);
+    }
+  }
+  if (tileIds.has(m.moleculeId)) add('catalogue', where, `duplicate tile id ${m.moleculeId}`);
+  tileIds.add(m.moleculeId);
+
+  if (!ACCENTS[m.id]) add('catalogue', where, 'no icon accent — run tools/sync-module-icons.js');
+  else if (!fs.existsSync(path.join(MAP, 'assets/module-icons', m.id + '.svg'))) {
+    add('catalogue', where, 'accent recorded but assets/module-icons/' + m.id + '.svg is missing');
+  }
+  if (!FAMILY_OF[m.id]) add('catalogue', where, 'no family — its icon colour is not in the family table');
+  /* Not a failure: a missing ProjectUrl is the registry's gap, and the derived name is checked by
+     hand once. Reported so it stays visible rather than silently becoming a convention. */
+  if (m.repoUrlDerived) registryGaps.push(m.id + ' (no ProjectUrl — repo name derived)');
+  if (!m.repoUrl) add('catalogue', where, 'no repository link could be formed at all');
+}
+
+/* Every module the registry still publishes should be on the map. A missing one is not a typo — it
+   means the generator ran against an older registry. */
+const missingFromCatalogue = MODULE_REGISTRY.filter(e => {
+  const newest = (e.Versions || []).map(v => v.Version).sort(verCompare).pop();
+  return newest && verCompare(newest, activeFloor) >= 0 && !ACTIVE_MODULES.some(m => m.id === e.Id);
+}).map(e => e.Id);
+if (missingFromCatalogue.length) {
+  add('catalogue', 'modules-active.js', `${missingFromCatalogue.length} active module(s) absent: ${missingFromCatalogue.join(', ')}`);
+}
+
+/* Profiles: a page for a module that is no longer active is a page no tile can reach. */
+let profilesWithNotes = 0;
+for (const f of profileFiles) {
+  let p;
+  try { p = JSON.parse(fs.readFileSync(path.join(profileDir, f), 'utf8')); }
+  catch (e) { add('profile', f, 'not valid JSON: ' + e.message); continue; }
+  if (!ACTIVE_MODULES.some(m => m.id === p.id)) add('profile', f, `${p.id} is not in the active catalogue`);
+  if (p.notes && p.notes.forAnalyst) profilesWithNotes++;
+  for (const d of (p.readme && p.readme.docs) || []) {
+    if (!/^https?:\/\//.test(d.href || '')) add('profile', f, `readme doc "${d.label}" is not an absolute URL`);
+  }
+}
+
 const byAdoption = [...ADOPTIONS].map(k => `${k}: ${ATOMS.filter(a => a.adoption === k).length}`).join('  |  ');
 const noSnippet = ATOMS.filter(a => !a.snippet).map(a => a.id);
 
@@ -483,8 +595,20 @@ if (behind.length) {
     (behind.length <= 8 ? ' → ' + behind.map(a => a.id).join(', ') : ''));
 }
 
-const modMol = MOLECULES.filter(m => m.kind === 'module');
-console.log(`atoms: ${ATOMS.length}   layers: ${LAYERS.length}   cells: ${CELLS.length}   molecules: ${MOLECULES.length} (${modMol.length} modules from the registry, ${MOLECULES.length - modMol.length} topics)`);
+console.log(`atoms: ${ATOMS.length}   layers: ${LAYERS.length}   cells: ${CELLS.length}   ` +
+            `molecules: ${ACTIVE_MODULES.length} active modules + ${MOLECULES.length} topics`);
+const famCounts = {};
+for (const m of ACTIVE_MODULES) { const f = FAMILY_OF[m.id] || 'other'; famCounts[f] = (famCounts[f] || 0) + 1; }
+console.log('module families → ' + Object.entries(famCounts).map(([k, v]) => `${k}: ${v}`).join('  |  '));
+console.log(`module registry read from: ${REGISTRY_SOURCE}`);
+if (staleClone.length) {
+  console.log(`not in the local registry clone (${staleClone.length}) — the clone is probably behind master; ` +
+              `re-run with --online to check properly: ${staleClone.join(', ')}`);
+}
+if (previews.length) console.log(`preview modules, not in the registry: ${previews.join(', ')}`);
+if (registryGaps.length) console.log(`registry gaps (informational): ${registryGaps.join(', ')}`);
+console.log(`module profiles: ${profileFiles.length} (${profilesWithNotes} with authored notes) — ` +
+            `${ACTIVE_MODULES.length - profileFiles.length} modules still facts-free`);
 console.log('cells → ' + CELLS.map(c => `${c.name} (${c.splittable}, ${c.modules.length} modules)`).join('  |  '));
 console.log(`families → ${byFamily}`);
 console.log(`adoption → ${byAdoption}`);

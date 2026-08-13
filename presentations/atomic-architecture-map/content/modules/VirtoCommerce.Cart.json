@@ -1,0 +1,240 @@
+{
+ "id": "VirtoCommerce.Cart",
+ "repo": "vc-module-cart",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-cart",
+ "name": "Shopping Cart",
+ "tagline": "Shopping cart / checkout functionality",
+ "latestVersion": "3.1007.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#FFC24D",
+ "icon": "assets/module-icons/VirtoCommerce.Cart.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1004.0",
+  "assembly": "VirtoCommerce.CartModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "shopping cart",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Notifications",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Payment",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Shipping",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1000.0",
+    "optional": true
+   }
+  ],
+  "projects": [
+   "VirtoCommerce.CartModule.Core",
+   "VirtoCommerce.CartModule.Data",
+   "VirtoCommerce.CartModule.Data.MySql",
+   "VirtoCommerce.CartModule.Data.PostgreSql",
+   "VirtoCommerce.CartModule.Data.SqlServer",
+   "VirtoCommerce.CartModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.CartModule.Web/Controllers/Api/CartModuleController.cs",
+    "route": "api/carts",
+    "actions": 24,
+    "authorizedActions": 8
+   }
+  ],
+  "permissions": [
+   "cart:access",
+   "cart:create",
+   "cart:delete",
+   "cart:read",
+   "cart:update"
+  ],
+  "settings": [
+   "Cart.AbandonedCartReminder.CronExpression",
+   "Cart.AbandonedCartReminder.Enable",
+   "Cart.AbandonedCartReminder.HoursUntilCartAbandoned",
+   "Cart.CronDeleteObsoleteCarts",
+   "Cart.EnableDeleteObsoleteCarts",
+   "Cart.HardDeleteDelayDays",
+   "Cart.MaximumCountPerDeleteObsoleteCartsJobExecution",
+   "Cart.PortionDeleteObsoleteCarts"
+  ],
+  "domainEventsPublished": [],
+  "eventHandlers": [
+   "src/VirtoCommerce.CartModule.Data/Handlers/CartChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "CartChangeEvent",
+   "CartChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 105,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "AddressEntity",
+   "CartDynamicPropertyObjectValueEntity",
+   "CartSharingSettingEntity",
+   "ConfigurationItemEntity",
+   "ConfigurationItemFileEntity",
+   "CouponEntity",
+   "DiscountEntity",
+   "LineItemEntity",
+   "PaymentEntity",
+   "ProductWishlistEntity",
+   "ShipmentEntity",
+   "ShipmentItemEntity",
+   "ShoppingCartEntity",
+   "TaxDetailEntity"
+  ],
+  "git": {
+   "branch": "dev",
+   "lastCommit": "fb8f6e0 2026-08-11 3.1010.0",
+   "lastCommitDate": "2026-08-11"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce Cart module represents shopping cart management system. This module doesn't have any UI in VC Manager.",
+  "keyFeatures": [
+   "**Multiple carts support**: If the user is using more than one cart at the same time, all of the carts will be supported by the Virto Commerce Cart module.",
+   "**Named lists**: The user can add the desired products to the  wishlist , which will be saved in the cart. The user can later use the products added to the wishlist to make an order. The wishlist details will be saved by the VirtoCommerce.Cart module.",
+   "**Grouping multiple carts to one order**: If the user is using more than one cart, the final order will be created by grouping the details from all the carts filled out by user.",
+   "**Anonymous carts**: The user can put products to cart and submit order anonymously, without creating an account.",
+   "**Stock reservation**: The selected products will be reserved in stock after adding them to the cart.",
+   "**Multiple payments methods**: The user can choose the payment methods he wants before checkout.",
+   "**Create new cart from orders history**: The user can add products to a new cart using the previously completed orders (orders history)."
+  ],
+  "docs": [
+   {
+    "label": "Cart Module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/cart/overview/"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Cart/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Cart"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-cart/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-cart/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-13",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-cart",
+  "links": [
+   {
+    "label": "Cart Module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/cart/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Cart/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": true
+ }
+}

@@ -60,7 +60,6 @@
   </section>
 </main>
 
-<footer class="footer" id="footer"></footer>
 
 <div id="scrim" class="scrim" hidden></div>
 
@@ -79,11 +78,55 @@
 
 <!-- Content first, renderer last. Classic scripts on purpose: ES modules are CORS-blocked
      on the file:// origin, which would break opening this file by double-click. -->
+<!-- Hidden toggles, shared with the other presentations: press b for bubbles, c for the cat. -->
+<canvas id="bubbles" aria-hidden="true"></canvas>
+<div id="catEgg" aria-hidden="true">
+  <svg viewBox="0 0 190 112" xmlns="http://www.w3.org/2000/svg">
+    <g class="cat-tail">
+      <path d="M58 84 C26 99 2 76 7 49 C10 32 31 28 35 44 C39 57 26 64 20 53 C23 74 40 90 60 79 Z" fill="#EA9440"/>
+      <path d="M20 51 q6 3 12 0 M15 61 q7 3 13 0 M15 71 q7 3 13 0" stroke="#CE7620" stroke-width="3.4" fill="none" stroke-linecap="round" opacity=".68"/>
+    </g>
+    <ellipse cx="98" cy="82" rx="60" ry="24" fill="#EA9440"/>
+    <ellipse cx="100" cy="92" rx="50" ry="11" fill="#F6C486"/>
+    <path d="M80 60 q6 11 0 22" stroke="#CE7620" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M99 59 q6 12 0 24" stroke="#CE7620" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M118 60 q6 11 0 22" stroke="#CE7620" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="112" cy="103" rx="13" ry="7.5" fill="#F3BC7E"/>
+    <ellipse cx="136" cy="103" rx="13" ry="7.5" fill="#F6C486"/>
+    <path d="M107 100.5 v6 M112.5 101 v6.2 M118 100.5 v6" stroke="#E1A45F" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M131 100.5 v6 M136.5 101 v6.2 M142 100.5 v6" stroke="#E7B06B" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M137 42 L139 18 L157 35 Z" fill="#EA9440"/>
+    <path d="M177 38 L179 15 L160 31 Z" fill="#EA9440"/>
+    <path d="M141 36 L142 25 L152 34 Z" fill="#F4A9A0"/>
+    <path d="M172 34 L174 23 L163 31 Z" fill="#F4A9A0"/>
+    <circle cx="158" cy="60" r="27" fill="#EA9440"/>
+    <path d="M158 35 l0 10" stroke="#CE7620" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <g class="eyes-open">
+      <ellipse cx="150" cy="58" rx="6.6" ry="7.6" fill="#fff"/>
+      <ellipse cx="167" cy="58" rx="6.6" ry="7.6" fill="#fff"/>
+      <g class="cat-pupil"><ellipse cx="150" cy="58" rx="4.6" ry="6.4" fill="#7FB03A"/><ellipse cx="150" cy="58" rx="1.7" ry="5.4" fill="#20180a"/><circle cx="148.3" cy="55.3" r="1.1" fill="#fff" opacity=".9"/></g>
+      <g class="cat-pupil"><ellipse cx="167" cy="58" rx="4.6" ry="6.4" fill="#7FB03A"/><ellipse cx="167" cy="58" rx="1.7" ry="5.4" fill="#20180a"/><circle cx="165.3" cy="55.3" r="1.1" fill="#fff" opacity=".9"/></g>
+    </g>
+    <g class="eyes-closed">
+      <path d="M143 57 q7 6 14 0" stroke="#33240f" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M160 57 q7 6 14 0" stroke="#33240f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <path d="M162 66 l7 0 l-3.5 4.5 Z" fill="#C4626A"/>
+    <path d="M165.5 70 q-3 5 -8 3 M165.5 70 q3 5 8 3" stroke="#33240f" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M150 66 L127 62 M150 71 L127 73 M182 66 L205 62 M182 71 L205 73" stroke="#ffffff" stroke-width="1.5" opacity=".85"/>
+  </svg>
+</div>
+
 <script src="content/meta.js"></script>
 <script src="content/architecture.js"></script>
 <script src="content/atoms.js"></script>
 <script src="content/cells.js"></script>
 <script src="content/molecules.js"></script>
+<!-- Generated pair: accents come from the module icons, profiles from the module checkouts.
+     See tools/sync-module-icons.js and tools/module-profile.js — neither file is hand-edited. -->
+<script src="content/module-accents.js"></script>
+<script src="content/modules-active.js"></script>
+<script src="content/modules.generated.js"></script>
 <script src="app.js"></script>
 
 </body>

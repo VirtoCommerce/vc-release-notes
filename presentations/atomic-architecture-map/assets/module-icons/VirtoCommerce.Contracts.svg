@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Contracts">
+  <title>Contracts</title>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="92%" y2="100%">
+      <stop offset="0%" stop-color="#FFC24D"/>
+      <stop offset="100%" stop-color="#ED8A12"/>
+    </linearGradient>
+    <filter id="lift" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#7A3D00" flood-opacity="0.30"/>
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <g transform="translate(64,64)" filter="url(#lift)">
+    <!-- Contract document with folded corner -->
+    <path d="M-36,-44 a7,7 0 0 1 7,-7 H19 L36,-34 V39 a7,7 0 0 1 -7,7 H-29 a7,7 0 0 1 -7,-7 Z" fill="#ffffff"/>
+    <polygon points="19,-51 19,-34 36,-34" fill="#D9DEE8"/>
+
+    <!-- Text lines -->
+    <line x1="-26" y1="-30" x2="24" y2="-30" stroke="#9FB6CC" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-26" y1="-20" x2="18" y2="-20" stroke="#CBD8E6" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-26" y1="-10" x2="24" y2="-10" stroke="#CBD8E6" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Signature -->
+    <path d="M-26,14 q5,-11 10,-1 t10,-1" fill="none" stroke="#2F6BD6" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-26" y1="21" x2="4" y2="21" stroke="#9FB6CC" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Wax seal with ribbons -->
+    <polygon points="14,30 14,45 20,39" fill="#B4262C"/>
+    <polygon points="28,30 28,45 22,39" fill="#B4262C"/>
+    <circle cx="21" cy="22" r="13" fill="#E5484D"/>
+    <polyline points="15,22 19,27 28,16" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

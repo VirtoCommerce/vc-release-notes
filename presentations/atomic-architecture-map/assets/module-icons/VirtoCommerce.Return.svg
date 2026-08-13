@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Return">
+  <title>Return</title>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="92%" y2="100%">
+      <stop offset="0%" stop-color="#9D86F5"/>
+      <stop offset="100%" stop-color="#6A45D9"/>
+    </linearGradient>
+    <filter id="lift" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#2C1670" flood-opacity="0.30"/>
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <g transform="translate(64,66)" filter="url(#lift)">
+    <!-- Return arrow looping back -->
+    <path d="M30,-12 C30,-40 -30,-40 -30,-14" fill="none" stroke="#3FD8B4" stroke-width="7" stroke-linecap="round"/>
+    <polygon points="-39,-16 -21,-16 -30,-1" fill="#3FD8B4"/>
+
+    <!-- Package -->
+    <rect x="-32" y="-8" width="64" height="46" rx="7" fill="#ffffff"/>
+    <path d="M-32,-8 L0,6 L32,-8" fill="none" stroke="#9D86F5" stroke-width="4" stroke-linejoin="round"/>
+    <line x1="0" y1="6" x2="0" y2="38" stroke="#9D86F5" stroke-width="4.5"/>
+  </g>
+</svg>
