@@ -26,6 +26,9 @@
   --lane-int: #6b3fb8;
 
   --grid-line: rgba(21, 26, 34, .05);   /* blueprint backdrop, see body::before */
+  /* Edge shade for a horizontally scrolling box — dark over a light surface and light over a
+     dark one, since a black shadow on #161b24 says nothing. See .flow-wrap on narrow screens. */
+  --edge-shade: rgba(21, 26, 34, .17);
 
   /* Sized so all eight families sit in one band at 1440px wide AND the whole poster still fits
      900px — the "one screen" promise. The tallest family is six rows deep, so every pixel here
@@ -56,6 +59,7 @@
     --bad: #ff6b6b;
     --lane-int: #b490f0;
     --grid-line: rgba(255, 255, 255, .04);
+    --edge-shade: rgba(255, 255, 255, .13);
   }
 }
 
@@ -65,14 +69,14 @@
   --muted: #5c6675; --border: #dbe0e8; --border-strong: #c3cad6; --accent: #d21f3c;
   --focus: #1668dc; --shadow: 0 1px 2px rgba(18,24,33,.06), 0 8px 24px rgba(18,24,33,.08);
   --ok: #17794a; --info: #1668dc; --neutral: #6b7280; --warn: #9a6100; --bad: #b4232d;
-  --lane-int: #6b3fb8; --grid-line: rgba(21, 26, 34, .05);
+  --lane-int: #6b3fb8; --grid-line: rgba(21, 26, 34, .05); --edge-shade: rgba(21, 26, 34, .17);
 }
 :root[data-theme="dark"] {
   --bg: #0e1117; --surface: #161b24; --surface-2: #1d2430; --text: #e7eaf0;
   --muted: #98a2b3; --border: #262d3a; --border-strong: #37404f; --accent: #ff5c72;
   --focus: #5aa2ff; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
   --ok: #3fbf82; --info: #63a4ff; --neutral: #9aa4b2; --warn: #e3a13a; --bad: #ff6b6b;
-  --lane-int: #b490f0; --grid-line: rgba(255, 255, 255, .04);
+  --lane-int: #b490f0; --grid-line: rgba(255, 255, 255, .04); --edge-shade: rgba(255, 255, 255, .13);
 }
 
 * { box-sizing: border-box; }
@@ -492,8 +496,42 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 
 /* A full-width list would otherwise run a 1360px line. Flow it into columns of a
    readable measure instead, breaking between items rather than through them. */
-.drawer.is-full .d-block.is-wide .d-list { columns: 330px 3; column-gap: 32px; }
+/* Two columns, not three: the list now sits inside the 54rem text column rather than the panel's
+   full width, and three tracks in 864px is 33 characters a line — a word ladder. */
+.drawer.is-full .d-block.is-wide .d-list { columns: 24rem 2; column-gap: 32px; }
 .drawer.is-full .d-block.is-wide .d-list li { break-inside: avoid; }
+
+/* One text column, full-bleed figures.
+   The measure cap was leaving 494px of empty panel to the right of every paragraph, and simply
+   dropping it is worse than the hole: measured, a .dg-cap across 1309px runs ~190 characters a
+   line against a readable ceiling of about 110. So the column is set a step larger, widened to
+   that ceiling, and centred together with its heading and lists — the leftover becomes page
+   margin on both sides instead of a gap on one — while diagrams and matrices keep the full
+   width they need. */
+/* One shared measure in rem, not ch: `ch` resolves against each element's own font-size, so a
+   14px heading and a 16px paragraph capped at "100ch" start 29px apart. 56rem is ~113 characters
+   of the 16px prose and identical for every child.
+   Left-aligned, NOT centred: centring the prose inside a 1309px block bought symmetry at the cost
+   of starting the text 223px to the right of the diagram it describes, which reads as broken
+   alignment. Everything in a panel shares one left edge; only the right edge is ragged. */
+.drawer.is-full .d-block.is-wide { --wide-measure: 56rem; }
+.drawer.is-full .d-block.is-wide > .dg-cap,
+.drawer.is-full .d-block.is-wide > .d-list,
+.drawer.is-full .d-block.is-wide > h3 { max-width: var(--wide-measure); }
+
+/* A panel built out of prose and diagrams is a reading column, not a dashboard. Narrowing the
+   content is what keeps the ragged right edge small — 256px rather than the 494px hole that
+   started this — while the text column, its heading and every diagram stay flush left.
+   The gate is a wide prose or list block, which every layer and cell panel has and no atom panel
+   does — so all seven layers narrow together instead of three of them jumping, and atom panels
+   keep the full 1360px four-column grid their short blocks are laid out for. */
+.drawer.is-full:is(:has(.d-block.is-wide > .dg-cap), :has(.d-block.is-wide > .d-list)) .drawer-body {
+  max-width: 72rem;
+}
+/* A full-screen panel is something you read, not something you scan: 16px here, and the bullet
+   text with it, so a section does not step down in size halfway through. */
+.drawer.is-full .dg-cap { font-size: 16px; }
+.drawer.is-full .d-block.is-wide > .d-list li { font-size: 15px; }
 
 /* ---------- horizontal tier flow ----------
    Structure and proportions follow vc-module-solution-architecture-map (.tier-flow /
@@ -595,7 +633,9 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
    the drawer, so on a plain background only their borders were visible. */
 .pipeline {
   display: flex; flex-direction: column; align-items: stretch; gap: 0;
-  max-width: min(660px, 100%); margin-inline: auto;
+  /* Flush left, like every other figure in a panel. Centred, it sat 221px right of the paragraph
+     above it, which is the one alignment a reader notices. */
+  max-width: min(660px, 100%);
   padding: 14px 16px 16px;
   background: var(--surface-2);
   border: 1px solid var(--border); border-radius: 9px;
@@ -1075,13 +1115,22 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
   width: 5px; height: 5px; border-radius: 50%;
   background: var(--border-strong);
 }
-.d-list.good li::before { content: "✓"; color: var(--ok); font-weight: 700; }
+/* Back to a glyph: these three carry meaning, and a coloured dot cannot say "avoid" or "careful".
+   All three reset the drawn box — "good" used to override only content and colour, so the grey
+   5px dot was still painted behind the tick and showed as a smudge to its left. */
+.d-list.good li::before,
 .d-list.bad  li::before,
 .d-list.warn li::before {
-  /* Back to a glyph: these two carry meaning, and a coloured dot cannot say "avoid" or "careful". */
+  /* top: 0 rather than the dot's .62em — a glyph sits on its own baseline inside the line box,
+     so it needs no nudging; the dot did, because it is a box with no baseline of its own. */
   width: auto; height: auto; border-radius: 0; background: none; top: 0;
   font-weight: 700;
 }
+/* U+2713 with a text-presentation selector (U+FE0E), NOT the heavy U+2714: iOS renders 2714 as a
+   colour emoji, which ignores `color` and would put a black-or-green pictograph next to a flat ✗.
+   A size step and the shared bold weight give it the presence the heavy glyph was wanted for, so
+   the ✓/✗ pair reads as one yes/no scale rather than a tick beside a bolder cross. */
+.d-list.good li::before { content: "\2713\FE0E"; color: var(--ok); left: 2px; font-size: 1.08em; }
 .d-list.bad  li::before { content: "✗"; color: var(--bad); left: 3px; }
 .d-list.warn li::before { content: "!"; color: var(--warn); left: 6px; }
 
@@ -1110,6 +1159,10 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 .api-row { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .api-row .api-name { font: 12.5px var(--mono); font-weight: 600; overflow-wrap: break-word; }
 .api-row .api-file { font: 11px var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+/* A path that is a link says so on hover rather than shouting in a list of twenty. */
+.api-row .api-file.is-link { color: var(--focus); text-decoration: none; border-bottom: 1px dotted transparent; }
+.api-row:hover .api-file.is-link, .api-file.is-link:focus-visible { border-bottom-color: currentColor; }
+.api-file.is-link:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
 
 /* A framed block with its own thin header, so the language label and copy
    button sit beside the code instead of floating over its first line. */
@@ -1336,7 +1389,59 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
   /* The drawer already fills the screen here, so expanding is a no-op. */
   #drawer-expand { display: none; }
   .drawer-head { padding-right: 52px; }
+
+  /* Expanded mode is sticky in localStorage and its toggle is hidden at this width, so a phone
+     inherits `is-full` from a desktop session with no way back out of it. Hiding the button was
+     never enough: every is-full rule that divides the width has to be neutralised here too.
+     At 375px the body grid was two 153px columns — that is what "When to use" and "Avoid" were
+     being squeezed into, three words to a line, with the text clipped at the fold. */
+  .drawer.is-full .drawer-body { display: block; padding: 4px 18px 30px; }
+  .drawer.is-full .drawer-head { padding-top: 14px; padding-bottom: 12px; border-bottom-width: 1px; }
+  .drawer.is-full .drawer-title { font-size: 20px; }
+  .drawer.is-full .drawer-eyebrow { font-size: 10.5px; margin-bottom: 3px; }
+  .drawer.is-full .d-lead { max-width: none; }
+  .drawer.is-full .d-matrix { grid-template-columns: minmax(0, 1fr); }
+  /* A 258px path column inside a 339px body leaves the descriptions 67px — six words tall. */
+  .drawer.is-full .tr-row { grid-template-columns: minmax(0, 1fr); gap: 1px 14px; }
+  .drawer.is-full .tr-row + .tr-row { margin-top: 2px; }
+  .drawer.is-full .tr-desc { margin-left: calc(var(--tr-depth) * 13px + 13px); }
+  .drawer.is-full .d-block.is-wide .d-list { columns: auto; }
+
+  /* Every topology diagram is two to three screens wide on a phone, and a touch device draws no
+     scrollbar to say so. The four-layer background trick shows an edge shadow only while there is
+     more content past that edge: the panel-coloured gradients scroll with the content and cover
+     the shadows at the extremes, so a diagram that happens to fit shows nothing at all. */
+  .flow-wrap {
+    background:
+      linear-gradient(90deg, var(--surface) 45%, transparent) left / 16px 100% no-repeat local,
+      linear-gradient(270deg, var(--surface) 45%, transparent) right / 16px 100% no-repeat local,
+      radial-gradient(farthest-side at 0 50%, var(--edge-shade), transparent) left / 9px 100% no-repeat,
+      radial-gradient(farthest-side at 100% 50%, var(--edge-shade), transparent) right / 9px 100% no-repeat;
+  }
 }
+/* Phones. At 430px the band and the atoms table were both packing two columns of 195px — seven
+   layer cards two-up, and eight family columns two-up with two cramped tiles per row inside each.
+   One column each is wider than two of anything, and it lets a family's tiles flow. */
+@media (max-width: 560px) {
+  .band { grid-template-columns: 1fr; }
+  .atom-grid { grid-template-columns: 1fr; }
+  .cell-shelf { grid-template-columns: minmax(0, 1fr); }
+  /* Without min-width the cell refuses to go under the min-content width of its nowrap
+     module list, and the shelf grows past the screen instead of clipping. */
+  .cell { min-width: 0; }
+  /* The poster is a scroll on a phone regardless, so the tiles may as well be legible. */
+  :root { --tile: 84px; }
+  .layer .layer-sub { -webkit-line-clamp: 3; }
+  /* Nothing here is a poster any more, so let the tag row wrap instead of fading out. */
+  .layer .layer-tags { flex-wrap: wrap; -webkit-mask-image: none; mask-image: none; }
+  .molecule-shelf { max-height: none; }
+  /* The heading hint is NOT decoration: while a search is active the app replaces it with
+     "16 of 65 shown", which is the only feedback that filtering did anything. Hiding it here left
+     a phone searching blind, so it stays — just wrapped tighter than on the poster. */
+  .section-heading { flex-wrap: wrap; }
+  .section-heading .hint { flex: 1 1 100%; margin-left: 0; }
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }

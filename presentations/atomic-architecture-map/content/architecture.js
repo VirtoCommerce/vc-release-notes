@@ -378,7 +378,7 @@ window.VC_MAP_ARCHITECTURE = [
       { name: 'All-in-one · cut nothing',
         desc: 'One host, every module, one database. **Use it until something measured says otherwise** — it is the only shape with no coordination cost, and most solutions never need to leave it. The cost: a bulk import or a reindex competes with checkout, and scaling means scaling all of it.' },
       { name: 'Split by role · cut at configuration',
-        desc: 'Same image, same modules, same database — different settings per host: `BackgroundJobs:Mode`, `PushNotifications:ScalabilityMode`, ARR affinity. **The highest value per unit of effort**, and the shape the production topology below already draws. The cost: Redis becomes mandatory, and every host still carries every module.' },
+        desc: 'Same image, same modules, same database — different settings per host: `VirtoCommerce:BackgroundJobs:Mode`, `PushNotifications:ScalabilityMode`, ARR affinity. **The highest value per unit of effort**, and the shape the production topology below already draws. The cost: Redis becomes mandatory, and every host still carries every module.' },
       { name: 'Split by Cell · cut at the module set',
         desc: 'A second package manifest, a second image, a smaller module set — a catalog-read host is the clean example. **This is real decomposition**: independent scaling and a smaller blast radius per business capability. The cost: two images to promote, and the dependency graph has to close around the subset.' },
       { name: 'Split the database · cut at the module',

@@ -97,7 +97,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['recurring-jobs', 'map-reduce-jobs', 'job-progress', 'fire-and-forget', 'hangfire', 'push-notifications', 'distributed-lock'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -159,7 +159,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['background-jobs', 'hangfire', 'settings', 'distributed-lock', 'hosted-service'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -209,7 +209,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['background-jobs', 'hangfire', 'job-progress', 'backup-restore'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -271,7 +271,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['background-jobs', 'hangfire', 'push-notifications', 'backup-restore'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -334,7 +334,7 @@ window.VC_MAP_ATOMS = [
     docs: [],
     seeAlso: ['background-jobs', 'hangfire', 'hosted-service', 'push-notifications'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -397,7 +397,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['background-jobs', 'recurring-jobs', 'fire-and-forget', 'map-reduce-jobs'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -458,7 +458,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['background-jobs', 'cancellation', 'distributed-lock', 'push-notifications'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -505,7 +505,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['background-jobs', 'hosted-service', 'backup-restore'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -549,7 +549,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['distributed-lock', 'platform-memory-cache', 'hosted-service'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -583,7 +583,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['background-jobs', 'hosted-service'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   // ================================================================ CACHING
@@ -648,7 +648,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Essential caching', page: 'Fundamentals/Caching/01-overview' }
     ],
     seeAlso: ['cache-regions', 'redis-cache-bus', 'request-scoped-cache', 'cache-disabler', 'hybrid-cache'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -701,7 +701,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Essential caching', page: 'Fundamentals/Caching/01-overview' }
     ],
     seeAlso: ['platform-memory-cache', 'redis-cache-bus', 'domain-events'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -755,7 +755,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['cache-regions', 'platform-memory-cache', 'distributed-lock', 'push-notifications'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -808,7 +808,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Essential caching', page: 'Fundamentals/Caching/01-overview' }
     ],
     seeAlso: ['platform-memory-cache', 'current-user'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -857,7 +857,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Debugging without source code', page: 'Tutorials-and-How-tos/How-tos/debugging' }
     ],
     seeAlso: ['platform-memory-cache', 'cache-regions', 'developer-tools'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -892,7 +892,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Essential caching', page: 'Fundamentals/Caching/01-overview' }
     ],
     seeAlso: ['platform-memory-cache', 'redis-cache-bus', 'cache-regions'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   // ================================================================ CONFIG & METADATA
@@ -965,7 +965,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Manifest settings', page: 'Fundamentals/Modularity/06-module-manifest-file' }
     ],
     seeAlso: ['dynamic-properties', 'options-pattern', 'recurring-jobs', 'localizations'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1041,7 +1041,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['abstract-type-factory', 'settings', 'ef-core'],
     molecule: 'extensibility-decision-tree',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1095,7 +1095,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['settings', 'dependency-injection', 'platform-startup'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1144,7 +1144,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Generate a PDF file', page: 'Tutorials-and-How-tos/How-tos/generating-pdfs' }
     ],
     seeAlso: ['options-pattern', 'file-operations', 'background-jobs'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1201,7 +1201,7 @@ window.VC_MAP_ATOMS = [
     docs: [],
     seeAlso: ['settings', 'module-lifecycle'],
     molecule: 'multi-store',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   // ================================================================ MESSAGING & EVENTS
@@ -1261,7 +1261,7 @@ window.VC_MAP_ATOMS = [
     },
     gotchas: [
       'A throwing handler propagates to the publisher. One module\'s bad handler can fail another module\'s save — wrap non-critical work.',
-      '`EventSuppressor.SuppressEvents()` exists for bulk imports where handler-per-row would be ruinous. It is ambient, so it suppresses more than the line you are looking at.',
+      'For bulk work there is an escape hatch \u2014 [[suppress-events]] drops every event in the current async flow, including the changing events other modules validate with. It is the right tool for an import and a bad habit everywhere else.',
       'Publishing the changed event *before* the commit is a real and subtle bug: handlers see data that may still roll back.',
       'For cross-process reactions you need the EventBus module. Domain events never leave the process on their own.'
     ],
@@ -1270,7 +1270,53 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['inprocess-bus', 'cache-regions', 'eventbus-webhooks', 'generic-crud', 'change-log'],
     molecule: 'extensibility-decision-tree',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
+  },
+
+  {
+    id: 'suppress-events',
+    symbol: 'Su',
+    name: 'Suppress events',
+    family: 'messaging',
+    adoption: 'platform',
+    layer: 'platform',
+    tags: ['eventsuppressor', 'bulk import', 'asynclocal', 'reindex', 'storm'],
+    oneLiner: 'Switch domain events off for one async flow \u2014 the bulk-import escape hatch, and the one thing that stops an import from indexing the same SKU 6000 times.',
+    pattern: '`using (EventSuppressor.SuppressEvents())` sets an `AsyncLocal<bool>`; `InProcessBus.Publish` sees the flag and returns before it looks up a single handler. Because it is `AsyncLocal`, the suppression follows the async control flow \u2014 inherited by tasks you await inside the block, invisible to every other request on the server.',
+    whenToUse: [
+      'Bulk import, migration or seeding, where a per-row handler would do the work n times instead of once',
+      'The real case: 6000 price lists \u00d7 66 SKUs. Each list publishes `PriceChangedEvent`, `IndexPricesProductChangedEventHandler` enqueues one index job per changed SKU \u2014 ~400 000 jobs queued to produce an index you could have rebuilt once',
+      'Any write loop where you already know you will rebuild the derived state afterwards'
+    ],
+    avoid: [
+      'Nesting it. `Dispose()` sets the flag to **false**, not back to what it was, so an inner `using` un-suppresses the outer one early',
+      'Expecting it to reach a background job. Enqueue work inside the block and the job runs in a different flow \u2014 and usually a different process \u2014 with events fully live',
+      'Leaving it around an HTTP request boundary, or holding it open across work you did not write',
+      'Using it to hide a slow handler. It removes the symptom for your code path and leaves the handler slow for everyone else'
+    ],
+    api: [
+      { name: 'EventSuppressor.SuppressEvents() / EventsSuppressed', file: 'src/VirtoCommerce.Platform.Core/Events/EventSuppressor.cs' },
+      { name: 'InProcessBus.Publish \u2014 the only place the flag is read', file: 'src/VirtoCommerce.Platform.Core/Bus/InProcessBus.cs' },
+      { name: 'IndexPricesProductChangedEventHandler \u2014 the handler in the story', file: '(vc-module-pricing/src/VirtoCommerce.PricingModule.Data/Handlers/IndexPricesProductChangedEventHandler.cs)' },
+      { name: 'IIndexingJobService \u2014 the one pass afterwards', file: '(vc-module-search/src/VirtoCommerce.SearchModule.Core/BackgroundJobs/IIndexingJobService.cs)' }
+    ],
+    snippet: {
+      lang: 'csharp',
+      code: '// Import 6000 price lists without queueing an index job per SKU per list.\n//\n// 1. suppress \u2192 2. import \u2192 3. ONE indexation pass at the end.\nusing (EventSuppressor.SuppressEvents())\n{\n    // The flag rides the async control flow, so everything awaited in here is covered too.\n    foreach (var batch in priceLists.Chunk(500))\n    {\n        await _priceService.SaveChangesAsync(batch);   // PriceChangedEvent published \u2192 dropped\n    }\n}\n\n// 3. Outside the block, events are live again. Rebuild the derived state once:\nawait _indexingJobService.EnqueueAsync(userName,\n    [new IndexingOptions { DocumentType = KnownDocumentTypes.Product, DocumentIds = affectedProductIds }]);\n\n// The setting-level lever, for when the import is not your code:\n//   Pricing.Search.EventBasedIndexation.Enable = false\n//   Catalog.Search.EventBasedIndexation.Enable = false\n// The handlers check it before enqueueing anything, so no code change is needed \u2014\n// and no other handler is affected, which is what makes it the safer of the two.'
+    },
+    gotchas: [
+      'It suppresses **all** domain events for that flow, not the noisy one: `\u2026ChangingEvent` validation and veto handlers stop running too, so an import can write data an interactive save would have rejected.',
+      'The change log goes quiet. `LogChangesChangedEventHandler` is an event handler like any other, so a suppressed import leaves no audit trail of what it wrote.',
+      'Outbound integration goes quiet as well \u2014 EventBus and WebHooks subscribe to domain events, so downstream systems never hear about the import.',
+      'Caches are safe: `CrudService` calls `ClearCache` directly rather than through a handler, so suppression does not leave stale entries behind.',
+      'The static name suggests a global switch. It is not \u2014 it is per async flow, so a parallel request is unaffected. That is a feature, and also why it cannot help you across a job boundary.'
+    ],
+    docs: [
+      { label: 'Extending using events', page: 'Fundamentals/Event-Driven-Development/using-domain-events' },
+      { label: 'AsyncLocal<T> \u2014 why the flag follows the flow', href: 'https://learn.microsoft.com/dotnet/api/system.threading.asynclocal-1' }
+    ],
+    seeAlso: ['domain-events', 'inprocess-bus', 'search', 'change-log', 'background-jobs'],
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1321,7 +1367,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Extending using events', page: 'Fundamentals/Event-Driven-Development/using-domain-events' }
     ],
     seeAlso: ['domain-events', 'commands', 'dependency-injection'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1367,7 +1413,57 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['domain-events', 'inprocess-bus'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
+  },
+
+  {
+    id: 'xapi',
+    symbol: 'Xa',
+    name: 'Business API (XAPI)',
+    family: 'messaging',
+    adoption: 'module',
+    layer: 'api-edge',
+    tags: ['graphql', 'queries', 'mutations', 'mediatr', 'schema'],
+    oneLiner: 'The GraphQL business API: one endpoint, queries and mutations, assembled from whatever X-API modules are installed.',
+    pattern: 'A query or mutation is a MediatR request \u2014 `IQuery<TResult>` / `ICommand<TResult>` with an `IQueryHandler<,>` behind it. A `QueryBuilder` exposes it as a GraphQL field; the schema is stitched at startup from every `ISchemaBuilder` the installed assemblies contain, so installing `VirtoCommerce.XCatalog` adds catalog queries to the same `/graphql` endpoint without a line of glue.',
+    whenToUse: [
+      'Any storefront, mobile app or AI agent \u2014 the caller asks for the fields it needs in one round trip',
+      'When a page needs data from several modules and you do not want three REST calls to assemble it',
+      'Extending or overriding an existing query: the query type resolves through `AbstractTypeFactory`, so a solution adds arguments and fields without forking the module',
+      'When you want the API surface to follow the Cell you deployed \u2014 a Digital Catalog instance serves catalog queries and nothing else'
+    ],
+    avoid: [
+      'Back-office CRUD. The Admin SPA speaks [[rest-api]], and mutations are not a substitute for a resource with a verb',
+      'Constructor-injecting `IMediator` into a builder \u2014 builders are singletons, so a captured mediator is root-scoped. The base class resolves it per request from `context.RequestServices`, and the old constructor is `[Obsolete]` with diagnostic `VC0015`',
+      'Resolving a child field with its own service call. That is the N+1 that DataLoader exists to batch',
+      'Assuming introspection and GraphiQL are available in production \u2014 both are configuration-gated'
+    ],
+    api: [
+      { name: 'IQuery<TResult> : IRequest<TResult>', file: '(vc-module-x-api/src/VirtoCommerce.Xapi.Core/Infrastructure/IQuery.cs)' },
+      { name: 'ICommand<TResult> : IRequest<TResult>', file: '(vc-module-x-api/src/VirtoCommerce.Xapi.Core/Infrastructure/ICommand.cs)' },
+      { name: 'IQueryHandler<TQuery, TResult>', file: '(vc-module-x-api/src/VirtoCommerce.Xapi.Core/Infrastructure/IQueryHandler.cs)' },
+      { name: 'ISchemaBuilder.Build(ISchema)', file: '(vc-module-x-api/src/VirtoCommerce.Xapi.Core/Infrastructure/ISchemaBuilder.cs)' },
+      { name: 'QueryBuilder / RequestBuilder base classes', file: '(vc-module-x-api/src/VirtoCommerce.Xapi.Core/BaseQueries/RequestBuilder.cs)' },
+      { name: 'GraphQlPath = "/graphql", DefaultPageSize = 20', file: '(vc-module-x-api/src/VirtoCommerce.Xapi.Core/ModuleConstants.cs)' },
+      { name: 'UseSchemaGraphQL + GraphiQL at /ui/graphiql', file: '(vc-module-x-api/src/VirtoCommerce.Xapi.Core/Extensions/ApplicationBuilderExtensions.cs)' }
+    ],
+    snippet: {
+      lang: 'csharp',
+      code: '// 1. The request: a MediatR message that happens to be a GraphQL query.\npublic class GetThingQuery : Query<ThingType>\n{\n    public string Id { get; set; }\n\n    public override IEnumerable<QueryArgument> GetArguments()\n    {\n        yield return new QueryArgument<NonNullGraphType<StringGraphType>> { Name = nameof(Id) };\n    }\n\n    public override void Map(IResolveFieldContext context) => Id = context.GetArgument<string>(nameof(Id));\n}\n\n// 2. The handler: ordinary services, no GraphQL types in sight.\npublic class GetThingQueryHandler : IQueryHandler<GetThingQuery, ThingType>\n{\n    private readonly IThingService _service;\n\n    public GetThingQueryHandler(IThingService service) => _service = service;\n\n    public async Task<ThingType> Handle(GetThingQuery request, CancellationToken cancellationToken)\n        => new ThingType { Thing = await _service.GetByIdAsync(request.Id) };\n}\n\n// 3. The builder: adds one field to the shared schema. Registered as a singleton ISchemaBuilder.\npublic class GetThingQueryBuilder : QueryBuilder<GetThingQuery, ThingType, ThingGraphType>\n{\n    public GetThingQueryBuilder(IAuthorizationService authorizationService) : base(authorizationService) { }\n\n    protected override string Name => "thing";\n}\n\n// Module.Web: services.AddSchemaBuilder<GetThingQueryBuilder>();  \u2192  query { thing(id: "x") { name } }'
+    },
+    gotchas: [
+      'It is a module suite, not the platform: `VirtoCommerce.Xapi` is the core, and `XCatalog`, `XCart`, `XOrder`, `XCMS`, `XPickup`, `XRecommend`, `XFrontend` and the Profile / Marketing / File experience APIs each add their own slice of schema.',
+      'The manifest declares an **incompatibility** with the deprecated `VirtoCommerce.ExperienceApi` (3.800.0). The old repository is archived; the current one is `vc-module-x-api`.',
+      'Every installed X-API module shares one schema and one endpoint, so a field name collision between modules is a startup problem, not a request-time one.',
+      'A mutation runs in the caller\u2019s async flow like any other request \u2014 domain events, indexation and webhooks fire from it exactly as they would from REST.'
+    ],
+    docs: [
+      { label: 'vc-module-x-api', href: 'https://github.com/VirtoCommerce/vc-module-x-api' },
+      { label: 'GraphQL.NET \u2014 the server library (8.x)', href: 'https://graphql-dotnet.github.io/docs/getting-started/introduction/' }
+    ],
+    seeAlso: ['commands', 'rest-api', 'abstract-type-factory', 'request-scoped-cache', 'dependency-injection'],
+    note: 'Verified against the vc-module-x-api checkout on `dev` at module version 3.1017.0 (GraphQL.NET 8.8.3, MediatR 12.4.1).',
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1420,7 +1516,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['job-progress', 'redis-cache-bus', 'current-user', 'hosted-service'],
     molecule: 'observability',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1467,7 +1563,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Extending using events', page: 'Fundamentals/Event-Driven-Development/using-domain-events' }
     ],
     seeAlso: ['domain-events', 'module-catalog'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   // ================================================================ DATA & DOMAIN
@@ -1530,7 +1626,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['dynamic-properties', 'ef-core', 'dependency-injection', 'module-lifecycle', 'json-serialization'],
     molecule: 'extensibility-decision-tree',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1622,7 +1718,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['repository-uow', 'ef-core', 'domain-events', 'cache-regions', 'dependency-injection', 'specifications'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1059.0'
+    verifiedAgainst: '3.1058.0'
   },
   {
     id: 'repository-uow',
@@ -1684,7 +1780,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Database agnostic', page: 'Fundamentals/Persistence/DB-Agnostic/overview' }
     ],
     seeAlso: ['ef-core', 'generic-crud', 'abstract-type-factory', 'change-log'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1738,7 +1834,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['repository-uow', 'abstract-type-factory', 'dynamic-properties', 'change-log'],
     molecule: 'dev-process',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1789,7 +1885,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['repository-uow', 'current-user', 'domain-events'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1842,7 +1938,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['validation', 'dependency-injection', 'ef-core'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1894,7 +1990,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['specifications', 'generic-crud', 'localizations'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -1946,7 +2042,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Polymorphic types in Swagger', page: 'Tutorials-and-How-tos/How-tos/type-inheritance-support-in-swagger' }
     ],
     seeAlso: ['abstract-type-factory', 'swagger', 'backup-restore'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2015,7 +2111,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['assets', 'ef-core', 'background-jobs', 'domain-events'],
     molecule: 'search-and-indexing',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2062,7 +2158,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['cross-module-references', 'ef-core', 'module-manifest', 'host-composition', 'distributed-lock'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2107,7 +2203,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-database', 'ef-core', 'repository-uow', 'domain-events', 'search'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   // ================================================================ MODULARITY
@@ -2194,7 +2290,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-manifest', 'module-lifecycle', 'permissions', 'platform-memory-cache', 'cache-regions'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1059.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2269,7 +2365,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-catalog', 'platform-startup', 'dependency-injection', 'abstract-type-factory', 'settings'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2362,7 +2458,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Modularity overview', page: 'Fundamentals/Modularity/01-overview' }
     ],
     seeAlso: ['module-lifecycle', 'module-catalog', 'platform-startup', 'settings', 'vc-build'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2421,7 +2517,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-lifecycle', 'distributed-lock', 'platform-startup', 'background-jobs'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2479,7 +2575,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Create a new module (advanced)', page: 'Fundamentals/Modularity/02-folder-structure' }
     ],
     seeAlso: ['module-lifecycle', 'options-pattern', 'logging', 'module-catalog'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2586,7 +2682,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-lifecycle', 'keyed-services', 'abstract-type-factory', 'options-pattern', 'repository-uow', 'platform-memory-cache'],
     molecule: 'extensibility-decision-tree',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2620,7 +2716,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['dependency-injection', 'module-lifecycle'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2680,7 +2776,7 @@ window.VC_MAP_ATOMS = [
       { label: 'vc-module-backup-restore (GitHub)', href: 'https://github.com/VirtoCommerce/vc-module-backup-restore' }
     ],
     seeAlso: ['cancellation', 'job-progress', 'json-serialization', 'background-jobs'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2748,7 +2844,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-catalog', 'module-lifecycle', 'ef-core'],
     molecule: 'dev-process',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   // ================================================================ SECURITY
@@ -2817,7 +2913,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['authorization', 'authentication', 'current-user', 'module-lifecycle'],
     molecule: 'security-compliance',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2876,7 +2972,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['authorization', 'permissions', 'current-user'],
     molecule: 'security-compliance',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2939,7 +3035,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['permissions', 'authentication', 'current-user'],
     molecule: 'security-compliance',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -2996,7 +3092,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['authentication', 'permissions', 'change-log', 'push-notifications'],
     molecule: 'security-compliance',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   // ================================================================ INFRA & OPS
@@ -3054,7 +3150,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['async-lock', 'redis-cache-bus', 'module-catalog', 'recurring-jobs'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3104,7 +3200,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['health-checks', 'developer-tools', 'platform-startup'],
     molecule: 'observability',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3156,7 +3252,7 @@ window.VC_MAP_ATOMS = [
       
     ],
     seeAlso: ['json-serialization', 'abstract-type-factory', 'developer-tools'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3208,7 +3304,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['resilience', 'options-pattern', 'eventbus-webhooks', 'logging'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3243,7 +3339,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['http-client', 'health-checks', 'background-jobs'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3295,7 +3391,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['health-checks', 'logging', 'permissions', 'cache-disabler'],
     molecule: 'observability',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3346,7 +3442,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['backup-restore', 'module-catalog', 'external-processes'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3401,7 +3497,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['logging', 'developer-tools', 'redis-cache-bus', 'ef-core'],
     molecule: 'observability',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3436,43 +3532,57 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['recurring-jobs', 'change-log'],
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
-    id: 'minimal-apis',
-    symbol: 'Ma',
-    name: 'Minimal APIs',
+    id: 'rest-api',
+    symbol: 'Rt',
+    name: 'REST API',
     family: 'ops',
-    adoption: 'available',
+    adoption: 'platform',
     layer: 'api-edge',
-    tags: ['dotnet', 'mapget', 'endpoints', 'controllers', 'mvc'],
-    oneLiner: 'The .NET endpoint style the platform does not use. Everything here is MVC controllers.',
-    pattern: 'Route handlers registered directly on the app rather than on controller classes. Idiomatic modern ASP.NET Core, and a poor fit here: the platform\'s conventions for permissions, Swagger grouping per module and polymorphic serialization are all built around controllers.',
+    tags: ['controller', 'route', 'authorize', 'swagger', 'mvc'],
+    oneLiner: 'The platform\u2019s HTTP surface: an MVC controller per module, a permission per action, a Swagger document per module.',
+    pattern: 'Controllers under `Module.Web/Controllers/Api`, attribute-routed. `[Route("api/\u2026")]` on the class, an HTTP verb attribute per action, `[Authorize(permission)]` where the permission name **is** the policy name. Three platform behaviours ride on the MVC pipeline and only on it: permission enforcement, the per-module Swagger document, and Newtonsoft serialization with polymorphic type resolution.',
     whenToUse: [
-      'Practically never inside a Virto module. Follow the controller convention',
-      'At most, a tiny internal endpoint with no permission, documentation or serialization requirements'
+      'Anything the back office calls \u2014 the Admin SPA is a REST client and nothing else',
+      'Full CRUD over a module\u2019s entities, including the write side',
+      'Server-to-server integration that wants a resource per URL and a verb per operation',
+      'File upload and download, long-running job control, anything that is not a page of data for a storefront'
     ],
     avoid: [
-      'Mixing endpoint styles inside one module; reviewers and tooling both expect controllers',
-      'Assuming permission attributes, Swagger grouping and Newtonsoft settings apply automatically — they are wired for MVC',
-      'Copying modern ASP.NET Core tutorials wholesale into a module'
+      'Minimal APIs (`app.MapGet`) inside a module \u2014 grep finds no `MapGet` in `src/`, and an endpoint registered that way inherits none of the three behaviours above',
+      'Read-heavy storefront traffic. That is what [[xapi]] is for: one round trip, shaped by the caller',
+      'Business logic in the controller. A controller binds, authorizes and delegates \u2014 the service layer holds the rules',
+      'Inventing your own route shape. `api/{module}/{resource}` is what every existing client, and the Swagger grouping, expects'
     ],
     api: [
-      { name: 'MapGet / MapPost', file: '(.NET — no platform usage; grep finds none in src/)' },
-      { name: 'Platform controllers (the convention)', file: 'src/VirtoCommerce.Platform.Web/Controllers/Api/' }
+      { name: '[Route("api/platform/modules")] + [Authorize]', file: 'src/VirtoCommerce.Platform.Web/Controllers/Api/ModulesController.cs' },
+      { name: '[Authorize(PlatformConstants.Security.Permissions.SettingQuery)]', file: 'src/VirtoCommerce.Platform.Web/Controllers/Api/SettingController.cs' },
+      { name: 'One Swagger document per module', file: 'src/VirtoCommerce.Platform.Web/Swagger/SwaggerServiceCollectionExtensions.cs' },
+      { name: 'AddNewtonsoftJson + PolymorphJsonContractResolver', file: 'src/VirtoCommerce.Platform.Web/Startup.cs' },
+      { name: 'Controllers, as a set to read', file: 'src/VirtoCommerce.Platform.Web/Controllers/Api/' }
     ],
-    useInstead: 'An MVC controller under `Module.Web/Controllers/Api`, with `[Authorize(permission)]` and a route matching the module convention.',
-    note: 'Verified by grep across `src/`: no `MapGet` or `MapPost` usage. Controllers are not legacy here — they are the mechanism the platform\'s permission, documentation and serialization behaviour is attached to.',
+    snippet: {
+      lang: 'csharp',
+      code: '// Module.Web/Controllers/Api/MyThingsController.cs\n[Route("api/mymodule/things")]\n[Authorize]                                   // authenticated by default\npublic class MyThingsController : Controller\n{\n    private readonly IMyThingService _service;\n\n    public MyThingsController(IMyThingService service) => _service = service;\n\n    // GET api/mymodule/things/{id}\n    [HttpGet("{id}")]\n    [Authorize(ModuleConstants.Security.Permissions.Read)]   // the permission name IS the policy name\n    public async Task<ActionResult<MyThing>> Get([FromRoute] string id)\n    {\n        var thing = await _service.GetByIdAsync(id);\n        return thing == null ? NotFound() : Ok(thing);\n    }\n\n    // POST api/mymodule/things\n    [HttpPost]\n    [Authorize(ModuleConstants.Security.Permissions.Update)]\n    public async Task<ActionResult<MyThing>> Create([FromBody] MyThing thing)\n    {\n        await _service.SaveChangesAsync([thing]);\n        return Ok(thing);\n    }\n\n    // Hide an internal action from the module\u2019s Swagger document\n    [HttpGet("internal")]\n    [ApiExplorerSettings(IgnoreApi = true)]\n    public ActionResult<string> Internal() => Ok("not documented");\n}'
+    },
     gotchas: [
-      'A minimal-API endpoint will not appear in your module\'s Swagger document the way a controller does, so it becomes an undocumented part of your API.',
-      'Permission enforcement, Newtonsoft serialization and polymorphic type support all come from the MVC pipeline. Step outside it and you inherit none of them.'
+      'Microsoft recommends Minimal APIs for **new** projects, and is right to \u2014 but this is not a new project. Controllers are the extension point the platform\u2019s permissions, Swagger grouping and serializer settings are attached to, so a module that steps outside MVC silently loses all three.',
+      'A permission passed to `[Authorize]` is resolved as a policy name. Misspell it and you do not get a compile error \u2014 you get a 403 at runtime.',
+      '`ApiExplorerSettings(IgnoreApi = true)` is how the platform keeps internal actions out of a module\u2019s Swagger document. An action you forget to mark becomes part of your public API by accident.',
+      'Serialization is Newtonsoft, not System.Text.Json, and polymorphic types resolve through `AbstractTypeFactory`. A DTO that serializes correctly in a unit test can still lose its derived type over the wire if it was never registered.'
     ],
     docs: [
-      { label: 'Swagger endpoints', page: 'Tutorials-and-How-tos/How-tos/swagger-api' }
+      { label: 'Create web APIs with ASP.NET Core (controllers)', href: 'https://learn.microsoft.com/aspnet/core/web-api/' },
+      { label: 'Routing to controller actions', href: 'https://learn.microsoft.com/aspnet/core/mvc/controllers/routing' },
+      { label: 'Controller-based vs Minimal APIs \u2014 Microsoft\u2019s own comparison', href: 'https://learn.microsoft.com/aspnet/core/fundamentals/apis' },
+      { label: 'Policy-based authorization', href: 'https://learn.microsoft.com/aspnet/core/security/authorization/policies' },
+      { label: 'Swagger / OpenAPI in a module', page: 'Tutorials-and-How-tos/How-tos/swagger-api' }
     ],
-    seeAlso: ['swagger', 'json-serialization', 'permissions'],
-    verifiedAgainst: '3.1053.0'
+    seeAlso: ['swagger', 'permissions', 'json-serialization', 'abstract-type-factory', 'xapi'],
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3536,7 +3646,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['file-operations', 'search', 'backup-restore', 'background-jobs'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3578,7 +3688,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['logging', 'health-checks', 'developer-tools'],
     molecule: 'observability',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3626,7 +3736,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-manifest', 'module-catalog', 'dependency-injection', 'host-composition', 'module-lifecycle'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3652,7 +3762,7 @@ window.VC_MAP_ATOMS = [
       'More than one shape at once. Get all-in-one measured first, then split the axis your metrics point at'
     ],
     api: [
-      { name: 'BackgroundJobs:Mode — Producer | Worker | Both', file: 'src/VirtoCommerce.Platform.Web/appsettings.json' },
+      { name: 'VirtoCommerce:BackgroundJobs:Mode — Producer | Worker | Both', file: 'src/VirtoCommerce.Platform.Web/appsettings.json' },
       { name: 'PushNotifications:ScalabilityMode — RedisBackplane | AzureSignalRService | None', file: 'src/VirtoCommerce.Platform.Core/PushNotifications/PushNotificationOptions.cs' },
       { name: 'ExecuteSynchronized — module migrations run one host at a time', file: 'src/VirtoCommerce.Platform.Web/Extensions/ApplicationBuilderExtensions.cs' },
       { name: 'ModuleBootstrapper — discovery, probing and the resolved module set', file: 'src/VirtoCommerce.Platform.Modules/ModuleBootstrapper.cs' },
@@ -3677,7 +3787,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-catalog', 'optional-dependency', 'module-database', 'background-jobs', 'distributed-lock', 'vc-build'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1053.0'
+    verifiedAgainst: '3.1058.0'
   },
 
   {
@@ -3706,7 +3816,7 @@ window.VC_MAP_ATOMS = [
       'Quoting a scalability number without saying which level it applies to — the platform layer and your custom modules scale on different curves'
     ],
     api: [
-      { name: 'BackgroundJobs:Mode — Producer | Worker | Both, the horizontal split for jobs', file: 'src/VirtoCommerce.Platform.Web/appsettings.json' },
+      { name: 'VirtoCommerce:BackgroundJobs:Mode — Producer | Worker | Both, the horizontal split for jobs', file: 'src/VirtoCommerce.Platform.Web/appsettings.json' },
       { name: 'ConnectionStrings:RedisConnectionString — the scale-out prerequisite', file: 'src/VirtoCommerce.Platform.Caching/ServiceCollectionExtensions.cs' },
       { name: 'PushNotifications:ScalabilityMode — RedisBackplane | AzureSignalRService | None', file: 'src/VirtoCommerce.Platform.Core/PushNotifications/PushNotificationOptions.cs' },
       { name: 'SqlServer:CompatibilityLevel / ParameterTranslationMode — EF Core 10 query translation', file: 'src/VirtoCommerce.Platform.Data.SqlServer/Extensions/DbContextOptionsBuilderExtensions.cs' },
@@ -3716,7 +3826,7 @@ window.VC_MAP_ATOMS = [
     ],
     snippet: {
       lang: 'json',
-      code: '// The scale-out floor. Without the first line, a second instance is a second truth.\n{\n  "ConnectionStrings": {\n    "VirtoCommerce": "Data Source=sql;Initial Catalog=VirtoCommerce3;Connect Timeout=30;...",\n    "RedisConnectionString": "redis:6380,ssl=True,abortConnect=False"\n  },\n\n  // Horizontal split by role. Same image on every host, one key apart.\n  //   request hosts  Producer  — enqueue, never drain\n  //   worker hosts   Worker    — drain, serve nothing\n  "BackgroundJobs": { "Mode": "Producer" },\n\n  // Back office only: push notifications need the backplane and sticky sessions.\n  // Stateless request hosts set None and turn ARR affinity off.\n  "PushNotifications": { "ScalabilityMode": "RedisBackplane" },\n\n  // Cheaper than either kind of scaling: how EF Core 10 translates against SQL Server.\n  // Below level 120 it reaches for OPENJSON, which performs badly.\n  "SqlServer": {\n    "CompatibilityLevel": 120,\n    "ParameterTranslationMode": "Constant"\n  },\n\n  // Each module can own its database. The key is the module id from module.manifest,\n  // and the fallback is the shared string — so this is additive, per module, no code.\n  "ConnectionStrings": {\n    "VirtoCommerce.Pricing": "Data Source=sql-pricing;Initial Catalog=Pricing;...",\n    "VirtoCommerce.Orders":  "Data Source=sql-orders;Initial Catalog=Orders;..."\n  }\n}\n\n// runtimeconfig.json — the runtime side, and only if a measurement asked for it.\n// Defaults are already right for most hosts: Server GC for multi-core, Workstation on\n// 1 vCPU, DATAS sizing the heap to the app since .NET 9.\n{\n  "runtimeOptions": {\n    "configProperties": {\n      "System.GC.HeapHardLimitPercent": 75,   // the container-aware default\n      "System.GC.HighMemoryPercent": 90       // raise it for a small process, per Microsoft\n    }\n  }\n}'
+      code: '// The scale-out floor. Without the first two lines, a second instance is a second truth.\n{\n  // Each module can own its database: the key is the module id from module.manifest, and the\n  // fallback is the shared string — so this is additive, per module, and needs no code.\n  "ConnectionStrings": {\n    "VirtoCommerce": "Data Source=sql;Initial Catalog=VirtoCommerce3;Connect Timeout=30;...",\n    "RedisConnectionString": "redis:6380,ssl=True,abortConnect=False",\n    "VirtoCommerce.Pricing": "Data Source=sql-pricing;Initial Catalog=Pricing;...",\n    "VirtoCommerce.Orders":  "Data Source=sql-orders;Initial Catalog=Orders;..."\n  },\n\n  // Horizontal split by role. Same image on every host, one key apart.\n  //   request hosts  Producer  — enqueue, never drain\n  //   worker hosts   Worker    — drain, serve nothing\n  // Under the VirtoCommerce section since 3.1057.0 — at the root it is read as nothing.\n  "VirtoCommerce": {\n    "BackgroundJobs": { "Mode": "Producer" }\n  },\n\n  // Back office only: push notifications need the backplane and sticky sessions.\n  // Stateless request hosts set None and turn ARR affinity off.\n  "PushNotifications": { "ScalabilityMode": "RedisBackplane" },\n\n  // Cheaper than either kind of scaling: how EF Core 10 translates against SQL Server.\n  // Below level 120 it reaches for OPENJSON, which performs badly.\n  "SqlServer": {\n    "CompatibilityLevel": 120,\n    "ParameterTranslationMode": "Constant"\n  },\n}\n\n// runtimeconfig.json — the runtime side, and only if a measurement asked for it.\n// Defaults are already right for most hosts: Server GC for multi-core, Workstation on\n// 1 vCPU, DATAS sizing the heap to the app since .NET 9.\n{\n  "runtimeOptions": {\n    "configProperties": {\n      "System.GC.HeapHardLimitPercent": 75,   // the container-aware default\n      "System.GC.HighMemoryPercent": 90       // raise it for a small process, per Microsoft\n    }\n  }\n}'
     },
     gotchas: [
       '`Connect Timeout` in the connection string becomes the **command** timeout: `DbContextRepositoryBase` reads it off the connection and calls `SetCommandTimeout` with it. Raise it there and every query gets it, which is rarely what you want.',
@@ -3741,7 +3851,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['host-composition', 'module-database', 'cross-module-references', 'redis-cache-bus', 'distributed-lock', 'background-jobs', 'search'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1059.0'
+    verifiedAgainst: '3.1058.0'
   }
 
 ];

@@ -46,7 +46,8 @@ core justification for the adoption-badge design in §5.
 | `VirtoCommerce.Platform.Hangfire` is **not in `VirtoCommerce.Platform.sln`** — only a stale `.xml` doc file remains on disk | Job atoms must not be labelled "Hangfire" |
 | `Platform.Core/Jobs` exposes engine-agnostic `IBackgroundJob`, `IBackgroundJobHandler<TPayload>`, `IRecurringJobService`, `IMapReduceJob`, `IJobProgress`, and `BackgroundJobEngineNotInstalledException` | Job atoms are **△ IN FLIGHT**; engine ships as an installable module (`VirtoCommerce.BackgroundJobs`) |
 | `Core/Jobs/BackgroundJob.cs` documents itself as a *migration aid* for code moving off static `Hangfire.BackgroundJob.Enqueue` | Static fire-and-forget is **✕ LEGACY** → inject `IBackgroundJob` |
-| No `HybridCache`, no `IDistributedCache` store, no Keyed DI, no `System.Threading.Channels`, no `TimeProvider` call sites, no Minimal APIs anywhere in `src/` | Those .NET atoms are **○ AVAILABLE**, each pointing to the platform-native alternative |
+| No `HybridCache`, no `IDistributedCache` store, no Keyed DI, no `System.Threading.Channels`, no `TimeProvider` call sites anywhere in `src/` | Those .NET atoms are **○ AVAILABLE**, each pointing to the platform-native alternative |
+| No `MapGet` in `src/` either — but controllers are what permissions, per-module Swagger and polymorphic serialization attach to | So the atom is **REST API ●**, not "Minimal APIs ○": the convention is the building block, and minimal APIs are one line of it |
 | Redis caching is an **invalidation bus** (`RedisPlatformMemoryCache`, `RedisCachingMessage`), not a shared cache store | Corrects the most common wrong mental model about VC caching |
 | `Polly 8.7.0` and `Microsoft.Bcl.TimeProvider` are referenced packages with no matched call sites | Marked ○ pending per-atom verification at authoring time |
 | MVC is configured with `Microsoft.AspNetCore.Mvc.NewtonsoftJson` | JSON atom must warn that API serialization is Newtonsoft, not `System.Text.Json` |
@@ -157,11 +158,11 @@ Two anti-staleness mechanisms:
 | Execution & Async | Background Jobs △ · Recurring Jobs △ · Map/Reduce △ · Job Progress △ · Fire-and-Forget ✕ · `BackgroundService` ● · CancellationToken ● · `AsyncLock` ● · Channels ○ |
 | Caching | `PlatformMemoryCache` ● · Cache Regions ● · Redis invalidation bus ● · Request-scoped cache ● · `CacheDisabler` ● · HybridCache / `IDistributedCache` ○ |
 | Config & Metadata | Settings ● · Dynamic Properties ● · Options pattern ● · `ProcessSettings` ● · Localizations ● |
-| Messaging & Events | Domain Events ● · `InProcessBus` ● · Commands ● · Push Notifications ● · WebHooks / EventBus ◐ |
+| Messaging & Events | Domain Events ● · Suppress Events ● · `InProcessBus` ● · Commands ● · Business API (XAPI) ◐ · Push Notifications ● · WebHooks / EventBus ◐ |
 | Data & Domain | `AbstractTypeFactory` ● · Generic CRUD ● · Repository + UoW ● · EF Core 10 + db-agnostic ● · Change Log ● · Specifications ● · FluentValidation ● · JSON ● |
 | Modularity | `IModule` lifecycle ● · Module catalog & install ● · `IPlatformStartup` ● · DI & override rules ● · Keyed DI ○ · Export/Import ● |
 | Security | Permissions ● · Authentication ● · Authorization policies ● · Current user & tenancy ● |
-| Infra & Ops | Distributed Lock ● · Logging ● · Swagger/OpenAPI ● · `IHttpClientFactory` ● · Resilience ○ · Developer Tools ● · File/Blob & Zip ● · Health checks ● · `TimeProvider` ○ · Minimal APIs ○ |
+| Infra & Ops | Distributed Lock ● · Logging ● · Swagger/OpenAPI ● · `IHttpClientFactory` ● · Resilience ○ · Developer Tools ● · File/Blob & Zip ● · Health checks ● · REST API ● · Assets ◐ · Seq ◐ · Scalability ● |
 
 `AbstractTypeFactory` carries extra visual weight — it is the keystone of the extension model.
 
