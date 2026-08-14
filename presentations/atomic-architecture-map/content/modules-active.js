@@ -377,8 +377,8 @@ window.VC_ACTIVE_MODULES = [
   "name": "Cart Experience API",
   "registryTitle": "Cart Experience API",
   "description": "Dedicated to cart-related functionalities, ensuring efficient handling of shopping cart and checkout operations.",
-  "version": "3.1029.0",
-  "versionTag": "alpha.266",
+  "version": "3.1030.0",
+  "versionTag": "alpha.268",
   "platformVersion": "3.1048.0",
   "groups": [
    "commerce"

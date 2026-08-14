@@ -993,12 +993,19 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
    Presets first, then a checkbox per module grouped by family. The checkbox is real and focusable —
    a div with a click handler would have been shorter and unusable by keyboard. */
 .pbc-presets { display: flex; flex-wrap: wrap; gap: 5px; }
+/* The template chip leads the row and reads as the default rather than as one option among seven. */
+.pbc-presets .chip.is-template { border-color: var(--focus); color: var(--focus); font-weight: 700; }
+.pbc-presets .chip.is-template .glyph { color: var(--focus); }
 .pbc-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px 14px; }
 .pbc-picker-group { min-width: 0; }
 .pbc-picker-head {
   display: flex; align-items: center; gap: 6px; padding-bottom: 3px; margin-bottom: 5px;
   border-bottom: 2px solid var(--accent, var(--border-strong));
   font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+}
+.pbc-picker-n {
+  margin-left: auto; font: 9.5px var(--mono); font-weight: 700; color: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
 .pbc-picker-body { display: flex; flex-direction: column; gap: 2px; }
 .pbc-pick {

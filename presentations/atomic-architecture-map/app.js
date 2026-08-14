@@ -1662,7 +1662,19 @@
      The readme offers "your idea here"; this is that, made clickable. State is a set of module ids,
      the dependency graph is closed automatically, and the output is a manifest in the same shape as
      the published packages. */
+  /* The default template: what every published PBC contains. Computed from the packages rather than
+     listed, so it follows the manifests instead of drifting from them — today that is telemetry,
+     storage, identity, the commerce core and both outbound channels. */
+  function defaultTemplate() {
+    if (!CELLS.length) return [];
+    var sets = CELLS.map(function (c) { return c.modules || []; });
+    return sets[0].filter(function (id) {
+      return sets.every(function (list) { return list.indexOf(id) !== -1; });
+    }).sort();
+  }
+
   var customPick = {};
+  var customStarted = false;
 
   function pbcDependencyClosure(ids) {
     /* Registry dependency names are short (`Catalog`), ids are long (`VirtoCommerce.Catalog`). */
@@ -1686,22 +1698,35 @@
     return { ids: Object.keys(chosen).sort(), added: added };
   }
 
+  /* The same rule tools/build-cells.js applies to a published package, so a module lands in the same
+     band whether it arrived from a manifest or from a checkbox. Kept in one place because two copies
+     would eventually disagree — offering a module in one group and drawing it in another. */
+  var PBC_OUTBOUND = { 'VirtoCommerce.EventBus': 1, 'VirtoCommerce.WebHooks': 1, 'VirtoCommerce.Notifications': 1 };
+  var PBC_XAPI_RE = /^VirtoCommerce\.(Xapi|X[A-Z]|ProfileExperienceApiModule|MarketingExperienceApi|FileExperienceApi|SalesRep|UCP)/;
+
+  function layerOfModule(id) {
+    var famOf = window.VC_MODULE_FAMILY || {};
+    if (PBC_XAPI_RE.test(id)) return 'xapi';
+    if (PBC_OUTBOUND[id]) return 'outbound';
+    if (famOf[id] === 'integrations') return 'integration';
+    if (famOf[id] === 'platform') return 'platform';
+    return 'services';
+  }
+
   function customLayers(ids) {
     var layers = { xapi: [], services: [], platform: [], integration: [], outbound: [] };
-    var famOf = window.VC_MODULE_FAMILY || {};
-    var OUTBOUND = { 'VirtoCommerce.EventBus': 1, 'VirtoCommerce.WebHooks': 1, 'VirtoCommerce.Notifications': 1 };
-    ids.forEach(function (id) {
-      var key = /^VirtoCommerce\.(Xapi|X[A-Z]|ProfileExperienceApiModule|MarketingExperienceApi|FileExperienceApi|SalesRep|UCP)/.test(id) ? 'xapi'
-        : OUTBOUND[id] ? 'outbound'
-        : famOf[id] === 'integrations' ? 'integration'
-        : famOf[id] === 'platform' ? 'platform'
-        : 'services';
-      layers[key].push(id);
-    });
+    ids.forEach(function (id) { layers[layerOfModule(id)].push(id); });
     return layers;
   }
 
   function renderCustomPbcDrawer() {
+    /* First open lands on the template: an empty schema shows five empty bands and teaches nothing.
+       Re-renders keep whatever the reader has picked since. */
+    if (!customStarted) {
+      customStarted = true;
+      defaultTemplate().forEach(function (id) { customPick[id] = true; });
+    }
+
     var eyebrow = document.getElementById('drawer-eyebrow');
     eyebrow.textContent = '';
     append(eyebrow, [el('span', { class: 'cell-split is-part', text: 'Build your own' }),
@@ -1729,8 +1754,11 @@
       append(schemaHost, pbcSchema(customLayers(closed.ids)));
 
       summaryHost.textContent = '';
+      var fromTemplate = template.filter(function (id) { return customPick[id]; }).length;
       append(summaryHost, factRows([
         ['Chosen', picked.length ? String(picked.length) + ' module(s)' : 'nothing yet — pick a capability below'],
+        fromTemplate ? ['Baseline', fromTemplate + ' of the ' + template.length +
+          ' modules every published PBC includes — telemetry, storage, identity, the commerce core and both outbound channels'] : null,
         closed.added.length ? ['Pulled in', closed.added.length + ' required dependency(ies): ' +
           closed.added.map(function (id) { return '`' + id.replace('VirtoCommerce.', '') + '`'; }).join(' ')] : null,
         ['Package size', String(closed.ids.length) + ' modules in total']
@@ -1746,7 +1774,16 @@
 
     /* Preset buttons: start from a published PBC rather than from an empty page, which is how a real
        custom package begins. */
-    var presets = el('div', { class: 'pbc-presets' }, CELLS.map(function (c) {
+    var template = defaultTemplate();
+    var presets = el('div', { class: 'pbc-presets' }, [
+      /* First, and marked: the baseline every published package shares. */
+      el('button', { type: 'button', class: 'chip is-template',
+        title: 'The ' + template.length + ' modules every published PBC contains: ' +
+               template.map(function (id) { return id.replace('VirtoCommerce.', ''); }).join(', ') },
+        el('span', { class: 'glyph', text: '◆', 'aria-hidden': 'true' }),
+        'Default template',
+        el('span', { class: 'chip-n', text: String(template.length) }))
+    ].concat(CELLS.map(function (c) {
       return el('button', { type: 'button', class: 'chip', text: c.name,
         title: 'Start from ' + c.name + ' (' + c.moduleCount + ' modules)',
         onclick: function () {
@@ -1754,26 +1791,42 @@
           (c.modules || []).forEach(function (id) { customPick[id] = true; });
           renderCustomPbcDrawer();
         } });
-    }).concat([
+    })).concat([
       el('button', { type: 'button', class: 'chip', text: 'Clear',
+        title: 'Start from nothing',
         onclick: function () { customPick = {}; renderCustomPbcDrawer(); } })
     ]));
 
-    /* The picker, grouped by the same families as the Molecules tier. */
-    var famOrder = window.VC_MODULE_FAMILY_ORDER || [];
-    var famOf = window.VC_MODULE_FAMILY || {};
-    var picker = el('div', { class: 'pbc-picker' }, famOrder.map(function (g) {
-      var members = MODULE_TILES.filter(function (m) { return famOf[m.moduleId] === g.id; });
+    /* The template button has to be wired after creation: it resets to the template rather than to a
+       published package, and the chip above carries child nodes rather than a text label. */
+    presets.firstChild.addEventListener('click', function () {
+      customPick = {};
+      template.forEach(function (id) { customPick[id] = true; });
+      renderCustomPbcDrawer();
+    });
+
+    /* The picker's groups are the schema's bands, in the same order and the same colours, with modules
+       sorted by name inside each. Grouping by icon family looked tidy but answered the wrong question:
+       what a reader needs while composing a package is which layer a module will land in. */
+    var LAYER_HUES = { xapi: '#5FC8F5', services: '#3FD8B4', platform: '#9D86F5',
+                       integration: '#5FD080', outbound: '#FFC24D' };
+
+    var picker = el('div', { class: 'pbc-picker' }, PBC_LAYERS.map(function (layer) {
+      var members = MODULE_TILES
+        .filter(function (m) { return layerOfModule(m.moduleId) === layer.key; })
+        .sort(function (a, b) { return String(a.name).localeCompare(String(b.name)); });
       if (!members.length) return null;
-      return el('div', { class: 'pbc-picker-group' },
-        el('div', { class: 'pbc-picker-head', style: g.hex ? '--accent:' + g.hex : null },
+
+      return el('div', { class: 'pbc-picker-group is-' + layer.key },
+        el('div', { class: 'pbc-picker-head', style: '--accent:' + LAYER_HUES[layer.key] },
           el('span', { class: 'mol-family-swatch', 'aria-hidden': 'true' }),
-          el('span', { class: 'mol-family-name', text: g.name })),
+          el('span', { class: 'mol-family-name', text: layer.name }),
+          el('span', { class: 'pbc-picker-n', text: String(members.length) })),
         el('div', { class: 'pbc-picker-body' }, members.map(function (m) {
           var id = m.moduleId;
           var label = el('label', { class: 'pbc-pick' + (customPick[id] ? ' is-on' : ''),
                                     style: MODULE_ACCENTS[id] ? '--accent:' + MODULE_ACCENTS[id] : null,
-                                    title: id });
+                                    title: id + (m.sub ? ' — ' + m.sub : '') });
           var box = el('input', { type: 'checkbox' });
           box.checked = !!customPick[id];
           box.addEventListener('change', function () {
