@@ -161,12 +161,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "How much tax to add, decided per store by a provider you choose — a fixed rate out of the box, or a service like Avalara for real jurisdictions. It is a calculation, not a stored number.",
+  "forArchitect": "The smallest port on the map: **one entity**, `StoreTaxProviderEntity`, and seven migrations. Everything else is provider code, and AvalaraTax is the adapter that proves the seam. Only two modules require it and two more declare it optional, so a host can be built without tax at all — which is exactly what a catalog-only or content-only Cell does.",
+  "forDeveloper": "Implement a tax provider against the abstraction; the fixed-rate provider in the box is the reference. `VirtoCommerce.Core.FixedTaxRateProvider.Rate` and `VirtoCommerce.Core.General.TaxTypes` are settings, so a demo can be configured rather than coded. Evaluation happens on the cart and order totals path — keep providers fast, and cache remote calls yourself.",
+  "owns": [
+   "StoreTaxProviderEntity"
+  ],
+  "reachForItWhen": [
+   "Tax has to be calculated rather than typed in",
+   "You are integrating a tax service, or writing rules for one jurisdiction",
+   "Tax behaviour must differ per store"
+  ],
+  "doNotReachForItWhen": [
+   "You need the tax that was charged — the order and its line items keep their own copy",
+   "The requirement is a price including tax: that is Pricing plus this evaluation, in that order",
+   "You are building a Cell that never quotes a total — then this module need not be installed"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

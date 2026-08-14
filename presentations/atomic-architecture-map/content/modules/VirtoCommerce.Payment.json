@@ -159,12 +159,23 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Which ways a shopper may pay, per store — and the record of each attempt to collect the money. The module itself takes no payments; it is the list of methods, their settings and their status, with the actual gateway plugged in behind it.",
+  "forArchitect": "A port with its adapters shipped separately: NativePaymentMethods, AuthorizeNet, CyberSource, Datatrans and Skyflow are each their own module, so adding a gateway is an install rather than a change here. Two entities is all it owns — a method per store, and its translated name — because the transactions themselves belong to the order. Ten modules require it, so it is present on almost every host.",
+  "forDeveloper": "Implement a payment method against the module's abstraction and register it in code; the per-store configuration and its settings then appear in the back office without UI work. `PaymentMethodInstancingEvent` is the hook for adjusting a method as it is created — the place to inject solution-specific rates or restrictions.",
+  "owns": [
+   "StorePaymentMethodEntity",
+   "PaymentMethodLocalizedNameEntity"
+  ],
+  "reachForItWhen": [
+   "A store needs a new way to pay, or an existing method configured differently",
+   "You are writing a gateway integration — implement the method, do not fork the module",
+   "Payment methods must vary by store, market or currency"
+  ],
+  "doNotReachForItWhen": [
+   "You need what was actually paid — that is the payment document on the order",
+   "You are reconciling money movements: captures, refunds and invoices live in Orders",
+   "The requirement is a wallet or stored card — that is the gateway's concern, and PCI scope with it"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

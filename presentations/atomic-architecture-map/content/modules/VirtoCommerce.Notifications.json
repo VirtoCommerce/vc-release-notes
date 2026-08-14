@@ -217,12 +217,26 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Every message the platform sends — order confirmations, password resets, abandoned-cart reminders — with its template, its layout and a record of what was actually delivered. Marketing edits the wording; the module owns the sending.",
+  "forArchitect": "One module, many transports: **twelve projects**, six of which are adapters and renderers — SMTP, SendGrid, Twilio, Microsoft Graph, a Liquid renderer and a file-system template loader. That is why eleven modules require it and its only dependency is Assets (attachments). Messages are persisted, not fire-and-forget, so delivery is auditable and retryable — thirteen entities exist for exactly that.",
+  "forDeveloper": "Define a notification type and a template; the transport is configuration. It handles `UserRequestPasswordResetEvent`, which is the pattern to copy — subscribe to a domain event and send, rather than calling a mailer from business code. Templates render with Liquid, so a wording change is not a deployment.",
+  "owns": [
+   "NotificationEntity",
+   "NotificationTemplateEntity",
+   "NotificationLayoutEntity",
+   "NotificationMessageEntity",
+   "EmailAttachmentEntity"
+  ],
+  "reachForItWhen": [
+   "Anything must reach a person by email, SMS or another channel",
+   "A message's wording or layout has to be editable without a release",
+   "You need evidence that a notification was sent, and what it contained"
+  ],
+  "doNotReachForItWhen": [
+   "The recipient is another system — that is an outbound webhook or a queue, not a notification",
+   "You want in-app messages for back-office users: that is push notifications on the platform",
+   "The template belongs to a storefront page — that is Content"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

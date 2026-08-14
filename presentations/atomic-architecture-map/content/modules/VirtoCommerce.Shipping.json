@@ -189,12 +189,24 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "How goods reach the buyer: the shipping methods a store offers, their rates, and — for buy-online, pick-up-in-store — the physical locations a shopper can collect from.",
+  "forArchitect": "The same port-and-adapter shape as Payment, with ShipStation as the external adapter, plus one thing Payment does not have: pickup locations are searchable, which is why Search is a required dependency and why `Shipping.Bopis.Search.EventBasedIndexation.Enabled` exists. Seven modules require it. Rates for the built-in fixed-rate method are settings, not data.",
+  "forDeveloper": "Register a shipping method in code and let the store configure it; each method carries its own settings. Pickup locations have their own change events and their own indexation date setting, so a bulk import of locations needs the same treatment as any other indexed entity. Google Maps keys for BOPIS are settings.",
+  "owns": [
+   "StoreShippingMethodEntity",
+   "PickupLocationEntity",
+   "PickupFulfillmentRelationEntity"
+  ],
+  "reachForItWhen": [
+   "A store needs new shipping options, or rates have to differ by store",
+   "Click-and-collect is in scope — pickup locations and their fulfillment relations live here",
+   "You are integrating a carrier or rate service"
+  ],
+  "doNotReachForItWhen": [
+   "You need what was shipped — that is a shipment document on the order",
+   "Stock at a location is the question: that is Inventory's fulfillment centre",
+   "You want tracking history: the carrier owns it, and the order records the reference"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

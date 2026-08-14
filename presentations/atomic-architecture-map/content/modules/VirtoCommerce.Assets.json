@@ -150,12 +150,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Every file the store holds — product images, videos, documents, downloads — described and findable, wherever it is physically stored.",
+  "forArchitect": "**The most depended-on module in the catalogue: 22 modules require it, and it requires nothing.** That is the definition of a base module. Storage is an adapter — FileSystemAssets for a developer box, AzureBlobAssets for a cluster — so the same solution runs on a local disk and on cloud storage without a code change. It owns one entity: the asset *entry*, the metadata record. The bytes are never in the database, which is why a deployment copies files and a migration does not.",
+  "forDeveloper": "Go through the blob abstraction rather than a storage SDK, or your module stops working on the other provider. `BlobCreatedEvent` and `BlobDeletedEvent` are the hooks — image processing and cache invalidation both hang off them. Asset entries are searchable metadata; the file itself is addressed by URL.",
+  "owns": [
+   "AssetEntryEntity"
+  ],
+  "reachForItWhen": [
+   "A module needs to store or serve a file and must not care where it lives",
+   "You are adding a storage backend, or moving from local disk to cloud storage",
+   "File metadata has to be searchable or linked to a domain object"
+  ],
+  "doNotReachForItWhen": [
+   "You are writing to a container directly — that breaks the other provider and the local developer setup",
+   "The content is editorial pages or themes: those are Content, which itself sits on top of this",
+   "You expect files to travel with a database backup — they do not"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

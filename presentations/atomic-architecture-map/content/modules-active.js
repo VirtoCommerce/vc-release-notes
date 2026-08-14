@@ -561,8 +561,8 @@ window.VC_ACTIVE_MODULES = [
   "name": "Commerce Profile Experience API",
   "registryTitle": "Commerce Profile Experience API",
   "description": null,
-  "version": "3.1015.0",
-  "versionTag": "alpha.370",
+  "version": "3.1016.0",
+  "versionTag": "alpha.372",
   "platformVersion": "3.1039.0",
   "groups": [
    "commerce"
@@ -716,7 +716,7 @@ window.VC_ACTIVE_MODULES = [
   "registryTitle": "CSV Catalog Export and Import Module",
   "description": "Enables seamless export and import of catalog data in CSV format, simplifying data management and integration with external systems.",
   "version": "3.1003.0",
-  "versionTag": "alpha.386",
+  "versionTag": "alpha.391",
   "platformVersion": "3.1039.0",
   "groups": [
    "commerce"
@@ -1377,8 +1377,8 @@ window.VC_ACTIVE_MODULES = [
   "name": "Order Experience API",
   "registryTitle": "Order Experience API",
   "description": "Focuses on order processing, providing robust support for order lifecycle management.",
-  "version": "3.1008.0",
-  "versionTag": "alpha.124",
+  "version": "3.1009.0",
+  "versionTag": "alpha.126",
   "platformVersion": "3.1039.0",
   "groups": [
    "commerce"
