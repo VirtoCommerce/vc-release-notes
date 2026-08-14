@@ -183,12 +183,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "The work the platform does out of sight — reindexing, imports, exports, scheduled reminders — and the place to look when something is queued rather than instant.",
+  "forArchitect": "The engine behind every long-running task, and **it owns no database and has no migrations**: state lives in whichever engine you configure. Three engine projects ship in the box — Hangfire, RabbitMQ and an in-memory one for local work — plus a shim that keeps modules calling the old Hangfire API working. That is what lets a producer host enqueue and a worker host drain, which is the horizontal split behind `VirtoCommerce:BackgroundJobs:Mode`. It subscribes to events dynamically rather than declaring handlers.",
+  "forDeveloper": "Depend on the engine-agnostic abstraction, not on Hangfire: a payload plus an `IBackgroundJobHandler<TPayload>`, enqueued through `IBackgroundJob`. That keeps your module working when the engine changes, and it is the difference between a module that runs on RabbitMQ and one that does not. `api/platform/jobs` is the surface the back office watches.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Work is too slow, too large or too repetitive to do inside a request",
+   "A task must survive a restart, or run on a schedule",
+   "You are splitting a deployment into request hosts and worker hosts"
+  ],
+  "doNotReachForItWhen": [
+   "The reaction must be transactional with the write — that is a domain event handler",
+   "You are calling Hangfire directly: the abstraction exists so the engine can change under you",
+   "The job needs a database table of its own — this module keeps none, so bring your own store"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

@@ -128,12 +128,23 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Getting data in from files: an import profile describes the mapping once, and every run is recorded with its errors, so a failed load can be explained rather than guessed at.",
+  "forArchitect": "The mirror of Export, and notably heavier: it depends on Assets, Catalog, Customer and Notifications, because it reads uploaded files, writes commerce data and mails the outcome. Two entities carry the profile and the run history. Its limits are settings — file size, line count, error threshold — which is how an import fails loudly at a known boundary instead of exhausting a host.",
+  "forDeveloper": "Write an importer against the module's abstraction rather than a controller that parses a file, and let the profile carry the mapping. Before a large run, remember what the write path costs: events fan out per row, so suppress them or turn event-based indexation off and reindex once. Note it has only one localization, so back-office text is effectively English.",
+  "owns": [
+   "ImportProfileEntity",
+   "ImportRunHistoryEntity"
+  ],
+  "reachForItWhen": [
+   "Data arrives as files and the mapping is reused rather than one-off",
+   "An operator needs to see what a load did, and what it rejected",
+   "Import limits must be enforced before a host runs out of memory"
+  ],
+  "doNotReachForItWhen": [
+   "A system can call the API directly — an import profile is for files, not integrations",
+   "You are loading a whole catalogue for the first time: plan the indexation cost first",
+   "The source is a queue or a stream — that is EventBus, in the other direction"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

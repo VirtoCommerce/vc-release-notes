@@ -149,12 +149,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "A single way to get data out of the platform as a file — pick the type, pick the fields, choose CSV or JSON, download the result.",
+  "forArchitect": "A provider-based port with **no database of its own**: modules register their entities as exportable, and the CSV and JSON writers ship as separate projects. Its only dependency is Assets, because the output is a file and files belong there. That is why adding \"export my entity\" to a module is a registration rather than a new endpoint and a new download path.",
+  "forDeveloper": "Register your type with the export infrastructure instead of writing a bespoke endpoint — you inherit field selection, paging, the file naming template and the download permission. `Export.FileNameTemplate` is the setting that decides what the user receives.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A user needs data as a file, on demand, from the back office",
+   "Your module's entities should be exportable like every other module's",
+   "A one-off extract would otherwise become a bespoke endpoint"
+  ],
+  "doNotReachForItWhen": [
+   "The consumer is a system, not a person — an API or a queue beats a file",
+   "You need a scheduled feed: wrap it in a background job rather than a manual download",
+   "The volume is a full catalogue migration — that is bulk import/export tooling, not an ad-hoc file"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

@@ -184,12 +184,25 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "A way to tell other systems what happened in the store, through a message queue rather than a phone call: you subscribe a queue to the events you care about and the platform posts them there.",
+  "forArchitect": "The durable half of outbound integration, where WebHooks is the immediate half. It depends on nothing, keeps its own subscriptions and provider connections, and logs every connection attempt — four entities, one of which exists purely for that audit trail. Like WebHooks it subscribes to domain events **dynamically**, so any module's events become routable without it knowing about them. No admin UI: this is configured through its API.",
+  "forDeveloper": "Raise proper domain events in your own module and they become subscribable here for free — that is the whole contract. Choose this over WebHooks when delivery must survive the receiver being down, because a queue holds what an HTTP call drops. Subscriptions and provider connections are data, so a new integration is configuration rather than a release.",
+  "owns": [
+   "SubscriptionEntity",
+   "SubscriptionEventEntity",
+   "ProviderConnectionEntity",
+   "ProviderConnectionLogEntity"
+  ],
+  "reachForItWhen": [
+   "An external system needs a durable, ordered-ish stream of what happened",
+   "The receiver cannot be trusted to be online when the event occurs",
+   "Integration middleware already consumes a queue you would rather publish to"
+  ],
+  "doNotReachForItWhen": [
+   "A simple HTTP callback is enough — that is WebHooks, with less infrastructure",
+   "The reaction belongs inside the platform: use a domain event handler, in-process and transactional",
+   "You are exporting a bulk snapshot — that is Export, not an event per row"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

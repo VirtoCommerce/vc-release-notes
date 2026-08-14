@@ -177,12 +177,23 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "The addresses your storefront exposes to the world: friendly URLs for products, categories and pages, redirects when something moves, and a record of links that now lead nowhere.",
+  "forArchitect": "It depends on nothing and resolves permalinks through a scoring pipeline, which is what lets one slug belong to different objects in different stores and languages without ambiguity. The interesting seam is that it both **raises and handles** `SeoInfoNotFoundEvent`: a miss becomes an event other modules can answer, which is how a custom resolver joins the pipeline instead of replacing it. Broken-link detection is a switch, not an assumption.",
+  "forDeveloper": "Subscribe to `SeoInfoNotFoundEvent` to resolve a slug your own module owns; do not fork the resolver. `Seo.Enabled` and `Seo.BrokenLinkDetection.Enabled` gate the module's work, so a headless or API-only deployment can turn it off entirely. Redirect rules are data, so marketing can move a URL without a release.",
+  "owns": [
+   "RedirectRuleEntity",
+   "BrokenLinkEntity"
+  ],
+  "reachForItWhen": [
+   "A URL has to be friendly, stable, or moved without breaking inbound links",
+   "Your module owns objects that need addressable slugs per store and language",
+   "You need to know which links are broken before a customer finds out"
+  ],
+  "doNotReachForItWhen": [
+   "The page content is the question — that is Content",
+   "You are building an API-only solution with no crawlable surface: turn it off instead",
+   "You want analytics on traffic: this module records broken links, not visits"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

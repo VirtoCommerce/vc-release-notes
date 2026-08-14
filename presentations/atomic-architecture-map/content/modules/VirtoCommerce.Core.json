@@ -118,12 +118,24 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "The shared vocabulary of commerce: currencies and their exchange rates, units of measure and weight, package types, and the number sequences that give orders and invoices their human-readable codes.",
+  "forArchitect": "A foundation module in the literal sense — it depends on nothing and much of the catalogue depends on it. Three entities only, because its value is the abstractions other modules build on rather than data of its own. The sequence table is the quiet load-bearing part: order and document numbering is centralised here, which is why numbering stays unique across a scaled-out deployment instead of colliding per host.",
+  "forDeveloper": "Look here before defining your own currency, unit or numbering scheme — `MeasureUnits`, `WeightUnits` and `TaxTypes` are settings, not code. Sequences are the mechanism to reach for when a solution needs its own gapless document number. Note it publishes no domain events: this is data other modules read, not a source of change notifications.",
+  "owns": [
+   "CurrencyEntity",
+   "PackageTypeEntity",
+   "SequenceEntity"
+  ],
+  "reachForItWhen": [
+   "Currencies, exchange rates or units of measure are involved",
+   "A document needs a generated, unique, human-readable number",
+   "You are about to define a shared commerce primitive — check it does not already exist here"
+  ],
+  "doNotReachForItWhen": [
+   "You need a price: currency lives here, the price does not",
+   "You want tax calculation — Core holds the tax *types*, Tax evaluates them",
+   "You expect events on change: this module raises none"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",
