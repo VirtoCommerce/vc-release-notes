@@ -437,8 +437,8 @@ window.VC_ACTIVE_MODULES = [
   "name": "Catalog Experience API",
   "registryTitle": "Catalog Experience API",
   "description": "Manages all catalog-related operations, from product listings to detailed item information.",
-  "version": "3.1016.0",
-  "versionTag": "alpha.217",
+  "version": "3.1017.0",
+  "versionTag": "alpha.219",
   "platformVersion": "3.1057.0",
   "groups": [
    "commerce"
@@ -717,8 +717,8 @@ window.VC_ACTIVE_MODULES = [
   "name": "Core Experience API",
   "registryTitle": "Core Experience API",
   "description": "Module represents a core functionality for GraphQL and other XAPI modules",
-  "version": "3.1017.0",
-  "versionTag": "alpha.192",
+  "version": "3.1018.0",
+  "versionTag": "alpha.194",
   "platformVersion": "3.1039.0",
   "groups": [
    "commerce"

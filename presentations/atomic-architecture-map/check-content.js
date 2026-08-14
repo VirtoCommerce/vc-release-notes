@@ -31,13 +31,13 @@ if (REPO) {
 
 global.window = {};
 for (const f of ['content/meta.js', 'content/architecture.js', 'content/atoms.js', 'content/cells.js', 'content/molecules.js',
-                 'content/module-accents.js', 'content/modules-active.js']) {
+                 'content/module-accents.js', 'content/modules-active.js', 'content/cells.generated.js']) {
   new Function(fs.readFileSync(path.join(MAP, f), 'utf8')).call(global);
 }
 const { VC_MAP_META: META, VC_MAP_ARCHITECTURE: LAYERS, VC_MAP_FAMILIES: FAMILIES,
         VC_MAP_ATOMS: ATOMS, VC_MAP_CELLS: CELLS, VC_MAP_MOLECULES: MOLECULES,
         VC_ACTIVE_MODULES: ACTIVE_MODULES = [], VC_MODULE_ACCENTS: ACCENTS = {},
-        VC_MODULE_FAMILY: FAMILY_OF = {} } = global.window;
+        VC_MODULE_FAMILY: FAMILY_OF = {}, VC_MAP_PBC: PBCS = [] } = global.window;
 
 const problems = [];
 const add = (kind, id, msg) => problems.push(`${kind} ${id}: ${msg}`);
@@ -157,7 +157,7 @@ for (const a of ATOMS) {
 /* Cells are the third rung of the ladder: a set of modules that solves a business scenario.
    They carry the same diagram shapes as a layer, so the diagram rules below are shared. */
 const SPLIT_VERDICTS = new Set(['own host', 'with catalog', 'with cart', 'no']);
-const cellIds = new Set((CELLS || []).map(c => c.id));
+const cellIds = new Set((PBCS || []).map(c => c.id).concat((CELLS || []).map(c => c.id)));
 
 const VIA_KINDS = new Set(['graphql', 'rest', 'trend', 'plain']);
 const CONNECTOR_DIRS = new Set(['down', 'up', 'both']);
@@ -391,32 +391,48 @@ for (const l of LAYERS) {
 
   for (const d of l.diagrams || []) checkDiagram('layer', l.id, d);
 }
-for (const c of CELLS || []) {
-  if (!c.id) { add('cell', '(no id)', 'missing id'); continue; }
-  checkCrossRefs('cell', c.id, c);
-  if (!c.name) add('cell', c.id, 'missing name');
-  if (!c.sub) add('cell', c.id, 'missing sub');
-  if (!SPLIT_VERDICTS.has(c.splittable)) {
-    add('cell', c.id, `splittable "${c.splittable}" is not one of: ${[...SPLIT_VERDICTS].join(', ')}`);
+/* ---------- Packaged Business Capabilities ----------
+   Generated from vc-modules/pbc/*.json, so the checks are about the projection holding together: a
+   named module must be installable, the layer buckets must account for every module exactly once, and
+   the manifest path must be one of the six files that exist in that folder. */
+const PBC_LAYER_KEYS = ['xapi', 'services', 'platform', 'integration', 'outbound'];
+const activeIds = new Set(ACTIVE_MODULES.map(m => m.id));
+
+if (!PBCS.length) add('pbc', 'cells.generated.js', 'no PBCs — run node tools/build-cells.js --online');
+
+for (const c of PBCS) {
+  if (!c.id) { add('pbc', '(no id)', 'missing id'); continue; }
+  if (!c.name) add('pbc', c.id, 'missing name');
+  if (!c.sub) add('pbc', c.id, 'missing sub — the readme gives each PBC a one-line framing');
+  if (!/^pbc\/[a-z-]+-packages\.json$/.test(c.manifest || '')) {
+    add('pbc', c.id, `manifest "${c.manifest}" is not a vc-modules/pbc package file`);
   }
-  if (!c.anchor) add('cell', c.id, 'missing anchor — a cell is anchored on the experience API module whose manifest decides its membership');
-  // The registry release the membership was read from. Without it a stale list is invisible.
-  if (!/^\d+\.\d+\.\d+$/.test(c.version || '')) add('cell', c.id, `version "${c.version}" is not a module release the membership can be checked against`);
-  if (!(c.planned || []).length) add('cell', c.id, 'missing planned — these tiles are reserved, so they must say what is coming');
-  if (!(c.modules || []).length) add('cell', c.id, 'lists no modules — a cell is a set of modules');
-  for (const m of c.modules || []) {
-    if (typeof m !== 'string' || !m.trim()) add('cell', c.id, 'has a blank module name');
+  if (!(c.modules || []).length) add('pbc', c.id, 'lists no modules');
+
+  for (const id of c.modules || []) {
+    if (!activeIds.has(id)) add('pbc', c.id, `module "${id}" is not in the active catalogue`);
   }
-  // An optional module the cell does not contain is a contradiction, and would render a chip
-  // for something that is not there.
-  for (const o of c.optional || []) {
-    if (!(c.modules || []).includes(o)) add('cell', c.id, `optional "${o}" is not in its modules list`);
+
+  /* Every module in exactly one layer: a module in none would vanish from the schema, and a module in
+     two would be drawn twice and counted once. */
+  const bucketed = [];
+  for (const k of PBC_LAYER_KEYS) {
+    if (!Array.isArray((c.layers || {})[k])) { add('pbc', c.id, `layers.${k} is missing`); continue; }
+    bucketed.push(...c.layers[k]);
   }
-  for (const ref of c.atoms || []) {
-    if (!atomIds.has(ref)) add('cell', c.id, `atoms → "${ref}" does not exist`);
+  const dupes = bucketed.filter((v, i, a) => a.indexOf(v) !== i);
+  if (dupes.length) add('pbc', c.id, `module(s) in more than one layer: ${[...new Set(dupes)].join(', ')}`);
+  const missing = (c.modules || []).filter(id => !bucketed.includes(id));
+  if (missing.length) add('pbc', c.id, `module(s) in no layer: ${missing.join(', ')}`);
+  if (bucketed.length !== (c.modules || []).length) {
+    add('pbc', c.id, `layers hold ${bucketed.length} modules but the package lists ${(c.modules || []).length}`);
   }
-  for (const d of c.docs || []) checkDoc('cell', c.id, d);
-  for (const d of c.diagrams || []) checkDiagram('cell', c.id, d);
+  if (c.moduleCount !== (c.modules || []).length) {
+    add('pbc', c.id, `moduleCount ${c.moduleCount} disagrees with the module list (${(c.modules || []).length})`);
+  }
+  if ((c.unlisted || []).length) {
+    pbcUnlisted.push(c.id + ': ' + c.unlisted.join(', '));
+  }
 }
 
 /* Two kinds of molecule, two contracts. A module tile is verified identity plus a dependency
@@ -520,6 +536,7 @@ const registryById = new Map(MODULE_REGISTRY.map(m => [m.Id, m]));
 const tileIds = new Set();
 const registryGaps = [];
 const previews = [];
+const pbcUnlisted = [];
 const staleClone = [];
 for (const m of ACTIVE_MODULES) {
   const where = m.id || m.moleculeId || '(anonymous)';
@@ -595,7 +612,7 @@ if (behind.length) {
     (behind.length <= 8 ? ' → ' + behind.map(a => a.id).join(', ') : ''));
 }
 
-console.log(`atoms: ${ATOMS.length}   layers: ${LAYERS.length}   cells: ${CELLS.length}   ` +
+console.log(`atoms: ${ATOMS.length}   layers: ${LAYERS.length}   PBCs: ${PBCS.length}   ` +
             `molecules: ${ACTIVE_MODULES.length} active modules + ${MOLECULES.length} topics`);
 const famCounts = {};
 for (const m of ACTIVE_MODULES) { const f = FAMILY_OF[m.id] || 'other'; famCounts[f] = (famCounts[f] || 0) + 1; }
@@ -609,7 +626,9 @@ if (previews.length) console.log(`preview modules, not in the registry: ${previe
 if (registryGaps.length) console.log(`registry gaps (informational): ${registryGaps.join(', ')}`);
 console.log(`module profiles: ${profileFiles.length} (${profilesWithNotes} with authored notes) — ` +
             `${ACTIVE_MODULES.length - profileFiles.length} modules still facts-free`);
-console.log('cells → ' + CELLS.map(c => `${c.name} (${c.splittable}, ${c.modules.length} modules)`).join('  |  '));
+console.log('PBCs → ' + PBCS.map(c => `${c.name} (${c.moduleCount} modules: ` +
+  PBC_LAYER_KEYS.map(k => `${k[0]}${(c.layers[k] || []).length}`).join('/') + ')').join('  |  '));
+if (pbcUnlisted.length) console.log('PBC modules not in the registry: ' + pbcUnlisted.join(' | '));
 console.log(`families → ${byFamily}`);
 console.log(`adoption → ${byAdoption}`);
 console.log((REPO

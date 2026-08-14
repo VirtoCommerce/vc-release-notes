@@ -29,23 +29,50 @@ const CHECK = process.argv.includes('--check');
 const PBCS = [
   { file: 'virto-start-packages.json', id: 'virto-start', name: 'Virto Start',
     sub: 'A running B2B or B2C store out of the box, with the Virto Commerce Frontend already wired in.',
-    audience: 'Whole solution' },
+    audience: 'Whole solution',
+    overview: 'Ideal for businesses that want a quick and hassle-free start with common B2B and B2C ' +
+      'e-commerce configurations. This package is perfect for getting up and running swiftly, with ' +
+      'native integration with Virto Commerce Frontend.' },
   { file: 'idp-packages.json', id: 'idp', name: 'Identity Provider',
     sub: 'Virto as the identity provider: authenticating users and authorising their access to other applications.',
-    audience: 'Identity' },
+    audience: 'Identity',
+    overview: 'Virto Commerce can be used as an Identity Provider, essential for organizations needing ' +
+      'secure and efficient user identity management. This system authenticates users\u2019 identities and ' +
+      'authorizes their access to various applications and services, enhancing security and streamlining ' +
+      'customer authentication processes.' },
   { file: 'digital-catalog-packages.json', id: 'digital-catalog', name: 'Digital Catalog',
-    sub: 'Catalog data over API and frontend — search, browse and filter, with no ability to buy.',
-    audience: 'Catalog read' },
+    sub: 'Catalog data over API and frontend \u2014 search, browse and filter, with no ability to buy.',
+    audience: 'Catalog read',
+    overview: 'A must-have if you need to grant access to your catalog data via Frontend or API without ' +
+      'the ability to buy products. This package supports modern scenarios with advanced search, browsing ' +
+      'and filtering capabilities, making it ideal for businesses that require robust catalog management ' +
+      'solutions.' },
   { file: 'purchase-packages.json', id: 'purchase', name: 'Purchase',
-    sub: 'Cart and checkout on top of someone else\u2019s catalog — your own, or several vendor APIs.',
-    audience: 'Transact' },
+    sub: 'Cart and checkout on top of someone else\u2019s catalog \u2014 your own, or several vendor APIs.',
+    audience: 'Transact',
+    overview: 'This package is crucial if you already have an e-commerce catalog or are building a ' +
+      'marketplace that aggregates catalog data from multiple vendor APIs, like Amazon or Booking. Virto ' +
+      'Commerce can be used to build cart and checkout experiences for placing orders.' },
   { file: 'pim-packages.json', id: 'pim', name: 'Product Information Management',
     sub: 'Product data management for category managers, without a storefront attached.',
-    audience: 'Authoring' },
+    audience: 'Authoring',
+    overview: 'If you need just a PIM, Virto Commerce can play this role by granting access for category ' +
+      'managers, building and improving e-commerce catalogs. PIM is indispensable for companies looking to ' +
+      'streamline their product data management to match specific business needs.' },
   { file: 'crm-packages.json', id: 'crm', name: 'Customer & Organizations',
     sub: 'Customer and company data as a CRM, for managing relationships across the lifecycle.',
-    audience: 'Customer data' }
+    audience: 'Customer data',
+    overview: 'If you need just a CRM, Virto Commerce can play this role, allowing you to grant access to ' +
+      'CRM data. This package is essential for managing customer interactions and data throughout the ' +
+      'customer lifecycle, improving business relationships and customer retention.' }
 ];
+
+/* The tier-level framing, from the same readme. Every PBC page opens with it, because the question
+   "what is a PBC?" comes before "what is in this one?". */
+const PBC_INTRO =
+  'Packaged Business Capabilities (PBCs) are a core component of Virto Commerce\u2019s modular and flexible ' +
+  'approach, known as the Virto Atomic Architecture. These PBCs are designed to encapsulate specific ' +
+  'business functionalities, making them an ideal choice for decision-makers across various business entities.';
 
 function loadManifest(file) {
   if (ONLINE) {
@@ -102,6 +129,8 @@ const cells = PBCS.map(pbc => {
     id: pbc.id,
     name: pbc.name,
     sub: pbc.sub,
+    overview: pbc.overview,
+    intro: PBC_INTRO,
     audience: pbc.audience,
     manifest: 'pbc/' + pbc.file,
     manifestUrl: 'https://github.com/VirtoCommerce/vc-modules/blob/master/pbc/' + pbc.file,

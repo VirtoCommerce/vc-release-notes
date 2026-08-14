@@ -874,7 +874,8 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 
 .cell-shelf {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+  /* Seven tiles across at 1440, so the whole PBC tier is one row on a desktop poster. */
+  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
   gap: 8px;
 }
 
@@ -917,6 +918,107 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 .cell-split.is-yes  { color: var(--ok); }
 .cell-split.is-part { color: var(--warn); }
 .cell-split.is-no   { color: var(--muted); }
+
+/* ---------- PBC tiles ----------
+   A published capability is a solid card with a count and a strip of the icons it contains; the
+   custom one is dashed, because it is an invitation rather than a package. */
+.cell-count {
+  font: 10px var(--mono); font-weight: 700; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.cell-audience {
+  font: 8.5px var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .8px;
+  color: var(--muted);
+}
+.cell-icons { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; margin-top: 3px; }
+.cell-icon { border-radius: 4px; display: block; }
+.cell-more { font: 9px var(--mono); font-weight: 700; color: var(--muted); }
+.cell.is-custom-pbc { border-style: dashed; border-left-color: var(--accent); }
+.cell.is-custom-pbc .cell-count { font-size: 13px; color: var(--accent); }
+.cell.is-custom-pbc .cell-sub {
+  display: block; font-size: 10px; color: var(--muted); font-style: italic;
+}
+
+/* ---------- the layered schema ----------
+   Five bands, top to bottom, in the order a request travels them. The arrow between bands is drawn
+   with a border rather than a glyph so it scales with the layout and never becomes a font problem. */
+.pbc-schema { display: flex; flex-direction: column; gap: 0; }
+.pbc-layer {
+  border: 1px solid var(--border); border-left: 3px solid var(--info);
+  border-radius: 9px; padding: 7px 10px 9px;
+  background: var(--surface);
+}
+.pbc-layer + .pbc-layer { margin-top: 16px; position: relative; }
+/* The connector: a short vertical line with a head, sitting in the 16px gap above each band. */
+.pbc-layer + .pbc-layer::before {
+  content: ""; position: absolute; left: 26px; top: -15px; width: 0; height: 11px;
+  border-left: 2px solid var(--border-strong);
+}
+.pbc-layer + .pbc-layer::after {
+  content: ""; position: absolute; left: 22px; top: -6px;
+  border-left: 5px solid transparent; border-right: 5px solid transparent;
+  border-top: 6px solid var(--border-strong);
+}
+/* One hue per band, so the same layer is the same colour on every PBC page. */
+.pbc-layer.is-xapi        { border-left-color: #5FC8F5; }
+.pbc-layer.is-services    { border-left-color: #3FD8B4; }
+.pbc-layer.is-platform    { border-left-color: #9D86F5; }
+.pbc-layer.is-integration { border-left-color: #5FD080; }
+.pbc-layer.is-outbound    { border-left-color: #FFC24D; }
+.pbc-layer.is-empty { background: transparent; border-style: dashed; }
+
+.pbc-layer-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.pbc-layer-name { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; }
+.pbc-layer-hint { font-size: 11px; color: var(--muted); }
+.pbc-layer-n {
+  margin-left: auto; font: 9.5px var(--mono); font-weight: 700; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+/* One grid for every module list on the page, so a chip in the Business API band lines up with a chip
+   in the Outbound band. --pbc-cols is set per context below. */
+.pbc-layer-body { display: grid; grid-template-columns: repeat(var(--pbc-cols, 2), minmax(0, 1fr)); gap: 3px 6px; }
+.pbc-layer-empty { font-size: 11.5px; color: var(--muted); font-style: italic; }
+
+/* Seven across on a full-screen desktop — the Molecules shelf count — and fewer as the panel narrows.
+   The side panel keeps two: it is 488px wide, where seven columns would be 60px each. */
+.drawer { --pbc-cols: 2; }
+.drawer.is-full { --pbc-cols: 7; }
+@media (max-width: 1199px) { .drawer.is-full { --pbc-cols: 5; } }
+@media (max-width: 899px)  { .drawer.is-full { --pbc-cols: 3; } }
+
+/* The chip fills its cell rather than shrinking to its text, which is the whole point of the grid. */
+.pbc-layer-body .molecule { width: 100%; }
+
+/* ---------- the builder ----------
+   Presets first, then a checkbox per module grouped by family. The checkbox is real and focusable —
+   a div with a click handler would have been shorter and unusable by keyboard. */
+.pbc-presets { display: flex; flex-wrap: wrap; gap: 5px; }
+.pbc-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px 14px; }
+.pbc-picker-group { min-width: 0; }
+.pbc-picker-head {
+  display: flex; align-items: center; gap: 6px; padding-bottom: 3px; margin-bottom: 5px;
+  border-bottom: 2px solid var(--accent, var(--border-strong));
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+}
+.pbc-picker-body { display: flex; flex-direction: column; gap: 2px; }
+.pbc-pick {
+  display: grid; grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center; gap: 6px;
+  padding: 2px 7px 2px 5px; border-radius: 7px;
+  border: 1px solid var(--border); border-left: 3px solid var(--accent, var(--border-strong));
+  background: var(--surface); cursor: pointer;
+}
+.pbc-pick:hover { background: var(--surface-2); }
+.pbc-pick.is-on { border-color: var(--accent, var(--focus)); box-shadow: inset 0 0 0 1px var(--accent, var(--focus)); }
+.pbc-pick input { margin: 0; accent-color: var(--focus); }
+.pbc-pick-name { font: 9.5px var(--mono); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pbc-pick .mod-icon { width: 18px; height: 18px; border-radius: 5px; }
+
+@media (max-width: 560px) {
+  .pbc-picker { grid-template-columns: minmax(0, 1fr); }
+  /* One module per row on a phone, like every other tier. */
+  .drawer, .drawer.is-full { --pbc-cols: 1; }
+}
 
 /* A module chip the cell can run without — dashed, and labelled, so the meaning survives
    greyscale and colour blindness. */

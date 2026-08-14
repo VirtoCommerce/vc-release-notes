@@ -16,7 +16,12 @@
   var LAYERS = window.VC_MAP_ARCHITECTURE || [];
   var FAMILIES = window.VC_MAP_FAMILIES || [];
   var ATOMS = window.VC_MAP_ATOMS || [];
-  var CELLS = window.VC_MAP_CELLS || [];
+  /* Cells are the published PBCs (tools/build-cells.js reads vc-modules/pbc/*.json). The authored
+     cells that used to live here are gone: a package manifest is a better source than a description
+     of one. CUSTOM_PBC is the seventh tile — a builder rather than a published capability. */
+  var CELLS = window.VC_MAP_PBC || [];
+  var CUSTOM_PBC = { id: 'custom', name: 'Build custom PBC', audience: 'Your idea',
+    sub: 'Pick capabilities and see the package this becomes \u2014 the readme\u2019s \u201cyour idea here\u201d, made clickable.' };
   /* Molecules = every active Virto Commerce module, plus the composite topics that are written
      across several of them. The module half is a projection of the registry (see
      tools/build-active-modules.js) rather than a hand-kept list, so "what ships today" cannot go
@@ -422,24 +427,78 @@
   function renderCells() {
     var host = document.getElementById('cells');
     host.textContent = '';
-    CELLS.forEach(function (cell) {
-      var verdict = splitVerdict(cell.splittable);
+
+    CELLS.concat([CUSTOM_PBC]).forEach(function (cell) {
+      var custom = cell.id === 'custom';
       var node = el('button', {
-        type: 'button', class: 'cell',
-        'aria-label': cell.name + ' — cell. ' + (cell.sub || '') + ' Deployable: ' + verdict.label + '.',
+        type: 'button', class: 'cell' + (custom ? ' is-custom-pbc' : ''),
+        'aria-label': cell.name + ' — packaged business capability. ' + (cell.sub || '') +
+                      (custom ? '' : ' ' + cell.moduleCount + ' modules.'),
         dataset: { id: cell.id },
         onclick: function () { openHash('cell', cell.id, node); }
       },
         el('span', { class: 'cell-head' },
           el('span', { class: 'cell-name', text: cell.name }),
-          el('span', { class: 'cell-split ' + verdict.cls, text: verdict.label, title: verdict.title })),
-        el('span', { class: 'cell-sub', text: cell.sub || '' }),
-        /* The anchor module is the evidence for the verdict: its manifest is what decides the
-           cell's membership, so it belongs on the face of the tile. */
-        el('span', { class: 'cell-mods', text: cell.anchor + '  ·  ' + (cell.modules || []).join(' · ') }));
+          el('span', { class: 'cell-count', text: custom ? '+' : String(cell.moduleCount) })),
+        el('span', { class: 'cell-audience', text: cell.audience || '' }),
+        /* A strip of the actual icons: the tile shows what is inside without spelling it out, and the
+           colours are the same ones the Molecules tier uses. */
+        custom ? el('span', { class: 'cell-sub', text: 'compose your own' })
+               : el('span', { class: 'cell-icons' }, (cell.modules || []).slice(0, 9).map(function (id) {
+                   return MODULE_ACCENTS[id]
+                     ? el('img', { class: 'cell-icon', src: 'assets/module-icons/' + id + '.svg',
+                                   width: 16, height: 16, alt: '', loading: 'lazy', title: id })
+                     : null;
+                 }).filter(Boolean).concat(
+                   (cell.modules || []).length > 9
+                     ? [el('span', { class: 'cell-more', text: '+' + ((cell.modules || []).length - 9) })]
+                     : [])));
       nodes.cells[cell.id] = node;
       host.appendChild(node);
     });
+  }
+
+  /* ---------- the PBC schema ----------
+     Top to bottom, because that is the direction a request travels: a client reaches the XAPI layer,
+     which calls services, which stand on the platform, which reach outward through integrations and
+     the outbound modules. Every band is drawn even when empty — an absent XAPI layer is the single
+     most informative thing about the IdP and PIM packages, and hiding it would hide that. */
+  var PBC_LAYERS = [
+    { key: 'xapi', name: 'Business API', hint: 'GraphQL surface a client talks to' },
+    { key: 'services', name: 'Commerce services', hint: 'the capability itself — data and behaviour' },
+    { key: 'platform', name: 'Platform services', hint: 'jobs, search, assets, notifications' },
+    { key: 'integration', name: 'Integrations & providers', hint: 'engines and gateways behind the ports' },
+    { key: 'outbound', name: 'Outbound', hint: 'how the world hears about a change' }
+  ];
+
+  function moduleChip(id) {
+    var m = null;
+    for (var i = 0; i < MODULE_TILES.length; i++) if (MODULE_TILES[i].moduleId === id) { m = MODULE_TILES[i]; break; }
+    var accent = MODULE_ACCENTS[id];
+    var name = m ? m.name : id.replace('VirtoCommerce.', '');
+    var node = el('button', {
+      type: 'button', class: 'molecule is-module' + (accent ? ' has-icon' : ''),
+      style: accent ? '--accent:' + accent : null,
+      title: id + (m ? ' — ' + (m.sub || '') : ''),
+      onclick: function () { openHash('molecule', id, node); }
+    },
+      accent ? moduleIcon(id, 22) : null,
+      el('span', { class: 'mol-name', text: name }));
+    return node;
+  }
+
+  function pbcSchema(layers) {
+    return el('div', { class: 'pbc-schema' }, PBC_LAYERS.map(function (layer) {
+      var ids = (layers && layers[layer.key]) || [];
+      return el('div', { class: 'pbc-layer is-' + layer.key + (ids.length ? '' : ' is-empty') },
+        el('div', { class: 'pbc-layer-head' },
+          el('span', { class: 'pbc-layer-name', text: layer.name }),
+          el('span', { class: 'pbc-layer-hint', text: layer.hint }),
+          el('span', { class: 'pbc-layer-n', text: String(ids.length) })),
+        ids.length
+          ? el('div', { class: 'pbc-layer-body' }, ids.map(moduleChip))
+          : el('div', { class: 'pbc-layer-empty', text: 'nothing in this layer — the capability does not reach it' }));
+    }));
   }
 
   // ---------------------------------------------------------------- molecules
@@ -1356,95 +1415,62 @@
     ]);
   }
 
-  function renderCellDrawer(cell) {
-    var verdict = splitVerdict(cell.splittable);
-    document.getElementById('drawer-eyebrow').textContent = '';
-    append(document.getElementById('drawer-eyebrow'), [
-      el('span', { class: 'cell-split ' + verdict.cls, text: 'Deployable: ' + verdict.label }),
-      el('span', { text: '· ' + cell.anchor + ' ' + cell.version }),
-      el('span', { text: '· ' + (cell.modules || []).length + ' modules' })
-    ]);
-    document.getElementById('drawer-title').textContent = cell.name;
+  /* ---------- module pages ----------
+     Two halves, kept visibly apart: `facts` were parsed from the module at a git ref, `notes` were
+     authored. A module with no notes falls through to the registry-only page below, which is honest
+     about knowing less. */
 
-    var body = document.getElementById('drawer-body');
-    clearDrawerBody(body);
-
-    var modules = (cell.modules || []).map(function (name) {
-      var isOptional = (cell.optional || []).indexOf(name) !== -1;
-      /* The marker is a word, not a glyph: "?" next to a module name reads as uncertainty
-         about the name rather than about the dependency. Dashed border plus the word, so the
-         meaning does not rest on colour. */
-      return el('span', { class: 'tag-chip' + (isOptional ? ' is-optional' : ''),
-        title: isOptional ? 'Declared optional="true" — the cell runs without it' : 'Required in this cell' },
-        name, isOptional ? el('span', { class: 'opt-mark', text: 'opt' }) : null);
-    });
-
-    append(body, el('p', { class: 'd-lead' }, rich(cell.sub || '')));
-    append(body, el('div', { class: 'd-note' },
-      el('strong', { class: 'd-note-label', text: 'Reserved' }),
-      rich(' — the membership below is what the module registry records for `' + cell.anchor + '` ' +
-        cell.version + ', and the verdict follows from it. The walk-through is not written yet; the ' +
-        'composability explanation these tiles point at is on the **Your solution** layer.')));
-
-    append(body, [
-      block('Modules it composes', el('div', { class: 'tag-row is-left' }, modules), true),
-      diagramBlocks(cell),
-      block('Planned contents', list(cell.planned), true),
-      block('Material that already exists', docLinks(cell.docs), 'is-half'),
-      pills('Atoms it rests on', (cell.atoms || []).map(function (ref) {
-        var atom = byId(ATOMS, ref);
-        return atom ? el('button', { type: 'button', class: 'pill',
-          text: adoptionOf(atom.adoption).glyph + ' ' + atom.name,
-          onclick: function () { openHash('atom', atom.id, nodes.atoms[atom.id]); } }) : null;
-      }).filter(Boolean))
-    ]);
+  /* A row of parsed facts. Deliberately plain: this is the half of the page no one wrote, and it
+     should look like a readout rather than like prose. */
+  function factRows(pairs) {
+    return el('div', { class: 'fact-grid' }, pairs.filter(Boolean).map(function (pair) {
+      return el('div', { class: 'fact-row' },
+        el('span', { class: 'fact-key', text: pair[0] }),
+        el('span', { class: 'fact-val' }, typeof pair[1] === 'string' ? rich(pair[1]) : pair[1]));
+    }));
   }
 
-  /* A module molecule's dependency chips. Optional edges are drawn dashed and labelled, because
-     an optional dependency is the thing that decides whether a module set can be made smaller —
-     see the `optional-dependency` atom. */
-  function dependencyChips(molecule) {
-    var required = (molecule.dependsOn || []).map(function (name) {
-      return el('span', { class: 'tag-chip', title: 'Required', text: name });
+  function depChipsFromProfile(p) {
+    var req = (p.facts.dependsOn || []).map(function (d) {
+      return el('span', { class: 'tag-chip', title: 'Required — ' + d.version, text: d.id.replace('VirtoCommerce.', '') });
     });
-    var optional = (molecule.optional || []).map(function (name) {
-      return el('span', { class: 'tag-chip is-optional', title: 'Declared optional="true" — the module loads without it' },
-        name, el('span', { class: 'opt-mark', text: 'opt' }));
+    var opt = (p.facts.optionalDependencies || []).map(function (d) {
+      return el('span', { class: 'tag-chip is-optional', title: 'optional="true" in module.manifest — ' + d.version },
+        d.id.replace('VirtoCommerce.', ''), el('span', { class: 'opt-mark', text: 'opt' }));
     });
-    if (!required.length && !optional.length) {
-      return el('p', { class: 'd-lead is-quiet' }, rich('Nothing. It depends on no other module, which is what makes it the easiest kind of module to place.'));
+    if (!req.length && !opt.length) {
+      return el('p', { class: 'd-lead is-quiet' },
+        rich('Nothing — `<dependencies/>` is empty in `module.manifest`, so this module can be installed on any host.'));
     }
-    return el('div', { class: 'tag-row is-left' }, required, optional);
+    return el('div', { class: 'tag-row is-left' }, req, opt);
   }
 
   /* One vocabulary for every module's links, read off the URL instead of the README's wording:
-     eleven modules called the same page eleven things. Unrecognised URLs keep their own label. */
+     eleven modules called the same page eleven things. Specific pages come first — modules-installation
+     lives under /user-guide/, so a generic rule above it would swallow it. */
   var REFERENCE_NAMES = [
-    /* Specific pages first: modules-installation and deploy-module-from-source-code both live under
-       the guides, so a generic /user-guide/ rule above them would swallow both. */
-    [/modules-installation/i,                    'How to install a module'],
-    [/deploy-module-from-source-code/i,          'How to deploy from source'],
-    [/\/releases\/latest/i,                     'Download the latest release'],
-    [/github\.com\/VirtoCommerce\/[^/]+\/?$/i,   'Source code on GitHub'],
+    [/modules-installation/i, 'How to install a module'],
+    [/deploy-module-from-source-code/i, 'How to deploy from source'],
+    [/\/releases\/latest/i, 'Download the latest release'],
+    [/github\.com\/VirtoCommerce\/[^/]+\/?$/i, 'Source code on GitHub'],
     [/swagger|urls\.primaryName=|\/docs\/index\.html/i, 'REST API reference'],
-    [/graphql|playground|graphiql/i,             'GraphQL API reference'],
-    [/docs\.virtocommerce\.org\/.*\/user-guide\//i,      'User documentation'],
+    [/graphql|playground|graphiql/i, 'GraphQL API reference'],
+    [/docs\.virtocommerce\.org\/.*\/user-guide\//i, 'User documentation'],
     [/docs\.virtocommerce\.org\/.*\/developer-guide\//i, 'Developer documentation'],
-    [/docs\.virtocommerce\.org/i,                'Documentation'],
-    [/virtocommerce\.org\/?$/i,                  'Community'],
-    [/virtocommerce\.com\/?$/i,                  'Virto Commerce']
+    [/docs\.virtocommerce\.org/i, 'Documentation'],
+    [/virtocommerce\.org\/?$/i, 'Community'],
+    [/virtocommerce\.com\/?$/i, 'Virto Commerce']
   ];
 
   function referenceName(link) {
     for (var i = 0; i < REFERENCE_NAMES.length; i++) {
       if (REFERENCE_NAMES[i][0].test(link.href)) return REFERENCE_NAMES[i][1];
     }
-    /* Fall back to the README's own label, minus the module name it usually repeats. */
     return String(link.label || link.href).replace(/\s*module\s*/i, ' ').replace(/\s+/g, ' ').trim();
   }
 
-  /* Same URL twice under two labels is common — the README links GitHub in Documentation and again in
-     References. First occurrence wins, and the generic name makes duplicates visible. */
+  /* Same URL twice under two labels is common — a README links GitHub in Documentation and again in
+     References. First occurrence wins. */
   function referenceLinks(list) {
     var seen = {}, out = [];
     list.forEach(function (l) {
@@ -1457,33 +1483,6 @@
     return out;
   }
 
-  /* A row of parsed facts. Deliberately plain: this is the half of the page no one wrote, and it
-     should look like a readout rather than like prose. */
-  function factRows(pairs) {
-    return el('div', { class: 'fact-grid' }, pairs.filter(Boolean).map(function (p) {
-      return el('div', { class: 'fact-row' },
-        el('span', { class: 'fact-key', text: p[0] }),
-        el('span', { class: 'fact-val' }, typeof p[1] === 'string' ? rich(p[1]) : p[1]));
-    }));
-  }
-
-  function depChipsFromProfile(profile) {
-    var req = (profile.facts.dependsOn || []).map(function (d) {
-      return el('span', { class: 'tag-chip', title: 'Required — ' + d.version, text: d.id.replace('VirtoCommerce.', '') });
-    });
-    var opt = (profile.facts.optionalDependencies || []).map(function (d) {
-      return el('span', { class: 'tag-chip is-optional', title: 'optional="true" in module.manifest — ' + d.version },
-        d.id.replace('VirtoCommerce.', ''), el('span', { class: 'opt-mark', text: 'opt' }));
-    });
-    if (!req.length && !opt.length) {
-      return el('p', { class: 'd-lead is-quiet' }, rich('Nothing — `<dependencies/>` is empty in `module.manifest`, so this module can be installed on any host.'));
-    }
-    return el('div', { class: 'tag-row is-left' }, req, opt);
-  }
-
-  /* The module page. Facts come from the profile and are labelled as parsed; the three audience
-     notes are authored and labelled as such. A module with no profile yet falls through to the
-     registry-only page below, which is honest about knowing less. */
   function renderModuleProfileDrawer(molecule, p) {
     var eyebrow = document.getElementById('drawer-eyebrow');
     eyebrow.textContent = '';
@@ -1521,16 +1520,13 @@
 
       (p.readme.keyFeatures || []).length ? block('Key features', list(p.readme.keyFeatures), true) : null,
 
-      /* A matched pair, half width each: they are read against one another, so they should be the
-         same size and side by side rather than a quarter-width column apiece. */
+      /* A matched pair, half width each: they are read against one another. */
       (n.reachForItWhen || []).length ? block('Reach for it when', list(n.reachForItWhen, 'good'), 'is-half') : null,
       (n.doNotReachForItWhen || []).length ? block('Do not reach for it when', list(n.doNotReachForItWhen, 'bad'), 'is-half') : null,
 
-
-      /* One readout for the whole module. Dependencies lead it: whether this module can be
-         deployed on its own is the first thing a solution architect needs, and it used to sit in a
-         separate block below the prose. Counts are gone from the rows — "4 — A, B, C, D" made the
-         reader check the arithmetic instead of reading the names. */
+      /* One readout for the whole module. Dependencies lead it: whether this module can be deployed
+         on its own is the first thing a solution architect needs. Counts are gone from the rows —
+         "4 — A, B, C, D" made the reader check arithmetic instead of reading names. */
       block('Module summary', factRows([
         ['Depends on', depChipsFromProfile(p)],
         (f.databaseProviders || []).length ? ['Databases', f.databaseProviders.join(' · ')] : null,
@@ -1540,8 +1536,6 @@
         /* Declared, not constructed: these are the events another module can subscribe to. */
         (f.declaredEvents || []).length ? ['Events it raises', f.declaredEvents.join(', ')]
           : ((f.domainEventsPublished || []).length ? ['Events it raises', f.domainEventsPublished.join(', ')] : null),
-        /* The events, not the count. A module that subscribes through IEventHandlerRegistrar picks
-           them at runtime instead, which is a different fact and says so. */
         (f.handledEvents || []).length ? ['Events handled', f.handledEvents.join(', ')]
           : (f.subscribesDynamically ? ['Events handled', 'chosen at runtime through `IEventHandlerRegistrar` — every domain event in the process is available'] : null),
         f.graphqlBuilderCount ? ['GraphQL', f.graphqlBuilderCount + ' schema builders'] : null,
@@ -1551,10 +1545,9 @@
 
       /* Paired with Reference below: two half-width blocks close the page on one row. */
       (n.owns || []).length ? block('EF Core entities', list(n.owns), 'is-half') : null,
+
       /* Source first, then documentation, then the how-tos. Every label is derived from its URL, so
-         the same kind of link is called the same thing on all 96 module pages. The marketing footer
-         every README carries — Home, Community, Blog, social — is dropped: it is not a reference to
-         this module, and it would bury the two links that are. */
+         the same kind of link is called the same thing on all 96 module pages. */
       block('Reference', docLinks(referenceLinks(
         [{ label: 'Source code on GitHub', href: p.repoUrl }]
           .concat((p.documentation && p.documentation.links) || [])
@@ -1577,8 +1570,10 @@
     var p = profileOf(molecule.moduleId);
     if (p) { renderModuleProfileDrawer(molecule, p); return; }
 
-    document.getElementById('drawer-eyebrow').textContent = '';
-    append(document.getElementById('drawer-eyebrow'), [
+    /* No profile yet: the registry still knows identity, release and dependencies. */
+    var eyebrow = document.getElementById('drawer-eyebrow');
+    eyebrow.textContent = '';
+    append(eyebrow, [
       el('span', { class: 'mol-group is-' + molecule.group, text: molecule.group }),
       el('span', { text: '· ' + molecule.moduleId }),
       el('span', { text: '· ' + molecule.version })
@@ -1588,32 +1583,219 @@
     var body = document.getElementById('drawer-body');
     clearDrawerBody(body);
 
-    /* The registry title is often just the module name again ("Catalog" / Catalog). A lead line
-       that repeats the heading is noise, so it is only drawn when it says something more. */
     if (molecule.sub && molecule.sub.toLowerCase() !== molecule.name.toLowerCase()) {
       append(body, el('p', { class: 'd-lead' }, rich(molecule.sub)));
     }
     append(body, el('div', { class: 'd-note' },
       el('strong', { class: 'd-note-label', text: 'From the registry' }),
       rich(' — identity, release and dependencies below are what `modules_v3.json` records for this' +
-           ' module. That part is verified; the write-up is not. Do not edit the list by hand — a' +
-           ' hand-maintained inventory is wrong within a month.')));
+           ' module. Run `node tools/module-profile.js ' + (molecule.repo || '').replace('https://github.com/VirtoCommerce/', '') +
+           ' --ref origin/dev` to profile it.')));
 
-    var count = (molecule.dependsOn || []).length;
     append(body, [
-      block('Depends on', dependencyChips(molecule),
-            count + (molecule.optional || []).length > 6 ? true : 'is-half'),
-      block('Repository', docLinks([
-        molecule.repo ? { label: molecule.repo.replace('https://github.com/VirtoCommerce/', '') + ' (GitHub)', href: molecule.repo } : null,
+      block('Depends on', el('div', { class: 'tag-row is-left' },
+        (molecule.dependsOn || []).map(function (name) { return el('span', { class: 'tag-chip', text: name }); }),
+        (molecule.optional || []).map(function (name) {
+          return el('span', { class: 'tag-chip is-optional' }, name, el('span', { class: 'opt-mark', text: 'opt' }));
+        })), true),
+      block('Reference', docLinks([
+        molecule.repo ? { label: 'Source code on GitHub', href: molecule.repo } : null,
         { label: 'Module registry entry', href: 'https://github.com/VirtoCommerce/vc-modules/blob/master/modules_v3.json' }
-      ].filter(Boolean)), 'is-half'),
-      pills('Atoms it rests on', (molecule.atoms || []).map(function (ref) {
-        var atom = byId(ATOMS, ref);
-        return atom ? el('button', { type: 'button', class: 'pill',
-          text: adoptionOf(atom.adoption).glyph + ' ' + atom.name,
-          onclick: function () { openHash('atom', atom.id, nodes.atoms[atom.id]); } }) : null;
-      }).filter(Boolean))
+      ].filter(Boolean)), 'is-half')
     ]);
+  }
+
+  function renderCellDrawer(cell) {
+    if (cell.id === 'custom') { renderCustomPbcDrawer(); return; }
+
+    var eyebrow = document.getElementById('drawer-eyebrow');
+    eyebrow.textContent = '';
+    append(eyebrow, [
+      el('span', { class: 'cell-split is-yes', text: 'Packaged Business Capability' }),
+      el('span', { text: '· ' + cell.moduleCount + ' modules' }),
+      cell.platformVersion ? el('span', { text: '· platform ' + cell.platformVersion }) : null
+    ].filter(Boolean));
+    document.getElementById('drawer-title').textContent = cell.name;
+
+    var body = document.getElementById('drawer-body');
+    clearDrawerBody(body);
+
+    append(body, el('p', { class: 'd-lead' }, rich(cell.sub || '')));
+
+    append(body, [
+      /* Virto's own words, in the order a reader needs them: what a PBC is, then what this one is for.
+         The provenance line at the foot of the page already says where the module list came from, so
+         nothing needs to say it up here. */
+      block('What a PBC is, and what this one is for', el('div', {},
+        el('p', { class: 'dg-cap' }, rich(cell.intro || '')),
+        cell.overview ? el('p', { class: 'dg-cap' }, rich('**' + cell.name + '.** ' + cell.overview)) : null
+      ), true),
+
+      block('Install it', el('div', {},
+        el('p', { class: 'dg-cap' }, rich('A PBC is a package manifest in `vc-modules/pbc`, installed with the ' +
+          'vc-build CLI. Versions in that file are ignored on this map — the tier documents composition, and a ' +
+          'pinned version goes stale long before the module set does.')),
+        snippetBlock({ lang: 'bash',
+          code: 'vc-build install -PackageManifestPath "' + cell.manifest + '"' })), true),
+
+      block('How a request travels', pbcSchema(cell.layers), true),
+
+      cell.unlisted && cell.unlisted.length
+        ? block('Named in the package but not in the registry', list(cell.unlisted.map(function (id) {
+            return '`' + id + '` — the package file is ahead of, or behind, the module registry';
+          })), 'is-half')
+        : null,
+
+      block('Reference', docLinks([
+        { label: 'Package manifest on GitHub', href: cell.manifestUrl },
+        { label: 'All PBC packages', href: 'https://github.com/VirtoCommerce/vc-modules/tree/master/pbc' },
+        { label: 'PBC overview in the docs', href: 'https://docs.virtocommerce.org/platform/developer-guide/Getting-Started/Installation-Guide/pbcs/' }
+      ]), 'is-half')
+    ]);
+
+    append(body, el('div', { class: 'd-meta' },
+      rich('Install with `vc-build install -PackageManifestPath ' + cell.manifest + '` · ' +
+           'generated from vc-modules master by `tools/build-cells.js`')));
+  }
+
+  /* ---------- build a custom PBC ----------
+     The readme offers "your idea here"; this is that, made clickable. State is a set of module ids,
+     the dependency graph is closed automatically, and the output is a manifest in the same shape as
+     the published packages. */
+  var customPick = {};
+
+  function pbcDependencyClosure(ids) {
+    /* Registry dependency names are short (`Catalog`), ids are long (`VirtoCommerce.Catalog`). */
+    var byShort = {};
+    MODULE_TILES.forEach(function (m) { byShort[m.moduleId.replace('VirtoCommerce.', '')] = m.moduleId; });
+
+    var chosen = {}, added = [];
+    ids.forEach(function (id) { chosen[id] = true; });
+    var changed = true;
+    while (changed) {
+      changed = false;
+      Object.keys(chosen).forEach(function (id) {
+        var tile = null;
+        for (var i = 0; i < MODULE_TILES.length; i++) if (MODULE_TILES[i].moduleId === id) { tile = MODULE_TILES[i]; break; }
+        (tile && tile.dependsOn || []).forEach(function (shortName) {
+          var dep = byShort[shortName];
+          if (dep && !chosen[dep]) { chosen[dep] = true; added.push(dep); changed = true; }
+        });
+      });
+    }
+    return { ids: Object.keys(chosen).sort(), added: added };
+  }
+
+  function customLayers(ids) {
+    var layers = { xapi: [], services: [], platform: [], integration: [], outbound: [] };
+    var famOf = window.VC_MODULE_FAMILY || {};
+    var OUTBOUND = { 'VirtoCommerce.EventBus': 1, 'VirtoCommerce.WebHooks': 1, 'VirtoCommerce.Notifications': 1 };
+    ids.forEach(function (id) {
+      var key = /^VirtoCommerce\.(Xapi|X[A-Z]|ProfileExperienceApiModule|MarketingExperienceApi|FileExperienceApi|SalesRep|UCP)/.test(id) ? 'xapi'
+        : OUTBOUND[id] ? 'outbound'
+        : famOf[id] === 'integrations' ? 'integration'
+        : famOf[id] === 'platform' ? 'platform'
+        : 'services';
+      layers[key].push(id);
+    });
+    return layers;
+  }
+
+  function renderCustomPbcDrawer() {
+    var eyebrow = document.getElementById('drawer-eyebrow');
+    eyebrow.textContent = '';
+    append(eyebrow, [el('span', { class: 'cell-split is-part', text: 'Build your own' }),
+                     el('span', { text: '· composition, not a published package' })]);
+    document.getElementById('drawer-title').textContent = 'Build custom PBC';
+
+    var body = document.getElementById('drawer-body');
+    clearDrawerBody(body);
+
+    append(body, el('p', { class: 'd-lead' },
+      rich('🔥 **Your idea here.** The readme offers to build a custom PBC for a business need; this is ' +
+           'that offer, made clickable. Start from a published capability or from nothing, add what the ' +
+           'business needs, and the package assembles itself — required dependencies are pulled in ' +
+           'automatically, because a package missing one does not install.')));
+
+    var schemaHost = el('div', {});
+    var summaryHost = el('div', {});
+    var manifestHost = el('div', {});
+
+    function redraw() {
+      var picked = Object.keys(customPick).filter(function (k) { return customPick[k]; });
+      var closed = pbcDependencyClosure(picked);
+
+      schemaHost.textContent = '';
+      append(schemaHost, pbcSchema(customLayers(closed.ids)));
+
+      summaryHost.textContent = '';
+      append(summaryHost, factRows([
+        ['Chosen', picked.length ? String(picked.length) + ' module(s)' : 'nothing yet — pick a capability below'],
+        closed.added.length ? ['Pulled in', closed.added.length + ' required dependency(ies): ' +
+          closed.added.map(function (id) { return '`' + id.replace('VirtoCommerce.', '') + '`'; }).join(' ')] : null,
+        ['Package size', String(closed.ids.length) + ' modules in total']
+      ]));
+
+      manifestHost.textContent = '';
+      var manifest = '{\n  "ManifestVersion": "2.0",\n  "PlatformVersion": "' +
+        (META.platformVersion || '3.1058.0') + '",\n  "Modules": [\n' +
+        closed.ids.map(function (id) { return '    { "Id": "' + id + '" }'; }).join(',\n') +
+        '\n  ]\n}';
+      append(manifestHost, snippetBlock({ lang: 'json', code: manifest }));
+    }
+
+    /* Preset buttons: start from a published PBC rather than from an empty page, which is how a real
+       custom package begins. */
+    var presets = el('div', { class: 'pbc-presets' }, CELLS.map(function (c) {
+      return el('button', { type: 'button', class: 'chip', text: c.name,
+        title: 'Start from ' + c.name + ' (' + c.moduleCount + ' modules)',
+        onclick: function () {
+          customPick = {};
+          (c.modules || []).forEach(function (id) { customPick[id] = true; });
+          renderCustomPbcDrawer();
+        } });
+    }).concat([
+      el('button', { type: 'button', class: 'chip', text: 'Clear',
+        onclick: function () { customPick = {}; renderCustomPbcDrawer(); } })
+    ]));
+
+    /* The picker, grouped by the same families as the Molecules tier. */
+    var famOrder = window.VC_MODULE_FAMILY_ORDER || [];
+    var famOf = window.VC_MODULE_FAMILY || {};
+    var picker = el('div', { class: 'pbc-picker' }, famOrder.map(function (g) {
+      var members = MODULE_TILES.filter(function (m) { return famOf[m.moduleId] === g.id; });
+      if (!members.length) return null;
+      return el('div', { class: 'pbc-picker-group' },
+        el('div', { class: 'pbc-picker-head', style: g.hex ? '--accent:' + g.hex : null },
+          el('span', { class: 'mol-family-swatch', 'aria-hidden': 'true' }),
+          el('span', { class: 'mol-family-name', text: g.name })),
+        el('div', { class: 'pbc-picker-body' }, members.map(function (m) {
+          var id = m.moduleId;
+          var label = el('label', { class: 'pbc-pick' + (customPick[id] ? ' is-on' : ''),
+                                    style: MODULE_ACCENTS[id] ? '--accent:' + MODULE_ACCENTS[id] : null,
+                                    title: id });
+          var box = el('input', { type: 'checkbox' });
+          box.checked = !!customPick[id];
+          box.addEventListener('change', function () {
+            customPick[id] = box.checked;
+            label.classList.toggle('is-on', box.checked);
+            redraw();
+          });
+          append(label, [box, MODULE_ACCENTS[id] ? moduleIcon(id, 18) : null,
+                         el('span', { class: 'pbc-pick-name', text: m.name })]);
+          return label;
+        })));
+    }).filter(Boolean));
+
+    append(body, [
+      block('Start from', presets, true),
+      block('What it becomes', schemaHost, true),
+      block('Package', summaryHost, 'is-half'),
+      block('Manifest for vc-build', manifestHost, true),
+      block('Pick capabilities', picker, true)
+    ]);
+
+    redraw();
   }
 
   function renderMoleculeDrawer(molecule) {
@@ -1667,7 +1849,7 @@
        already pasted goes dead; the address bar then shows the id form. */
     var item = kind === 'atom' ? byId(ATOMS, id)
       : kind === 'layer' ? byId(LAYERS, id)
-      : kind === 'cell' ? byId(CELLS, id)
+      : kind === 'cell' ? (byId(CELLS, id) || (id === CUSTOM_PBC.id ? CUSTOM_PBC : null))
       : byId(MOLECULES, id) || (function () {
           for (var i = 0; i < MOLECULES.length; i++) {
             if (MOLECULES[i].slug === id) return MOLECULES[i];
