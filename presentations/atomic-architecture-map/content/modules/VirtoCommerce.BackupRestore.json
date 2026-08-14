@@ -150,12 +150,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Taking a copy of the platform's data and putting it back — for migrations, environments and recovery drills.",
+  "forArchitect": "One dependency, no schema of its own, six permissions. It orchestrates each module's own export and import, which is why a module that does not participate is silently missing from a backup.",
+  "forDeveloper": "Implement the backup contract in your module or its data will not be in the archive. Restores are destructive by nature — the permissions exist for that reason.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Data must move between environments",
+   "A recovery drill has to be rehearsed rather than assumed",
+   "A module's data should be part of the platform's archive"
+  ],
+  "doNotReachForItWhen": [
+   "Database-level backups already cover the requirement",
+   "You need point-in-time recovery: that is the database's job",
+   "The data is files in blob storage — those are not in the database archive"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

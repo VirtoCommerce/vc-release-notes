@@ -236,12 +236,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Building storefront pages from blocks by dragging, so marketing composes layouts without a developer.",
+  "forArchitect": "The heaviest content module: five entities, 18 migrations, six required dependencies and one optional, with five declared events and eight permissions. Version 3.1022.0 — among the most actively released in the catalogue.",
+  "forDeveloper": "Blocks are the extension point: register a block type with its schema and it appears in the editor. Rendering is the storefront's job, so a new block needs both halves to ship together.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Marketing must compose pages without a release",
+   "Layouts vary per campaign or per store",
+   "A design system should be exposed as blocks"
+  ],
+  "doNotReachForItWhen": [
+   "A single static page — Content is lighter",
+   "The storefront cannot render new block types: both halves are needed",
+   "An external CMS already owns page composition"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

@@ -101,12 +101,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Session recording and heatmaps, so someone can watch how shoppers actually behave.",
+  "forArchitect": "A thin bridge: one dependency, three settings, no storage. Its footprint is a script on the storefront, which makes it a privacy decision more than an architectural one.",
+  "forDeveloper": "Recording sessions captures whatever is on screen — mask fields before enabling it, and treat this as personal-data processing.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "UX questions need observation rather than numbers",
+   "A funnel drop-off has no obvious cause",
+   "Marketing wants heatmaps"
+  ],
+  "doNotReachForItWhen": [
+   "Consent and masking have not been designed",
+   "You need aggregate metrics — analytics is cheaper and less invasive",
+   "The question is server-side: this sees only the browser"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

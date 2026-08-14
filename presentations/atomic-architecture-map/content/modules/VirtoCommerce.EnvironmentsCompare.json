@@ -147,12 +147,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Comparing two environments to see what differs — settings, modules, configuration — before a release goes wrong.",
+  "forArchitect": "One dependency, no storage, two permissions. A diagnostic tool rather than a capability, and one of the few modules whose value is entirely in a back-office screen.",
+  "forDeveloper": "Useful in the moment a deployment misbehaves and everyone believes the environments are identical. It reads; it changes nothing.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Staging and production behave differently and nobody knows why",
+   "A release checklist should include a configuration diff",
+   "Module versions across environments need verifying"
+  ],
+  "doNotReachForItWhen": [
+   "You need the data compared — this is configuration, not content",
+   "Configuration is already managed centrally and versioned",
+   "You expect it to fix the difference: it reports"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

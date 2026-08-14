@@ -131,12 +131,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "News and announcement articles, with their own publishing dates and categories.",
+  "forArchitect": "Five entities and 12 migrations over one dependency, plus four GraphQL builders — it serves the storefront directly rather than through Content. That independence is why it can be installed on a content Cell alone.",
+  "forDeveloper": "Two declared events for downstream automation. Its own schema means articles are relational and queryable, unlike Content's blob-backed pages — choose accordingly.",
+  "owns": [
+   "NewsArticleEntity"
+  ],
+  "reachForItWhen": [
+   "Editorial articles need dates, categories and their own lifecycle",
+   "A storefront queries news through GraphQL",
+   "News must be searchable and paged like data, not like files"
+  ],
+  "doNotReachForItWhen": [
+   "A one-off landing page — that is Content",
+   "You need a full CMS with layouts: Page Builder or an external CMS",
+   "Articles come from an external system that owns them"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

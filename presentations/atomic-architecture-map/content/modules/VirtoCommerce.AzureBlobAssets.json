@@ -112,12 +112,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "File storage in Azure Blob Storage, so images and documents live in the cloud rather than on a disk.",
+  "forArchitect": "The Assets adapter for clustered deployments: shared storage is what lets several instances serve the same files. One dependency, no schema, configuration only.",
+  "forDeveloper": "Go through the blob abstraction, not the Azure SDK, or your module stops working on the file-system provider. CDN in front of the container is the usual pairing.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "The deployment has more than one instance and files must be shared",
+   "Storage should scale and be backed up independently of the database",
+   "A CDN will serve assets"
+  ],
+  "doNotReachForItWhen": [
+   "A single-instance developer setup — the file-system provider is simpler",
+   "You are writing to the container directly from module code",
+   "Files must be transactional with database writes: they are not"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

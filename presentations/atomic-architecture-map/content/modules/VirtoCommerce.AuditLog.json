@@ -126,12 +126,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "A record of who changed what and when, for the changes a business must be able to explain.",
+  "forArchitect": "Three entities and nine migrations over one dependency, with five permissions. It is separate from the platform's change log because an audit trail has different retention and access rules from a developer-facing diff.",
+  "forDeveloper": "Two declared events. Volume is the design problem: decide what is audited and for how long before enabling it broadly, because everything is cheap to record and expensive to keep.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Compliance or a customer contract requires an audit trail",
+   "Disputes about who changed a price or an order must be settled",
+   "Access to sensitive data needs recording"
+  ],
+  "doNotReachForItWhen": [
+   "Debugging a data problem — the change log is closer to the code",
+   "You need operational telemetry: that is Application Insights",
+   "Retention is undecided: audit data grows without limit"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

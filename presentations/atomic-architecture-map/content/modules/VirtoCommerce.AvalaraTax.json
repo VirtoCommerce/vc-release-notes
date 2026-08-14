@@ -158,12 +158,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Tax calculated by Avalara, with real jurisdictions, exemptions and filing-grade rates.",
+  "forArchitect": "A Tax adapter, and the heaviest of the provider modules here — six dependencies and six settings — because a tax call needs the address, the line items and the customer's exemption status.",
+  "forDeveloper": "Every quote is a remote call on the totals path: cache aggressively and design for the service being slow or down. Address validation is part of the value, not a side effect.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Tax must be correct across jurisdictions rather than approximated",
+   "Filing or exemption certificates are in scope",
+   "Rates change often enough that maintaining them yourself is a liability"
+  ],
+  "doNotReachForItWhen": [
+   "A single flat rate is genuinely enough — the fixed-rate provider is free and instant",
+   "The deployment cannot tolerate a remote call in checkout without a fallback",
+   "You need the tax that was charged: read the order"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

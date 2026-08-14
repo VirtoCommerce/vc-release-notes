@@ -214,12 +214,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Points, tiers and rewards: what a customer earns by buying and what they can spend it on.",
+  "forArchitect": "Four entities, 12 migrations, five dependencies and two GraphQL builders — a self-contained capability with six declared events, the most of any extension here, because every accrual and redemption is something another system wants to hear about.",
+  "forDeveloper": "Balances are data you own; accrual rules are the part to extend. Subscribe to its events rather than polling balances, and treat redemption as a transaction that can fail after the order is placed.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "The business rewards repeat purchase and wants it modelled, not improvised",
+   "Points or tiers affect what a customer pays or sees",
+   "Loyalty data must be visible to the storefront"
+  ],
+  "doNotReachForItWhen": [
+   "A single discount would do — that is a promotion",
+   "You need the money side: loyalty is a parallel currency, not a payment method",
+   "An external loyalty platform is the system of record: then integrate, do not duplicate"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

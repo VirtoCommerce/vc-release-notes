@@ -184,12 +184,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Running several brands from one installation, each with its own logo, colours and identity.",
+  "forArchitect": "One entity and nine migrations over five dependencies, with one GraphQL builder so the storefront can ask which brand it is serving. It layers on Store's multi-store model rather than replacing it.",
+  "forDeveloper": "Two declared events cover branding changes. Treat the storefront as the consumer: the module supplies values, the theme decides what to do with them.",
+  "owns": [
+   "WhiteLabelingSettingEntity"
+  ],
+  "reachForItWhen": [
+   "One platform must serve several brands or customer-specific portals",
+   "B2B customers expect their own look",
+   "Branding should be data, not a deployed theme per brand"
+  ],
+  "doNotReachForItWhen": [
+   "A single brand — Store settings and a theme are enough",
+   "The requirement is different content, not different branding: that is Content per store",
+   "Brands need separate data: that is a separate store, or a separate installation"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

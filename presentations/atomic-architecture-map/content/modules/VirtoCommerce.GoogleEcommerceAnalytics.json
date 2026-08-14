@@ -123,12 +123,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Sends storefront and purchase events to Google Analytics 4 so marketing can measure the funnel.",
+  "forArchitect": "The one module in the catalogue at major version 4, tracking GA4 rather than the platform's own numbering. One dependency, four settings, no schema — it is a bridge.",
+  "forDeveloper": "Events fire from the storefront, so what GA sees depends on the frontend implementation as much as on this module. Consent handling is yours to get right.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "The business measures conversion in GA4",
+   "Marketing needs funnel and revenue reporting",
+   "Campaign attribution matters"
+  ],
+  "doNotReachForItWhen": [
+   "Operational monitoring — that is Application Insights or OpenTelemetry",
+   "You need exact financial figures: the order data is authoritative, analytics is sampled",
+   "Consent has not been designed: this ships personal data to a third party"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

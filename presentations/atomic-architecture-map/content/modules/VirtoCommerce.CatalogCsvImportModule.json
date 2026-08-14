@@ -165,12 +165,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Bulk product loading and extraction through CSV files, with a mapping a merchandiser can save.",
+  "forArchitect": "No storage of its own — six dependencies and two settings, working through Catalog and the platform's file handling. Catalog-specific where the generic Import module is not.",
+  "forDeveloper": "The write path is the expensive part: every row publishes events, so suppress them or turn event-based indexation off and reindex once. Read the Suppress events atom before a large load.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Product data arrives as spreadsheets, which it usually does",
+   "A merchandiser needs to load or extract catalogue data without a developer",
+   "The mapping is reused between loads"
+  ],
+  "doNotReachForItWhen": [
+   "A system can call the API — files are for people",
+   "The data is not catalogue data: use the generic Import module",
+   "You are loading a whole catalogue for the first time without planning the indexation cost"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

@@ -107,12 +107,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Signing in with a Google account.",
+  "forArchitect": "The same authentication-adapter shape as the Entra ID module: no dependencies, no storage, configuration only.",
+  "forDeveloper": "Restrict to your workspace domain unless you genuinely want any Google account to reach the login screen.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Users must sign in with an identity your organisation already owns",
+   "You need to stop managing passwords in the platform",
+   "A B2B customer requires their own directory"
+  ],
+  "doNotReachForItWhen": [
+   "Authorisation questions — this only proves who someone is",
+   "Storefront customer accounts, unless the business really wants a corporate directory for shoppers",
+   "You expect roles to arrive automatically: mapping is configuration you must do"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

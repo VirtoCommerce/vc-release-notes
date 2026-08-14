@@ -139,12 +139,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Content authored in Contentful and delivered to a Virto storefront.",
+  "forArchitect": "A CMS bridge with two entities and no migrations over four dependencies and one optional. The registry has no ProjectUrl for it, so its repository link is derived rather than read.",
+  "forDeveloper": "Content stays in Contentful; this module maps and fetches. Cache deliberately — an editor expects changes to appear, and the CMS bills per request.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Editorial teams already work in Contentful",
+   "Content must be shared with channels beyond commerce",
+   "The CMS is the system of record and should stay that way"
+  ],
+  "doNotReachForItWhen": [
+   "Content is only used by this storefront — the Content module is simpler",
+   "You expect commerce data to live in the CMS: it should not",
+   "Offline or air-gapped deployments"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

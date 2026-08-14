@@ -143,12 +143,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Operational telemetry in Azure Monitor: requests, dependencies, failures and traces from a running instance.",
+  "forArchitect": "No dependencies, three settings, no schema — configuration that turns on the Azure SDK. Xapi even registers a telemetry processor to keep plain GraphQL POSTs from flooding it, which tells you how much traffic this sees.",
+  "forDeveloper": "Sampling and cost are the design decisions. Correlate by operation id across hosts; without that a scaled-out deployment produces telemetry you cannot join.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "You need to see what a deployed instance is doing",
+   "An incident needs traces or metrics that survive a restart",
+   "The hosting platform already collects this format"
+  ],
+  "doNotReachForItWhen": [
+   "Business reporting — this is operational telemetry, not analytics",
+   "You want an audit trail of who changed what: that is Audit Log",
+   "Adding several collectors for the same signal, which doubles cost for one answer"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

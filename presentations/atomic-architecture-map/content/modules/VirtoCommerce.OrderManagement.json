@@ -152,12 +152,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "The back-office workspace for handling orders — the queues, filters and actions a service agent uses all day.",
+  "forArchitect": "No storage and no schema: three dependencies and an optional fourth, five permissions, and a back office UI. It is a presentation layer over Orders, which is why it can be installed and removed without touching data.",
+  "forDeveloper": "Extend the workspace rather than the order document when the requirement is 'the agent needs to see X'. Nothing here is authoritative — a wrong value is Orders' to fix.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Agents work orders in bulk and need a purpose-built screen",
+   "The default order UI does not match how the team operates",
+   "You want to add actions without changing the order model"
+  ],
+  "doNotReachForItWhen": [
+   "The data model needs changing — that is Orders",
+   "A storefront needs order data: that is XOrder",
+   "You expect it to hold state: it holds none"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

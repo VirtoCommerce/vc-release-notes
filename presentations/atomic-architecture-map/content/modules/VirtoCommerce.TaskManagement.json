@@ -179,12 +179,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Work assigned to people inside the platform — tasks with owners, due dates and completion.",
+  "forArchitect": "Two entities and eight migrations over three dependencies, with four declared events, one GraphQL builder and seven permissions. Notifications is in its dependency chain because a task nobody is told about is not a task.",
+  "forDeveloper": "Four events make assignment and completion subscribable — the hook for escalation. Model your own workflow's human steps as tasks rather than as statuses on a document.",
+  "owns": [
+   "WorkTaskEntity"
+  ],
+  "reachForItWhen": [
+   "A process needs a human step that must not be forgotten",
+   "Approvals or reviews should be tracked and chased",
+   "Work has to be assigned and reported on"
+  ],
+  "doNotReachForItWhen": [
+   "The step is automatic — that is a job or an event handler",
+   "You need a full BPM engine with parallel branches",
+   "Tasks would duplicate a system the team already uses"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

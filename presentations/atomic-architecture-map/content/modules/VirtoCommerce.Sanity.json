@@ -103,12 +103,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Content authored in Sanity, delivered to a Virto storefront.",
+  "forArchitect": "The third CMS bridge: no storage, one dependency plus one optional, five permissions. Three bridges exist because content ownership is a business decision, not a technical one.",
+  "forDeveloper": "Sanity's GROQ queries and schema live in Sanity; keep the mapping thin so a CMS change does not become a platform release.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Sanity is the content system of record",
+   "Editors need structured content with their own workflow",
+   "Content serves more channels than commerce"
+  ],
+  "doNotReachForItWhen": [
+   "Only this storefront consumes the content",
+   "You are choosing a CMS: this module assumes the choice is made",
+   "Commerce data would end up duplicated in the CMS"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

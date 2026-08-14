@@ -160,12 +160,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "A completeness check before products go live: which required fields, images or prices are missing, per channel.",
+  "forArchitect": "Five entities and 11 migrations over two dependencies, with two index builders — completeness is evaluated in bulk and projected, not computed on a page. No settings: the rules are data.",
+  "forDeveloper": "Define evaluators for your own completeness rules. Because results are indexed, a rule change means re-evaluation; treat it as a batch job, not a validation hook.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Merchandisers must know what is not ready to publish",
+   "Different channels have different minimum data requirements",
+   "Data quality needs a number attached to it"
+  ],
+  "doNotReachForItWhen": [
+   "You need hard validation at save time — that is a changing-event handler",
+   "One channel with obvious rules: a report may be cheaper",
+   "You expect it to fix data: it measures"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

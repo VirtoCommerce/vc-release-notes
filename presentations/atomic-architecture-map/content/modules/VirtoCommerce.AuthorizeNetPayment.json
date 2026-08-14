@@ -134,12 +134,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Card payments through Authorize.Net.",
+  "forArchitect": "A Payment adapter: no schema, five settings carrying credentials and mode. The gateway holds the card data, which keeps PCI scope out of the platform.",
+  "forDeveloper": "Test with the gateway's sandbox credentials; the settings switch environments. Capture and refund semantics are the gateway's, so read its docs before promising a flow.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "This gateway is the one the business has a contract with",
+   "A store needs a payment method that gateway offers",
+   "Card data must stay out of your own scope"
+  ],
+  "doNotReachForItWhen": [
+   "You need the payment record — that is the order's payment document",
+   "The requirement is a new method type rather than a gateway — extend Payment instead",
+   "Two gateways for the same method on one store: choose per store, not per request"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

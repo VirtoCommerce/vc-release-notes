@@ -188,12 +188,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Negotiated terms for a customer or organisation — agreed prices, validity dates, and who they apply to. The standing agreement behind B2B pricing.",
+  "forArchitect": "Three entities, 14 migrations, four dependencies and two GraphQL builders. It sits between Customer and Pricing: the contract decides which price list applies, so it is a pricing input rather than a price store.",
+  "forDeveloper": "Two declared events make contract changes subscribable — the hook for invalidating cached prices. Read Pricing's assignment model before extending: a contract is another way to select a price list, not a second pricing engine.",
+  "owns": [
+   "ContractEntity"
+  ],
+  "reachForItWhen": [
+   "Different customers pay agreed rather than published prices",
+   "Terms have validity periods that must be enforced",
+   "A B2B account expects its own catalogue and pricing"
+  ],
+  "doNotReachForItWhen": [
+   "A promotion would do — that is Marketing, and it is simpler",
+   "You need the price itself: contracts select, Pricing evaluates",
+   "Consumer retail, where one public price list is the rule"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

@@ -132,12 +132,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Shipping rates and labels through ShipStation.",
+  "forArchitect": "A Shipping adapter with two permissions and no settings of its own — configuration lives with the shipping method it registers.",
+  "forDeveloper": "Rates come from the carrier at quote time, so treat them as remote and cache them per basket shape; label creation belongs after the order exists, not during checkout.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Carrier rates must be live rather than fixed",
+   "Labels and fulfilment are handled outside the platform",
+   "The business already runs ShipStation"
+  ],
+  "doNotReachForItWhen": [
+   "Fixed or free shipping — the built-in method is simpler",
+   "You need warehouse stock: that is Inventory",
+   "Tracking history: the carrier owns it"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

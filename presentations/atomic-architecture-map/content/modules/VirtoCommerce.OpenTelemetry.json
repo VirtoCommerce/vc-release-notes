@@ -69,12 +69,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Traces and metrics in the vendor-neutral OpenTelemetry format, for whichever backend you run.",
+  "forArchitect": "No dependencies and no settings: it wires the standard SDK and lets the collector decide where data goes. The portable alternative to a vendor agent.",
+  "forDeveloper": "Instrument spans in your own module through the standard API and they appear alongside the platform's. Exporter configuration is environment, not code.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "You need to see what a deployed instance is doing",
+   "An incident needs traces or metrics that survive a restart",
+   "The hosting platform already collects this format"
+  ],
+  "doNotReachForItWhen": [
+   "Business reporting — this is operational telemetry, not analytics",
+   "You want an audit trail of who changed what: that is Audit Log",
+   "Adding several collectors for the same signal, which doubles cost for one answer"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

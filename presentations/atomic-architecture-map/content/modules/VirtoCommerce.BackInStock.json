@@ -203,12 +203,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "\"Tell me when it is available again\" — shoppers subscribe to an out-of-stock product and are mailed when it returns.",
+  "forArchitect": "One entity and nine migrations over seven dependencies, because the notification path needs inventory, catalog, customer, store and notifications together. One GraphQL builder for the storefront subscribe action.",
+  "forDeveloper": "It reacts to stock changes rather than polling, and the send is a background job — so a host without a worker collects subscriptions and never mails them. Two declared events for downstream automation.",
+  "owns": [
+   "BackInStockSubscriptionEntity"
+  ],
+  "reachForItWhen": [
+   "Stock-outs cost sales and the business wants the demand signal",
+   "Shoppers should be told rather than left to check",
+   "Waiting-list demand is worth reporting on"
+  ],
+  "doNotReachForItWhen": [
+   "Inventory is never short — the feature has nothing to do",
+   "You want a general newsletter: that is marketing, not this",
+   "There is no background worker in the deployment"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

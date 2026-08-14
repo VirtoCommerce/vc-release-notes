@@ -195,12 +195,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "In-app messages and alerts for back-office users — the notifications that appear inside the application rather than in an inbox.",
+  "forArchitect": "Four entities, 18 migrations, six declared events and three GraphQL builders over two dependencies. Seven settings, and its own storage because a message must survive until it is read.",
+  "forDeveloper": "SignalR delivers it, so a scaled-out deployment needs the backplane — the same requirement the platform's push notification atom describes. Six events make read state subscribable.",
+  "owns": [
+   "PushMessageEntity"
+  ],
+  "reachForItWhen": [
+   "Users inside the application must be told something now",
+   "A long job's completion should reach whoever started it",
+   "Messages need to persist until acknowledged"
+  ],
+  "doNotReachForItWhen": [
+   "The recipient is outside the platform — that is Notifications or a webhook",
+   "You have no SignalR backplane and more than one instance",
+   "Transient UI feedback: that is the front end's own concern"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

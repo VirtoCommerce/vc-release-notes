@@ -154,12 +154,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "The search engine behind product listings and filters, on Elasticsearch 8.",
+  "forArchitect": "A Search adapter: one dependency, no schema. Twelve settings — the largest configuration surface of any provider here — which is where analysers, certificates and connection details live.",
+  "forDeveloper": "Provider selection is configuration; your code talks to Search's abstractions. Check the settings before blaming the index: analyser choices change results more than document builders do.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "This engine is the one your infrastructure already runs or your hosting provides",
+   "Search behaviour or scale has outgrown the current provider",
+   "You need the provider's own features — synonyms, analysers, vector search"
+  ],
+  "doNotReachForItWhen": [
+   "Two providers at once: the platform binds one at a time",
+   "You want to change what is indexed — that is the owning module's document builder",
+   "The problem is stale results: that is indexation, not the engine"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

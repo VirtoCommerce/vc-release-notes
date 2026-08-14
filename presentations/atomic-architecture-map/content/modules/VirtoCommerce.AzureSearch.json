@@ -133,12 +133,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Search served by Azure AI Search instead of a self-hosted engine.",
+  "forArchitect": "A Search adapter with three settings — the managed-service trade: less to operate, less to tune. Natural fit when the rest of the deployment is already Azure.",
+  "forDeveloper": "Index definitions come from the platform's document builders; the service's own tuning knobs are outside them. Watch service tier limits before a full reindex.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "This engine is the one your infrastructure already runs or your hosting provides",
+   "Search behaviour or scale has outgrown the current provider",
+   "You need the provider's own features — synonyms, analysers, vector search"
+  ],
+  "doNotReachForItWhen": [
+   "Two providers at once: the platform binds one at a time",
+   "You want to change what is indexed — that is the owning module's document builder",
+   "The problem is stale results: that is indexation, not the engine"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

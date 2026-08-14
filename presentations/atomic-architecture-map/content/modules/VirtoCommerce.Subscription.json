@@ -199,12 +199,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Recurring orders: a shopper subscribes, and the platform places the repeat orders on schedule.",
+  "forArchitect": "Two entities and 11 migrations over five dependencies, with nine settings — the schedule, retry and numbering behaviour is configuration. Four declared events, because a subscription's lifecycle is what other systems care about.",
+  "forDeveloper": "The recurring run is a background job, so a subscription host needs a worker. Failures are a business flow, not an exception: read the settings for retry and dunning behaviour before writing your own.",
+  "owns": [
+   "SubscriptionEntity"
+  ],
+  "reachForItWhen": [
+   "Revenue is recurring — replenishment, service plans, memberships",
+   "Orders must be created without the customer returning",
+   "A subscription's pause, resume and cancel need to be modelled"
+  ],
+  "doNotReachForItWhen": [
+   "A one-off order with a reminder is enough",
+   "Payment authorisation cannot be stored: recurring charges need a gateway that supports it",
+   "You are on a request-only host with no background worker"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

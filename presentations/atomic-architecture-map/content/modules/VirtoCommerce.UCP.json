@@ -203,12 +203,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "A standard protocol front door — Universal Commerce Protocol — so external agents and marketplaces can discover, browse, and buy without a bespoke integration.",
+  "forArchitect": "A protocol adapter with **no storage and no schema**: six required dependencies (Xapi, XCatalog, XCart, Store, Orders, Marketing) and seven controllers that translate UCP calls into in-process XAPI calls — no extra HTTP hop. It also exposes an MCP endpoint at `/ucp/mcp`, which is how an AI agent talks to it. Public endpoints are published without the `/api` prefix.",
+  "forDeveloper": "It composes; it owns nothing. Fix wrong data in the module that owns it. Read the README before assuming coverage — it is a Preview, and the protocol surface is narrower than the platform's own.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "An external agent or marketplace must transact without a custom integration",
+   "You want an MCP endpoint for AI clients over commerce capabilities",
+   "A standard protocol is a procurement requirement"
+  ],
+  "doNotReachForItWhen": [
+   "Your own storefront is the client — XAPI is richer and closer",
+   "You need a capability UCP does not cover yet",
+   "Production certainty: it is a preview module"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

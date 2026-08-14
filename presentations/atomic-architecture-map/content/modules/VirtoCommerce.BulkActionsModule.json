@@ -136,12 +136,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Doing the same thing to many records at once from the back office — recategorise, change properties, publish.",
+  "forArchitect": "One dependency, no storage, two permissions: it is an infrastructure module that other modules register actions with, which is why Catalog lists it as an *optional* dependency rather than a required one.",
+  "forDeveloper": "Register a bulk action instead of writing a loop in a controller — you inherit progress reporting and the job pipeline. The actions run in the background, so they need a worker.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "An operator must change hundreds of records without a script",
+   "Your module has an operation that should be applicable in bulk",
+   "Progress and cancellation matter to the person waiting"
+  ],
+  "doNotReachForItWhen": [
+   "A one-off data fix — a migration or a query is more honest",
+   "The change is a rule that should apply automatically",
+   "There is no background worker to run the job"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

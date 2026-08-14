@@ -180,12 +180,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Simple content pages managed alongside the catalogue.",
+  "forArchitect": "No storage at all and **five index document builders** over four dependencies — its value is making pages searchable next to products rather than storing them. That is an unusual shape: all read projection, no write model.",
+  "forDeveloper": "Because everything is projection, a content change becomes visible after indexation. If a page is missing from search, look at the job, not the data.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Pages should appear in site search beside products",
+   "Content lives in Content or an external CMS and must be findable",
+   "You need paging and filtering over pages"
+  ],
+  "doNotReachForItWhen": [
+   "You need to author pages — that is Content or Page Builder",
+   "Results must be instant: this is index-backed",
+   "There is nothing to index yet"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

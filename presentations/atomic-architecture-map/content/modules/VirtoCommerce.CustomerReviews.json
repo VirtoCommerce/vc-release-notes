@@ -247,12 +247,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Ratings and written reviews on products, with moderation before they appear.",
+  "forArchitect": "Ten required dependencies — surprising for a review module, and the reason is that a review touches catalog, customer, order (verified purchase) and notifications. Four entities, ten settings for moderation and rating rules, two GraphQL builders for the storefront.",
+  "forDeveloper": "Three declared events cover submission and moderation, which is where notification and recalculation hang. Aggregate ratings are derived — decide deliberately whether they are computed live or projected into the index.",
+  "owns": [
+   "CustomerReviewEntity"
+  ],
+  "reachForItWhen": [
+   "Social proof is a requirement and moderation is not optional",
+   "Reviews must be tied to verified purchases",
+   "Ratings should be filterable on the storefront"
+  ],
+  "doNotReachForItWhen": [
+   "You only need a star field on a product — that is a catalog property",
+   "Reviews live in an external service that owns moderation",
+   "The host must stay small: ten dependencies say otherwise"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

@@ -132,12 +132,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "The data-protection obligations: exporting everything held about a person, and deleting it on request.",
+  "forArchitect": "Two dependencies, no storage and three permissions — it orchestrates other modules rather than holding personal data itself. That is the only design that can work, because personal data is spread across customer, order, cart and review data.",
+  "forDeveloper": "Extend it when your module stores personal data: if it does not know about your table, your table will be missed by a subject access request. Deletion has to reconcile with records that must be kept for tax or audit.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Subject access or erasure requests must be answerable",
+   "A module you wrote stores personal data",
+   "Compliance needs evidence that a request was fulfilled"
+  ],
+  "doNotReachForItWhen": [
+   "Anonymised analytics — no personal data, no obligation",
+   "You expect it to find data it was never told about",
+   "Retention rules are undecided: erasure and record-keeping conflict without them"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

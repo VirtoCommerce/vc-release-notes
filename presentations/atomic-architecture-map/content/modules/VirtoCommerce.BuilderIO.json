@@ -166,12 +166,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Visual page building in Builder.io, with the result rendered by the Virto storefront.",
+  "forArchitect": "A CMS bridge: no storage, two dependencies plus one optional, two settings and four permissions. Its name in the registry — \"Builder.io\" — is one of the few titles that is already correct.",
+  "forDeveloper": "Pages come from Builder.io's API; the storefront renders their component tree. Component parity between the editor and the storefront is the integration work.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Marketing wants visual editing with live preview",
+   "Page composition should not require a release",
+   "The team already owns Builder.io"
+  ],
+  "doNotReachForItWhen": [
+   "Structured commerce data — that stays in the platform",
+   "The storefront cannot render Builder components yet",
+   "You need offline authoring"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

@@ -131,12 +131,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Application settings and feature flags kept in Azure App Configuration rather than in a file.",
+  "forArchitect": "No dependencies and no settings of its own: it adds a configuration source, so values arrive from the service before the platform reads them. Central configuration is what makes many instances behave identically.",
+  "forDeveloper": "Settings resolve at startup unless refresh is configured — decide deliberately whether a value may change under a running host. Secrets belong in a key vault, not here.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Several instances or environments must share one source of configuration",
+   "Feature flags should flip without a deployment",
+   "Configuration has to be audited or versioned centrally"
+  ],
+  "doNotReachForItWhen": [
+   "A single developer machine — appsettings is simpler",
+   "Storing secrets: use a key vault reference instead",
+   "Per-store business settings: those are platform settings, not app configuration"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

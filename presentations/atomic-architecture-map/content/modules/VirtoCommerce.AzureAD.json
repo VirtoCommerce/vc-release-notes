@@ -109,12 +109,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Signing in with a Microsoft Entra ID (Azure AD) account instead of a platform password.",
+  "forArchitect": "An authentication adapter with no dependencies, no schema and no settings — it is configured through the platform's authentication section. Back-office access is the usual case.",
+  "forDeveloper": "Claims must be mapped to platform roles; nothing arrives authorised. Test the group-to-role mapping before switching a team over.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Users must sign in with an identity your organisation already owns",
+   "You need to stop managing passwords in the platform",
+   "A B2B customer requires their own directory"
+  ],
+  "doNotReachForItWhen": [
+   "Authorisation questions — this only proves who someone is",
+   "Storefront customer accounts, unless the business really wants a corporate directory for shoppers",
+   "You expect roles to arrive automatically: mapping is configuration you must do"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

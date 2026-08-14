@@ -176,12 +176,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Thumbnails and image variants generated automatically, so one uploaded photo serves a grid, a gallery and a phone.",
+  "forArchitect": "Three entities and seven migrations over a single dependency (Assets), with four declared events. It reacts to blob changes, which is why an upload produces derivatives without anyone asking.",
+  "forDeveloper": "Generation is background work driven by asset events — a host without a worker will store originals and never produce variants. Five settings define the option sets; add a size there rather than in code.",
+  "owns": [
+   "ThumbnailOptionEntity"
+  ],
+  "reachForItWhen": [
+   "Product images need consistent sizes across a storefront",
+   "Bandwidth or Core Web Vitals matter",
+   "Editors should upload once and not think about formats"
+  ],
+  "doNotReachForItWhen": [
+   "A CDN already transforms images on the fly",
+   "You need the original: this module adds variants, it does not replace them",
+   "No background worker is deployed"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

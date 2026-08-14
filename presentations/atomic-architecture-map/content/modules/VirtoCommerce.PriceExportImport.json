@@ -145,12 +145,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Bulk price loading and extraction as files, per price list.",
+  "forArchitect": "No entities and no migrations — four dependencies and three settings. It is the price-shaped sibling of the catalog CSV module, and the module whose traffic pattern caused the reindex storms Pricing's notes warn about.",
+  "forDeveloper": "Every imported row raises `PriceChangedEvent`, and the pricing handler enqueues one index job per SKU. Turn `Pricing.Search.EventBasedIndexation.Enable` off for the load, then reindex once.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Prices arrive as spreadsheets from a supplier or an ERP",
+   "A price list must be replaced in bulk rather than edited",
+   "Someone non-technical owns the price file"
+  ],
+  "doNotReachForItWhen": [
+   "An integration can push prices through the API",
+   "You have not planned the indexation cost — this is the classic case that overwhelms it",
+   "The requirement is a rule, not a file: use pricing assignments"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

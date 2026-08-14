@@ -152,12 +152,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Bulk loading and extraction of contacts and organisations as files.",
+  "forArchitect": "No storage — three dependencies, four settings, working through Customer. The same shape as its catalog and price siblings, which is what makes bulk data management predictable across modules.",
+  "forDeveloper": "Member writes raise member events, and Customer feeds four index builders — so a large contact load carries the same indexation cost as a catalogue load. Plan it the same way.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Customer data is migrated from another system",
+   "Organisations and their members arrive as spreadsheets",
+   "An operator needs to extract contacts for a campaign or an audit"
+  ],
+  "doNotReachForItWhen": [
+   "An integration can use the API",
+   "Authentication accounts are the requirement — those are platform users, not members",
+   "Personal data may not leave the system: an export file is a data-protection decision"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

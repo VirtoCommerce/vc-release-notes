@@ -142,12 +142,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Saved SQL queries an administrator can run and export — reporting without a BI project.",
+  "forArchitect": "Two entities and six migrations, no dependencies, five permissions. Powerful and deliberately permissioned: it puts SQL in the back office, which is exactly as dangerous as it sounds.",
+  "forDeveloper": "Two declared events. Treat the permission as production-critical, use read-only credentials where possible, and remember queries bypass every module's caching and validation.",
+  "owns": [
+   "SqlQueryEntity"
+  ],
+  "reachForItWhen": [
+   "An ad-hoc question needs answering from data today",
+   "Reporting is not worth a BI pipeline yet",
+   "Support needs a repeatable diagnostic query"
+  ],
+  "doNotReachForItWhen": [
+   "Untrusted users could reach it — this is direct database access",
+   "The query belongs in an application feature: build the feature",
+   "The data lives across modules that own their own schemas: joins here couple you to them"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

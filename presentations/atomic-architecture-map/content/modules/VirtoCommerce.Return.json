@@ -153,12 +153,22 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Returns and refunds after the sale: what came back, why, and what the customer gets.",
+  "forArchitect": "Two entities and eight migrations over just two dependencies, which makes it lighter than its place in the order lifecycle suggests. Four settings carry the policy — windows and reasons — so a change of policy is not a release.",
+  "forDeveloper": "It raises two events for downstream systems; the money movement itself belongs to the order's refund document. Model the physical return and the financial refund as separate steps, because they fail independently.",
+  "owns": [
+   "ReturnEntity"
+  ],
+  "reachForItWhen": [
+   "Customers send goods back and expect money or credit",
+   "Return reasons and windows are business policy that changes",
+   "Warehouse and finance need separate signals"
+  ],
+  "doNotReachForItWhen": [
+   "You only need to cancel an unshipped order — that is an order status change",
+   "The refund is the whole requirement: Orders owns the payment document",
+   "Exchange logistics: that is a new order plus a return, not one document"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

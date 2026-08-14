@@ -235,12 +235,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Request for quote: a buyer asks for a price, a sales person answers, and an agreed quote becomes an order. The B2B negotiation step that B2C does not have.",
+  "forArchitect": "Thirteen required dependencies — the second most coupled module in the catalogue after Orders — because a quote spans catalog, pricing, cart, order, customer and notifications. Eight entities and 34 migrations of its own, plus three GraphQL builders, so it is a full capability rather than a hook.",
+  "forDeveloper": "A quote is its own document with its own status flow; do not model it as a cart with a flag. Three schema builders mean the storefront path is GraphQL, and one declared event is what downstream automation should subscribe to.",
+  "owns": [
+   "QuoteRequestEntity"
+  ],
+  "reachForItWhen": [
+   "Prices are negotiated rather than published",
+   "A sales person must approve or adjust before an order exists",
+   "B2B buyers expect a quote document they can circulate internally"
+  ],
+  "doNotReachForItWhen": [
+   "Prices are fixed — a cart plus a promotion is simpler",
+   "You need the sale itself: a quote converts into an order, and the order is authoritative",
+   "The host must stay small: thirteen dependencies make this a full commerce install"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

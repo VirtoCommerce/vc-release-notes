@@ -161,12 +161,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "A frozen copy of what a product looked like at a point in time — what the customer actually saw when they ordered.",
+  "forArchitect": "One entity and six migrations over three dependencies. It exists because Catalog is mutable and evidence must not be: this is the same instinct that makes an order line copy its price.",
+  "forDeveloper": "Two declared events mark snapshot creation. Snapshots grow without bound, so decide retention deliberately — nothing in the module will prune them for you.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Disputes need proof of what was displayed",
+   "Regulated products require a record of published claims",
+   "You must reconstruct a historical page"
+  ],
+  "doNotReachForItWhen": [
+   "Current product data is the question — read Catalog",
+   "You want change history of fields: that is the change log",
+   "Storage growth is unbudgeted"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

@@ -111,12 +111,19 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "File storage on the local disk of the server.",
+  "forArchitect": "The simplest Assets adapter and the reason a developer can run the platform with no cloud account. In a scaled-out deployment it is a trap: each instance sees its own disk.",
+  "forDeveloper": "Fine for local work and single-instance demos. The moment a second instance appears, move to blob storage — the abstraction means that is a configuration change.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Local development, CI, or a genuinely single-instance install",
+   "You want no external storage dependency"
+  ],
+  "doNotReachForItWhen": [
+   "Any deployment with more than one instance",
+   "Files must survive a container restart",
+   "You need a CDN in front of assets"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

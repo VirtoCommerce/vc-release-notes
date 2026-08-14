@@ -101,12 +101,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Housekeeping the platform needs done — maintenance operations run on demand or on a schedule.",
+  "forArchitect": "No dependencies, no entities, three migrations, one permission. Small on purpose: it is a place to put operations that would otherwise become scripts on somebody's laptop.",
+  "forDeveloper": "Register an operation rather than shipping a console app — it inherits scheduling, permissions and visibility in the back office.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A maintenance task must be runnable by an operator, not a developer",
+   "Cleanup should be scheduled and auditable",
+   "A script is about to be written that nobody will find again"
+  ],
+  "doNotReachForItWhen": [
+   "The work is business logic — it belongs in a module",
+   "It must run per record on change: that is an event handler",
+   "You need an approval flow around it"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

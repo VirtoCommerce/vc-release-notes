@@ -108,12 +108,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Signing in through any standards-compliant OpenID Connect provider.",
+  "forArchitect": "The generic identity adapter — no dependencies, no storage — and the answer when a customer brings their own identity provider rather than one of the named ones.",
+  "forDeveloper": "Everything is in the provider's discovery document and your claim mapping. Prefer this over a provider-specific module when the requirement is 'their IdP'.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Users must sign in with an identity your organisation already owns",
+   "You need to stop managing passwords in the platform",
+   "A B2B customer requires their own directory"
+  ],
+  "doNotReachForItWhen": [
+   "Authorisation questions — this only proves who someone is",
+   "Storefront customer accounts, unless the business really wants a corporate directory for shoppers",
+   "You expect roles to arrive automatically: mapping is configuration you must do"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

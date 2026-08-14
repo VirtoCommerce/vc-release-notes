@@ -127,12 +127,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Card and local payment methods through Datatrans, common in the Swiss and EU markets.",
+  "forArchitect": "A Payment adapter with five settings. Regional method coverage is the reason to choose it over a global gateway.",
+  "forDeveloper": "Method availability differs by market and currency, so store configuration matters more here than in a single-method gateway.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "This gateway is the one the business has a contract with",
+   "A store needs a payment method that gateway offers",
+   "Card data must stay out of your own scope"
+  ],
+  "doNotReachForItWhen": [
+   "You need the payment record — that is the order's payment document",
+   "The requirement is a new method type rather than a gateway — extend Payment instead",
+   "Two gateways for the same method on one store: choose per store, not per request"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

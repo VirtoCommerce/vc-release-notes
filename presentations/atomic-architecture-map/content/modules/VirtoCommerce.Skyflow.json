@@ -150,12 +150,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "A vault for sensitive payment data, so the platform never stores card details itself.",
+  "forArchitect": "Unusual for a payment module: it carries a GraphQL builder, because tokenisation has to reach the storefront where the card is entered. Three dependencies, no schema — the vault holds the data.",
+  "forDeveloper": "Tokens, not numbers, cross your boundary. Anything that would put a raw card value in a log or a database is the mistake this module exists to prevent.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Card data must never enter your infrastructure",
+   "Compliance scope has to be reduced deliberately",
+   "A storefront needs to tokenise at the point of entry"
+  ],
+  "doNotReachForItWhen": [
+   "You expect to read a card number back — that is the point of a vault",
+   "The gateway already tokenises and you need nothing more",
+   "Non-payment secrets: use configuration and a key vault"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

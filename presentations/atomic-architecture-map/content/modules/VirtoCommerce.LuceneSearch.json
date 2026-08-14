@@ -111,12 +111,19 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Search that runs in-process, with no service to install — the developer default.",
+  "forArchitect": "A Search adapter with no settings at all: it writes an index to local disk. That makes it perfect for a laptop and wrong for a cluster, because local disk is not shared between instances.",
+  "forDeveloper": "Use it to develop and test; do not scale out on it. If two instances disagree about search results, this is why.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A developer machine or a CI run needs search without infrastructure",
+   "You are demonstrating the platform with nothing else installed"
+  ],
+  "doNotReachForItWhen": [
+   "Any deployment with more than one instance — the index is on local disk",
+   "You need analysers or relevance tuning: reach for a real engine",
+   "Production, in general"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

@@ -111,12 +111,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "The platform's AI foundation: where a model provider is configured and where AI features get their access from.",
+  "forArchitect": "No dependencies, no storage, one setting and five permissions — a configuration and abstraction module, which is the same shape Search and Payment take. At 3.1001.0 it is early, and the AI family around it is the newest part of the catalogue.",
+  "forDeveloper": "Depend on the abstraction rather than a vendor SDK, exactly as with search providers — the model landscape moves faster than the platform does. Permissions matter: AI calls cost money per request.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A module needs a model without owning the credentials",
+   "AI provider choice should be configuration",
+   "Access to AI features must be permissioned and auditable"
+  ],
+  "doNotReachForItWhen": [
+   "You need a specific model's exclusive features — the abstraction may not expose them",
+   "Latency budgets are tight: model calls are slow and remote",
+   "Cost per call is unbudgeted"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

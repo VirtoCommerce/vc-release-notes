@@ -139,12 +139,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Search through Elastic App Search's managed relevance tuning.",
+  "forArchitect": "A Search adapter with one setting and two permissions of its own — relevance is tuned in the service, not in code.",
+  "forDeveloper": "Useful when a merchandiser should tune search without a release; the trade is that tuning lives outside your repository.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "This engine is the one your infrastructure already runs or your hosting provides",
+   "Search behaviour or scale has outgrown the current provider",
+   "You need the provider's own features — synonyms, analysers, vector search"
+  ],
+  "doNotReachForItWhen": [
+   "Two providers at once: the platform binds one at a time",
+   "You want to change what is indexed — that is the owning module's document builder",
+   "The problem is stale results: that is indexation, not the engine"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

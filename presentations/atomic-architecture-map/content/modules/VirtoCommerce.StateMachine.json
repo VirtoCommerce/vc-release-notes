@@ -137,12 +137,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "Configurable status flows — which state a document can move to, from where, and who may do it.",
+  "forArchitect": "Four entities and 21 migrations over one dependency, with seven permissions. It exists so an order or quote lifecycle becomes configuration rather than a switch statement in five modules.",
+  "forDeveloper": "Define the machine as data and drive transitions through it; the alternative is status logic scattered across handlers. One declared event marks transitions for downstream automation.",
+  "owns": [
+   "StateMachineDefinitionEntity"
+  ],
+  "reachForItWhen": [
+   "Status flows differ per business and change over time",
+   "Transitions need permissions and validation",
+   "Several modules should share one lifecycle definition"
+  ],
+  "doNotReachForItWhen": [
+   "Two statuses that never change — a field is enough",
+   "The flow is a long-running orchestration with waits: that wants a workflow engine",
+   "You expect it to move documents itself: it governs transitions, it does not schedule them"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

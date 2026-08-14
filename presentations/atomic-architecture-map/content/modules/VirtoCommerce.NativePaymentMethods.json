@@ -144,12 +144,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "The payment options a business can offer without a gateway integration — cash on delivery, invoice, manual capture.",
+  "forArchitect": "The reference Payment adapter, and the one that proves the port: one entity, six migrations, and methods that complete without an external call. Often the only payment module a B2B solution needs.",
+  "forDeveloper": "Read this module before writing a gateway integration — it is the smallest complete example of the Payment abstraction.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Payment happens outside the system: invoice, bank transfer, on delivery",
+   "A B2B flow needs an order placed before money moves",
+   "You want a working example of the payment abstraction"
+  ],
+  "doNotReachForItWhen": [
+   "Card data is involved — that needs a real gateway and its compliance scope",
+   "You need automatic capture or refund: those require the gateway's API",
+   "The business expects instant authorisation"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

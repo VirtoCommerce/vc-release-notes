@@ -188,12 +188,22 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "The sitemap.xml search engines read, generated from the catalogue, categories and pages.",
+  "forArchitect": "Two entities and ten migrations over six dependencies, and **fifteen settings** — the largest configuration surface among content modules, because what belongs in a sitemap is entirely policy.",
+  "forDeveloper": "Generation is a background job over large record sets: size limits and partitioning are settings, not code. Regenerate after bulk catalogue changes or the file lies.",
+  "owns": [
+   "SitemapEntity"
+  ],
+  "reachForItWhen": [
+   "Search engines must discover the whole catalogue",
+   "SEO requires control over what is listed and how often",
+   "A storefront has more URLs than a crawler will find unaided"
+  ],
+  "doNotReachForItWhen": [
+   "The site is behind a login — a sitemap has no audience",
+   "You need redirects or metadata: that is the SEO module",
+   "No worker is deployed to run the generation"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

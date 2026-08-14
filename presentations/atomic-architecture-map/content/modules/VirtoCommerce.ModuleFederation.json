@@ -88,12 +88,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "The registry that lets independently built front-end modules load into one admin application at runtime.",
+  "forArchitect": "No dependencies, one entity, four migrations — and it lives in the `frontend-modules` repository, which is why its registry ProjectUrl redirects. It is the back-end half of the admin UI's Module Federation setup.",
+  "forDeveloper": "Register a remote and the shell loads it at runtime; version skew between shell and remote is the failure mode to design against. Pair it with the platform's Module federation atom.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "The back office must be extended by separately deployed front-end modules",
+   "Teams need to ship UI without rebuilding the shell",
+   "A remote's version has to be recorded rather than assumed"
+  ],
+  "doNotReachForItWhen": [
+   "A single, monolithic admin build is acceptable — this adds moving parts",
+   "The extension is server-side: this is front-end composition",
+   "Shell and remote cannot be kept version-compatible"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

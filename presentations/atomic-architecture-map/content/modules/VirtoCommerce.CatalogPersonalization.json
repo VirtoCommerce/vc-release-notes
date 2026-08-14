@@ -172,12 +172,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Showing different products to different shoppers — by segment, behaviour or membership.",
+  "forArchitect": "Three entities, nine migrations, and **two index document builders**: personalisation is projected into the search index rather than evaluated per request, which is what makes it survive storefront traffic. Three dependencies only.",
+  "forDeveloper": "Tagging drives the index, so a personalisation change needs a reindex to become visible — the trade-off for its speed. Two declared events tell you when that is needed.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Different audiences should see different catalogues",
+   "Segments already exist in customer data and should drive merchandising",
+   "Personalised results must be as fast as ordinary search"
+  ],
+  "doNotReachForItWhen": [
+   "A single promotion covers it — Marketing is lighter",
+   "You need per-request personalisation with no index delay",
+   "Segments are not defined: this module applies them, it does not invent them"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

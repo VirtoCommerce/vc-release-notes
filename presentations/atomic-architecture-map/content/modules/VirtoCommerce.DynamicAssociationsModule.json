@@ -168,12 +168,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Rules that relate products to each other automatically — accessories, alternatives, cross-sells — instead of a merchandiser linking each pair by hand.",
+  "forArchitect": "One entity and six migrations over four dependencies. The rules produce associations that Catalog then serves, so it writes into the catalog's association model rather than keeping a parallel one.",
+  "forDeveloper": "Two declared events cover rule changes. Evaluation is batch work: expect a job, and expect the results to be as stale as the last run.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "Related-product lists are too large to curate by hand",
+   "Association rules follow data — brand, category, price band",
+   "Merchandisers want rules, not pairs"
+  ],
+  "doNotReachForItWhen": [
+   "A handful of hand-picked associations — Catalog already does that",
+   "Recommendations based on behaviour: that is XRecommend",
+   "You need results the instant a product changes"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",
