@@ -1882,36 +1882,48 @@
     return tag === 'INPUT' || tag === 'TEXTAREA' || (el && el.isContentEditable);
   }
 
-  (function catToggle() {
-    var cat = document.getElementById('catEgg');
-    if (!cat) return;
+  /* One napping animal, parameterised: which element, which key, which corner, and the class prefix its
+     SVG parts use. The cat and the dog differ only in those four things, and a copy of forty lines
+     would have drifted the moment one of them was tweaked. */
+  function napOnCorner(opts) {
+    var el = document.getElementById(opts.id);
+    if (!el) return;
+
     function place() {
       var host = document.querySelector('main') || document.body;
       var r = host.getBoundingClientRect();
-      cat.style.left = Math.round(r.right - cat.offsetWidth - 26) + 'px';
-      cat.style.top = Math.round(r.top - cat.offsetHeight + 34) + 'px';
+      el.style.left = (opts.corner === 'left'
+        ? Math.round(r.left + 18)
+        : Math.round(r.right - el.offsetWidth - 26)) + 'px';
+      el.style.top = Math.round(r.top - el.offsetHeight + 34) + 'px';
     }
-    var pupils = cat.querySelectorAll('.cat-pupil');
-    var WAKE = 250;                      // px: a pointer closer than this wakes it
+
+    var pupils = el.querySelectorAll('.' + opts.prefix + '-pupil');
+    var WAKE = 250;   // px: a pointer closer than this wakes it
     addEventListener('mousemove', function (ev) {
-      if (!cat.classList.contains('show')) return;
-      var r = cat.getBoundingClientRect();
-      var ex = r.left + (158 / 190) * r.width, ey = r.top + (58 / 112) * r.height;
+      if (!el.classList.contains('show')) return;
+      var r = el.getBoundingClientRect();
+      var ex = r.left + opts.eye[0] * r.width, ey = r.top + opts.eye[1] * r.height;
       var dx = ev.clientX - ex, dy = ev.clientY - ey, d = Math.hypot(dx, dy);
-      if (d > WAKE) { cat.classList.add('sleeping'); return; }
-      cat.classList.remove('sleeping');
+      if (d > WAKE) { el.classList.add('sleeping'); return; }
+      el.classList.remove('sleeping');
       var m = 2.6, ox = (dx / (d || 1) * m).toFixed(2), oy = (dy / (d || 1) * m).toFixed(2);
       pupils.forEach(function (pupil) { pupil.style.transform = 'translate(' + ox + 'px,' + oy + 'px)'; });
     });
-    addEventListener('resize', function () { if (cat.classList.contains('show')) place(); });
-    addEventListener('scroll', function () { if (cat.classList.contains('show')) place(); }, { passive: true });
+    addEventListener('resize', function () { if (el.classList.contains('show')) place(); });
+    addEventListener('scroll', function () { if (el.classList.contains('show')) place(); }, { passive: true });
     addEventListener('keydown', function (e) {
       if (typingInAField(e) || e.metaKey || e.ctrlKey || e.altKey) return;
-      if (e.code !== 'KeyC') return;
-      if (cat.classList.contains('show')) cat.classList.remove('show', 'sleeping');
-      else { place(); cat.classList.add('show', 'sleeping'); }
+      if (e.code !== opts.key) return;
+      if (el.classList.contains('show')) el.classList.remove('show', 'sleeping');
+      else { place(); el.classList.add('show', 'sleeping'); }
     });
-  })();
+  }
+
+  /* c = the ginger cat on the right, d = the dog on the left. The eye coordinates are fractions of the
+     SVG's own viewBox, which is why they differ: the two animals face opposite ways. */
+  napOnCorner({ id: 'catEgg', key: 'KeyC', corner: 'right', prefix: 'cat', eye: [158 / 190, 58 / 112] });
+  napOnCorner({ id: 'dogEgg', key: 'KeyD', corner: 'left', prefix: 'dog', eye: [42 / 190, 52 / 112] });
 
   (function bubbleToggle() {
     var cv = document.getElementById('bubbles');

@@ -1565,6 +1565,27 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 #catEgg .eyes-closed { display: none; }
 #catEgg.sleeping .eyes-open { display: none; }
 #catEgg.sleeping .eyes-closed { display: block; }
+
+/* The dog, on D. Same behaviour as the cat and the same aria-hidden decoration, mirrored to the other
+   corner so both can be on screen without overlapping. The tail wags the other way for the same
+   reason a mirrored sprite looks wrong when it does not. */
+#dogEgg {
+  position: fixed; top: 0; left: 0; width: 150px;
+  z-index: 55; pointer-events: none;
+  opacity: 0; transform: translateY(-10px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+#dogEgg.show { opacity: 1; transform: translateY(0); }
+#dogEgg svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 7px 10px rgba(7, 37, 74, .28)); }
+#dogEgg .dog-tail { transform-box: view-box; transform-origin: 132px 82px; animation: dogWag 1.9s ease-in-out infinite; }
+#dogEgg .dog-pupil { transition: transform .12s ease-out; }
+#dogEgg .dog-eyes-closed, #dogEgg .dog-tongue { display: none; }
+#dogEgg.sleeping .dog-eyes-open { display: none; }
+#dogEgg.sleeping .dog-eyes-closed { display: block; }
+/* Awake and being looked at: the tongue comes out. */
+#dogEgg:not(.sleeping) .dog-tongue { display: block; }
+@keyframes dogWag { 0%, 100% { transform: rotate(7deg); } 50% { transform: rotate(-9deg); } }
+@media (prefers-reduced-motion: reduce) { #dogEgg .dog-tail { animation: none; } }
 @keyframes catWag { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); }
 @media (prefers-reduced-motion: reduce) { #catEgg .cat-tail { animation: none; } }
-@media print { #bubbles, #catEgg { display: none !important; } }
+@media print { #bubbles, #catEgg, #dogEgg { display: none !important; } }

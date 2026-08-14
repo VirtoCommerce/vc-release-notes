@@ -39,6 +39,7 @@ Product, engineering, and business stakeholders review what shipped, mark featur
 - 🔌 [**Integration Capabilities of Virto Commerce**](https://virtocommerce.github.io/vc-release-notes/presentations/integration-capabilities.html)
 - ☁️ [**Virto Cloud — Enterprise Commerce, Fully Managed**](https://virtocommerce.github.io/vc-release-notes/presentations/virto-cloud.html)
 - 📜 [**Release Strategy for Business Users**](https://virtocommerce.github.io/vc-release-notes/presentations/release-strategy-for-business-users.html)
+- ⚛️ [**Atomic Architecture Map**](https://virtocommerce.github.io/vc-release-notes/presentations/atomic-architecture-map/) — one-screen interactive map of the platform's building blocks: atoms, molecules, modules and the business capabilities they compose.
 
 ## ✨ What's inside every deck
 
