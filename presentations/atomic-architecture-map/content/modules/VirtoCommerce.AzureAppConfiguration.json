@@ -1,0 +1,148 @@
+{
+ "id": "VirtoCommerce.AzureAppConfiguration",
+ "repo": "vc-module-azure-app-configuration",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-azure-app-configuration",
+ "name": "Azure App Configuration",
+ "tagline": "Allows using Azure App Configuration to externalize storage and management of your app settings for Virto Commerce",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.AzureAppConfiguration.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1038.0",
+  "assembly": "VirtoCommerce.AzureAppConfiguration.Web.dll",
+  "authors": [
+   "Oleg Zhuk"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.AzureAppConfiguration.Core",
+   "VirtoCommerce.AzureAppConfiguration.Data",
+   "VirtoCommerce.AzureAppConfiguration.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "73df922",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "73df922 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The **Azure App Configuration** module integrates [Microsoft Azure App Configuration](https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview) service into the VirtoCommerce platform. It allows you to externalize storage and management of application settings, replacing or augmenting local `appsettings.json` files with a centralized, cloud-managed configuration store. This module does not replace any existing module. It acts as an optional configuration source that layers on top of the standard .NET configuration pipeline. Once installed, all platform modules automatically gain access to settings stored in Azure App Configuration without any code changes. ### When to use this module - **Centralized configuration management** — manage settings for multiple VirtoCommerce instances from a single Azure App Configuration resource. - **Multi-environment deployments** — use label-based filtering to serve different settings per environment (Development, Staging, Production) from one configuration store. - **Dynamic configuration updates** — change application settings at runtime without redeploying or restarting the platform, using the Sentinel key refresh mechanism. - **Azure-native infrastructure** — leverage Azure's built-in security, RBAC, encryption, and audit capabilities for configuration data.",
+  "keyFeatures": [
+   "**Managed Identity & connection string authentication** — supports `DefaultAzureCredential`, `ManagedIdentityCredential` (recommended for Azure-hosted production), and connection string authentication.",
+   "**Geo-replication failover & load balancing** — connect to multiple replica endpoints in preference order for automatic failover during regional outages, with optional load balancing to spread request load across replicas.",
+   "**Resilient startup** — configurable time-out for the initial configuration load, with built-in transient-fault retries during platform boot.",
+   "**Key Vault reference resolution** — automatically resolves [Key Vault references](https://learn.microsoft.com/en-us/azure/azure-app-configuration/use-key-vault-references-dotnet-core) stored in App Configuration, retrieving secret values directly from Azure Key Vault.",
+   "**Early configuration pipeline integration** — registers as a `ConfigurationSource` at the highest startup priority, ensuring Azure-managed settings are available before any module initialization.",
+   "**Environment-aware key filtering** — automatically loads base keys and environment-specific keys labeled with `IHostEnvironment.EnvironmentName`, allowing environment overrides.",
+   "**Key prefix filtering** — optionally filter and trim key prefixes to scope configuration to your application.",
+   "**Sentinel-based configuration refresh** — monitors a configurable Sentinel key; when its value changes, all configuration entries are refreshed without application restart.",
+   "**Configurable refresh interval** — control how frequently the module polls for configuration changes.",
+   "**Health check** — built-in ASP.NET Core health check for monitoring Azure App Configuration connectivity.",
+   "**Structured logging** — logs authentication method, configuration status, and refresh events at startup.",
+   "**Zero-code adoption** — no changes required in other modules; settings resolved through `IConfiguration` and `IOptions<T>` automatically pick up values from Azure App Configuration."
+  ],
+  "docs": [
+   {
+    "label": "Azure App Configuration overview",
+    "href": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview"
+   },
+   {
+    "label": "Use dynamic configuration in ASP.NET Core",
+    "href": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/enable-dynamic-configuration-aspnet-core"
+   },
+   {
+    "label": "Azure App Configuration best practices",
+    "href": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-best-practices"
+   },
+   {
+    "label": "Enable geo-replication",
+    "href": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-geo-replication"
+   },
+   {
+    "label": "Resiliency and disaster recovery",
+    "href": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/concept-disaster-recovery"
+   },
+   {
+    "label": "Use managed identities to access App Configuration",
+    "href": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-integrate-azure-managed-service-identity"
+   },
+   {
+    "label": "Use Key Vault references in an ASP.NET Core app",
+    "href": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/use-key-vault-references-dotnet-core"
+   },
+   {
+    "label": "Reload secrets and certificates from Key Vault automatically",
+    "href": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/reload-key-vault-secrets-dotnet"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-azure-app-configuration/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-azure-app-configuration",
+  "links": [],
+  "checkedOnline": false
+ }
+}

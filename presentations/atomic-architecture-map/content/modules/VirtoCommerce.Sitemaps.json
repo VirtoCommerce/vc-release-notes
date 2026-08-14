@@ -1,0 +1,211 @@
+{
+ "id": "VirtoCommerce.Sitemaps",
+ "repo": "vc-module-sitemaps",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-sitemaps",
+ "name": "Sitemap Generator",
+ "tagline": "Simplifies the process of generating sitemaps for online stores",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#B79DFB",
+ "icon": "assets/module-icons/VirtoCommerce.Sitemaps.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.SitemapsModule.Web.dll",
+  "authors": [
+   "Andrey Orlov"
+  ],
+  "tags": "sitemaps",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Content",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1010.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.SitemapsModule.Core",
+   "VirtoCommerce.SitemapsModule.Data",
+   "VirtoCommerce.SitemapsModule.Data.MySql",
+   "VirtoCommerce.SitemapsModule.Data.PostgreSql",
+   "VirtoCommerce.SitemapsModule.Data.SqlServer",
+   "VirtoCommerce.SitemapsModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.SitemapsModule.Web/Controllers/Api/SitemapsModuleApiController.cs",
+    "route": "api/sitemaps",
+    "actions": 12,
+    "authorizedActions": 7
+   }
+  ],
+  "permissions": [
+   "sitemaps:access",
+   "sitemaps:create",
+   "sitemaps:delete",
+   "sitemaps:exportToStoreAssets",
+   "sitemaps:read",
+   "sitemaps:update"
+  ],
+  "settings": [
+   "Sitemap.AcceptedFilenameExtensions",
+   "Sitemap.BlogPagePriority",
+   "Sitemap.BlogPageUpdateFrequency",
+   "Sitemap.CategoryPagePriority",
+   "Sitemap.CategoryPageUpdateFrequency",
+   "Sitemap.ExportToAssets.EnableExportToAssetsJob",
+   "Sitemap.ExportToAssets.JobCronExpression",
+   "Sitemap.FilenameSeparator",
+   "Sitemap.IncludeDefaultStoreLanguageInUrl",
+   "Sitemap.IncludeImages",
+   "Sitemap.ProductPagePriority",
+   "Sitemap.ProductPageUpdateFrequency",
+   "Sitemap.RecordsLimitPerFile",
+   "Sitemap.SearchBunchSize",
+   "sitemap.xml"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 10,
+  "hasAdminUi": true,
+  "adminUiFiles": 22,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "SitemapEntity",
+   "SitemapItemEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "da22c68",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "da22c68 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Sitemaps are an easy way for webmasters to inform search engines about the pages on their sites that are available for crawling. In its simplest form, a Sitemap is an XML file that lists URLs for a site along with additional metadata about each URL (when it was last updated, how often it usually changes and how important it is, relative to other URLs in the site) so that search engines could crawl the site more intelligently.",
+  "keyFeatures": [
+   "Async Sitemap generator",
+   "Support big catalogs",
+   "Export products and categories",
+   "Rich API"
+  ],
+  "docs": [
+   {
+    "label": "Sitemaps module users documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/sitemaps/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Sitemaps"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-sitemaps/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-sitemaps/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-sitemaps",
+  "links": [
+   {
+    "label": "Sitemaps module users documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/sitemaps/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

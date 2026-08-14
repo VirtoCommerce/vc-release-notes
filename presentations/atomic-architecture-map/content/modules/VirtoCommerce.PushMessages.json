@@ -1,0 +1,228 @@
+{
+ "id": "VirtoCommerce.PushMessages",
+ "repo": "vc-module-push-messages",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-push-messages",
+ "name": "Push Messages",
+ "tagline": "Enables back-end admins to send custom notifications to selected organizations within the Virto Commerce platform.",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.PushMessages.svg",
+ "facts": {
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.PushMessages.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1011.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.PushMessages.Core",
+   "VirtoCommerce.PushMessages.Data",
+   "VirtoCommerce.PushMessages.Data.MySql",
+   "VirtoCommerce.PushMessages.Data.PostgreSql",
+   "VirtoCommerce.PushMessages.Data.SqlServer",
+   "VirtoCommerce.PushMessages.ExperienceApi",
+   "VirtoCommerce.PushMessages.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.PushMessages.Web/Controllers/Api/PushMessageController.cs",
+    "route": "api/push-message",
+    "actions": 7,
+    "authorizedActions": 7
+   }
+  ],
+  "permissions": [
+   "PushMessages:access",
+   "PushMessages:create",
+   "PushMessages:delete",
+   "PushMessages:read",
+   "PushMessages:update"
+  ],
+  "settings": [
+   "PushMessages.BatchSize",
+   "PushMessages.Enable",
+   "PushMessages.FCM.Enable",
+   "PushMessages.SendScheduledMessagesRecurringJob.CronExpression",
+   "PushMessages.SendScheduledMessagesRecurringJob.Enable",
+   "PushMessages.TrackNewRecipientsRecurringJob.CronExpression",
+   "PushMessages.TrackNewRecipientsRecurringJob.Enable"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "FcmTokenChangedEvent",
+   "FcmTokenChangingEvent",
+   "PushMessageChangedEvent",
+   "PushMessageChangingEvent",
+   "PushMessageRecipientChangedEvent",
+   "PushMessageRecipientChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.PushMessages.Data/Handlers/FcmPushMessageRecipientChangedEventHandler.cs",
+   "src/VirtoCommerce.PushMessages.Data/Handlers/MemberChangedEventHandler.cs",
+   "src/VirtoCommerce.PushMessages.Data/Handlers/PushMessageChangedEventHandler.cs",
+   "src/VirtoCommerce.PushMessages.ExperienceApi/Handlers/XapiPushMessageRecipientChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "MemberChangedEvent",
+   "PushMessageChangedEvent",
+   "PushMessageRecipientChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.PushMessages.ExperienceApi/Queries/GetFcmSettingsQueryBuilder.cs",
+   "src/VirtoCommerce.PushMessages.ExperienceApi/Queries/GetPushMessagesQueryBuilder.cs",
+   "src/VirtoCommerce.PushMessages.ExperienceApi/Schemas/PushMessagesSchema.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 18,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "FcmTokenEntity",
+   "PushMessageEntity",
+   "PushMessageMemberEntity",
+   "PushMessageRecipientEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "dd25ca0",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "dd25ca0 2026-07-27 3.1006.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Push Messages module enables marketers to send custom notifications to selected customers or organizations within the Virto Commerce platform. The Push Messages module provides a seamless solution for Marketers to customize and send notifications to fronted applications for specific customers or organizations. With options to tailor the Message of the notification, Marketers can effectively communicate with targeted groups. Additionally, the module offers features for displaying delivery status for notifications.",
+  "keyFeatures": [
+   "Send a Short Message in HTML format. Max length: 1024.",
+   "Select multiple customers or organizations for notification delivery",
+   "Check Delivery status display per customer",
+   "Notification Preview (Soon)",
+   "Templates (Soon)",
+   "Extend message with Subjet and Full Message (Soon)",
+   "Add attachments (Soon)",
+   "Reporting (Soon)",
+   "More Notifications Channels: Browser Push Notifications, SMS, Email, etc. (Soon)"
+  ],
+  "docs": [
+   {
+    "label": "Push Meessages module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/push-messages/overview/"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Push-messages/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.PushMessages"
+   },
+   {
+    "label": "Push messages configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#pushmessages"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-push-messages"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-push-messages/releases"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Screenshots",
+   "XAPI Specification",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-push-messages",
+  "links": [
+   {
+    "label": "Push Meessages module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/push-messages/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Push-messages/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Push messages configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#pushmessages",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

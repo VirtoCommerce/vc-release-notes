@@ -10,7 +10,7 @@
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.WebHooks.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
+  "manifestVersion": "3.1005.0",
   "platformVersion": "3.1039.0",
   "assembly": "VirtoCommerce.WebhooksModule.Web.dll",
   "authors": [
@@ -54,6 +54,7 @@
    "Webhooks.General.SendRetryCount"
   ],
   "domainEventsPublished": [],
+  "declaredEvents": [],
   "eventHandlers": [],
   "handledEvents": [],
   "subscribesDynamically": true,
@@ -61,7 +62,7 @@
   "indexDocumentBuilders": [],
   "migrationCount": 17,
   "hasAdminUi": true,
-  "adminUiFiles": 20,
+  "adminUiFiles": 10,
   "localizations": [
    "de",
    "en",
@@ -84,9 +85,11 @@
    "WebhookFeedEntryEntity"
   ],
   "git": {
-   "branch": "feat/VCST-5163-stable-15",
-   "lastCommit": "bb5e583 2026-06-19 VCST-5163: Stable 15 — WebHooks (platform 3.1039.0)",
-   "lastCommitDate": "2026-06-19"
+   "ref": "origin/dev",
+   "sha": "74fdecb",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "74fdecb 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
   }
  },
  "readme": {
@@ -171,7 +174,7 @@
    "The events come from a bulk import: suppress events or turn event-based indexation off first, or one import fans out into thousands of callbacks"
   ]
  },
- "extractedAt": "2026-08-13",
+ "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-webhooks",

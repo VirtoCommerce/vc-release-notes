@@ -1,0 +1,247 @@
+{
+ "id": "VirtoCommerce.Store",
+ "repo": "vc-module-store",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-store",
+ "name": "Store",
+ "tagline": "Multi store management with individual store settings",
+ "latestVersion": "3.1006.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.Store.svg",
+ "facts": {
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.StoreModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "stores",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Notifications",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Seo",
+    "version": "3.1004.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.StoreModule.Core",
+   "VirtoCommerce.StoreModule.Data",
+   "VirtoCommerce.StoreModule.Data.MySql",
+   "VirtoCommerce.StoreModule.Data.PostgreSql",
+   "VirtoCommerce.StoreModule.Data.SqlServer",
+   "VirtoCommerce.StoreModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.StoreModule.Web/Controllers/Api/StoreAuthenticationSchemeController.cs",
+    "route": "api/store-authentication-schemes/{storeId}",
+    "actions": 2,
+    "authorizedActions": 2
+   },
+   {
+    "file": "src/VirtoCommerce.StoreModule.Web/Controllers/Api/StoreModuleController.cs",
+    "route": "api/stores",
+    "actions": 11,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "store:read"
+  ],
+  "settings": [
+   "Stores.AllowAnonymousUsers",
+   "Stores.EmailVerificationEnabled",
+   "Stores.EmailVerificationRequired",
+   "Stores.EnablePriceRoundingForTotalsCalculation",
+   "Stores.IsSpa",
+   "Stores.SeoLinksType",
+   "Stores.States",
+   "Stores.TaxCalculationEnabled"
+  ],
+  "domainEventsPublished": [
+   "StoreChangedEvent"
+  ],
+  "declaredEvents": [
+   "StoreAuthenticationSchemeChangedEvent",
+   "StoreAuthenticationSchemeChangingEvent",
+   "StoreChangeEvent",
+   "StoreChangedEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.StoreModule.Data/Handlers/LogChangesChangedEventHandler.cs",
+   "src/VirtoCommerce.StoreModule.Data/Handlers/SendStoreUserVerificationEmailHandler.cs"
+  ],
+  "handledEvents": [
+   "StoreChangedEvent",
+   "UserVerificationEmailEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 21,
+  "hasAdminUi": true,
+  "adminUiFiles": 31,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "SeoInfoEntity",
+   "StoreAuthenticationSchemeEntity",
+   "StoreCurrencyEntity",
+   "StoreDynamicPropertyObjectValueEntity",
+   "StoreEntity",
+   "StoreFulfillmentCenterEntity",
+   "StoreLanguageEntity",
+   "StoreTrustedGroupEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "28f6463",
+   "lastCommitDate": "2026-07-21",
+   "lastCommit": "28f6463 2026-07-21 3.1007.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Store module provides multi-store management capabilities for the Virto Commerce platform. It allows creating and configuring multiple storefronts, each with individual settings for languages, currencies, fulfillment centers, SEO, tax calculation, authentication schemes, and email notifications. The module supports dynamic properties, scoped security permissions, export/import operations, and integrates with the platform's notification, SEO, and currency subsystems.",
+  "keyFeatures": [
+   "**Multi-store management** — Create, update, delete, and search stores with configurable properties including name, URL, catalog, time zone, country, and region.",
+   "**Per-store asset public URL** — Serve each store's asset (image) URLs from its own domain (e.g. a store-specific CDN) instead of the shared platform/CDN domain via the `Store.AssetPublicUrl` property and the `IStoreAssetPublicUrlResolver` service.",
+   "**Per-store currency and language support** — Configure multiple currencies and languages per store with a designated default for each.",
+   "**Fulfillment center assignment** — Assign primary and alternate fulfillment centers for orders and returns per store.",
+   "**Store authentication schemes** — Manage per-store authentication providers (password login, external SSO) with ordering and activation controls.",
+   "**SEO support** — Store-level SEO info management with configurable SEO link types (None, Short, Collapsed, Long) and best-match SEO resolution.",
+   "**Email verification** — Configurable email verification flow that sends confirmation emails to store users via the Notifications module.",
+   "**Dynamic email notifications** — Send dynamic notifications with custom fields to store or administrator email addresses.",
+   "**Trusted groups** — Define groups of stores that share user logins across storefronts.",
+   "**Login on behalf** — Check whether a contact has permission to log in on behalf of another user within a store context.",
+   "**Public store settings** — Expose publicly accessible (anonymous) store settings grouped by module.",
+   "**Scoped security** — Restrict permissions (read, update, delete) to specific stores via `StoreSelectedScope`.",
+   "**Export/Import** — Full store data export and import with batched JSON serialization.",
+   "**Change logging** — Automatic change log entries for store modifications via background jobs."
+  ],
+  "docs": [
+   {
+    "label": "Store module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/store/overview/"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Store/overview/"
+   },
+   {
+    "label": "REST API reference",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Store"
+   },
+   {
+    "label": "GitHub repository",
+    "href": "https://github.com/VirtoCommerce/vc-module-store"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-store/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": "Each storefront as a configurable thing: its languages, currencies, the fulfillment centres it ships from, its email verification and anonymous-shopping rules, and which other stores it trusts. One installation can run many brands or markets from here.",
+  "forArchitect": "The tenancy seam of a Virto solution. Almost every commerce module takes a `storeId` and resolves behaviour through this module, which is why Cart, Catalog, Orders, Content and Marketing all list it as a required dependency — and why it, in turn, depends on almost nothing (Core, Notifications, Seo). Trusted groups make cross-store data sharing explicit rather than implied.",
+  "forDeveloper": "Behaviour is settings, not code: `Stores.IsSpa`, `Stores.SeoLinksType`, `Stores.TaxCalculationEnabled`, `Stores.AllowAnonymousUsers`, `Stores.EmailVerificationRequired`. Note it exposes a single permission, `store:read` — store configuration is read widely and written rarely, so authorisation for writes lives with the platform's module-management permissions.",
+  "owns": [
+   "StoreEntity",
+   "StoreCurrencyEntity",
+   "StoreLanguageEntity",
+   "StoreFulfillmentCenterEntity",
+   "StoreTrustedGroupEntity",
+   "StoreAuthenticationSchemeEntity"
+  ],
+  "reachForItWhen": [
+   "Anything must vary per storefront — language, currency, tax, SEO, login scheme",
+   "You are adding a market, a brand or a B2B portal to an existing installation",
+   "Data has to be shared between stores deliberately, through trusted groups"
+  ],
+  "doNotReachForItWhen": [
+   "You need the theme or the pages a store renders — that is Content",
+   "You are looking for per-user settings: this is per-store configuration",
+   "You want to authorise a write: this module publishes one read permission, by design"
+  ]
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-store",
+  "links": [
+   {
+    "label": "Store module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/store/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Store/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

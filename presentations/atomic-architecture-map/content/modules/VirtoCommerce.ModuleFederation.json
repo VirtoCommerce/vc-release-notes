@@ -1,0 +1,105 @@
+{
+ "id": "VirtoCommerce.ModuleFederation",
+ "repo": "frontend-modules",
+ "repoUrl": "https://github.com/VirtoCommerce/frontend-modules",
+ "name": "Frontend Modules Registry",
+ "tagline": "Provides API endpoint for dynamic frontend module discovery via Module Federation. Replaces static apps.json.",
+ "latestVersion": "3.1000.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.ModuleFederation.svg",
+ "facts": {
+  "manifestVersion": "3.1000.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.ModuleFederation.Web.dll",
+  "authors": [
+   "Maksim Zinchuk"
+  ],
+  "tags": "frontend modules federation",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ModuleFederation.Core",
+   "VirtoCommerce.ModuleFederation.Data",
+   "VirtoCommerce.ModuleFederation.Data.PostgreSql",
+   "VirtoCommerce.ModuleFederation.Data.SqlServer",
+   "VirtoCommerce.ModuleFederation.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.ModuleFederation.Web/Controllers/Api/ModuleFederationController.cs",
+    "route": "api",
+    "actions": 4,
+    "authorizedActions": 3
+   }
+  ],
+  "permissions": [
+   "frontend-modules:access",
+   "frontend-modules:read",
+   "frontend-modules:update"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 4,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [
+   "FrontendModuleAssignmentEntity"
+  ],
+  "git": {
+   "ref": "origin/main",
+   "readFrom": "shallow clone",
+   "branch": "main",
+   "lastCommit": "a34b907 2026-03-31 VM-1699: update to .net10",
+   "lastCommitDate": "2026-03-31"
+  }
+ },
+ "readme": {
+  "overview": "VirtoCommerce.ModuleFederation scans installed .NET module manifests for `<frontendModules>` declarations, resolves which modules belong to which host apps via the dependency graph, and serves a runtime API that host apps use to load remote MF bundles. **Key properties:** - Modules are host-agnostic — they declare capabilities, not consumers - .NET dependency graph provides intelligent defaults (Recommended modules) - All other compatible modules are visible as Available for manual activation - Admin has final control over which modules are enabled per app - Installing a .NET module auto-enables its frontend extensions for related apps",
+  "keyFeatures": [],
+  "docs": [],
+  "references": [],
+  "sections": [
+   "Overview",
+   "Architecture",
+   "Project Structure",
+   "Module Manifest Schema",
+   "Dependency Graph Resolution",
+   "Recommended vs Available",
+   "Database",
+   "Permissions",
+   "API",
+   "Host-Side Integration",
+   "Development",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/frontend-modules",
+  "links": [],
+  "checkedOnline": false
+ }
+}

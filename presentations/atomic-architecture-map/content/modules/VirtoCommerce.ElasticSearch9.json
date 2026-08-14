@@ -1,0 +1,184 @@
+{
+ "id": "VirtoCommerce.ElasticSearch9",
+ "repo": "vc-module-elastic-search-9",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-elastic-search-9",
+ "name": "Elastic Search 9",
+ "tagline": "Indexed search functionality with Elastic 9 engines.",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.ElasticSearch9.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.ElasticSearch9.Web.dll",
+  "authors": [
+   "Konstantin Savosteev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ElasticSearch9.Core",
+   "VirtoCommerce.ElasticSearch9.Data",
+   "VirtoCommerce.ElasticSearch9.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [
+   "VirtoCommerce.Search.ElasticSearch9.IndexTotalFieldsLimit",
+   "VirtoCommerce.Search.ElasticSearch9.KeywordBoost",
+   "VirtoCommerce.Search.ElasticSearch9.MinScore",
+   "VirtoCommerce.Search.ElasticSearch9.MinScorePerDocumentType",
+   "VirtoCommerce.Search.ElasticSearch9.NGramTokenFilter.MaxGram",
+   "VirtoCommerce.Search.ElasticSearch9.NGramTokenFilter.MinGram",
+   "VirtoCommerce.Search.ElasticSearch9.SemanticBoost",
+   "VirtoCommerce.Search.ElasticSearch9.SemanticModelId",
+   "VirtoCommerce.Search.ElasticSearch9.SemanticPipelineName",
+   "VirtoCommerce.Search.ElasticSearch9.SemanticSearchType",
+   "VirtoCommerce.Search.ElasticSearch9.SemanticVectorModelDimensions",
+   "VirtoCommerce.Search.ElasticSearch9.TokenFilter"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "9bb15d7",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "9bb15d7 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Semantic search is a search method that helps you find data based on the intent and contextual meaning of a search query, instead of a match on query terms (lexical search). Elasticsearch provides semantic search capabilities using natural language processing (NLP) and vector search. Deploying an NLP model to Elasticsearch enables it to extract text embeddings out of text. Embeddings are vectors that provide a numeric representation of a text. Pieces of content with similar meanings have similar representations.",
+  "keyFeatures": [
+   "Full-text search with new .NET client for Elasticsearch.",
+   "Semantic Search.",
+   "Hybrid Mode Search - combine the best search results from full-text and semantic queries.",
+   "Third-party ML models support."
+  ],
+  "docs": [
+   {
+    "label": "Elastic Search 9 module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/elastic-search-8/overview/"
+   },
+   {
+    "label": "Elastic Search 9 module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/integration/elastic-search-8/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.ElasticSearch9"
+   },
+   {
+    "label": "Search providers configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#search"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-elastic-search-9"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-elastic-search-9/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Configuration",
+   "Samples",
+   "Full-Text Search",
+   "Semantic Search",
+   "Semantic search and ELSER model setup",
+   "Semantic search and third-party ML model setup",
+   "How to explain?",
+   "Optimize performance",
+   "Enable debug mode",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-elastic-search-9",
+  "links": [
+   {
+    "label": "Elastic Search 9 module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/elastic-search-8/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Elastic Search 9 module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/integration/elastic-search-8/",
+    "source": "readme"
+   },
+   {
+    "label": "Search providers configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#search",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

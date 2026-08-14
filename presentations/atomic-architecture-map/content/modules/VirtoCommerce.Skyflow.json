@@ -1,0 +1,183 @@
+{
+ "id": "VirtoCommerce.Skyflow",
+ "repo": "vc-module-skyflow",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-skyflow",
+ "name": "Skyflow",
+ "tagline": "Skyflow Integration as payment provider enables a unified user experience for Credit Card transactions across diverse payment providers.",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.Skyflow.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.Skyflow.Web.dll",
+  "authors": [
+   "Vasily Kotov"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Payment",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.Skyflow.Core",
+   "VirtoCommerce.Skyflow.Data",
+   "VirtoCommerce.Skyflow.Web",
+   "VirtoCommerce.Skyflow.XApi"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.Skyflow.XApi/Queries/SkyflowCardQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "4f6efc7",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "4f6efc7 2026-07-27 3.1005.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The module implements integration with [Skyflow](https://www.skyflow.com/): Data Privacy Vault service.",
+  "keyFeatures": [
+   "**Unified Credit Card User Experience:** Elevate your users' payment journey with a unified experience for credit card transactions across diverse payment providers.",
+   "**PCI Compliance:** Skyflow ensures PCI compliance, streamlining adherence to industry standards for secure handling of payment data.",
+   "**Integration with Virto Storefront:** Seamlessly integrated with [Virto Storefront](https://github.com/VirtoCommerce/vc-theme-b2b-vue) for a cohesive e-commerce experience.",
+   "**Production-Ready Integration with Authorize.NET:** Fully functional integration with Authorize.NET payment providers, ready for production use.",
+   "**Flexible Customization:** Utilize the power of Virto Commerce Native Extensibility Framework and Skyflow to integrate with a wide range of payment providers, tailored to your specific needs.",
+   "**Optimized for Marketplaces:** Marketplaces can effortlessly connect with various Payment Service Providers preferred by individual suppliers, facilitating diverse payment options for customers.",
+   "**Saved Credit Card:** Customers have the option to securely save their credit card information for future transactions, enhancing convenience and speed of checkout."
+  ],
+  "docs": [
+   {
+    "label": "Skyflow module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/inventory/overview/"
+   },
+   {
+    "label": "Skyflow module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Payments/skyflow/"
+   },
+   {
+    "label": "Payment methods configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#payments"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Skyflow"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-skyflow"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-skyflow/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Prerequisites:",
+   "Architecture",
+   "Setup",
+   "Virto Commerce Configuration",
+   "Customization",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-skyflow",
+  "links": [
+   {
+    "label": "Skyflow module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/inventory/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Skyflow module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Payments/skyflow/",
+    "source": "readme"
+   },
+   {
+    "label": "Payment methods configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#payments",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

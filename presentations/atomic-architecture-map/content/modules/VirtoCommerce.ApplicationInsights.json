@@ -1,0 +1,176 @@
+{
+ "id": "VirtoCommerce.ApplicationInsights",
+ "repo": "vc-module-app-insights",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-app-insights",
+ "name": "Azure Application Insights",
+ "tagline": "Enables developers and administrators to collect, monitor, and analyze application performance, usage, and diagnostic data",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.ApplicationInsights.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.ApplicationInsights.Web.dll",
+  "authors": [
+   "Konstantin Savosteev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ApplicationInsights.Core",
+   "VirtoCommerce.ApplicationInsights.Data",
+   "VirtoCommerce.ApplicationInsights.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.ApplicationInsights.Web/Controllers/Api/ApplicationInsightsController.cs",
+    "route": "api/application-insights",
+    "actions": 1,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "application-insights:access"
+  ],
+  "settings": [
+   "ApplicationInsights.ApplicationInsightsUrl",
+   "ApplicationInsights.EnableTracking",
+   "ApplicationInsights.InstrumentationKey"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "ab090fc",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "ab090fc 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Azure Application Insights module is an extension for the Virto Commerce platform designed to integrate Microsoft Application Insights telemetry into VirtoCommerce solutions. It enables developers and administrators to collect, monitor, and analyze application performance, usage, and diagnostic data.",
+  "keyFeatures": [
+   "Collecting standard metric",
+   "Supports Code Optimizations and Application Insights Profiler",
+   "Collecting application telemetry data",
+   "Collecting application trace logging data",
+   "Flexible configuration by config and code",
+   "Store Setting to configure Application Insights and specify the InstrumentationKey per store."
+  ],
+  "docs": [
+   {
+    "label": "AppInsights module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/application-insights/overview/"
+   },
+   {
+    "label": "App Insights configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#application-insights"
+   },
+   {
+    "label": "Configure Profiler",
+    "href": "https://learn.microsoft.com/en-us/azure/azure-monitor/profiler/profiler-settings"
+   },
+   {
+    "label": "Logging configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Logging/overview/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-app-insights"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-app-insights/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Screenshots",
+   "Setup",
+   "Configuration",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-app-insights",
+  "links": [
+   {
+    "label": "AppInsights module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/application-insights/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "App Insights configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#application-insights",
+    "source": "readme"
+   },
+   {
+    "label": "Logging configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Logging/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

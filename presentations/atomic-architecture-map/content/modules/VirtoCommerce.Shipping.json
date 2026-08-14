@@ -1,0 +1,212 @@
+{
+ "id": "VirtoCommerce.Shipping",
+ "repo": "vc-module-shipping",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-shipping",
+ "name": "Shipping",
+ "tagline": "Add shipping methods management",
+ "latestVersion": "3.1007.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#9D86F5",
+ "icon": "assets/module-icons/VirtoCommerce.Shipping.svg",
+ "facts": {
+  "manifestVersion": "3.1008.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.ShippingModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "shipping",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ShippingModule.Core",
+   "VirtoCommerce.ShippingModule.Data",
+   "VirtoCommerce.ShippingModule.Data.MySql",
+   "VirtoCommerce.ShippingModule.Data.PostgreSql",
+   "VirtoCommerce.ShippingModule.Data.SqlServer",
+   "VirtoCommerce.ShippingModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.ShippingModule.Web/Controllers/Api/PickupLocationsController.cs",
+    "route": "api/shipping/pickup-locations",
+    "actions": 6,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.ShippingModule.Web/Controllers/Api/ShippingModuleController.cs",
+    "route": "api/shipping",
+    "actions": 4,
+    "authorizedActions": 2
+   }
+  ],
+  "permissions": [
+   "shipping:create",
+   "shipping:delete",
+   "shipping:read",
+   "shipping:update"
+  ],
+  "settings": [
+   "Shipping.Bopis.GoogleMaps.ApiKey",
+   "Shipping.Bopis.GoogleMaps.Enabled",
+   "Shipping.Bopis.Search.EventBasedIndexation.Enabled",
+   "VirtoCommerce.Search.IndexingJobs.IndexationDate.PickupLocation",
+   "VirtoCommerce.Shipping.FixedRateShippingMethod.Air.Rate",
+   "VirtoCommerce.Shipping.FixedRateShippingMethod.Ground.Rate"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "PickupLocationChangedEvent",
+   "PickupLocationChangingEvent",
+   "ShippingChangeEvent",
+   "ShippingChangedEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.ShippingModule.Data/Handlers/IndexPickupLocationChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "PickupLocationChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [
+   "src/VirtoCommerce.ShippingModule.Data/Search/Indexed/PickupLocationChangesProvider.cs",
+   "src/VirtoCommerce.ShippingModule.Data/Search/Indexed/PickupLocationDocumentBuilder.cs"
+  ],
+  "migrationCount": 16,
+  "hasAdminUi": true,
+  "adminUiFiles": 17,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "PickupFulfillmentRelationEntity",
+   "PickupLocationEntity",
+   "StoreShippingMethodEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "2cee7d7",
+   "lastCommitDate": "2026-07-28",
+   "lastCommit": "2cee7d7 2026-07-28 3.1008.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Shipping methods are registered in code and then made available for configuration per store from the admin UI. Each method exposes its own set of settings (rates, surcharges, credentials, etc.) which are edited from the store's shipping tab. At checkout/quotation time the platform asks every active method for a rate, and the calculated rates are returned to the storefront. In addition to rate calculation, the module manages **pickup locations** used by BOPIS: dedicated entities with addresses, business hours, geo-coordinates and optional Google Maps integration. Pickup locations are indexed via the Search module so they can be looked up quickly on the storefront and in the admin UI. Key concepts: * **Shipping method** — a pluggable provider registered via DI that calculates shipping rates for a shipment. * **Pickup location** — a physical point (store, locker, warehouse) where a customer can pick up an order under the BOPIS method. * **Store binding** — each shipping method is activated per store, with its own settings and priority.",
+  "keyFeatures": [
+   "Register custom shipping methods in code and expose them to the admin UI.",
+   "Manage the full list of shipping methods from the admin UI, with priority and per-store activation.",
+   "Edit per-method settings directly from the store's shipping tab.",
+   "Built-in **Fixed Rate** shipping method with configurable Ground and Air rates.",
+   "Built-in **BOPIS** (Buy Online, Pickup In Store) shipping method with full pickup-location management.",
+   "**Pickup locations CRUD**: create, update, delete and search locations with address, contacts and geo-coordinates.",
+   "**Google Maps integration** for visualizing and picking pickup-location coordinates (optional, requires API key).",
+   "**Indexed search** for pickup locations via the Search module, with event-based re-indexation out of the box.",
+   "Permission-scoped access (`shipping:read`, `shipping:create`, `shipping:update`, `shipping:delete`) and a `SelectedStoreScope` to limit shipping management to specific stores.",
+   "Public REST API to work with shipping methods, pickup locations and indexed search."
+  ],
+  "docs": [
+   {
+    "label": "Shipping module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/shipping/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Shipping"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-shipping"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-shipping/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Features",
+   "Settings",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-shipping",
+  "links": [
+   {
+    "label": "Shipping module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/shipping/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

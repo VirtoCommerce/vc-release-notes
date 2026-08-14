@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-cart",
  "name": "Shopping Cart",
  "tagline": "Shopping cart / checkout functionality",
- "latestVersion": "3.1007.0",
+ "latestVersion": "3.1009.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#FFC24D",
  "icon": "assets/module-icons/VirtoCommerce.Cart.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1004.0",
+  "manifestVersion": "3.1010.0",
+  "platformVersion": "3.1039.0",
   "assembly": "VirtoCommerce.CartModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -22,44 +22,44 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1000.0",
+    "version": "3.1005.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1000.0",
+    "version": "3.1007.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1000.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Notifications",
-    "version": "3.1000.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Payment",
-    "version": "3.1000.0",
+    "version": "3.1004.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Shipping",
-    "version": "3.1000.0",
+    "version": "3.1005.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1000.0",
+    "version": "3.1005.0",
     "optional": false
    }
   ],
   "optionalDependencies": [
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1000.0",
+    "version": "3.1004.0",
     "optional": true
    }
   ],
@@ -102,6 +102,10 @@
    "Cart.PortionDeleteObsoleteCarts"
   ],
   "domainEventsPublished": [],
+  "declaredEvents": [
+   "CartChangeEvent",
+   "CartChangedEvent"
+  ],
   "eventHandlers": [
    "src/VirtoCommerce.CartModule.Data/Handlers/CartChangedEventHandler.cs"
   ],
@@ -147,9 +151,11 @@
    "TaxDetailEntity"
   ],
   "git": {
-   "branch": "dev",
+   "ref": "origin/dev",
+   "sha": "fb8f6e0",
+   "lastCommitDate": "2026-08-11",
    "lastCommit": "fb8f6e0 2026-08-11 3.1010.0",
-   "lastCommitDate": "2026-08-11"
+   "readFrom": "git ref"
   }
  },
  "readme": {
@@ -212,14 +218,29 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
-  "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "forAnalyst": "The basket a shopper is filling, including named wish lists, and what it totals before checkout — line items, discounts, coupons, shipments, payments and taxes as they stand right now. Nothing here is a record of a sale; it is the state of an intention.",
+  "forArchitect": "A high-churn store with no back-office UI: it is written on almost every storefront interaction, and it needs seven modules to be present — Assets, Core, Customer, Notifications, Payment, Shipping, Store — which makes it a poor candidate for a small host. Search is optional, so a cart host can be deployed without an index. Obsolete carts are pruned by a scheduled job, not by a person, and its 105 migrations reflect how often that schema has moved.",
+  "forDeveloper": "Two declared events, `CartChangeEvent` before the save and `CartChangedEvent` after it, are how you hook cart behaviour without forking the module — validation and totals recalculation both ride on them. `api/carts` carries 24 actions; the storefront path is xCart, not this REST surface.",
+  "owns": [
+   "ShoppingCartEntity",
+   "LineItemEntity",
+   "ShipmentEntity",
+   "PaymentEntity",
+   "CouponEntity",
+   "ProductWishlistEntity"
+  ],
+  "reachForItWhen": [
+   "You need the current, uncommitted state of what a shopper intends to buy",
+   "You are adding a wish list, a saved cart or a shared cart feature",
+   "Checkout has to recalculate totals, taxes or shipping before an order exists"
+  ],
+  "doNotReachForItWhen": [
+   "The sale has happened — an order is a separate document in Orders, with its own copy of the prices",
+   "You want cart history or analytics: carts are pruned on a schedule and are not an archive",
+   "You are on a storefront: talk to xCart, which is built for one round trip per page"
+  ]
  },
- "extractedAt": "2026-08-13",
+ "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-cart",
@@ -235,6 +256,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": true
+  "checkedOnline": false
  }
 }

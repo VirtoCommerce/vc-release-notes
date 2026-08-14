@@ -1,0 +1,183 @@
+{
+ "id": "VirtoCommerce.CatalogPublishing",
+ "repo": "vc-module-catalog-publishing",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-catalog-publishing",
+ "name": "Catalog Publishing",
+ "tagline": "Allow you to see progress on filling in information about products and marks missed info.",
+ "latestVersion": "3.1006.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.CatalogPublishing.svg",
+ "facts": {
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.CatalogPublishingModule.Web.dll",
+  "authors": [
+   "Alexey Antonov",
+   "Andrew Orlov",
+   "Aleksandr Vishnyakov",
+   "Artem Dudarev"
+  ],
+  "tags": "publishing filling",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Pricing",
+    "version": "3.1003.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.CatalogPublishingModule.Core",
+   "VirtoCommerce.CatalogPublishingModule.Data",
+   "VirtoCommerce.CatalogPublishingModule.Data.MySql",
+   "VirtoCommerce.CatalogPublishingModule.Data.PostgreSql",
+   "VirtoCommerce.CatalogPublishingModule.Data.SqlServer",
+   "VirtoCommerce.CatalogPublishingModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.CatalogPublishingModule.Web/Controllers/Api/CompletenessController.cs",
+    "route": "api/completeness",
+    "actions": 9,
+    "authorizedActions": 7
+   }
+  ],
+  "permissions": [
+   "channel:access",
+   "channel:create",
+   "channel:delete",
+   "channel:read",
+   "channel:update"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [
+   "src/VirtoCommerce.CatalogPublishingModule.Data/Search/Indexing/ProductCompletenessChangesProvider.cs",
+   "src/VirtoCommerce.CatalogPublishingModule.Data/Search/Indexing/ProductCompletenessDocumentBuilder.cs"
+  ],
+  "migrationCount": 11,
+  "hasAdminUi": true,
+  "adminUiFiles": 16,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "CompletenessChannelCurrencyEntity",
+   "CompletenessChannelEntity",
+   "CompletenessChannelLanguageEntity",
+   "CompletenessDetailEntity",
+   "CompletenessEntryEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "8518099",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "8518099 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Catalog Publishing module is a set of tools for assessing the completeness of products for publication by specified criteria.",
+  "keyFeatures": [
+   "Control product quality (completeness) for multiple sales channels",
+   "View list of incomplete products",
+   "Find and highlight missing information in product details",
+   "Extendable evaluation process"
+  ],
+  "docs": [
+   {
+    "label": "Catalog Publishing module documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/catalog-publishing/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.CatalogPublishing"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-catalog-publishing/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-catalog-publishing/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-catalog-publishing",
+  "links": [
+   {
+    "label": "Catalog Publishing module documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/catalog-publishing/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

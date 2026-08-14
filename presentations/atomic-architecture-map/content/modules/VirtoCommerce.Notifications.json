@@ -1,0 +1,250 @@
+{
+ "id": "VirtoCommerce.Notifications",
+ "repo": "vc-module-notification",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-notification",
+ "name": "Notifications",
+ "tagline": "Provides a comprehensive infrastructure for managing and delivering notifications within the Virto Commerce platform.",
+ "latestVersion": "3.1013.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.Notifications.svg",
+ "facts": {
+  "manifestVersion": "3.1014.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.NotificationsModule.Web.dll",
+  "authors": [
+   "Eugeny Tatarincev",
+   "Andrei Kostyrin"
+  ],
+  "tags": "notifications",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.NotificationsModule.Core",
+   "VirtoCommerce.NotificationsModule.Data",
+   "VirtoCommerce.NotificationsModule.Data.MySql",
+   "VirtoCommerce.NotificationsModule.Data.PostgreSql",
+   "VirtoCommerce.NotificationsModule.Data.SqlServer",
+   "VirtoCommerce.NotificationsModule.LiquidRenderer",
+   "VirtoCommerce.NotificationsModule.MicrosoftGraph",
+   "VirtoCommerce.NotificationsModule.SendGrid",
+   "VirtoCommerce.NotificationsModule.Smtp",
+   "VirtoCommerce.NotificationsModule.TemplateLoader.FileSystem",
+   "VirtoCommerce.NotificationsModule.Twilio",
+   "VirtoCommerce.NotificationsModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.NotificationsModule.Web/Controllers/NotificationLayoutsController.cs",
+    "route": "api/notification-layouts",
+    "actions": 6,
+    "authorizedActions": 6
+   },
+   {
+    "file": "src/VirtoCommerce.NotificationsModule.Web/Controllers/NotificationsController.cs",
+    "route": "api/notifications",
+    "actions": 11,
+    "authorizedActions": 12
+   }
+  ],
+  "permissions": [
+   "notifications:access",
+   "notifications:create",
+   "notifications:delete",
+   "notifications:export",
+   "notifications:import",
+   "notifications:read",
+   "notifications:template:create",
+   "notifications:templates:read",
+   "notifications:update"
+  ],
+  "settings": [],
+  "domainEventsPublished": [
+   "NotificationChangedEvent",
+   "NotificationChangingEvent",
+   "NotificationMessageChangedEvent",
+   "NotificationMessageChangingEvent"
+  ],
+  "declaredEvents": [
+   "NotificationChangedEvent",
+   "NotificationChangingEvent",
+   "NotificationLayoutChangedEvent",
+   "NotificationLayoutChangingEvent",
+   "NotificationMessageChangedEvent",
+   "NotificationMessageChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.NotificationsModule.Data/Handlers/RequestPasswordResetHandler.cs"
+  ],
+  "handledEvents": [
+   "UserRequestPasswordResetEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 32,
+  "hasAdminUi": true,
+  "adminUiFiles": 45,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "EmailAttachmentEntity",
+   "EmailNotificationEntity",
+   "EmailNotificationMessageEntity",
+   "EmailNotificationTemplateEntity",
+   "NotificationEmailRecipientEntity",
+   "NotificationEntity",
+   "NotificationLayoutEntity",
+   "NotificationMessageEntity",
+   "NotificationTemplateEntity",
+   "SmsNotificationEntity",
+   "SmsNotificationMessageEntity",
+   "SmsNotificationTemplateEntity",
+   "TwitterNotificationEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "c62ac66",
+   "lastCommitDate": "2026-07-30",
+   "lastCommit": "c62ac66 2026-07-30 3.1014.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Notification module provides a comprehensive infrastructure for managing and delivering notifications within the Virto Commerce platform. It encompasses the following key components:",
+  "keyFeatures": [
+   "**Email templates with Scriban/Liquid**: The module supports email templates using the powerful Scriban templating language, with Liquid support enabled. This allows for dynamic content generation and customization of email notifications, ensuring personalized and engaging communication with recipients.",
+   "**Extendable model**: The notifications module offers an extendable model, allowing developers to add custom fields and attributes to notifications as per their specific business requirements. This flexibility enables seamless integration with existing systems and workflows.",
+   "**Notification layouts**: Create reusable layout templates with common elements (header, footer, etc.) to maintain consistent branding across all notification templates.",
+   "**Multi-language support**: Templates can be created for multiple languages to support international customers.",
+   "**Template preview and testing**: Preview rendered templates with sample data and send test emails before going live.",
+   "**CC and BCC support**: Send copies and blind copies of notifications to additional recipients.",
+   "**Email attachments**: Support for adding file attachments to email notifications (API only).",
+   "**SMTP support**: Send emails via any SMTP server with SSL/TLS support and custom headers.",
+   "**SendGrid support**: Integrate with SendGrid for reliable cloud-based email delivery.",
+   "**Microsoft Graph support**: Send emails through Microsoft 365 using Microsoft Graph API.",
+   "**Twilio support**: Send SMS notifications via Twilio gateway.",
+   "**Async delivery with retry policy**: The module implements asynchronous delivery with a built-in retry policy using Hangfire and Polly. Failed notifications are automatically retried with exponential backoff to ensure reliable delivery.",
+   "**Notification activity logs**: All notification activities are logged, including delivery status, send attempts, and error messages.",
+   "**File system template loader**: Load notification templates from the file system for easier version control and deployment.",
+   "**Export/Import support**: Export and import notification configurations for backup and migration purposes.",
+   "**SQL Server**: Primary database provider (default)",
+   "**PostgreSQL**: Full support for PostgreSQL databases",
+   "**MySQL**: Full support for MySQL databases"
+  ],
+  "docs": [
+   {
+    "label": "Notification module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/notifications/overview/"
+   },
+   {
+    "label": "Notification module developer guide",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Notifications/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Notifications"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-notification/"
+   },
+   {
+    "label": "Liquid as Primary Template Language",
+    "href": "https://community.virtocommerce.com/t/liquid-as-primary-template-language/78"
+   },
+   {
+    "label": "Creating Email templates",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/notifications/notification-templates/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-notification/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Setup and Configuration",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-notification",
+  "links": [
+   {
+    "label": "Notification module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/notifications/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Notification module developer guide",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Notifications/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Creating Email templates",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/notifications/notification-templates/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

@@ -8,9 +8,11 @@
  *             it, what it owns). Authored, and left empty by this tool.
  *
  * Usage:
- *   node tools/module-profile.js vc-module-webhooks            # write content/modules/<id>.json
- *   node tools/module-profile.js vc-module-webhooks --stdout   # print, write nothing
- *   node tools/module-profile.js --all                         # every active module with a checkout
+ *   node tools/module-profile.js vc-module-webhooks              # write content/modules/<id>.json
+ *   node tools/module-profile.js vc-module-webhooks --stdout     # print, write nothing
+ *   node tools/module-profile.js --all --ref origin/dev          # every active module, read from dev
+ *   ... --online     verify documentation slugs over HTTP
+ *   ... --no-fetch   use the refs already in the local clone rather than fetching
  */
 const fs = require('fs');
 const path = require('path');
@@ -138,7 +140,10 @@ function codeSignals(repoDir, files) {
   let permissions = [], settings = [];
   for (const f of cs.filter(f => /ModuleConstants\.cs$/.test(f))) {
     const src = read(f) || '';
-    permissions = permissions.concat(grab(/public const string \w+ = "([^"]+)"/g, src).filter(v => /:/.test(v)));
+    /* A permission has a segment on either side of the colon. Catalog's
+       `OperationLogVariationMarker = "MainProductId:"` is a const with a trailing colon, not a permission. */
+    permissions = permissions.concat(grab(/public const string \w+ = "([^"]+)"/g, src)
+      .filter(v => /^[a-z][\w.-]*(:[\w.*-]+)+$/i.test(v)));
     /* A SettingDescriptor name is dotted (Webhooks.General.SendRetryCount). The `Name = "Webhooks|General"`
        lines in the same file are setting-GROUP labels, and counting them as settings inflates the number. */
     settings = settings.concat(grab(/Name = "([^"]+)"/g, src).filter(v => v.includes('.') && !v.includes('|')));
@@ -149,6 +154,13 @@ function codeSignals(repoDir, files) {
   const product = cs.filter(f => !/(^|[\/])(tests?|samples?)[\/]/i.test(rel(f)));
 
   const eventsPublished = [...new Set(product.flatMap(f => grab(/new (\w+ChangedEvent|\w+ChangingEvent)\(/g, read(f) || '')))];
+  /* What the module DECLARES, which is what other modules can subscribe to. Construction sites are a
+     poor proxy: CrudService raises events through a generic factory, so Cart declares two events and
+     constructs neither — "publishes none" would have been a wrong sentence on its page. */
+  const declaredEvents = [...new Set(product.flatMap(f =>
+    /* `class Name : Base` and `class Name(args) : Base(args)` — the C# 12 primary-constructor form puts
+       a parameter list between the two, which the stricter pattern read as "declares nothing". */
+    grab(/class\s+(\w+)\s*(?:\([^)]*\))?\s*:\s*(?:GenericChangedEntryEvent|DomainEvent)/g, read(f) || '')))].sort();
   const handlers = product.filter(f => /IEventHandler</.test(read(f) || '')).map(rel);
   /* Which events the module reacts to, read from the generic argument of each IEventHandler<T> it
      implements. A count said "1 handler" and left the reader no wiser; the name says which part of
@@ -177,6 +189,7 @@ function codeSignals(repoDir, files) {
     permissions: [...new Set(permissions)].sort(),
     settings: [...new Set(settings)].sort(),
     domainEventsPublished: eventsPublished.sort(),
+    declaredEvents: declaredEvents,
     eventHandlers: handlers,
     handledEvents: handledEvents,
     subscribesDynamically: dynamicSubscription,
@@ -199,6 +212,82 @@ function gitInfo(repoDir) {
   };
 }
 
+// ---------------------------------------------------------------- reading a ref, not the worktree
+
+const os = require('os');
+
+/* A repo directory for a registry name, tolerating the two stale ProjectUrl redirects: the acronym
+   forms (vc-module-u-c-p) do not exist on disk even though GitHub redirects them. */
+function checkoutFor(repoName) {
+  /* "vc-module-u-c-p" is the registry's own ProjectUrl for vc-module-ucp. GitHub redirects it; a
+     filesystem does not, so collapse the dashes after the prefix and try that too. */
+  const collapsed = repoName.replace(/^vc-module-/, '').replace(/-/g, '');
+  for (const c of [repoName, 'vc-module-' + collapsed]) {
+    const dir = path.join(CHECKOUTS, c);
+    if (fs.existsSync(path.join(dir, '.git'))) return dir;
+  }
+  return null;
+}
+
+/* No checkout: clone shallowly into a temp directory rather than into the user's tree. Used only
+   with --clone, so a plain run never reaches for the network to invent a repository. */
+function shallowClone(repoName, ref) {
+  const branch = (ref || 'origin/dev').replace(/^origin\//, '');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'vc-clone-'));
+  const url = 'https://github.com/VirtoCommerce/' + repoName;
+  for (const b of [branch, 'main', 'master']) {
+    try {
+      execFileSync('git', ['clone', '--depth', '1', '--quiet', '--branch', b, url, dir],
+        { stdio: ['ignore', 'ignore', 'ignore'] });
+      return { dir: dir, branch: b };
+    } catch { /* try the next branch name */ }
+  }
+  rmrf(dir);
+  return null;
+}
+
+function git(dir, args, quiet) {
+  try { return execFileSync('git', ['-C', dir, ...args], { encoding: 'utf8', stdio: quiet ? ['ignore', 'pipe', 'ignore'] : undefined }).trim(); }
+  catch { return null; }
+}
+
+/* Export `ref` into a temp directory and return it, or null when the ref does not exist. `git
+   archive | tar -x` is one process per repository — reading two thousand blobs through `git show`
+   would not be. */
+function exportRef(dir, ref, fetch) {
+  const branch = ref.replace(/^origin\//, '');
+  if (fetch) git(dir, ['fetch', 'origin', branch, '--quiet'], true);
+
+  let resolved = ref;
+  if (!git(dir, ['rev-parse', '--verify', '--quiet', resolved], true)) {
+    /* Not every module uses dev: fall back to the remote's own default branch. */
+    const head = git(dir, ['symbolic-ref', 'refs/remotes/origin/HEAD'], true);
+    resolved = head ? head.replace('refs/remotes/', '') : null;
+    if (!resolved || !git(dir, ['rev-parse', '--verify', '--quiet', resolved], true)) return null;
+  }
+
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'vc-profile-'));
+  const tarball = path.join(out, '_export.tar');
+  try {
+    /* No shell and no pipe: git writes the archive, tar unpacks it. A `sh -c` pipeline works in Git
+       Bash but not when Node spawns it — /usr/bin/sh is not on the Windows PATH. */
+    execFileSync('git', ['-C', dir, 'archive', '--format=tar', '--output=' + tarball, resolved],
+      { stdio: ['ignore', 'ignore', 'ignore'] });
+    execFileSync('tar', ['-xf', '_export.tar'], { cwd: out, stdio: ['ignore', 'ignore', 'ignore'] });
+    fs.unlinkSync(tarball);
+  } catch { rmrf(out); return null; }
+
+  return {
+    dir: out,
+    ref: resolved,
+    sha: git(dir, ['rev-parse', '--short', resolved], true),
+    date: git(dir, ['log', '-1', '--format=%ad', '--date=short', resolved], true),
+    subject: git(dir, ['log', '-1', '--format=%s', resolved], true)
+  };
+}
+
+function rmrf(dir) { try { fs.rmSync(dir, { recursive: true, force: true }); } catch { /* temp dir */ } }
+
 // ---------------------------------------------------------------- profile
 
 function registryEntry(registry, repoName, manifestId) {
@@ -211,19 +300,66 @@ function registryEntry(registry, repoName, manifestId) {
   return registry.find(m => (m.ProjectUrl || '').toLowerCase().endsWith('/' + repoName.toLowerCase())) || null;
 }
 
-function profile(repoName) {
-  const repoDir = path.join(CHECKOUTS, repoName);
-  if (!fs.existsSync(repoDir)) throw new Error('no checkout at ' + repoDir);
+function profile(repoName, opts) {
+  opts = opts || {};
+  let checkout = checkoutFor(repoName), cloned = null;
+  if (!checkout && opts.clone) {
+    cloned = shallowClone(repoName, opts.ref);
+    if (cloned) checkout = cloned.dir;
+  }
+  if (!checkout) throw new Error('no checkout for ' + repoName + (opts.clone ? ' and cloning failed' : ' (pass --clone to fetch it)'));
+
+  /* Read a ref when asked, so the facts describe the module rather than whatever branch the
+     checkout happens to be parked on. */
+  let exported = null, repoDir = checkout;
+  if (opts.ref && !cloned) {
+    exported = exportRef(checkout, opts.ref, opts.fetch !== false);
+    if (!exported) throw new Error('cannot read ' + opts.ref + ' in ' + repoName);
+    repoDir = exported.dir;
+  }
 
   const files = walk(repoDir);
-  const manifestFile = files.find(f => f.endsWith('module.manifest'));
+
+  /* Pick the module's OWN manifest. Three traps, in the order they bit:
+       `_module.manifest` — a disabled sample manifest that endsWith() happily matched;
+       samples/ and tests/ — real manifests for demo modules living in the same repo;
+       several valid ones — artifacts/ holds a build copy, src/ holds the source of truth. */
+  const manifestCandidates = files.filter(f => path.basename(f) === 'module.manifest')
+    .filter(f => !/(^|[\/])(samples?|tests?|artifacts)[\/]/i.test(path.relative(repoDir, f)))
+    .sort((a, b) => a.split(/[\/]/).length - b.split(/[\/]/).length);
+
+  const expectedId = (function () {
+    global.window = {};
+    try { eval(read(path.join(ROOT, 'content/modules-active.js')) || ''); } catch { /* optional */ }
+    const cat = global.window.VC_ACTIVE_MODULES || [];
+    const hit = cat.find(m => m.repo === repoName) ||
+                cat.find(m => 'vc-module-' + String(m.id).replace(/^VirtoCommerce\./, '').replace(/-/g, '').toLowerCase() ===
+                              repoName.replace(/-/g, '').toLowerCase());
+    return hit ? hit.id : null;
+  })();
+
+  const manifestFile = (expectedId &&
+      manifestCandidates.find(f => (tag(read(f) || '', 'id') || '') === expectedId)) ||
+    manifestCandidates[0] ||
+    files.find(f => path.basename(f) === 'module.manifest');
   const manifest = read(manifestFile);
   const readme = read(path.join(repoDir, 'README.md'));
-  const registry = JSON.parse(fs.readFileSync(REGISTRY, 'utf8'));
+  /* The generated catalogue, not the registry clone: it is built from master with --online, and it is
+     the same list the tiles are drawn from. Reading a second, older copy is how UCP and SalesRep came
+     out with no version at all. */
+  const catalogue = (function () {
+    global.window = {};
+    try { eval(read(path.join(ROOT, 'content/modules-active.js')) || ''); } catch { /* optional */ }
+    return global.window.VC_ACTIVE_MODULES || [];
+  })();
 
   const id = manifest ? tag(manifest, 'id') : null;
+  const fromCatalogue = catalogue.find(m => m.id === id) ||
+                        catalogue.find(m => m.repo === repoName) || null;
+  const registry = JSON.parse(fs.readFileSync(REGISTRY, 'utf8'));
   const entry = registryEntry(registry, repoName, id);
-  const latest = entry ? (entry.Versions || []).map(v => v.Version).sort(cmpVer).pop() : null;
+  const latest = fromCatalogue ? fromCatalogue.version
+    : entry ? (entry.Versions || []).map(v => v.Version).sort(cmpVer).pop() : null;
 
   const deps = manifest ? [...(tag(manifest, 'dependencies') || '').matchAll(/<dependency\s+([^/>]+)\/>/g)] : [];
   const parseDep = attrs => {
@@ -236,16 +372,16 @@ function profile(repoName) {
 
   const rm = parseReadme(readme);
 
-  return {
+  const result = {
     /* --- identity ------------------------------------------------------- */
     id,
     repo: repoName,
     repoUrl: 'https://github.com/VirtoCommerce/' + repoName,
-    name: entry ? entry.Title : (manifest ? tag(manifest, 'title') : repoName),
-    tagline: entry ? entry.Description : (manifest ? tag(manifest, 'description') : null),
+    name: fromCatalogue ? fromCatalogue.name : (entry ? entry.Title : (manifest ? tag(manifest, 'title') : repoName)),
+    tagline: fromCatalogue ? fromCatalogue.description : (entry ? entry.Description : (manifest ? tag(manifest, 'description') : null)),
     latestVersion: latest,
     active: latest ? cmpVer(latest, '3.1000.0') >= 0 : false,
-    groups: entry ? (entry.Groups || []) : [],
+    groups: fromCatalogue ? fromCatalogue.groups : (entry ? (entry.Groups || []) : []),
     accent: accents[id] || null,
     icon: id ? 'assets/module-icons/' + id + '.svg' : null,
 
@@ -259,7 +395,13 @@ function profile(repoName) {
       dependsOn: deps.map(m => parseDep(m[1])).filter(d => !d.optional),
       optionalDependencies: deps.map(m => parseDep(m[1])).filter(d => d.optional),
       ...codeSignals(repoDir, files),
-      git: gitInfo(repoDir)
+      git: exported
+        ? { ref: exported.ref, sha: exported.sha, lastCommitDate: exported.date,
+            lastCommit: exported.sha + ' ' + exported.date + ' ' + (exported.subject || ''),
+            readFrom: 'git ref' }
+        : cloned
+          ? Object.assign({ ref: 'origin/' + cloned.branch, readFrom: 'shallow clone' }, gitInfo(checkout))
+          : Object.assign({ readFrom: 'working tree' }, gitInfo(checkout))
     },
 
     /* --- readme: quoted, with the source recorded ----------------------- */
@@ -287,6 +429,10 @@ function profile(repoName) {
     extractedAt: new Date().toISOString().slice(0, 10),
     extractedBy: 'tools/module-profile.js'
   };
+
+  if (exported) rmrf(exported.dir);
+  if (cloned) rmrf(cloned.dir);
+  return result;
 }
 
 // ---------------------------------------------------------------- cli
@@ -338,6 +484,9 @@ if (!args.length) {
 }
 
 const ONLINE = args.includes('--online');
+const REF = (function () { const i = args.indexOf('--ref'); return i >= 0 ? args[i + 1] : null; })();
+const FETCH = !args.includes('--no-fetch');
+const OPTS = { ref: REF, fetch: FETCH, clone: args.includes('--clone') };
 
 /* Re-running the extractor must not throw away the authored half. Facts are overwritten, notes are
    carried across from whatever is already on disk. */
@@ -352,13 +501,18 @@ function mergeNotes(p) {
 }
 
 if (args[0] === '--all') {
-  const registry = JSON.parse(fs.readFileSync(REGISTRY, 'utf8'));
-  const repos = fs.readdirSync(CHECKOUTS).filter(d => /^vc-module-/.test(d));
+  /* The catalogue, not the folder listing: 118 directories look like module repos, and only the 96
+     the registry still publishes belong on the map. */
+  global.window = {};
+  eval(read(path.join(ROOT, 'content/modules-active.js')) || '');
+  const active = global.window.VC_ACTIVE_MODULES || [];
+  const repos = active.map(m => m.repo);
+  console.log('profiling ' + repos.length + ' active modules' + (REF ? ' from ' + REF : ' from the working tree'));
   fs.mkdirSync(OUT_DIR, { recursive: true });
   let ok = 0, skipped = [];
   for (const r of repos) {
     try {
-      const p = profile(r);
+      const p = profile(r, OPTS);
       if (!p.id || !p.active) { skipped.push(r + (p.id ? ' (' + p.latestVersion + ')' : ' (no manifest)')); continue; }
       fs.writeFileSync(path.join(OUT_DIR, p.id + '.json'), JSON.stringify(mergeNotes(addDocLinks(p, ONLINE)), null, 1));
       ok++;
@@ -368,7 +522,7 @@ if (args[0] === '--all') {
   skipped.forEach(s => console.log('  skip ' + s));
 } else {
   fs.mkdirSync(OUT_DIR, { recursive: true });
-  const p = mergeNotes(addDocLinks(profile(args[0]), ONLINE));
+  const p = mergeNotes(addDocLinks(profile(args[0], OPTS), ONLINE));
   if (args.includes('--stdout')) { console.log(JSON.stringify(p, null, 1)); }
   else {
     const out = path.join(OUT_DIR, (p.id || args[0]) + '.json');

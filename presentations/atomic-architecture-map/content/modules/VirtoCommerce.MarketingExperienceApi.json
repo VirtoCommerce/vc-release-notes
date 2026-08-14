@@ -1,0 +1,196 @@
+{
+ "id": "VirtoCommerce.MarketingExperienceApi",
+ "repo": "vc-module-marketing-experience-api",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-marketing-experience-api",
+ "name": "Marketing Experience API",
+ "tagline": "Experience Api extension for Marketing",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [],
+ "accent": "#F88A8D",
+ "icon": "assets/module-icons/VirtoCommerce.MarketingExperienceApi.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.MarketingExperienceApi.Web.dll",
+  "authors": [
+   "Evgeny Okhrimenko"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1010.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Marketing",
+    "version": "3.1001.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.MarketingExperienceApi.Core",
+   "VirtoCommerce.MarketingExperienceApi.Data",
+   "VirtoCommerce.MarketingExperienceApi.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [
+   "MarketingExperienceApi:create",
+   "MarketingExperienceApi:delete",
+   "MarketingExperienceApi:read",
+   "MarketingExperienceApi:update"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.MarketingExperienceApi.Data/Queries/EvaluateDynamicContentQueryBuilder.cs",
+   "src/VirtoCommerce.MarketingExperienceApi.Data/Queries/PromotionCouponsQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "f5a188f",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "f5a188f 2026-07-27 3.1005.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The xMarketing module provides high performance search queries for dynamic content.",
+  "keyFeatures": [
+   "Allows you to evaluate dynamic content based on dynamic conditions.",
+   "Ready for banners, slideshow, popup, etc."
+  ],
+  "docs": [
+   {
+    "label": "xMarketing module documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Marketing/overview/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-marketing-experience-api/"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-marketing-experience-api/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-marketing-experience-api",
+  "links": [
+   {
+    "label": "xMarketing module documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Marketing/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/",
+    "source": "readme"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/",
+    "source": "readme"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/",
+    "source": "readme"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

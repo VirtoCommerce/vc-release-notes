@@ -1,0 +1,164 @@
+{
+ "id": "VirtoCommerce.BulkActionsModule",
+ "repo": "vc-module-bulk-actions",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-bulk-actions",
+ "name": "Bulk Actions",
+ "tagline": "Bulk actions module",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.BulkActionsModule.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.BulkActionsModule.Web.dll",
+  "authors": [
+   "Burashov T.S."
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.BulkActionsModule.Core",
+   "VirtoCommerce.BulkActionsModule.Data",
+   "VirtoCommerce.BulkActionsModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.BulkActionsModule.Web/Controllers/Api/BulkActionsController.cs",
+    "route": "api/bulk/actions",
+    "actions": 4,
+    "authorizedActions": 4
+   }
+  ],
+  "permissions": [
+   "bulk-actions:execute",
+   "bulk-actions:read"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 2,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "8dcea62",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "8dcea62 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Bulk Actions Module (BAM) provides a general-purpose, extensible pipeline for executing bulk operations asynchronously within the Virto Commerce platform. Built on the [Template Method pattern](https://en.wikipedia.org/wiki/Template_method_pattern), it offers a framework where other modules can register custom bulk actions with their own data sources, execution logic, and permission requirements. The module handles orchestration, background job execution via Hangfire, progress tracking through push notifications, and cancellation support — allowing consumer modules to focus solely on their domain-specific logic.",
+  "keyFeatures": [
+   "**Extensible Provider Model** — Register custom bulk actions by implementing a small set of interfaces (`IBulkActionFactory`, `IDataSourceFactory`) and adding a `BulkActionProvider` to the storage.",
+   "**Asynchronous Background Execution** — Bulk actions run as Hangfire background jobs, preventing long-running operations from blocking the API.",
+   "**Real-Time Progress Tracking** — Push notifications report processed/total counts, descriptions, and errors to the UI in real time.",
+   "**Job Cancellation** — Running bulk action jobs can be cancelled via the REST API using cancellation tokens.",
+   "**Permission-Based Authorization** — Each registered bulk action provider declares its required permissions, which are checked against the current user before execution.",
+   "**Polymorphic Context Deserialization** — Automatically resolves `BulkActionContext` subtypes via `PolymorphJsonConverter`, enabling strongly-typed action contexts across modules."
+  ],
+  "docs": [
+   {
+    "label": "Bulk Actions Module Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Modules/VirtoCommerce.BulkActionsModule/"
+   },
+   {
+    "label": "REST API Reference",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Modules/VirtoCommerce.BulkActionsModule/api/"
+   },
+   {
+    "label": "GitHub Repository",
+    "href": "https://github.com/VirtoCommerce/vc-module-bulk-actions"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment Guide",
+    "href": "https://docs.virtocommerce.org/developer-guide/deploy-module/"
+   },
+   {
+    "label": "Installation Guide",
+    "href": "https://docs.virtocommerce.org/user-guide/modules/"
+   },
+   {
+    "label": "Virto Commerce Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Latest Release",
+    "href": "https://github.com/VirtoCommerce/vc-module-bulk-actions/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-bulk-actions",
+  "links": [
+   {
+    "label": "Bulk Actions Module Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Modules/VirtoCommerce.BulkActionsModule/",
+    "source": "readme"
+   },
+   {
+    "label": "REST API Reference",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Modules/VirtoCommerce.BulkActionsModule/api/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

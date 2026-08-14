@@ -1,0 +1,166 @@
+{
+ "id": "VirtoCommerce.AzureSearch",
+ "repo": "vc-module-azure-search",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-azure-search",
+ "name": "Azure Search",
+ "tagline": "Search functionality with Elastic Azure Search service",
+ "latestVersion": "3.1007.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.AzureSearch.svg",
+ "facts": {
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.AzureSearchModule.Web.dll",
+  "authors": [
+   "Artem Dudarev"
+  ],
+  "tags": "azure search",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.AzureSearchModule.Data",
+   "VirtoCommerce.AzureSearchModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [
+   "VirtoCommerce.Search.AzureSearch.NGramTokenFilter.MaxGram",
+   "VirtoCommerce.Search.AzureSearch.NGramTokenFilter.MinGram",
+   "VirtoCommerce.Search.AzureSearch.TokenFilter"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "75e64e2",
+   "lastCommitDate": "2026-07-24",
+   "lastCommit": "75e64e2 2026-07-24 3.1006.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "VirtoCommerce.AzureSearch module implements ISearchProvider defined in the VirtoCommerce Search module and uses <a href=\"https://azure.microsoft.com/en-us/services/search/\" target=\"_blank\">Azure Cognitive Search</a> engine.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "Azure Search module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/azure-search/overview/"
+   },
+   {
+    "label": "Azure Search module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/integration/configuring-azure-cognitive-search/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.AzureSearch"
+   },
+   {
+    "label": "Azure Search configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#azure-search"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-azure-search"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-azure-search/releases/latest"
+   }
+  ],
+  "sections": [
+   "Configuration",
+   "Query languages",
+   "Fuzzy search",
+   "Known limitations",
+   "Logging",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-azure-search",
+  "links": [
+   {
+    "label": "Azure Search module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/azure-search/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Azure Search module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/integration/configuring-azure-cognitive-search/",
+    "source": "readme"
+   },
+   {
+    "label": "Azure Search configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#azure-search",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

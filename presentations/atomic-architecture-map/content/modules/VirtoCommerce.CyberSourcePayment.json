@@ -1,0 +1,180 @@
+{
+ "id": "VirtoCommerce.CyberSourcePayment",
+ "repo": "vc-module-cyber-source",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-cyber-source",
+ "name": "CyberSource Payment",
+ "tagline": "Integrates CyberSource's payment solutions into your Virto Commerce platform",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.CyberSourcePayment.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.CyberSourcePayment.Web.dll",
+  "authors": [
+   "Basil Kotov"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Payment",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.CyberSourcePayment.Core",
+   "VirtoCommerce.CyberSourcePayment.Data",
+   "VirtoCommerce.CyberSourcePayment.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [
+   "VirtoCommerce.Payment.CyberSourcePayment.CardTypes",
+   "VirtoCommerce.Payment.CyberSourcePayment.PaymentMode",
+   "VirtoCommerce.Payment.CyberSourcePayment.Sandbox"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "565d54c",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "565d54c 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce CyberSource Payment module integrates CyberSource's payment solutions into your Virto Commerce platform.",
+  "keyFeatures": [
+   "Cybersource based payment methods like Card Payment, 3D Secure, Visa Click to Pay, Google Pay, eCheck & Apple Pay.",
+   "Tokenization to create, update and delete a card token.",
+   "Authorization and Capture of a payment.",
+   "Refunding a payment back to the merchant.",
+   "(Cooming Soon) Manual capture of a payment.",
+   "(Cooming Soon) Synchronize payments for synchronizing the missing transactions and fraud transactions based on the decision taken by the merchant."
+  ],
+  "docs": [
+   {
+    "label": "CyberSource module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/cybersource/overview/"
+   },
+   {
+    "label": "CyberSource module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Payments/cybersource/"
+   },
+   {
+    "label": "Payment methods configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#payments"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-cyber-source"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-cyber-source/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Configurations",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-cyber-source",
+  "links": [
+   {
+    "label": "CyberSource module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/cybersource/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "CyberSource module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Payments/cybersource/",
+    "source": "readme"
+   },
+   {
+    "label": "Payment methods configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#payments",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

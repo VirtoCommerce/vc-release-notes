@@ -1,0 +1,152 @@
+{
+ "id": "VirtoCommerce.XPickup",
+ "repo": "vc-module-x-pickup",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-pickup",
+ "name": "Buy online pickup in store (BOPIS) Experience API",
+ "tagline": "Handles buy online pickup in store (BOPIS) operations",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [],
+ "accent": "#9D86F5",
+ "icon": "assets/module-icons/VirtoCommerce.XPickup.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.XPickup.Web.dll",
+  "authors": [
+   "Kirill Iusupov"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Inventory",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Shipping",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Cart",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.XPickup.Core",
+   "VirtoCommerce.XPickup.Data",
+   "VirtoCommerce.XPickup.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [
+   "XPickup.Enabled",
+   "XPickup.GlobalTransferAvailabilityNote",
+   "XPickup.GlobalTransferEnabled",
+   "XPickup.TodayAvailabilityNote",
+   "XPickup.TransferAvailabilityNote"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.XPickup.Data/Queries/GetProductPickupLocationsQueryBuilder.cs",
+   "src/VirtoCommerce.XPickup.Data/Queries/SearchCartPickupLocationsQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "f9b581a",
+   "lastCommitDate": "2026-08-13",
+   "lastCommit": "f9b581a 2026-08-13 3.1005.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The X-Pickup module enables customers to select pickup points for their orders within the Virto Commerce platform. This module provides a seamless solution for integrating pickup options into the checkout experience, allowing customers to choose from a list of available pickup locations.",
+  "keyFeatures": [
+   "Configurable product pickup location details (fulfillment centers, address, geolocation)",
+   "Integration with inventory data (inventory tracking, available in stock quantity)",
+   "Available pickup points in product details page",
+   "Pickup point selection and confirmation in customer cart"
+  ],
+  "docs": [],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-push-messages/releases"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Screenshots",
+   "XAPI Specification",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-x-pickup",
+  "links": [],
+  "checkedOnline": false
+ }
+}

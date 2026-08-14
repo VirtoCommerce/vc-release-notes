@@ -1,0 +1,136 @@
+{
+ "id": "VirtoCommerce.OpenIdConnectModule",
+ "repo": "vc-module-openid-connect",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-openid-connect",
+ "name": "OpenID Connect",
+ "tagline": "OpenID Connect is an identity module on top of the OAuth 2.0",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#6E7E97",
+ "icon": "assets/module-icons/VirtoCommerce.OpenIdConnectModule.svg",
+ "facts": {
+  "manifestVersion": "3.1002.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.OpenIdConnectModule.Web.dll",
+  "authors": [
+   "Igoris Berniukevicius",
+   "Artem Dudarev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.OpenIdConnectModule.Core",
+   "VirtoCommerce.OpenIdConnectModule.Data",
+   "VirtoCommerce.OpenIdConnectModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "3f0209b",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "3f0209b 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The OpenID Connect module is an identity module on top of the OAuth 2.0 protocol, allowing clients to verify the identity of end-users based on the authentication performed by an authorization server. It also provides basic user profile information.",
+  "keyFeatures": [
+   "Authentication: Ensures secure user authentication and authorization.",
+   "Single Sign-On (SSO): Allows users to log in once and gain access to multiple applications.",
+   "User Information: Provides access to user profile information.",
+   "Interoperability: Works with various identity providers like Google, Microsoft, and others.",
+   "Security: Implements robust security measures to protect user data."
+  ],
+  "docs": [
+   {
+    "label": "OpenID Connect module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Security/authentication/oidc/#openid-connect"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.OpenIdConnectModule"
+   },
+   {
+    "label": "Configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#oidc"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-openid-connect"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-openid-connect/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key Features",
+   "Configuration",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-openid-connect",
+  "links": [
+   {
+    "label": "OpenID Connect module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Security/authentication/oidc/#openid-connect",
+    "source": "readme"
+   },
+   {
+    "label": "Configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#oidc",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

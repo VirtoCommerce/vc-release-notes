@@ -393,9 +393,9 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
   min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .molecule .mol-sub { display: none; }
-/* A profiled module has a written page behind it; the extra weight on the edge says so without
-   spending room on a badge. */
-.molecule.is-profiled { border-left-width: 5px; }
+/* A module whose judgment is written carries a heavier edge. Facts alone are the baseline now — 96
+   of 96 — so weight marks the page someone has actually explained. */
+.molecule.is-written { border-left-width: 5px; }
 .molecule.is-active { border-color: var(--accent, var(--focus)); box-shadow: 0 0 0 2px hsl(212 90% 60% / .3); }
 .molecule.is-dim { opacity: .3; }
 

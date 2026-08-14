@@ -506,16 +506,21 @@
   function moleculeTile(molecule) {
     var isModule = molecule.kind === 'module';
     var accent = isModule ? MODULE_ACCENTS[molecule.moduleId] : null;
-    var profiled = isModule && profileOf(molecule.moduleId);
+    /* Facts are now extracted for every module, so the tile marks the scarcer thing: authored notes. */
+    var prof = isModule && profileOf(molecule.moduleId);
+    var written = !!(prof && prof.notes && prof.notes.forAnalyst);
     var node = el('button', {
       type: 'button',
-      class: 'molecule' + (isModule ? ' is-module' : '') + (accent ? ' has-icon' : '') + (profiled ? ' is-profiled' : ''),
+      class: 'molecule' + (isModule ? ' is-module' : '') + (accent ? ' has-icon' : '') + (written ? ' is-written' : ''),
       /* The accent is the module icon's own first gradient stop, so the border and the icon
          cannot drift apart — see tools/sync-module-icons.js. */
       style: accent ? '--accent:' + accent : null,
       'aria-label': molecule.name + (isModule ? ' — module ' + molecule.moduleId + ' ' + molecule.version + '. '
                                               : ' — reserved molecule. ') + (molecule.sub || ''),
-      title: isModule ? molecule.moduleId + ' ' + molecule.version + ' — ' + (molecule.sub || '') : (molecule.sub || ''),
+      title: isModule
+        ? molecule.moduleId + ' ' + molecule.version + (written ? '' : ' — facts only, write-up not written yet') +
+          ' — ' + (molecule.sub || '')
+        : (molecule.sub || ''),
       dataset: { id: molecule.id },
       onclick: function () { openHash('molecule', molecule.id, node); }
     },
@@ -1532,13 +1537,15 @@
         (f.permissions || []).length ? ['Permissions', f.permissions.map(function (x) { return '`' + x + '`'; }).join(' ')] : null,
         (f.settings || []).length ? ['Settings', f.settings.map(function (x) { return '`' + x + '`'; }).join(' ')] : null,
         (f.entities || []).length ? ['Entities', f.entities.join(', ')] : null,
-        (f.domainEventsPublished || []).length ? ['Events published', f.domainEventsPublished.join(', ')] : null,
+        /* Declared, not constructed: these are the events another module can subscribe to. */
+        (f.declaredEvents || []).length ? ['Events it raises', f.declaredEvents.join(', ')]
+          : ((f.domainEventsPublished || []).length ? ['Events it raises', f.domainEventsPublished.join(', ')] : null),
         /* The events, not the count. A module that subscribes through IEventHandlerRegistrar picks
            them at runtime instead, which is a different fact and says so. */
         (f.handledEvents || []).length ? ['Events handled', f.handledEvents.join(', ')]
           : (f.subscribesDynamically ? ['Events handled', 'chosen at runtime through `IEventHandlerRegistrar` — every domain event in the process is available'] : null),
-        (f.graphqlBuilders || []).length ? ['GraphQL', String(f.graphqlBuilders.length) + ' schema builders'] : null,
-        (f.indexDocumentBuilders || []).length ? ['Search index', 'feeds it — bulk writes need a reindex'] : null,
+        f.graphqlBuilderCount ? ['GraphQL', f.graphqlBuilderCount + ' schema builders'] : null,
+        f.indexDocumentBuilderCount ? ['Search index', 'feeds it — bulk writes need a reindex'] : null,
         (f.localizations || []).length ? ['Languages', f.localizations.join(' ')] : null
       ]), true),
 
@@ -1559,7 +1566,8 @@
     ]);
 
     append(body, el('div', { class: 'd-meta' },
-      rich('Facts parsed from `' + p.repo + '` on branch `' + (f.git && f.git.branch || '?') + '`' +
+      rich('Facts parsed from `' + p.repo + '` at `' + (f.git && (f.git.ref || f.git.branch) || '?') + '`' +
+           (f.git && f.git.sha ? ' (' + f.git.sha + ')' : '') +
            (f.git && f.git.lastCommitDate ? ', last commit ' + f.git.lastCommitDate : '') +
            ' · extracted ' + p.extractedAt + ' by `' + p.extractedBy + '`' +
            (n.forAnalyst ? ' · notes authored' : ' · notes not written yet'))));

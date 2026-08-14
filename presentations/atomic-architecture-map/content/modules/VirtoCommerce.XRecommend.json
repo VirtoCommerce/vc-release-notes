@@ -1,0 +1,233 @@
+{
+ "id": "VirtoCommerce.XRecommend",
+ "repo": "vc-module-x-recommend",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-recommend",
+ "name": "Product Recommendations",
+ "tagline": "Recommendations encourage users to expand their search and browse more broadly. Users can jump to similar or complementary items if they don’t find a precise match.",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.XRecommend.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1007.10",
+  "assembly": "VirtoCommerce.XRecommend.Web.dll",
+  "authors": [
+   "Konstantin Savosteev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCatalog",
+    "version": "3.1014.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.XRecommend.Core",
+   "VirtoCommerce.XRecommend.Data",
+   "VirtoCommerce.XRecommend.Data.MySql",
+   "VirtoCommerce.XRecommend.Data.PostgreSql",
+   "VirtoCommerce.XRecommend.Data.SqlServer",
+   "VirtoCommerce.XRecommend.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [
+   "XRecommend.MinConversionEventsCount",
+   "XRecommend.RecommendationsEnabled"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "HistoricalEventChangedEvent",
+   "HistoricalEventChangingEvent",
+   "SearchQueryChangedEvent",
+   "SearchQueryChangingEvent"
+  ],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.XRecommend.Data/Queries/CatalogQueryBuilder.cs",
+   "src/VirtoCommerce.XRecommend.Data/Queries/GetRecentlyBrowsedQueryBuilder.cs",
+   "src/VirtoCommerce.XRecommend.Data/Queries/GetRecommendationsQueryBuilder.cs",
+   "src/VirtoCommerce.XRecommend.Data/Queries/SearchHistoryQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 15,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "HistoricalEventEntity",
+   "SearchQueryEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "9490443",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "9490443 2026-07-27 3.1003.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Recommendations (or xRecommend) module adds an extendable query to VirtoCommerce Platform that lets you display recommendations. The module adds XAPI product recommendations query to Virto Commerce Platform GraphQL schema. The API provides a list of recommended products based on semantic similarities in product names and other searchable properties. The module is designed to be plug-and-play, integrating seamlessly with back-end and front-end to enhance the user experience by offering intelligent product recommendations.",
+  "keyFeatures": [
+   "**Semantic Similarity**: Utilizes Elastic Search machine learning model to recommend products that are semantically similar to the given product.",
+   "**Customizable**: Parameters such as the number of recommendations can be easily adjusted.",
+   "**Extendable**: You can extend the current `related-products` model or add your own custom recommendation algorithms.",
+   "**Easy Integration**: Provides a toggle setting to your store setting to enable or disable recommendations on your front-end app."
+  ],
+  "docs": [
+   {
+    "label": "xRecommend module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/recommend/overview/"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Recommend/overview/"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-recommend"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-recommend/releases/latest"
+   }
+  ],
+  "sections": [
+   "Requirements",
+   "Key features",
+   "XAPI Specification",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-x-recommend",
+  "links": [
+   {
+    "label": "xRecommend module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/recommend/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Recommend/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/",
+    "source": "readme"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/",
+    "source": "readme"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/",
+    "source": "readme"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

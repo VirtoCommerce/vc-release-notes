@@ -1,0 +1,453 @@
+{
+ "id": "VirtoCommerce.Catalog",
+ "repo": "vc-module-catalog",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-catalog",
+ "name": "Catalog",
+ "tagline": "Easily manage your products, categories, variations, and properties",
+ "latestVersion": "3.1040.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.Catalog.svg",
+ "facts": {
+  "manifestVersion": "3.1041.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.CatalogModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "catalog",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Seo",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [
+   {
+    "id": "VirtoCommerce.BulkActionsModule",
+    "version": "3.1002.0",
+    "optional": true
+   },
+   {
+    "id": "VirtoCommerce.Export",
+    "version": "3.1002.0",
+    "optional": true
+   }
+  ],
+  "projects": [
+   "VirtoCommerce.CatalogModule.BulkActions",
+   "VirtoCommerce.CatalogModule.Core",
+   "VirtoCommerce.CatalogModule.Data",
+   "VirtoCommerce.CatalogModule.Data.MySql",
+   "VirtoCommerce.CatalogModule.Data.PostgreSql",
+   "VirtoCommerce.CatalogModule.Data.SqlServer",
+   "VirtoCommerce.CatalogModule.Data.Vimeo",
+   "VirtoCommerce.CatalogModule.Data.YouTube",
+   "VirtoCommerce.CatalogModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/AutomaticLinkQueryController.cs",
+    "route": "api/catalog/automatic-link-queries",
+    "actions": 5,
+    "authorizedActions": 5
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogBrowseFiltersController.cs",
+    "route": "api/catalog/aggregationproperties",
+    "actions": 3,
+    "authorizedActions": 2
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleAssociationsController.cs",
+    "route": "api/catalog/products/associations",
+    "actions": 6,
+    "authorizedActions": 6
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleBrandSettingController.cs",
+    "route": "api/brand-settings",
+    "actions": 2,
+    "authorizedActions": 2
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleCatalogsController.cs",
+    "route": "api/catalog/catalogs",
+    "actions": 9,
+    "authorizedActions": 5
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleCategoriesController.cs",
+    "route": "api/catalog/categories",
+    "actions": 13,
+    "authorizedActions": 1
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleConfigurationsController.cs",
+    "route": "api/catalog/products/configurations",
+    "actions": 4,
+    "authorizedActions": 4
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleIndexedSearchController.cs",
+    "route": "api/catalog/search",
+    "actions": 3,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleListEntryController.cs",
+    "route": "api/catalog/listentries",
+    "actions": 8,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleMeasuresController.cs",
+    "route": "api/catalog/measures",
+    "actions": 7,
+    "authorizedActions": 7
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleProductsController.cs",
+    "route": "api/catalog/products",
+    "actions": 15,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleProductSortingController.cs",
+    "route": "api/catalog/product-sortings",
+    "actions": 3,
+    "authorizedActions": 3
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModulePropertiesController.cs",
+    "route": "api/catalog/properties",
+    "actions": 8,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModulePropertyDictionaryItemsController.cs",
+    "route": "api/catalog/dictionaryitems",
+    "actions": 4,
+    "authorizedActions": 2
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModulePropertyGroupsController.cs",
+    "route": "api/catalog/propertygroups",
+    "actions": 4,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleVideosController.cs",
+    "route": "api/catalog/videos",
+    "actions": 6,
+    "authorizedActions": 6
+   }
+  ],
+  "permissions": [
+   "bulk-action:category:change",
+   "bulk-action:properties:update",
+   "catalog:BrowseFilters:Read",
+   "catalog:BrowseFilters:Update",
+   "catalog:access",
+   "catalog:add-external-image",
+   "catalog:categories:create",
+   "catalog:categories:delete",
+   "catalog:categories:link",
+   "catalog:categories:read",
+   "catalog:categories:update",
+   "catalog:configurations:delete",
+   "catalog:configurations:read",
+   "catalog:configurations:update",
+   "catalog:create",
+   "catalog:custom-property:edit",
+   "catalog:delete",
+   "catalog:dictionary-property:edit",
+   "catalog:export",
+   "catalog:import",
+   "catalog:metadata-property:edit",
+   "catalog:products:create",
+   "catalog:products:delete",
+   "catalog:products:link",
+   "catalog:products:read",
+   "catalog:products:update",
+   "catalog:read",
+   "catalog:update",
+   "measures:access",
+   "measures:create",
+   "measures:delete",
+   "measures:read",
+   "measures:update"
+  ],
+  "settings": [
+   "Catalog.AssociationGroups",
+   "Catalog.BackupRestore.BatchSize",
+   "Catalog.BackupRestore.ErrorPolicy",
+   "Catalog.BrandStoreSetting.BrandCatalogId",
+   "Catalog.BrandStoreSetting.BrandPropertyName",
+   "Catalog.BrandStoreSetting.BrandsEnabled",
+   "Catalog.BrowseFilters.FilteredBrowsing",
+   "Catalog.BrowseFilters.FilteredBrowsingMigrated",
+   "Catalog.CategoryDescriptionTypes",
+   "Catalog.EditorialReviewTypes",
+   "Catalog.ImageCategories",
+   "Catalog.ProductConfigurationMaximumFiles",
+   "Catalog.Search.DefaultAggregationSize",
+   "Catalog.Search.EventBasedIndexation.Enable",
+   "Catalog.Search.IndexLinkPriorityFields",
+   "Catalog.Search.ProductSortings",
+   "Catalog.Search.UseCatalogIndexedSearchInManager",
+   "Catalog.Search.UseFullObjectIndexStoring",
+   "Catalog.UseSeoDeduplication",
+   "VirtoCommerce.Search.IndexingJobs.IndexationDate.Category",
+   "VirtoCommerce.Search.IndexingJobs.IndexationDate.Product"
+  ],
+  "domainEventsPublished": [
+   "CatalogChangedEvent",
+   "CatalogChangingEvent",
+   "CategoryChangedEvent",
+   "CategoryChangingEvent",
+   "ProductChangedEvent",
+   "ProductChangingEvent",
+   "PropertyChangedEvent",
+   "PropertyChangingEvent"
+  ],
+  "declaredEvents": [
+   "AutomaticLinkQueryChangedEvent",
+   "AutomaticLinkQueryChangingEvent",
+   "CatalogChangedEvent",
+   "CatalogChangingEvent",
+   "CategoryChangedEvent",
+   "CategoryChangingEvent",
+   "MeasureChangedEvent",
+   "MeasureChangingEvent",
+   "ProductChangedEvent",
+   "ProductChangingEvent",
+   "ProductConfigurationChangedEvent",
+   "ProductConfigurationChangingEvent",
+   "PropertyChangedEvent",
+   "PropertyChangingEvent",
+   "PropertyDictionaryItemChangedEvent",
+   "PropertyDictionaryItemChangingEvent",
+   "PropertyGroupChangedEvent",
+   "PropertyGroupChangingEvent",
+   "VideoChangedEvent",
+   "VideoChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.CatalogModule.Data/Handlers/IndexCategoryChangedEventHandler.cs",
+   "src/VirtoCommerce.CatalogModule.Data/Handlers/IndexProductChangedEventHandler.cs",
+   "src/VirtoCommerce.CatalogModule.Data/Handlers/LogChangesChangedEventHandler.cs",
+   "src/VirtoCommerce.CatalogModule.Data/Handlers/TrackSpecialChangesEventHandler.cs",
+   "src/VirtoCommerce.CatalogModule.Data/Handlers/VideoOwnerChangingEventHandler.cs"
+  ],
+  "handledEvents": [
+   "CategoryChangedEvent",
+   "ProductChangedEvent",
+   "ProductChangingEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [
+   "src/VirtoCommerce.CatalogModule.Data/Search/Indexing/CategoryDocumentBuilder.cs",
+   "src/VirtoCommerce.CatalogModule.Data/Search/Indexing/CategoryDocumentChangesProvider.cs",
+   "src/VirtoCommerce.CatalogModule.Data/Search/Indexing/ProductDocumentBuilder.cs",
+   "src/VirtoCommerce.CatalogModule.Data/Search/Indexing/ProductDocumentChangesProvider.cs"
+  ],
+  "migrationCount": 94,
+  "hasAdminUi": true,
+  "adminUiFiles": 242,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "AssetEntity",
+   "AssociationEntity",
+   "AutomaticLinkQueryEntity",
+   "CatalogEntity",
+   "CatalogLanguageEntity",
+   "CategoryDescriptionEntity",
+   "CategoryEntity",
+   "CategoryItemRelationEntity",
+   "CategoryLocalizedNameEntity",
+   "CategoryRelationEntity",
+   "EditorialReviewEntity",
+   "ImageEntity",
+   "ItemEntity",
+   "ItemLocalizedNameEntity",
+   "MeasureEntity",
+   "MeasureUnitEntity",
+   "MeasureUnitLocalizedNameEntity",
+   "MeasureUnitLocalizedSymbolEntity",
+   "ProductConfigurationEntity",
+   "ProductConfigurationOptionEntity",
+   "ProductConfigurationSectionEntity",
+   "PropertyAttributeEntity",
+   "PropertyDictionaryItemEntity",
+   "PropertyDictionaryValueEntity",
+   "PropertyDisplayNameEntity",
+   "PropertyEntity",
+   "PropertyGroupEntity",
+   "PropertyGroupLocalizedDescriptionEntity",
+   "PropertyGroupLocalizedNameEntity",
+   "PropertyValidationRuleEntity",
+   "PropertyValueEntity",
+   "SeoInfoEntity",
+   "VideoEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "33b1847f",
+   "lastCommitDate": "2026-08-04",
+   "lastCommit": "33b1847f 2026-08-04 3.1041.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Catalog module presents the ability to add items to your e-commerce store.  It can be electronics, groceries, digital content or anything else. Items can be grouped into categories and catalogs. The item grouping is individual depending on the stock size, item types, vendors, etc.",
+  "keyFeatures": [
+   "Master and Virtual catalogs",
+   "Multiple languages",
+   "Multiple currencies",
+   "Physical and Digital products",
+   "Subscription products",
+   "SEO Information",
+   "Product Variations",
+   "Product & Category attributes",
+   "Flexible properties inheritance",
+   "Sort and filter product listing based on any attribute",
+   "Associations",
+   "Personalization",
+   "Categories taxonomy",
+   "Full-text search engine",
+   "Enterprise ready - supports millions of the products"
+  ],
+  "docs": [
+   {
+    "label": "Catalog module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/catalog/overview/"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Catalog/overview/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-catalog"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-catalog/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Configuration",
+   "Configurable product sorting",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": "The product record itself: what you sell, how it is grouped into catalogs and categories, and the properties, measures, images and videos that describe it. Everything a shopper searches or filters on starts as data in here, and so does everything a merchandiser edits.",
+  "forArchitect": "The largest owned schema on the map — 33 entities and 94 migrations — and the module the most others point at by id. It cannot be installed alone: Search is a REQUIRED dependency, not an optional one, because the read path is the index rather than the tables. Four index document builders feed that index, so any bulk write leaves the index behind until a reindex catches up.",
+  "forDeveloper": "Eighteen declared change events make this the module you subscribe to rather than call into — `ProductChangedEvent` and `CategoryChangedEvent` are the two most handled events in the platform. Sixteen controllers under `api/catalog/…` cover the write side; for reads at scale go through the index or the catalog experience API instead.",
+  "owns": [
+   "CatalogEntity",
+   "CategoryEntity",
+   "ItemEntity",
+   "PropertyEntity",
+   "AssociationEntity",
+   "EditorialReviewEntity"
+  ],
+  "reachForItWhen": [
+   "You need the source of truth for products, categories or properties",
+   "A module must react to a product or category change — subscribe to its events rather than polling",
+   "You are modelling anything a merchandiser maintains: variations, measures, associations, videos"
+  ],
+  "doNotReachForItWhen": [
+   "You are serving a storefront listing or a faceted search — that is the index, and going to the tables will not scale",
+   "You need a price: prices live in Pricing and are evaluated, not stored on the product",
+   "You are writing thousands of products in a loop — suppress events or turn event-based indexation off, then reindex once",
+   "You want a product's stock: that is Inventory, and it is deliberately a separate module"
+  ]
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-catalog",
+  "links": [
+   {
+    "label": "Catalog module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/catalog/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Catalog/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

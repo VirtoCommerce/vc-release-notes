@@ -1,0 +1,188 @@
+{
+ "id": "VirtoCommerce.CatalogCsvImportModule",
+ "repo": "vc-module-catalog-csv-export-import",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-catalog-csv-export-import",
+ "name": "CSV Catalog Export and Import",
+ "tagline": "Enables seamless export and import of catalog data in CSV format, simplifying data management and integration with external systems.",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.CatalogCsvImportModule.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.CatalogCsvImportModule.Web.dll",
+  "authors": [
+   "Konstantin Savosteev",
+   "Artem Dudarev"
+  ],
+  "tags": "catalog csv export import",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Inventory",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Pricing",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.CatalogCsvImportModule.Core",
+   "VirtoCommerce.CatalogCsvImportModule.Data",
+   "VirtoCommerce.CatalogCsvImportModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.CatalogCsvImportModule.Web/Controllers/Api/CatalogModuleExportImportController.cs",
+    "route": "api/catalogcsvimport",
+    "actions": 4,
+    "authorizedActions": 4
+   }
+  ],
+  "permissions": [],
+  "settings": [
+   "CatalogCsvImport.CreateDictionaryValues",
+   "CatalogCsvImport.ExportFileNameTemplate"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 16,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "19f933f",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "19f933f 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The CSV Catalog Export and Import module is a module for Virto Commerce platform that allows to export and import catalog data in CSV format. By leveraging this module, category managers can efficiently manage large sets of catalog data and ensure consistency across systems.",
+  "keyFeatures": [
+   "**Export catalog data to CSV**: Extract product and category information into CSV format for easy editing and sharing.",
+   "**Import catalog data from CSV**: Bring updated or new catalog data into the platform from CSV files.",
+   "**Dynamic properties support**: Export and import dynamic properties seamlessly.",
+   "**Multiple product images**: Manage image URLs and groups during export and import.",
+   "**Configurable property mapping**: Define custom mappings for CSV columns during import.",
+   "**Customizable column delimiter**: Choose a delimiter for CSV files to suit your needs.",
+   "**Create new dictionary values**: Optionally allow the creation of new dictionary values during import (default: disabled).",
+   "**Bulk update ready**: Simplify bulk updates by exporting data, modifying it in bulk, and importing the updated data back."
+  ],
+  "docs": [
+   {
+    "label": "Catalog CSV Export and Import module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/catalog-csv-export-import/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.CatalogCsvImportModule"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-catalog-csv-export-import/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-catalog-csv-import/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Scenarios",
+   "Settings",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-catalog-csv-export-import",
+  "links": [
+   {
+    "label": "Catalog CSV Export and Import module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/catalog-csv-export-import/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

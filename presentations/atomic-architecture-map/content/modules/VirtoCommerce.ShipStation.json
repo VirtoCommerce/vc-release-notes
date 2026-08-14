@@ -1,0 +1,155 @@
+{
+ "id": "VirtoCommerce.ShipStation",
+ "repo": "vc-module-ShipStation",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-ShipStation",
+ "name": "ShipStation Integration",
+ "tagline": "Enables synchronizing customer orders with ShipStation",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.ShipStation.svg",
+ "facts": {
+  "manifestVersion": "3.1002.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.ShipStationModule.Web.dll",
+  "authors": [
+   "Dmitry Pushnitsa"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ShipStationModule.Core",
+   "VirtoCommerce.ShipStationModule.Data",
+   "VirtoCommerce.ShipStationModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.ShipStationModule.Web/Controllers/Api/ShipStationController.cs",
+    "route": "api/shipstation/{storeId}",
+    "actions": 2,
+    "authorizedActions": 2
+   }
+  ],
+  "permissions": [
+   "ShipStation:read",
+   "ShipStation:update"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "f9a703e",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "f9a703e 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The ShipStation fulfillment module enables synchronizing customer orders with <a href=\"http://www.shipstation.com/\" target=\"_blank\">ShipStation</a>. That way new orders with shipments placed in VirtoCommerce will become available in ShipStation admin and changes of shipment status will be synced with VirtoCommerce orders.",
+  "keyFeatures": [
+   "Export orders specified by store",
+   "Updating order's and shipping's statuses when shipstation make an action"
+  ],
+  "docs": [
+   {
+    "label": "ShipStation module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/shipstation/overview/"
+   },
+   {
+    "label": "ShipStation integration guide",
+    "href": "https://help.shipstation.com/hc/en-us/articles/360025856192-Custom-Store-Development-Guide"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.ShipStation"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-shipstation/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-shipstation/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-ShipStation",
+  "links": [
+   {
+    "label": "ShipStation module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/shipstation/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

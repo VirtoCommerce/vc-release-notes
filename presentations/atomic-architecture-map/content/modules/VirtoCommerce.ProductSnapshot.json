@@ -1,0 +1,178 @@
+{
+ "id": "VirtoCommerce.ProductSnapshot",
+ "repo": "vc-module-product-snapshot",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-product-snapshot",
+ "name": "Product Snapshot",
+ "tagline": "The Product Snapshot module captures and stores product information at the moment an order is created.\n  This ensures that customers and store operators always have access to the exact product details (prices, properties, images, descriptions)\n  that were valid at the time of purchase, even if the product catalog is later modified or products are deleted.",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.ProductSnapshot.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1016.0",
+  "assembly": "VirtoCommerce.ProductSnapshot.Web.dll",
+  "authors": [
+   "Konstantin Savosteev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XOrder",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1014.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ProductSnapshot.Core",
+   "VirtoCommerce.ProductSnapshot.Data",
+   "VirtoCommerce.ProductSnapshot.Data.MySql",
+   "VirtoCommerce.ProductSnapshot.Data.PostgreSql",
+   "VirtoCommerce.ProductSnapshot.Data.SqlServer",
+   "VirtoCommerce.ProductSnapshot.ExperienceApi",
+   "VirtoCommerce.ProductSnapshot.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.ProductSnapshot.Web/Controllers/Api/ProductSnapshotController.cs",
+    "route": "api/product-snapshots",
+    "actions": 1,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "product-snapshot:access",
+   "product-snapshot:create",
+   "product-snapshot:delete",
+   "product-snapshot:read",
+   "product-snapshot:update"
+  ],
+  "settings": [
+   "ProductSnapshot.Enabled"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "ProductSnapshotChangedEvent",
+   "ProductSnapshotChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.ProductSnapshot.Data/Handlers/CreateOrderProductSnapshotEventHandler.cs"
+  ],
+  "handledEvents": [
+   "OrderChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 6,
+  "hasAdminUi": true,
+  "adminUiFiles": 5,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "OrderProductSnapshotEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "a69cd5d",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "a69cd5d 2026-07-27 3.1004.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Product Snapshot module captures and stores product information at the moment an order is created. This ensures that customers and store operators always have access to the exact product details (prices, properties, images, descriptions) that were valid at the time of purchase, even if the product catalog is later modified or products are deleted. A category manager updates or removes a product from the catalog, but existing orders still display the original product information through snapshots. If a snapshot does not exist for a given product, the system falls back to loading the current product data from the catalog.",
+  "keyFeatures": [
+   "**Automatic snapshot creation** — listens for the `OrderChangedEvent` and asynchronously creates product snapshots when a new order is placed.",
+   "**Full product data capture** — stores product info, assets, properties, and editorial reviews as a serialized JSON document.",
+   "**Configurable** — snapshot creation can be enabled or disabled through a platform setting.",
+   "**Catalog fallback** — products not covered by a snapshot are loaded by xOrder's `OrderProductResolver.LoadProductsAsync` from the live catalog. The fallback is provided by xOrder, not by this module.",
+   "**Granular permissions** — access, create, read, update, and delete operations are controlled by dedicated permissions.",
+   "**Extendable Product Snapshot Page** - the module provides extension points (productSnapshotDetails metaform and widget-container) on the Product Snapshot details page to display custom information related to the snapshot, such as links to related orders or custom product attributes.",
+   "**REST API** — retrieve a product snapshot via `GET /api/product-snapshots/order/{orderId}/product/{productId}`.",
+   "**GraphQL / Experience API integration** — the `LoadorderProductSnapshotMiddleware` transparently injects snapshots into the `ExternalOrderProducts` pipeline, so X-Order consumers receive snapshot data without additional queries.",
+   "**Multi-database support** — SQL Server, MySQL, and PostgreSQL are supported out of the box.",
+   "**Async snapshot creation (Soon)** — snapshot generation runs in the background to avoid impacting order processing performance. If snapshot creation fails, it is logged but does not block the order from being created."
+  ],
+  "docs": [],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-cart/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Features",
+   "Screenshots",
+   "Product Snapshot Blade - Fallback",
+   "Configuration",
+   "Architecture Schema",
+   "Extensibility",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-product-snapshot",
+  "links": [],
+  "checkedOnline": false
+ }
+}

@@ -1,0 +1,263 @@
+{
+ "id": "VirtoCommerce.Quote",
+ "repo": "vc-module-quote",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-quote",
+ "name": "Quotes",
+ "tagline": "Quoter enables business users to execute quote requests online. Once initiated, an online conversation takes place with internal users who interact with the business user's request. The internal user can set prices for quantity breaks or discounts. The quote is then made available to the business user online. The business user can accept the quote and place the order, continue the conversation, or reject the quote.",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#FFC24D",
+ "icon": "assets/module-icons/VirtoCommerce.Quote.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.QuoteModule.Web.dll",
+  "authors": [
+   "Artem Dudarev",
+   "Egidijus Mažeika",
+   "Konstantin Savosteev"
+  ],
+  "tags": "b2b quotes",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Cart",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1010.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.FileExperienceApi",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Shipping",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1006.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Tax",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCart",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCatalog",
+    "version": "3.1011.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.QuoteModule.Core",
+   "VirtoCommerce.QuoteModule.Data",
+   "VirtoCommerce.QuoteModule.Data.MySql",
+   "VirtoCommerce.QuoteModule.Data.PostgreSql",
+   "VirtoCommerce.QuoteModule.Data.SqlServer",
+   "VirtoCommerce.QuoteModule.ExperienceApi",
+   "VirtoCommerce.QuoteModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.QuoteModule.Web/Controllers/Api/QuoteModuleController.cs",
+    "route": "api/quote/requests",
+    "actions": 10,
+    "authorizedActions": 6
+   }
+  ],
+  "permissions": [
+   "quote:access",
+   "quote:create",
+   "quote:delete",
+   "quote:read",
+   "quote:update"
+  ],
+  "settings": [
+   "Quotes.DefaultStatus",
+   "Quotes.EnableQuotes",
+   "Quotes.FileUploadScopeName",
+   "Quotes.QuoteRequestNewNumberTemplate",
+   "Quotes.Status"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "QuoteRequestChangeEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.QuoteModule.Data/Handlers/CancelQuoteEventHandler.cs",
+   "src/VirtoCommerce.QuoteModule.Data/Handlers/LogChangesEventHandler.cs"
+  ],
+  "handledEvents": [
+   "QuoteRequestChangeEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.QuoteModule.ExperienceApi/Queries/QuoteAttachmentOptionsQueryBuilder.cs",
+   "src/VirtoCommerce.QuoteModule.ExperienceApi/Queries/QuoteQueryBuilder.cs",
+   "src/VirtoCommerce.QuoteModule.ExperienceApi/Queries/QuotesQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 34,
+  "hasAdminUi": true,
+  "adminUiFiles": 35,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "AddressEntity",
+   "AttachmentEntity",
+   "QuoteConfigurationItemEntity",
+   "QuoteConfigurationItemFileEntity",
+   "QuoteDynamicPropertyObjectValueEntity",
+   "QuoteItemEntity",
+   "QuoteRequestEntity",
+   "TierPriceEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "1326067",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "1326067 2026-07-27 3.1003.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce Quote module represents quotes management system.",
+  "keyFeatures": [
+   "Unlimited number of tiers",
+   "Discounts per tier or for the whole quote",
+   "Full line items' management even after the initial quote was created",
+   "Attachments, dynamic properties support",
+   "Regular order is produced once the quote is confirmed by a customer"
+  ],
+  "docs": [
+   {
+    "label": "Quote module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/quotes/overview/"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Quote/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Quote"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-quote"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-quote/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-quote",
+  "links": [
+   {
+    "label": "Quote module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/quotes/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Quote/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

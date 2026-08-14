@@ -1,0 +1,139 @@
+{
+ "id": "VirtoCommerce.FileSystemAssets",
+ "repo": "vc-module-filesystem-assets",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-filesystem-assets",
+ "name": "File Systems Assets Provider",
+ "tagline": "Provide integration with File Systems for Assets Management",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.FileSystemAssets.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.FileSystemAssetsModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "assets",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.FileSystemAssetsModule.Core",
+   "VirtoCommerce.FileSystemAssetsModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "548efc8",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "548efc8 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The File System Assets module provides integration with File System.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "File System Assets module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/file-system/overview/"
+   },
+   {
+    "label": "Assets management",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/assets/managing-assets/"
+   },
+   {
+    "label": "Assets storage configuration",
+    "href": "http://localhost/platform/developer-guide/Configuration-Reference/appsettingsjson/#assets"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.FileSystemAssets"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-filesystem-assets"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-filesystem-assets/releases/latest"
+   }
+  ],
+  "sections": [
+   "Settings",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-filesystem-assets",
+  "links": [
+   {
+    "label": "File System Assets module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/file-system/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Assets management",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/assets/managing-assets/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

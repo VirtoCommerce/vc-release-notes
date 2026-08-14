@@ -1,0 +1,191 @@
+{
+ "id": "VirtoCommerce.DynamicAssociationsModule",
+ "repo": "vc-module-dynamic-associations",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-dynamic-associations",
+ "name": "Dynamic Associations",
+ "tagline": "Dynamic rule based product associations module",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.DynamicAssociationsModule.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.DynamicAssociationsModule.Web.dll",
+  "authors": [
+   "Andrey Kozlov",
+   "Alexandr Andreev",
+   "Dmitry Pushnitsa"
+  ],
+  "tags": "dynamicAssociations",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Marketing",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.DynamicAssociationsModule.Core",
+   "VirtoCommerce.DynamicAssociationsModule.Data",
+   "VirtoCommerce.DynamicAssociationsModule.Data.MySql",
+   "VirtoCommerce.DynamicAssociationsModule.Data.PostgreSql",
+   "VirtoCommerce.DynamicAssociationsModule.Data.SqlServer",
+   "VirtoCommerce.DynamicAssociationsModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.DynamicAssociationsModule.Web/Controllers/Api/AssociationsController.cs",
+    "route": "api/dynamicassociations",
+    "actions": 7,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "dynamic-association:access",
+   "dynamic-association:create",
+   "dynamic-association:delete",
+   "dynamic-association:read",
+   "dynamic-association:update"
+  ],
+  "settings": [],
+  "domainEventsPublished": [
+   "AssociationChangedEvent",
+   "AssociationChangingEvent"
+  ],
+  "declaredEvents": [
+   "AssociationChangedEvent",
+   "AssociationChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.DynamicAssociationsModule.Data/Handlers/LogChangesChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "AssociationChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 6,
+  "hasAdminUi": true,
+  "adminUiFiles": 14,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "AssociationEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "11b3c69",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "11b3c69 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Dynamic Associations module allows you to drive your sales and reduce marketing spend with the upselling and cross-selling features.",
+  "keyFeatures": [
+   "Creating product associations using dynamic conditions",
+   "Use extendable evaluation mechanisms"
+  ],
+  "docs": [
+   {
+    "label": "Dynamic Associations module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/dynamic-associations/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.DynamicAssociationsModule"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-dynamic-associations"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-dynamic-associations/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-dynamic-associations",
+  "links": [
+   {
+    "label": "Dynamic Associations module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/dynamic-associations/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

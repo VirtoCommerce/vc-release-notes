@@ -1,0 +1,242 @@
+{
+ "id": "VirtoCommerce.Loyalty",
+ "repo": "vc-module-loyalty",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-loyalty",
+ "name": "Loyalty",
+ "tagline": "Customer loyalty program is offering your customers some reward for shopping at your store.",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [],
+ "accent": "#F88A8D",
+ "icon": "assets/module-icons/VirtoCommerce.Loyalty.svg",
+ "facts": {
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.Loyalty.Web.dll",
+  "authors": [
+   "Konstantin Savosteev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1010.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCart",
+    "version": "3.1023.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCatalog",
+    "version": "3.1007.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.Loyalty.Core",
+   "VirtoCommerce.Loyalty.Data",
+   "VirtoCommerce.Loyalty.Data.MySql",
+   "VirtoCommerce.Loyalty.Data.PostgreSql",
+   "VirtoCommerce.Loyalty.Data.SqlServer",
+   "VirtoCommerce.Loyalty.ExperienceApi",
+   "VirtoCommerce.Loyalty.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.Loyalty.Web/Controllers/Api/LoyaltyProgramController.cs",
+    "route": "api/loyalty-programs",
+    "actions": 6,
+    "authorizedActions": 6
+   },
+   {
+    "file": "src/VirtoCommerce.Loyalty.Web/Controllers/Api/LoyaltyProgramOperationLogController.cs",
+    "route": "api/loyalty-program-operation-log",
+    "actions": 2,
+    "authorizedActions": 2
+   },
+   {
+    "file": "src/VirtoCommerce.Loyalty.Web/Controllers/Api/LoyaltyProgramProductFactorController.cs",
+    "route": "api/loyalty-program-product-factors",
+    "actions": 6,
+    "authorizedActions": 6
+   },
+   {
+    "file": "src/VirtoCommerce.Loyalty.Web/Controllers/Api/LoyaltySettingController.cs",
+    "route": "api/loyalty-setting",
+    "actions": 2,
+    "authorizedActions": 2
+   }
+  ],
+  "permissions": [
+   "loyalty:access",
+   "loyalty:create",
+   "loyalty:delete",
+   "loyalty:read",
+   "loyalty:update"
+  ],
+  "settings": [
+   "Loyalty.Currency",
+   "Loyalty.DefaultProductMultiplyFactor",
+   "Loyalty.Enable",
+   "Loyalty.Mode"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "LoyaltyProgramChangedEvent",
+   "LoyaltyProgramChangingEvent",
+   "LoyaltyProgramOperationLogChangedEvent",
+   "LoyaltyProgramOperationLogChangingEvent",
+   "LoyaltyProgramProductFactorChangedEvent",
+   "LoyaltyProgramProductFactorChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.Loyalty.Data/Handlers/LoyaltyProgramHandler.cs"
+  ],
+  "handledEvents": [
+   "OrderChangedEvent",
+   "UserChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.Loyalty.ExperienceApi/Queries/GetLoyaltyBalanceQueryBuilder.cs",
+   "src/VirtoCommerce.Loyalty.ExperienceApi/Queries/GetLoyaltyHistoryQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 12,
+  "hasAdminUi": true,
+  "adminUiFiles": 28,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "LoyaltyProgramEntity",
+   "LoyaltyProgramLocalizedNameEntity",
+   "LoyaltyProgramOperationLogEntity",
+   "LoyaltyProgramProductFactorEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "71b21d8",
+   "lastCommitDate": "2026-08-05",
+   "lastCommit": "71b21d8 2026-08-05 3.1006.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The **VirtoCommerce.Loyalty** module provides a flexible loyalty program management system for the [VirtoCommerce](https://virtocommerce.org) e-commerce platform. It enables store managers to define loyalty programs, reward customers with points, track transactions, and allow customers to pay for their orders using loyalty points.",
+  "keyFeatures": [
+   "**Loyalty Program Management**",
+   "Create and configure loyalty programs with specific conditions and reward rules.",
+   "Define rewards in fixed points or as a percentage of the order value.",
+   "Set program priorities, activation periods, and localized names.",
+   "**Transaction Logging**",
+   "Full audit log of loyalty points accruals and redemptions.",
+   "Visibility into customer activity and balance changes.",
+   "**Loyalty Payments**",
+   "Includes a built-in **LoyaltyPaymentMethod** allowing customers to pay for orders using loyalty points.",
+   "Payment with points can be activated and displayed as a checkout option on the storefront.",
+   "Currently, points can only be used if the customer’s balance fully covers the order amount.",
+   "Conversion rate: **1 point = 1 unit of order currency**."
+  ],
+  "docs": [
+   {
+    "label": "User Documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/3.0/loyalty/overview/"
+   },
+   {
+    "label": "API Reference",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/3.0/GraphQL-Storefront-API-Reference-xAPI/Loyalty/overview/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Documentation",
+    "href": "https://docs.virtocommerce.org"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Support",
+    "href": "https://help.virtocommerce.com"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-loyalty/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Example Use Case",
+   "View Customer Balance and Transactions",
+   "Integration with Virto Commerce Frontend",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-loyalty",
+  "links": [
+   {
+    "label": "User Documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/3.0/loyalty/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "API Reference",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/3.0/GraphQL-Storefront-API-Reference-xAPI/Loyalty/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

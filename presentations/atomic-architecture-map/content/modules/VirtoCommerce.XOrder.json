@@ -1,0 +1,236 @@
+{
+ "id": "VirtoCommerce.XOrder",
+ "repo": "vc-module-x-order",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-order",
+ "name": "Order Experience API",
+ "tagline": "Focuses on order processing, providing robust support for order lifecycle management.",
+ "latestVersion": "3.1008.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#9D86F5",
+ "icon": "assets/module-icons/VirtoCommerce.XOrder.svg",
+ "facts": {
+  "manifestVersion": "3.1009.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.XOrder.Web.dll",
+  "authors": [
+   "Eugeny Tatarincev",
+   "Yan Brovkin",
+   "Fillip Kuksov",
+   "Egidijus Mažeika",
+   "Andrei Kostyrin",
+   "Dmitri Pushnitsa",
+   "Alexandr Andreev",
+   "Andrey Kozlov",
+   "Konstantin Savosteev",
+   "Aleksandr Vishniakov",
+   "Artem Dudarev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.FileExperienceApi",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1011.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Payment",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCart",
+    "version": "3.1025.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCatalog",
+    "version": "3.1007.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.XOrder.Core",
+   "VirtoCommerce.XOrder.Data",
+   "VirtoCommerce.XOrder.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [
+   "XOrder.CreateAnonymousOrderEnabled",
+   "XOrder.ShippingAddressPolicy"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.XOrder.Data/Queries/BaseQueries/BaseSearchOrderQueryBuilder.cs",
+   "src/VirtoCommerce.XOrder.Data/Queries/OrderLineItemStatusesQueryBuilder.cs",
+   "src/VirtoCommerce.XOrder.Data/Queries/OrderStatusesQueryBuilder.cs",
+   "src/VirtoCommerce.XOrder.Data/Queries/PaymentStatusesQueryBuilder.cs",
+   "src/VirtoCommerce.XOrder.Data/Queries/SearchOrderQueryBuilder.cs",
+   "src/VirtoCommerce.XOrder.Data/Queries/SearchOrganizationOrderQueryBuilder.cs",
+   "src/VirtoCommerce.XOrder.Data/Queries/ShipmentStatusesQueryBuilder.cs",
+   "src/VirtoCommerce.XOrder.Data/Schemas/OrderSchema.cs",
+   "tests/VirtoCommerce.XOrder.Tests/GraphQLSingletonMediatorInjectionTests.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "cecf533",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "cecf533 2026-07-27 3.1009.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The xOrder module provides high-performance API for order data with the following key features: * Getting and searching orders. * Basic order workflow operations. * Pluggable order product resolution via `IOrderProductResolver` and the `ExternalOrderProducts` pipeline.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "xOrder module documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Order/overview/"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-order"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-order/releases/latest"
+   }
+  ],
+  "sections": [
+   "Order Product Resolution",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-x-order",
+  "links": [
+   {
+    "label": "xOrder module documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Order/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/",
+    "source": "readme"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/",
+    "source": "readme"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/",
+    "source": "readme"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

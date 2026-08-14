@@ -1,0 +1,140 @@
+{
+ "id": "VirtoCommerce.AzureBlobAssets",
+ "repo": "vc-module-azureblob-assets",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-azureblob-assets",
+ "name": "Azure Blob Storage Assets Provider",
+ "tagline": "Provide integration with Azure Blob Storage for Assets Management",
+ "latestVersion": "3.1007.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.AzureBlobAssets.svg",
+ "facts": {
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.AzureBlobAssetsModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "assets",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.AzureBlobAssetsModule.Core",
+   "VirtoCommerce.AzureBlobAssetsModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "ffd775d",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "ffd775d 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Azure Blob Storage Assets module provides integration with [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs).",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "Azure Blob Assets module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/azure-blob-storage/overview/"
+   },
+   {
+    "label": "Assets management",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/assets/managing-assets/"
+   },
+   {
+    "label": "Assets storage configuration",
+    "href": "http://localhost/platform/developer-guide/Configuration-Reference/appsettingsjson/#assets"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.AzureBlobAssets"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-azureblob-assets"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-azureblob-assets/releases/latest"
+   }
+  ],
+  "sections": [
+   "Settings",
+   "Documentation",
+   "References",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-azureblob-assets",
+  "links": [
+   {
+    "label": "Azure Blob Assets module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/azure-blob-storage/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Assets management",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/assets/managing-assets/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

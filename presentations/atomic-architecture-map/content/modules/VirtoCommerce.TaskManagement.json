@@ -1,0 +1,202 @@
+{
+ "id": "VirtoCommerce.TaskManagement",
+ "repo": "vc-module-task-management",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-task-management",
+ "name": "Task Management",
+ "tagline": "Headquarters personas can use task management to create task lists for retail stores, and to track status by store or worker.",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.TaskManagement.svg",
+ "facts": {
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1025.0",
+  "assembly": "VirtoCommerce.TaskManagement.Web.dll",
+  "authors": [
+   "Artem Dudarev",
+   "Oleg Zhuk",
+   "Evgeny Okhrimenko"
+  ],
+  "tags": "",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1010.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Notifications",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.TaskManagement.Core",
+   "VirtoCommerce.TaskManagement.Data",
+   "VirtoCommerce.TaskManagement.Data.MySql",
+   "VirtoCommerce.TaskManagement.Data.PostgreSql",
+   "VirtoCommerce.TaskManagement.Data.SqlServer",
+   "VirtoCommerce.TaskManagement.ExperienceApi",
+   "VirtoCommerce.TaskManagement.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.TaskManagement.Web/Controllers/Api/TaskManagementController.cs",
+    "route": "api/task-management",
+    "actions": 11,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "task:access",
+   "task:attachment:management",
+   "task:create",
+   "task:delete",
+   "task:finish",
+   "task:read",
+   "task:update"
+  ],
+  "settings": [
+   "TaskManagement.TaskAppUrl",
+   "TaskManagement.TaskNotificationNoReplyEmail",
+   "TaskManagement.TaskNotificationsEnabled",
+   "TaskManagement.TaskTypes"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "WorkTaskCanceledEvent",
+   "WorkTaskChangedEvent",
+   "WorkTaskChangingEvent",
+   "WorkTaskCompletedEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.TaskManagement.Data/Handlers/SendNotificationsWorkTaskChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "WorkTaskChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.TaskManagement.ExperienceApi/Queries/WorkTasksQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 8,
+  "hasAdminUi": true,
+  "adminUiFiles": 1,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "WorkTaskAttachmentEntity",
+   "WorkTaskEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "9008a21",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "9008a21 2026-07-27 3.1006.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce Task (or Task Management) module is designed for both managers and workers, providing a productivity-enhancing feature. Headquarters teams and business processes can use it to create task lists for stores and track their status by store or worker.",
+  "keyFeatures": [
+   "Role-Based Security & Permissions",
+   "Configurable Task Types - predefined task types such as Registration Review, Order Review, Order Processing, Product Catalog Management, Pricing and Promotions, Content Management, Customer Support, and more.",
+   "Notification Settings:",
+   "Enable or disable task notifications.",
+   "Configure a no-reply email address for notifications.",
+   "Set the base URL for task-related application links in notifications.",
+   "Embedded Task Management UI - provides a user-friendly interface for managing tasks directly within the Virto Commerce platform."
+  ],
+  "docs": [
+   {
+    "label": "Task Management module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/tasks/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.TaskManagement"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-task-management"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-task-management/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Screenshots",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-task-management",
+  "links": [
+   {
+    "label": "Task Management module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/tasks/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

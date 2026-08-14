@@ -1,0 +1,225 @@
+{
+ "id": "VirtoCommerce.Inventory",
+ "repo": "vc-module-inventory",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-inventory",
+ "name": "Inventory",
+ "tagline": "Simplify inventory management functionality",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.Inventory.svg",
+ "facts": {
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.InventoryModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "order system",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.InventoryModule.Core",
+   "VirtoCommerce.InventoryModule.Data",
+   "VirtoCommerce.InventoryModule.Data.MySql",
+   "VirtoCommerce.InventoryModule.Data.PostgreSql",
+   "VirtoCommerce.InventoryModule.Data.SqlServer",
+   "VirtoCommerce.InventoryModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.InventoryModule.Web/Controllers/Api/InventoryModuleController.cs",
+    "route": "api",
+    "actions": 19,
+    "authorizedActions": 19
+   }
+  ],
+  "permissions": [
+   "inventory:access",
+   "inventory:create",
+   "inventory:delete",
+   "inventory:fulfillment:delete",
+   "inventory:fulfillment:edit",
+   "inventory:fulfillment:read",
+   "inventory:read",
+   "inventory:update"
+  ],
+  "settings": [
+   "Inventory.ExportImport.PageSize",
+   "Inventory.LogInventoryChanges",
+   "Inventory.Search.EventBasedIndexation.Enable"
+  ],
+  "domainEventsPublished": [
+   "InventoryChangedEvent",
+   "InventoryChangingEvent"
+  ],
+  "declaredEvents": [
+   "FulfillmentCenterChangedEvent",
+   "FulfillmentCenterChangingEvent",
+   "InventoryChangedEvent",
+   "InventoryChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.InventoryModule.Data/Handlers/FulfillmentCenterChangedEventHandler.cs",
+   "src/VirtoCommerce.InventoryModule.Data/Handlers/IndexInventoryChangedEventHandler.cs",
+   "src/VirtoCommerce.InventoryModule.Data/Handlers/LogChangesChangedEventHandler.cs",
+   "src/VirtoCommerce.InventoryModule.Data/Handlers/ProductChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "FulfillmentCenterChangedEvent",
+   "InventoryChangedEvent",
+   "ProductChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [
+   "src/VirtoCommerce.InventoryModule.Data/Search/Indexing/ProductAvailabilityChangesProvider.cs",
+   "src/VirtoCommerce.InventoryModule.Data/Search/Indexing/ProductAvailabilityDocumentBuilder.cs"
+  ],
+  "migrationCount": 21,
+  "hasAdminUi": true,
+  "adminUiFiles": 25,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "FulfillmentCenterDynamicPropertyObjectValueEntity",
+   "FulfillmentCenterEntity",
+   "InventoryEntity",
+   "InventoryReservationTransactionEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "c07d260",
+   "lastCommitDate": "2026-08-13",
+   "lastCommit": "c07d260 2026-08-13 3.1006.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Inventory module represents a store inventory management system. The main goal of the Inventory module is to control inventory levels and manage fulfillment centers.",
+  "keyFeatures": [
+   "Inventory tracking",
+   "Stock level controlling",
+   "Fulfillment center management",
+   "Preoder and backorder functions included",
+   "Easily customized"
+  ],
+  "docs": [
+   {
+    "label": "Inventory module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/inventory/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Inventory"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-inventory"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-inventory/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": "How much of each product is available, and where it physically sits — stock per fulfillment centre, plus the reservations that stop two shoppers buying the last one. It answers \"can we ship this?\", which is a different question from \"do we sell this?\".",
+  "forArchitect": "A deliberately small module — four entities — that Catalog does not contain, because stock changes on a different clock from product data and would otherwise drag the catalog schema with it. It depends on Catalog and Search, and its two index builders project availability into the catalog index, which is what lets a storefront filter on \"in stock\" without a per-product call. Reservation transactions are its own ledger, so overselling is a data question rather than a race in application code.",
+  "forDeveloper": "It reacts to `ProductChangedEvent` to keep availability aligned, and raises its own inventory and fulfillment-centre change events for anything downstream. Nineteen actions on one controller, every one permission-checked. `Inventory.Search.EventBasedIndexation.Enable` is the switch to turn off before a bulk stock import, or every row becomes an index job.",
+  "owns": [
+   "InventoryEntity",
+   "FulfillmentCenterEntity",
+   "InventoryReservationTransactionEntity"
+  ],
+  "reachForItWhen": [
+   "Availability drives what a shopper may buy or where it ships from",
+   "You are modelling warehouses, stores as pick-up points, or stock transfers",
+   "Overselling must be prevented — reservations are what the transaction ledger is for"
+  ],
+  "doNotReachForItWhen": [
+   "You need the product itself: this module holds quantities, not descriptions",
+   "A storefront needs an in-stock filter at scale — that comes from the index this module feeds",
+   "You are recording what shipped: that is a shipment on the order, and it is Orders' document"
+  ]
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-inventory",
+  "links": [
+   {
+    "label": "Inventory module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/inventory/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

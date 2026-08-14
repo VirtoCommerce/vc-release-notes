@@ -1,0 +1,155 @@
+{
+ "id": "VirtoCommerce.GDPR",
+ "repo": "vc-module-gdpr",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-gdpr",
+ "name": "GDPR",
+ "tagline": "Apply General Data Protection Regulation policies with review or remove their personal details, by anonymizing them, from your online store.",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#6E7E97",
+ "icon": "assets/module-icons/VirtoCommerce.GDPR.svg",
+ "facts": {
+  "manifestVersion": "3.1002.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.GDPR.Web.dll",
+  "authors": [
+   "Leysan Nigmatullina"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1011.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1009.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.GDPR.Core",
+   "VirtoCommerce.GDPR.Data",
+   "VirtoCommerce.GDPR.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.GDPR.Web/Controllers/Api/GdprController.cs",
+    "route": "api/gdpr",
+    "actions": 3,
+    "authorizedActions": 3
+   }
+  ],
+  "permissions": [
+   "gdpr:access",
+   "gdpr:anonymize",
+   "gdpr:download"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 8,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "31f11d9",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "31f11d9 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The GDPR module supplied by Virto is a tool allowing you to supply the customer with or remove their personal details, by anonymizing them, from your online store. It is perfectly in line with the General Data Protection Regulation (GDPR) that enables every individual to request their personal data stored on a website or demand to remove such at any time.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "GDPR module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/gdpr/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.GDPR"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-gdpr"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-gdpr/releases/latest"
+   }
+  ],
+  "sections": [
+   "Functional requirements",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-gdpr",
+  "links": [
+   {
+    "label": "GDPR module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/gdpr/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

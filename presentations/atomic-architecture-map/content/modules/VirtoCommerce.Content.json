@@ -1,0 +1,218 @@
+{
+ "id": "VirtoCommerce.Content",
+ "repo": "vc-module-content",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-content",
+ "name": "Content",
+ "tagline": "Easily create, edit, and publish content such as pages, blog posts, and news articles.",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#B79DFB",
+ "icon": "assets/module-icons/VirtoCommerce.Content.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.ContentModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "cms menu",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.AzureBlobAssets",
+    "version": "3.1006.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.FileSystemAssets",
+    "version": "3.1001.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ContentModule.Azure",
+   "VirtoCommerce.ContentModule.Core",
+   "VirtoCommerce.ContentModule.Data",
+   "VirtoCommerce.ContentModule.Data.MySql",
+   "VirtoCommerce.ContentModule.Data.PostgreSql",
+   "VirtoCommerce.ContentModule.Data.SqlServer",
+   "VirtoCommerce.ContentModule.FileSystem",
+   "VirtoCommerce.ContentModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.ContentModule.Web/Controllers/Api/ContentController.cs",
+    "route": "api/content/{contentType}/{storeId}",
+    "actions": 14,
+    "authorizedActions": 13
+   },
+   {
+    "file": "src/VirtoCommerce.ContentModule.Web/Controllers/Api/MenuController.cs",
+    "route": "api/cms/{storeId}/menu",
+    "actions": 5,
+    "authorizedActions": 5
+   }
+  ],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [
+   "ContentFileChangedEvent"
+  ],
+  "declaredEvents": [
+   "ContentFileChangedEvent",
+   "MenuLinkListChangedEvent",
+   "MenuLinkListChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.ContentModule.Data/Handlers/IndexContentChangesEventHandler.cs",
+   "src/VirtoCommerce.ContentModule.Data/Handlers/LogChangesChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "ContentFileChangedEvent",
+   "MenuLinkListChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [
+   "src/VirtoCommerce.ContentModule.Data/Search/ContentIndexDocumentBuilder.cs",
+   "src/VirtoCommerce.ContentModule.Data/Search/ContentIndexDocumentChangesProvider.cs",
+   "src/VirtoCommerce.ContentModule.Web/Module.cs"
+  ],
+  "migrationCount": 8,
+  "hasAdminUi": true,
+  "adminUiFiles": 50,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "MenuLinkEntity",
+   "MenuLinkListEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "b73614d",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "b73614d 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce Content module is a  Content Management System. The Content module structure consists of Stores and related widgets:",
+  "keyFeatures": [
+   "Themes Management on UI",
+   "Pages and blogs management on UI",
+   "Link lists management",
+   "Manage documents in markdown format"
+  ],
+  "docs": [
+   {
+    "label": "Content module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/content/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Content"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-content/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-content/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": "The editorial side of a storefront: pages, blog posts, blocks, menus and the theme itself, edited per store. It is what a marketing team changes without a release.",
+  "forArchitect": "Barely a database module — two entities, both about menus. Everything else lives in blob storage, which is why it depends on Assets **and** on both storage providers, and why its content is deployed rather than migrated. Three index builders make pages searchable alongside products. Content is per store, so Store is a required dependency.",
+  "forDeveloper": "Work through the content API per store and content type rather than touching blobs, and remember that the storefront reads themes and pages at runtime — a change is visible without a rebuild, and a bad change is visible just as fast. Menus are the only part with relational structure and its own change events.",
+  "owns": [
+   "MenuLinkListEntity",
+   "MenuLinkEntity"
+  ],
+  "reachForItWhen": [
+   "Pages, blocks, menus or theme files are the thing being managed",
+   "Editorial content has to be searchable next to catalog data",
+   "A storefront needs per-store content without a deployment"
+  ],
+  "doNotReachForItWhen": [
+   "You need structured product data — that is Catalog, with a schema behind it",
+   "You expect database migrations to move your content: it is files in blob storage",
+   "You want a page builder experience — that is a separate module on top of this one"
+  ]
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-content",
+  "links": [
+   {
+    "label": "Content module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/content/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

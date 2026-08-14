@@ -1,0 +1,154 @@
+{
+ "id": "VirtoCommerce.StateMachine",
+ "repo": "vc-module-state-machine",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-state-machine",
+ "name": "State Machine",
+ "tagline": "Provides core functionality for entity's State Machine",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.StateMachine.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1007.10",
+  "assembly": "VirtoCommerce.StateMachineModule.Web.dll",
+  "authors": [
+   "Vladimir Buravlev"
+  ],
+  "tags": "VirtoCommerce State Machine module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.StateMachineModule.Core",
+   "VirtoCommerce.StateMachineModule.Data",
+   "VirtoCommerce.StateMachineModule.Data.MySql",
+   "VirtoCommerce.StateMachineModule.Data.PostgreSql",
+   "VirtoCommerce.StateMachineModule.Data.SqlServer",
+   "VirtoCommerce.StateMachineModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.StateMachineModule.Web/Controllers/Api/StateMachineController.cs",
+    "route": "api/statemachine",
+    "actions": 15,
+    "authorizedActions": 15
+   }
+  ],
+  "permissions": [
+   "statemachine:access",
+   "statemachine:create",
+   "statemachine:delete",
+   "statemachine:fire",
+   "statemachine:localize",
+   "statemachine:read",
+   "statemachine:update"
+  ],
+  "settings": [
+   "StateMachineModule.StateMachineAttributeKeys",
+   "StateMachineModule.StateMachineLanguages"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "StateMachineTriggerEvent"
+  ],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 21,
+  "hasAdminUi": true,
+  "adminUiFiles": 33,
+  "localizations": [
+   "en"
+  ],
+  "entities": [
+   "StateMachineAttributeEntity",
+   "StateMachineDefinitionEntity",
+   "StateMachineInstanceEntity",
+   "StateMachineLocalizationEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "4603167",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "4603167 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce State Machine module provides a powerful framework for managing complex business processes through configurable state machines. This module enables you to model and control entity lifecycles with states, transitions, conditions, and custom actions.",
+  "keyFeatures": [
+   "**Configurable State Machines**: Define custom workflows for any entity type in your system",
+   "**Visual State Machine Editor**: Intuitive drag-and-drop interface for creating and editing state machines",
+   "**Conditional Transitions**: Set up complex business rules with transition conditions",
+   "**Custom Actions**: Implement custom logic for state transitions and entity operations",
+   "**Multi-language Support**: Localize state and transition names for global applications",
+   "**Entity Type Registration**: Easily bind state machines to any business entity",
+   "**Extensible Architecture**: Register custom conditions and actions through the modular framework",
+   "**Operator & Vendor Portal Integration**: Seamless integration with both admin and customer portals"
+  ],
+  "docs": [],
+  "references": [
+   {
+    "label": "Deploy from source code",
+    "href": "https://virtocommerce.com/docs/latest/developer-guide/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Module installation guide",
+    "href": "https://www.virtocommerce.com/docs/latest/user-guide/modules/"
+   },
+   {
+    "label": "Virto Commerce Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download Latest Release",
+    "href": "https://github.com/VirtoCommerce/vc-module-state-machine/releases"
+   }
+  ],
+  "sections": [
+   "Key Features",
+   "Documentation",
+   "Getting Started",
+   "Web API",
+   "Database Model",
+   "Examples",
+   "Integration Examples",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-state-machine",
+  "links": [],
+  "checkedOnline": false
+ }
+}

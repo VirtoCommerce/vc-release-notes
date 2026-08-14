@@ -1,0 +1,217 @@
+{
+ "id": "VirtoCommerce.WhiteLabeling",
+ "repo": "vc-module-white-labeling",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-white-labeling",
+ "name": "White Labeling",
+ "tagline": "Provides White labeling functionality for organizations",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [],
+ "accent": "#B79DFB",
+ "icon": "assets/module-icons/VirtoCommerce.WhiteLabeling.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.WhiteLabeling.Web.dll",
+  "authors": [
+   "Konstantin Savosteev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.FileExperienceApi",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCMS",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1010.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.ImageTools",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.WhiteLabeling.Core",
+   "VirtoCommerce.WhiteLabeling.Data",
+   "VirtoCommerce.WhiteLabeling.Data.MySql",
+   "VirtoCommerce.WhiteLabeling.Data.PostgreSql",
+   "VirtoCommerce.WhiteLabeling.Data.SqlServer",
+   "VirtoCommerce.WhiteLabeling.ExperienceApi",
+   "VirtoCommerce.WhiteLabeling.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.WhiteLabeling.Web/Controllers/Api/WhiteLabelingController.cs",
+    "route": "api/white-labeling",
+    "actions": 5,
+    "authorizedActions": 5
+   }
+  ],
+  "permissions": [
+   "WhiteLabeling:create",
+   "WhiteLabeling:delete",
+   "WhiteLabeling:read",
+   "WhiteLabeling:update"
+  ],
+  "settings": [
+   "WhiteLabeling.ThemePresetNames",
+   "WhiteLabeling.WhiteLabelingEnabled"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "WhiteLabelingSettingChangedEvent",
+   "WhiteLabelingSettingChangingEvent"
+  ],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.WhiteLabeling.ExperienceApi/Queries/GetWhiteLabelingSettingsQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 9,
+  "hasAdminUi": true,
+  "adminUiFiles": 15,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "WhiteLabelingSettingEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "4a9c989",
+   "lastCommitDate": "2026-08-13",
+   "lastCommit": "4a9c989 2026-08-13 3.1005.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The White Labeling module enables organizations to enhance the enterprise user experience by customizing branding elements such as logos, favicons, colors, and footer links based on the logged-in organization context. This module ensures that users from different organizations see personalized branding elements after signing in, improving overall UX and brand consistency.",
+  "keyFeatures": [
+   "**Branding Configuration**: Display organization-specific logos, favicons, colors, and footer links post-login.",
+   "**White labeling**: Resolve branding based on the organization context after user authentication.",
+   "**Integration with Virto Frontend:** Seamlessly integrate customized branding elements into Virto Commerce Storefront.",
+   "**Custom Domain:** Assign a custom domain with the organization to allow branding activation on the first visit.",
+   "**Change My Organization Logo:** Organization maintainers can update their organization's logo through a self-service option..",
+   "**Automated FavIcon Generation**: The module uses [Virto Commerce Image Tools module](https://github.com/VirtoCommerce/vc-module-image-tools/) for fav icon generation."
+  ],
+  "docs": [
+   {
+    "label": "White Labeling module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/white-labeling/overview/"
+   },
+   {
+    "label": "GraphQL API",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/White-labeling/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.WhiteLabeling"
+   },
+   {
+    "label": "Configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#__tabbed_5_2"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-white-labeling"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-white-labeling/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Screenshots",
+   "Configuration",
+   "Integration with Virto Frontend",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-white-labeling",
+  "links": [
+   {
+    "label": "White Labeling module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/white-labeling/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/White-labeling/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#__tabbed_5_2",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

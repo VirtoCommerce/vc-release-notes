@@ -1,0 +1,146 @@
+{
+ "id": "VirtoCommerce.GoogleEcommerceAnalytics",
+ "repo": "vc-module-google-ecommerce-analytics",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-google-ecommerce-analytics",
+ "name": "Google Analytics 4",
+ "tagline": "Allows you active Measurement Id for a Store and measure traffic and ecommerce events to collect information about the shopping behavior of your users.",
+ "latestVersion": "4.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.GoogleEcommerceAnalytics.svg",
+ "facts": {
+  "manifestVersion": "4.1003.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.GoogleEcommerceAnalyticsModule.Web.dll",
+  "authors": [
+   "Oleg Zhuk"
+  ],
+  "tags": "analytics",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.GoogleEcommerceAnalyticsModule.Core",
+   "VirtoCommerce.GoogleEcommerceAnalyticsModule.Data",
+   "VirtoCommerce.GoogleEcommerceAnalyticsModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.GoogleEcommerceAnalyticsModule.Web/Controllers/Api/GoogleAnalyticsController.cs",
+    "route": "api/googleanalytics",
+    "actions": 2,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "googleanalytics:access"
+  ],
+  "settings": [
+   "GoogleAnalytics4.EnableTracking",
+   "GoogleAnalytics4.GoogleAnalyticsUrl",
+   "GoogleAnalytics4.GtmContainerId",
+   "GoogleAnalytics4.MeasurementId"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 1,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "b92c3c3",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "b92c3c3 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Google Analytics 4 module allows you to assign Google Analytics Measurement Id and Google Tag Manager Container Id for a Store and measure traffic, ecommerce events to collect information about the shopping behaviour of your users.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "Google Analytics 4",
+    "href": "https://developers.google.com/analytics/devguides/collection/ga4"
+   },
+   {
+    "label": "Google Tag Manager",
+    "href": "https://developers.google.com/tag-platform/tag-manager"
+   },
+   {
+    "label": "GTM with GA4 Setup Guide",
+    "href": "https://support.google.com/tagmanager/answer/9442095"
+   },
+   {
+    "label": "GA4 Ecommerce Events",
+    "href": "https://developers.google.com/analytics/devguides/collection/ga4/ecommerce"
+   },
+   {
+    "label": "Module Documentation",
+    "href": "https://docs.virtocommerce.org/modules/google-ecommerce-analytics/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Download Latest Release",
+    "href": "https://github.com/VirtoCommerce/google-ecommerce-analytics/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key Features",
+   "Screenshots",
+   "Setup",
+   "Integration with Virto Storefront",
+   "Application Menu",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-google-ecommerce-analytics",
+  "links": [
+   {
+    "label": "Module Documentation",
+    "href": "https://docs.virtocommerce.org/modules/google-ecommerce-analytics/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

@@ -1,0 +1,189 @@
+{
+ "id": "VirtoCommerce.BuilderIO",
+ "repo": "vc-module-builder-io",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-builder-io",
+ "name": "Builder.io",
+ "tagline": "Integration module for Builder.io",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.BuilderIO.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.BuilderIO.Web.dll",
+  "authors": [
+   "Oleg Zhuk"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [
+   {
+    "id": "VirtoCommerce.Pages",
+    "version": "3.1004.0",
+    "optional": true
+   }
+  ],
+  "projects": [
+   "VirtoCommerce.BuilderIO.Core",
+   "VirtoCommerce.BuilderIO.Data",
+   "VirtoCommerce.BuilderIO.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.BuilderIO.Web/Controllers/Api/BuilderIoController.cs",
+    "route": "api/builder-io",
+    "actions": 1,
+    "authorizedActions": 1
+   },
+   {
+    "file": "src/VirtoCommerce.BuilderIO.Web/Controllers/Api/PagesBuilderIOController.cs",
+    "route": "api/pages/builder-io",
+    "actions": 1,
+    "authorizedActions": 0
+   }
+  ],
+  "permissions": [
+   "builderio:access",
+   "builderio:delete",
+   "builderio:read",
+   "builderio:update"
+  ],
+  "settings": [
+   "BuilderIO.Enable",
+   "BuilderIO.PublicApiKey"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 1,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "1fac711",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "1fac711 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Builder.io module allows you to enable Builder.io and assign Public API Key for a Store and give your developers and marketers the toolkit to transform page designs into optimized web and mobile experiences.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "Builder.io",
+    "href": "https://www.builder.io"
+   },
+   {
+    "label": "Builder.io Content API",
+    "href": "https://www.builder.io/c/docs/content-api"
+   },
+   {
+    "label": "Builder.io Querying Cheatsheet",
+    "href": "https://www.builder.io/c/docs/querying"
+   },
+   {
+    "label": "Builder.io SDK source",
+    "href": "https://github.com/BuilderIO/builder/blob/main/packages/core/src/builder.class.ts"
+   },
+   {
+    "label": "Builder.io module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/integrations/builder-io/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.BuilderIO"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-builder-io"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-builder-io/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key Features",
+   "Screenshots",
+   "Setup",
+   "Integration with Virto Frontend",
+   "Application Menu",
+   "Pages Module Integration",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-builder-io",
+  "links": [
+   {
+    "label": "Builder.io module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/integrations/builder-io/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

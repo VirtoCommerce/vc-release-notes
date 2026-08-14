@@ -1,0 +1,86 @@
+{
+ "id": "VirtoCommerce.OpenTelemetry",
+ "repo": "vc-module-opentelemetry",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-opentelemetry",
+ "name": "Open Telemetry",
+ "tagline": "Provides Open Telemetry metrics, tracing, and logging via OTLP exporter",
+ "latestVersion": "3.1001.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.OpenTelemetry.svg",
+ "facts": {
+  "manifestVersion": "3.1001.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.OpenTelemetry.Web.dll",
+  "authors": [
+   "Anton Zorya"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.OpenTelemetry.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "60a18f6",
+   "lastCommitDate": "2026-03-20",
+   "lastCommit": "60a18f6 2026-03-20 3.1001.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "This module provides OpenTelemetry observability for VirtoCommerce Platform — metrics, distributed tracing, and structured logging via OTLP exporter.",
+  "keyFeatures": [
+   "**Metrics**: ASP.NET Core, HTTP Client, Runtime, Process, EF Core, Elasticsearch, Redis instrumentation",
+   "**Distributed Tracing**: ASP.NET Core, HTTP Client, Hangfire, EF Core, Elasticsearch, Redis instrumentation",
+   "**Logging**: Serilog → OpenTelemetry via OTLP sink, with trace/span ID correlation",
+   "**Conditional Activation**: Only enabled when explicitly configured"
+  ],
+  "docs": [],
+  "references": [],
+  "sections": [
+   "Features",
+   "Prerequisites",
+   "Installation",
+   "Configuration",
+   "What Gets Collected",
+   "Module Structure",
+   "Troubleshooting",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-opentelemetry",
+  "links": [],
+  "checkedOnline": false
+ }
+}

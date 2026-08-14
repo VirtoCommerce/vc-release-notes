@@ -1,0 +1,205 @@
+{
+ "id": "VirtoCommerce.Seo",
+ "repo": "vc-module-seo",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-seo",
+ "name": "SEO",
+ "tagline": "Infrastructure for managing SEO metadata across the platform",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#B79DFB",
+ "icon": "assets/module-icons/VirtoCommerce.Seo.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.Seo.Web.dll",
+  "authors": [
+   "Basil Kotov"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.Seo.Core",
+   "VirtoCommerce.Seo.Data",
+   "VirtoCommerce.Seo.Data.MySql",
+   "VirtoCommerce.Seo.Data.PostgreSql",
+   "VirtoCommerce.Seo.Data.SqlServer",
+   "VirtoCommerce.Seo.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.Seo.Web/Controllers/Api/BrokenLinksController.cs",
+    "route": "api/seo/broken-links",
+    "actions": 6,
+    "authorizedActions": 6
+   },
+   {
+    "file": "src/VirtoCommerce.Seo.Web/Controllers/Api/RedirectRulesController.cs",
+    "route": "api/seo/redirect-rules",
+    "actions": 6,
+    "authorizedActions": 6
+   },
+   {
+    "file": "src/VirtoCommerce.Seo.Web/Controllers/Api/SeoController.cs",
+    "route": "api/seoinfos",
+    "actions": 5,
+    "authorizedActions": 5
+   }
+  ],
+  "permissions": [
+   "seo:access",
+   "seo:create",
+   "seo:delete",
+   "seo:read",
+   "seo:update"
+  ],
+  "settings": [
+   "Seo.BrokenLinkDetection.Enabled",
+   "Seo.Enabled"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "BrokenLinkChangedEvent",
+   "BrokenLinkChangingEvent",
+   "RedirectRuleChangedEvent",
+   "RedirectRuleChangingEvent",
+   "SeoInfoNotFoundEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.Seo.Data/Handlers/SeoInfoNotFoundEventHandler.cs"
+  ],
+  "handledEvents": [
+   "SeoInfoNotFoundEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 12,
+  "hasAdminUi": true,
+  "adminUiFiles": 34,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "BrokenLinkEntity",
+   "RedirectRuleEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "9de340b",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "9de340b 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The VirtoCommerce SEO module provides centralized infrastructure for managing SEO metadata across the platform. It handles permalink resolution through a multi-stage scoring pipeline, URL redirect rules (static and regex-based), and automatic broken link detection via event-driven background jobs. The module supports multiple database providers and integrates into the Virto Commerce platform as a standalone extension with its own REST API, export/import capabilities, and Admin UI widgets.",
+  "keyFeatures": [
+   "**SEO Metadata Resolution** — Resolves SEO records (slugs, page titles, meta descriptions, keywords) per entity, store, language, and organization using a composite resolver that aggregates multiple `ISeoResolver` implementations.",
+   "**Best-Match Scoring Pipeline** — A 6-stage pipeline (Original, Filtered, Scored, FilteredScore, Ordered, Final) selects the most relevant SEO entry when multiple candidates match a permalink, with configurable object type priorities.",
+   "**Redirect Rules** — Static or regex-based URL rewrite rules with priority ordering and capture group substitution (`$1`, `$2`, etc.), validated via FluentValidation.",
+   "**Broken Link Detection** — Event-driven tracking of unresolved permalinks. When no SEO info is found, a `SeoInfoNotFoundEvent` triggers a Hangfire background job that records or updates the broken link with hit count and timestamp.",
+   "**SEO Duplicates Detection** — Extensible `ISeoDuplicatesDetector` interface for identifying conflicting SEO entries within an object's relationships (default implementation is a no-op).",
+   "**Explain / Debug Tool** — REST API endpoint and Admin UI widget that traces the full permalink resolution pipeline stage by stage for diagnostics.",
+   "**Export / Import** — Streaming JSON-based export and import of redirect rules and broken links with batch processing (100 items per batch) and progress reporting.",
+   "**Multi-Database Support** — EF Core providers for SQL Server, MySQL, and PostgreSQL with version-controlled migrations."
+  ],
+  "docs": [
+   {
+    "label": "https://docs.virtocommerce.org/platform/user-guide/push-messages/overview/",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/seo/overview/"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Push-messages/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.PushMessages"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-seo/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-seo/releases"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-seo",
+  "links": [
+   {
+    "label": "https://docs.virtocommerce.org/platform/user-guide/push-messages/overview/",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/seo/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Push-messages/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

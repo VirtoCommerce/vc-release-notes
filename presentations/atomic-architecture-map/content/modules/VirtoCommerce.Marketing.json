@@ -1,0 +1,289 @@
+{
+ "id": "VirtoCommerce.Marketing",
+ "repo": "vc-module-marketing",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-marketing",
+ "name": "Marketing",
+ "tagline": "Marketing system with dynamic contents and promotions management",
+ "latestVersion": "3.1007.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#F88A8D",
+ "icon": "assets/module-icons/VirtoCommerce.Marketing.svg",
+ "facts": {
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.MarketingModule.Web.dll",
+  "authors": [
+   "Virto Commerce",
+   "Evgeny Okhrimenko"
+  ],
+  "tags": "marketing promotion",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Payment",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Shipping",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1011.0",
+    "optional": true
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1009.0",
+    "optional": true
+   }
+  ],
+  "projects": [
+   "VirtoCommerce.MarketingModule.Core",
+   "VirtoCommerce.MarketingModule.Data",
+   "VirtoCommerce.MarketingModule.Data.MySql",
+   "VirtoCommerce.MarketingModule.Data.PostgreSql",
+   "VirtoCommerce.MarketingModule.Data.SqlServer",
+   "VirtoCommerce.MarketingModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.MarketingModule.Web/Controllers/Api/MarketingModuleDynamicContentController.cs",
+    "route": "api/marketing",
+    "actions": 23,
+    "authorizedActions": 23
+   },
+   {
+    "file": "src/VirtoCommerce.MarketingModule.Web/Controllers/Api/MarketingModulePromotionController.cs",
+    "route": "api/marketing/promotions",
+    "actions": 12,
+    "authorizedActions": 7
+   }
+  ],
+  "permissions": [
+   "marketing:access",
+   "marketing:create",
+   "marketing:delete",
+   "marketing:read",
+   "marketing:update"
+  ],
+  "settings": [
+   "Marketing.Coupon.CodeValidationPattern",
+   "Marketing.Promotion.CombinePolicy"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "CouponChangedEvent",
+   "CouponChangingEvent",
+   "DynamicContentFolderChangedEvent",
+   "DynamicContentFolderChangingEvent",
+   "DynamicContentItemChangedEvent",
+   "DynamicContentItemChangingEvent",
+   "DynamicContentPlaceChangedEvent",
+   "DynamicContentPlaceChangingEvent",
+   "DynamicContentPublicationChangedEvent",
+   "DynamicContentPublicationChangingEvent",
+   "PromotionChangedEvent",
+   "PromotionChangingEvent",
+   "PromotionUsageChangedEvent",
+   "PromotionUsageChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.MarketingModule.Data/Handlers/CouponUsageRecordHandler.cs",
+   "src/VirtoCommerce.MarketingModule.Data/Handlers/LogChangesChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "CouponChangedEvent",
+   "OrderChangedEvent",
+   "PromotionChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 25,
+  "hasAdminUi": true,
+  "adminUiFiles": 58,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "CouponEntity",
+   "DynamicContentFolderEntity",
+   "DynamicContentItemDynamicPropertyObjectValueEntity",
+   "DynamicContentItemEntity",
+   "DynamicContentPlaceEntity",
+   "DynamicContentPublishingGroupEntity",
+   "PromotionEntity",
+   "PromotionLocalizedDescriptionEntity",
+   "PromotionLocalizedDisplayNameEntity",
+   "PromotionLocalizedLabelEntity",
+   "PromotionStoreEntity",
+   "PromotionUsageEntity",
+   "PublishingGroupContentItemEntity",
+   "PublishingGroupContentPlaceEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "3a04612",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "3a04612 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce Marketing Module provides **promotions** and **dynamic content** capabilities for the Virto Commerce Platform. ### Architecture The module implements a domain-driven structure where: - **Promotions** define marketing rules (conditions + rewards) evaluated during cart/order processing. - **Dynamic content** provides content items, placeholders, and publications for storefront personalization. - **Admin UI** enables day-to-day operations (create/edit/search/filter). - **Optional integrations** are enabled when dependent modules are installed (e.g., Orders module). ### Core principles - **Rule-based promotions**: conditions and rewards are modeled as expression trees to support extensibility. - **Store scope**: promotions can be targeted to specific store(s) (or globally when no stores are assigned). - **Optional dependencies**: some features light up only when related modules are present (e.g., Orders).",
+  "keyFeatures": [
+   "**Promotion lifecycle**: create, edit, clone, delete, enable/disable",
+   "**Coupons support**: manage promotion coupons and coupon usages",
+   "**Search and filtering**:",
+   "keyword search",
+   "saved filters (stored in client storage)",
+   "predefined status filters: **All Promotions**, **Active**, **Upcoming**, **Archived**, **Deactivated**",
+   "**Promotion usage visibility (optional Orders integration)**:",
+   "“Usage History” widget shows the number of orders that used the promotion",
+   "opens an Orders blade filtered by the current promotion",
+   "shown only when `VirtoCommerce.Orders` module is installed",
+   "**Dynamic content items**: create and manage content items and folders",
+   "**Placeholders**: manage placeholders that define content slots in storefront pages",
+   "**Publications**: publish content to placeholders with time windows and conditions",
+   "**Role-based access control**:",
+   "`marketing:access`, `marketing:read`, `marketing:create`, `marketing:update`, `marketing:delete`",
+   "**Scope-based access**: permission scope supports restricting access by Store"
+  ],
+  "docs": [
+   {
+    "label": "Marketing module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/marketing/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Marketing"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-marketing"
+   },
+   {
+    "label": "Developer guide",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Extensibility/extending-dynamic-expression-tree/#defining-new-class-for-expression-tree-prototype"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-marketing/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Documentation",
+   "Available resources",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": "Promotions and the content that advertises them: discount rules, coupons and their usage, plus dynamic content placed on the storefront. It is where a campaign is defined and where its take-up is recorded.",
+  "forArchitect": "Interesting for what is optional: Customer and Orders are declared `optional=\"true\"`, so promotions can be evaluated on a host that has neither — the personalisation and order-history rules simply do not apply. It depends on Catalog, Payment, Shipping and Store because a promotion reasons about all four. Coupon usage is a table it owns, which is what makes \"one per customer\" enforceable rather than advisory.",
+  "forDeveloper": "`Marketing.Promotion.CombinePolicy` decides whether promotions stack — read it before debugging a \"wrong\" discount. It handles `OrderChangedEvent` to record usage, so a promotion's counters follow checkout rather than the cart. Extend by contributing promotion and content conditions; the two controllers cover promotions and dynamic content separately.",
+  "owns": [
+   "PromotionEntity",
+   "CouponEntity",
+   "PromotionUsageEntity",
+   "DynamicContentItemEntity",
+   "DynamicContentPlaceEntity",
+   "DynamicContentFolderEntity"
+  ],
+  "reachForItWhen": [
+   "Discounts, coupons or campaign rules are the requirement",
+   "Storefront content must vary by audience, place or campaign",
+   "Coupon usage has to be limited or reported on"
+  ],
+  "doNotReachForItWhen": [
+   "You need the price before promotions — that is Pricing, and it runs first",
+   "The discount is already on an order: the order keeps its own copy of what was applied",
+   "You are building general CMS pages — that is Content, not dynamic content placement"
+  ]
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-marketing",
+  "links": [
+   {
+    "label": "Marketing module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/marketing/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Developer guide",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Extensibility/extending-dynamic-expression-tree/#defining-new-class-for-expression-tree-prototype",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

@@ -1,0 +1,237 @@
+{
+ "id": "VirtoCommerce.SalesRep",
+ "repo": "vc-module-sales-rep",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-sales-rep",
+ "name": "Sales Rep",
+ "tagline": "Virto Commerce Sales Rep",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#F87FAC",
+ "icon": "assets/module-icons/VirtoCommerce.SalesRep.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1048.0",
+  "assembly": "VirtoCommerce.SalesRep.Web.dll",
+  "authors": [
+   "Alla Volkova"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1014.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1010.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1006.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Cart",
+    "version": "3.1008.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCart",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1032.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Notifications",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.PushMessages",
+    "version": "3.1004.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.SalesRep.Core",
+   "VirtoCommerce.SalesRep.Data",
+   "VirtoCommerce.SalesRep.ExperienceApi",
+   "VirtoCommerce.SalesRep.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.SalesRep.Web/Controllers/Api/SalesRepController.cs",
+    "route": "api/sales-rep",
+    "actions": 10,
+    "authorizedActions": 13
+   }
+  ],
+  "permissions": [
+   "sales-rep:access"
+  ],
+  "settings": [
+   "SalesRep.Enabled",
+   "SalesRep.Statistics.CartCacheExpirationMinutes",
+   "SalesRep.Statistics.CustomerCountsCacheExpirationMinutes",
+   "SalesRep.Statistics.OrderCacheExpirationMinutes",
+   "SalesRep.Statistics.TopSellerCacheExpirationMinutes"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/CustomerSalesRepsQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCartFilterRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerFilterRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerSortRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomersQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepLayoutQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepOrderFilterRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepOrderSortRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepOrdersQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepSearchQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTopSellerFilterRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTopSellerSortRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTopSellersQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/Statistics/SalesRepCustomerCartStatisticsQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/Statistics/SalesRepCustomerCountsQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/Statistics/SalesRepCustomerOrderStatisticsQueryBuilder.cs",
+   "tests/VirtoCommerce.SalesRep.Tests/ComponentTests/Infrastructure/TestGraphQlConfiguration.cs"
+  ],
+  "indexDocumentBuilders": [
+   "tests/VirtoCommerce.SalesRep.Tests/ComponentTests/Infrastructure/SalesRepTestContext.cs"
+  ],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "en"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "readFrom": "shallow clone",
+   "branch": "dev",
+   "lastCommit": "86e3989 2026-08-12 3.1004.0",
+   "lastCommitDate": "2026-08-12"
+  }
+ },
+ "readme": {
+  "overview": "The Sales Rep module turns selected users into sales representatives who serve a defined set of customer organizations. It provides a back-office application for administrators to create, assign and manage reps, and a storefront GraphQL (X-API) surface that lets a B2B storefront show the reps supporting an organization, the customers a rep serves, their orders, and dashboard statistics (order purchases, carts/projects and customer counters).",
+  "keyFeatures": [
+   "Manage sales representatives from a dedicated back-office app — create, edit, block/unblock and delete",
+   "Assign a rep the customer organizations they serve (a per-organization role); a global role marks a user as a rep without tying them to any specific customer",
+   "Manage the rep's login account: store, password and lockout",
+   "Model a rep from existing platform data (a contact, a login account and a role) with no new database tables",
+   "Let buyers see the sales reps supporting their organization",
+   "Let reps see the customers they serve, each with the rep's latest order for that customer",
+   "Show a customer information card — organization, primary contact and account type",
+   "List and filter the orders a rep created for their customers",
+   "Show dashboard **statistics** for a rep — order purchases, average order value and order counts, with period-over-period comparison, converted to one currency",
+   "Add cart/project statistics (e.g. *active projects*) and *my-customers* counters (customers who ordered in a period, new customers)",
+   "Show inline per-customer purchase figures on the customers list (YTD / prior-year totals, order counts, first/last order) via a batched per-row statistics field — no N+1",
+   "Filter the orders/customers lists and every statistics block by a single, optional, server-defined **filter rule** (aggregated order statuses / cart kinds / customer segments), and order the lists by a server-defined **sort rule** (orders: *recent* / *total*; customers: *my last orders* / *ytd purchases* / *name*; top sellers: *by units* / *by revenue*) — one rule name per axis, with an optional X-Order-style `:asc`/`:desc` suffix to reverse a rule where that's meaningful; both filter and sort are overridable per project",
+   "Rank a rep's **top-selling products** (dashboard + per-customer) by units or revenue over a period, optionally within a product category",
+   "Scope the orders list to an optional created-date **period**",
+   "Send a push notification and/or email to the members of a customer organization",
+   "Publish a shopping list (wishlist) to a customer organization the rep serves — its members open it read-only (\"Recommended by your Sales Rep\") and add items to their cart, with an optional email/push notification",
+   "Toggle the storefront Sales Rep UI per store"
+  ],
+  "docs": [
+   {
+    "label": "VCST-5142 — Sales Rep Hub",
+    "href": "https://virtocommerce.atlassian.net/browse/VCST-5142"
+   },
+   {
+    "label": "#1 — VCST-5293: Sales rep VC-Shell administration UI",
+    "href": "https://github.com/VirtoCommerce/vc-module-sales-rep/pull/1"
+   },
+   {
+    "label": "#2 — VCST-4907 / VCST-5304 / VCST-5308: X-API endpoints for customers and sales reps",
+    "href": "https://github.com/VirtoCommerce/vc-module-sales-rep/pull/2"
+   },
+   {
+    "label": "VCST-5309: Sales rep dashboard statistics, sort rules & Top Sellers",
+    "href": "https://virtocommerce.atlassian.net/browse/VCST-5309"
+   },
+   {
+    "label": "VCST-5310 / VCST-5331: Push & email messaging to customer members",
+    "href": "https://virtocommerce.atlassian.net/browse/VCST-5310"
+   },
+   {
+    "label": "VCST-5332: Publish a shopping list to a customer organization",
+    "href": "https://virtocommerce.atlassian.net/browse/VCST-5332"
+   },
+   {
+    "label": "Sales Rep Hub epic",
+    "href": "https://virtocommerce.atlassian.net/browse/VCST-5142"
+   }
+  ],
+  "references": [
+   {
+    "label": "Virto Commerce Documentation",
+    "href": "https://docs.virtocommerce.org"
+   },
+   {
+    "label": "Customer module",
+    "href": "https://github.com/VirtoCommerce/vc-module-customer"
+   },
+   {
+    "label": "Experience API (X-API)",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-api"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Screenshots",
+   "XAPI Specification",
+   "How it works",
+   "Administration",
+   "Permissions",
+   "Settings",
+   "Dependencies",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-sales-rep",
+  "links": [],
+  "checkedOnline": false
+ }
+}

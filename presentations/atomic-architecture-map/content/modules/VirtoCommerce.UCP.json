@@ -1,0 +1,231 @@
+{
+ "id": "VirtoCommerce.UCP",
+ "repo": "vc-module-u-c-p",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-u-c-p",
+ "name": "Universal Commerce Protocol",
+ "tagline": "Universal Commerce Protocol facade for Virto Commerce capabilities.",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [],
+ "accent": "#A66BFF",
+ "icon": "assets/module-icons/VirtoCommerce.UCP.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1034.0",
+  "assembly": "VirtoCommerce.UCP.Web.dll",
+  "authors": [
+   "VirtoCommerce"
+  ],
+  "tags": "ucp commerce mcp checkout catalog cart",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCatalog",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCart",
+    "version": "3.1016.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Marketing",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.UCP.Core",
+   "VirtoCommerce.UCP.Data",
+   "VirtoCommerce.UCP.ExperienceApi",
+   "VirtoCommerce.UCP.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.UCP.Web/Controllers/Api/UcpCartController.cs",
+    "route": "ucp/v1/carts",
+    "actions": 5,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.UCP.Web/Controllers/Api/UcpCatalogController.cs",
+    "route": "ucp/v1/catalog",
+    "actions": 2,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.UCP.Web/Controllers/Api/UcpCheckoutController.cs",
+    "route": "ucp/v1/checkouts",
+    "actions": 4,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.UCP.Web/Controllers/Api/UcpGeographyController.cs",
+    "route": "ucp/v1/geography",
+    "actions": 3,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.UCP.Web/Controllers/Api/UcpHandoffController.cs",
+    "route": "ucp/v1/internal/handoff",
+    "actions": 1,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.UCP.Web/Controllers/Api/UcpOrderController.cs",
+    "route": "ucp/v1/orders",
+    "actions": 2,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.UCP.Web/Controllers/Api/UcpProfileController.cs",
+    "route": "/.well-known/ucp",
+    "actions": 1,
+    "authorizedActions": 0
+   }
+  ],
+  "permissions": [
+   "ucp:access",
+   "ucp:create",
+   "ucp:delete",
+   "ucp:read",
+   "ucp:update"
+  ],
+  "settings": [
+   "UCP.Enabled"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "en"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "6049602",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "6049602 2026-07-27 3.1005.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "`VirtoCommerce.UCP` is a protocol adapter module. It does not replace the Catalog, Cart, Orders, XAPI, Store, or Marketing modules. It provides a compact UCP-oriented HTTP surface for external clients while delegating commerce behavior to existing Virto Commerce modules. Canonical public UCP endpoints are published without the `/api` prefix.",
+  "keyFeatures": [
+   "**UCP discovery profile** — `/.well-known/ucp` publishes supported capabilities, default store metadata, endpoint metadata, headers, auth shape, integration guidance, payment handlers, and structured error codes",
+   "**Catalog search and product details** — catalog search and product detail lookup through in-process XCatalog GraphQL",
+   "**Cart assembly** — create, buyer-scoped list, get, and full-state update through XCart GraphQL with UCP replacement semantics",
+   "**Checkout handoff** — checkout snapshot and hosted handoff with address prefill; temporary handoff sessions stored through `IDistributedCache` with TTL (Redis is recommended for production; an in-memory fallback is registered for local and single-node deployments)",
+   "**Order tracking** — order status, totals, line items, and shipment tracking by order id, order number, or cart id after handoff",
+   "**Geography lookup** — country and region resolution through the platform `ICountriesService` for checkout address normalization",
+   "**Streamable HTTP MCP server** — `/ucp/mcp` with typed UCP commerce tools for the installed storefront/platform, built on the official C# MCP SDK",
+   "**Buyer context propagation** — header-based B2B buyer delegation through `X-Buyer-User-Id` and `X-Buyer-Organization-Id`",
+   "**Structured UCP errors** — machine-readable error codes with correlation id support"
+  ],
+  "docs": [
+   {
+    "label": "Virto Commerce Documentation",
+    "href": "https://docs.virtocommerce.org"
+   },
+   {
+    "label": "GraphQL Storefront API Reference (xAPI)",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-ucp/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-ucp/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Quickstart: Connect Virto Start Cloud to Claude Desktop",
+   "Configuration",
+   "Architecture",
+   "Module Structure",
+   "Dependencies",
+   "Web API",
+   "MCP Server",
+   "Error Model",
+   "Build and Test",
+   "Installation Notes",
+   "Roadmap",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-u-c-p",
+  "links": [
+   {
+    "label": "Virto Commerce Documentation",
+    "href": "https://docs.virtocommerce.org",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL Storefront API Reference (xAPI)",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

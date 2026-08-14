@@ -1,0 +1,207 @@
+{
+ "id": "VirtoCommerce.EventBus",
+ "repo": "vc-module-event-bus",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-event-bus",
+ "name": "Event Bus",
+ "tagline": "The module enables you to be notified of new messages or changes via a Message Queue of your choice",
+ "latestVersion": "3.1010.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.EventBus.svg",
+ "facts": {
+  "manifestVersion": "3.1011.0",
+  "platformVersion": "3.1007.10",
+  "assembly": "VirtoCommerce.EventBusModule.Web.dll",
+  "authors": [
+   "Andrei Kostyrin",
+   "Konstantin Savosteev"
+  ],
+  "tags": "eventbus azureveventgrid",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.EventBusModule.Core",
+   "VirtoCommerce.EventBusModule.Data",
+   "VirtoCommerce.EventBusModule.Data.MySql",
+   "VirtoCommerce.EventBusModule.Data.PostgreSql",
+   "VirtoCommerce.EventBusModule.Data.SqlServer",
+   "VirtoCommerce.EventBusModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.EventBusModule.Web/Controllers/Api/ConnectionsController.cs",
+    "route": "api/eventbus",
+    "actions": 5,
+    "authorizedActions": 5
+   },
+   {
+    "file": "src/VirtoCommerce.EventBusModule.Web/Controllers/Api/ConnectionsLogController.cs",
+    "route": "api/eventbus",
+    "actions": 1,
+    "authorizedActions": 1
+   },
+   {
+    "file": "src/VirtoCommerce.EventBusModule.Web/Controllers/Api/SubscriptionsController.cs",
+    "route": "api/eventbus",
+    "actions": 6,
+    "authorizedActions": 6
+   }
+  ],
+  "permissions": [
+   "eventbus:events:read",
+   "eventbus:subscriptions:access",
+   "eventbus:subscriptions:delete",
+   "eventbus:subscriptions:read",
+   "eventbus:subscriptions:update"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "ProviderConnectionChangeEvent",
+   "ProviderConnectionChangedEvent",
+   "ProviderConnectionLogChangeEvent",
+   "ProviderConnectionLogChangedEvent",
+   "SubscriptionChangeEvent",
+   "SubscriptionChangedEvent"
+  ],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": true,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 9,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "ProviderConnectionEntity",
+   "ProviderConnectionLogEntity",
+   "SubscriptionEntity",
+   "SubscriptionEventEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "aae7149",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "aae7149 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Event Bus module enables event-driven integration between the Virto Commerce platform and external systems via message queues. It listens for domain events raised by any module, applies optional filtering and payload transformation, and forwards them to configured provider connections (e.g., Azure Event Grid). Subscriptions and connections can be managed through the REST API or declared in application configuration (`appsettings.json`).",
+  "keyFeatures": [
+   "**Multi-provider architecture** — pluggable provider model allows registering custom event bus providers alongside the built-in Azure Event Grid provider",
+   "**Automatic domain event discovery** — scans all loaded assemblies at startup and exposes every `IEvent` implementation as a subscribable event",
+   "**Dual configuration sources** — subscriptions and connections can be defined in application settings or managed at runtime through the database via REST API",
+   "**JsonPath event filtering** — each subscription supports a `JsonPath` expression to selectively forward only matching events",
+   "**Liquid payload transformation** — Scriban/Liquid templates allow reshaping event payloads before delivery to the destination provider",
+   "**CloudEvents data format** — the Azure Event Grid provider emits events using the [CloudEvents](https://cloudevents.io/) specification",
+   "**Connection error logging** — failed event deliveries are persisted as provider connection logs with status, error message, and payload for diagnostics",
+   "**Multi-database support** — supports SQL Server, MySQL, and PostgreSQL as persistence backends"
+  ],
+  "docs": [
+   {
+    "label": "Scriban syntax",
+    "href": "https://github.com/scriban/scriban/tree/master/doc"
+   },
+   {
+    "label": "Test your Scriban-template",
+    "href": "https://scribanonline.azurewebsites.net"
+   },
+   {
+    "label": "Event Bus module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/event-bus/overview/"
+   },
+   {
+    "label": "REST API reference",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.EventBus"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-event-bus/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-event-bus/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "Destination Providers",
+   "Health Status and Searching for Fail Log",
+   "How to Send Custom Event from Virto Commerce",
+   "Support for Custom Destination Providers",
+   "Additional event filtering example",
+   "Payload transformation template example",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-event-bus",
+  "links": [
+   {
+    "label": "Event Bus module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/event-bus/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

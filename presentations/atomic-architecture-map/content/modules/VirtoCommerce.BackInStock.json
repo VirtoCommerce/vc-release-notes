@@ -1,0 +1,236 @@
+{
+ "id": "VirtoCommerce.BackInStock",
+ "repo": "vc-module-back-in-stock",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-back-in-stock",
+ "name": "Back In Stock",
+ "tagline": "Provides customer ability to subscribe for notification, when product is back in stock.",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.BackInStock.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1007.10",
+  "assembly": "VirtoCommerce.BackInStock.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Inventory",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Notifications",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCatalog",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.BackInStock.Core",
+   "VirtoCommerce.BackInStock.Data",
+   "VirtoCommerce.BackInStock.Data.MySql",
+   "VirtoCommerce.BackInStock.Data.PostgreSql",
+   "VirtoCommerce.BackInStock.Data.SqlServer",
+   "VirtoCommerce.BackInStock.ExperienceApi",
+   "VirtoCommerce.BackInStock.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.BackInStock.Web/Controllers/Api/BackInStockSubscriptionController.cs",
+    "route": "api/back-in-stock/subscriptions",
+    "actions": 5,
+    "authorizedActions": 5
+   }
+  ],
+  "permissions": [
+   "BackInStock:subscription:access",
+   "BackInStock:subscription:create",
+   "BackInStock:subscription:delete",
+   "BackInStock:subscription:read",
+   "BackInStock:subscription:update"
+  ],
+  "settings": [
+   "BackInStock.BatchSize",
+   "BackInStock.Enable"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "BackInStockSubscriptionChangedEvent",
+   "BackInStockSubscriptionChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.BackInStock.Data/Handlers/InventoryChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "InventoryChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.BackInStock.ExperienceApi/Queries/BackInStockSubscriptionsQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 9,
+  "hasAdminUi": true,
+  "adminUiFiles": 6,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "BackInStockSubscriptionEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "b1f3c66",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "b1f3c66 2026-07-27 3.1003.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Back In Stock module empowers customers to stay informed about product availability while enabling merchants to retain potential sales for out-of-stock items. This module allows customers to subscribe to real-time notifications when products are restocked, improving customer satisfaction and reducing abandoned purchases. Merchants gain visibility into customer demand through a centralized back office interface, helping inform inventory planning.",
+  "keyFeatures": [
+   "**Native Integration with Virto Commerce Frontend.**",
+   "**\"Notify Me When In Stock\" Button.** Automatically displays a subscription button on product detail pages when inventory reaches zero. Customers can opt into notifications without leaving the page.",
+   "**Self-Service Subscription Management.** Authenticated customers can view and manage their active subscriptions in a dedicated \"Back In Stock\" list. They can remove subscriptions for products they no longer wish to track.",
+   "**Real-Time Email Notifications.** Triggers email notifications immediately when product inventory is updated from zero to a positive value. Notifications include product details and direct links to the product page.",
+   "**Automatic Subscription Cleanup.**",
+   "**Back Office Subscription Management.**",
+   "**Ready for Export & Analysis.**"
+  ],
+  "docs": [
+   {
+    "label": "Back-in-stock module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/back-in-stock/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.BackInStock"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Back-in-stock/overview/"
+   },
+   {
+    "label": "Back-in-stock notifications in the Frontend Application",
+    "href": "https://docs.virtocommerce.org/storefront/user-guide/shopping/back-in-stock-notifications/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-back-in-stock"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Support",
+    "href": "https://help.virtocommerce.com"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-back-in-stock/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Configurations",
+   "Screenshots",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-back-in-stock",
+  "links": [
+   {
+    "label": "Back-in-stock module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/back-in-stock/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Back-in-stock/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Back-in-stock notifications in the Frontend Application",
+    "href": "https://docs.virtocommerce.org/storefront/user-guide/shopping/back-in-stock-notifications/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

@@ -1,0 +1,232 @@
+{
+ "id": "VirtoCommerce.XCatalog",
+ "repo": "vc-module-x-catalog",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-catalog",
+ "name": "Catalog Experience API",
+ "tagline": "Manages all catalog-related operations, from product listings to detailed item information.",
+ "latestVersion": "3.1016.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.XCatalog.svg",
+ "facts": {
+  "manifestVersion": "3.1017.0",
+  "platformVersion": "3.1057.0",
+  "assembly": "VirtoCommerce.XCatalog.Web.dll",
+  "authors": [
+   "Eugeny Tatarincev",
+   "Yan Brovkin",
+   "Fillip Kuksov",
+   "Egidijus Mažeika",
+   "Andrei Kostyrin",
+   "Dmitri Pushnitsa",
+   "Alexandr Andreev",
+   "Andrey Kozlov",
+   "Konstantin Savosteev",
+   "Aleksandr Vishniakov",
+   "Artem Dudarev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1032.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [
+   {
+    "id": "VirtoCommerce.Inventory",
+    "version": "3.1003.0",
+    "optional": true
+   },
+   {
+    "id": "VirtoCommerce.Marketing",
+    "version": "3.1005.0",
+    "optional": true
+   },
+   {
+    "id": "VirtoCommerce.Pricing",
+    "version": "3.1003.0",
+    "optional": true
+   }
+  ],
+  "projects": [
+   "VirtoCommerce.XCatalog.Core",
+   "VirtoCommerce.XCatalog.Data",
+   "VirtoCommerce.XCatalog.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [
+   "xcatalog:search:certain-date"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.XCatalog.Data/Queries/CatalogQueryBuilder.cs",
+   "src/VirtoCommerce.XCatalog.Data/Queries/ChildCategoriesQueryBuilder.cs",
+   "src/VirtoCommerce.XCatalog.Data/Queries/GetBrandQueryBuilder.cs",
+   "src/VirtoCommerce.XCatalog.Data/Queries/ProductSuggestionsQueryBuilder.cs",
+   "src/VirtoCommerce.XCatalog.Data/Queries/SearchBrandQueryBuilder.cs",
+   "src/VirtoCommerce.XCatalog.Data/Queries/SearchProductQueryBuilder.cs",
+   "src/VirtoCommerce.XCatalog.Data/Schemas/DigitalCatalogSchema.cs",
+   "src/VirtoCommerce.XCatalog.Data/Schemas/InventorySchema.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "b0f6dce",
+   "lastCommitDate": "2026-08-07",
+   "lastCommit": "b0f6dce 2026-08-07 3.1017.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The xCatalog module provides high-performance search queries for catalog data directly from the search index engine.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "xCatalog module documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Catalog/overview/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-catalog"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-catalog/releases/latest"
+   }
+  ],
+  "sections": [
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-x-catalog",
+  "links": [
+   {
+    "label": "xCatalog module documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Catalog/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/",
+    "source": "readme"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/",
+    "source": "readme"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/",
+    "source": "readme"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

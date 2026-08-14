@@ -1,0 +1,186 @@
+{
+ "id": "VirtoCommerce.AvalaraTax",
+ "repo": "vc-module-avatax",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-avatax",
+ "name": "Avalara Tax Provider",
+ "tagline": "Provides real time integration with Avalara Tax https://www.avalara.com/",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.AvalaraTax.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.AvalaraTaxModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "avalara tax",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Inventory",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Shipping",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Tax",
+    "version": "3.1003.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "AvaTax.TaxModule.Core",
+   "AvaTax.TaxModule.Data",
+   "AvaTax.TaxModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/AvaTax.TaxModule.Web/Controller/AvaTaxController.cs",
+    "route": "api/tax/avatax",
+    "actions": 5,
+    "authorizedActions": 3
+   }
+  ],
+  "permissions": [
+   "tax:manage"
+  ],
+  "settings": [
+   "Avalara.Credentials.AdminAreaUrl",
+   "Avalara.Credentials.CompanyCode",
+   "Avalara.Credentials.ServiceUrl",
+   "Avalara.ScheduledOrdersSynchronization.CronExpression",
+   "Avalara.ScheduledOrdersSynchronization.IsEnabled",
+   "Avalara.ScheduledOrdersSynchronization.LastExecutionDate"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 12,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "3dbda82",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "3dbda82 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Avalara Tax module provides real time integration with Avalara Tax automation. This module is officially <a href=\"https://www.avalara.com/integrations/virto-commerce\" target=\"_blank\">certified by Avalara</a> to be compatible with Avalara API.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "AvaTax module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/integrations/avalara/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.AvalaraTax"
+   },
+   {
+    "label": "Tax providers configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#tax"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-avatax"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-avatax/releases/latest"
+   }
+  ],
+  "sections": [
+   "Settings",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-avatax",
+  "links": [
+   {
+    "label": "AvaTax module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/integrations/avalara/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Tax providers configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#tax",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

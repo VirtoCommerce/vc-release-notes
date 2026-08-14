@@ -1,0 +1,306 @@
+{
+ "id": "VirtoCommerce.Customer",
+ "repo": "vc-module-customer",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-customer",
+ "name": "Companies and Contacts",
+ "tagline": "Managing customers contacts and organizations",
+ "latestVersion": "3.1022.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#F87FAC",
+ "icon": "assets/module-icons/VirtoCommerce.Customer.svg",
+ "facts": {
+  "manifestVersion": "3.1023.0",
+  "platformVersion": "3.1052.0",
+  "assembly": "VirtoCommerce.CustomerModule.Web.dll",
+  "authors": [
+   "Artem Dudarev",
+   "Egidijus Mažeika"
+  ],
+  "tags": "customer",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Notifications",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Seo",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.CustomerModule.Core",
+   "VirtoCommerce.CustomerModule.Data",
+   "VirtoCommerce.CustomerModule.Data.MySql",
+   "VirtoCommerce.CustomerModule.Data.PostgreSql",
+   "VirtoCommerce.CustomerModule.Data.SqlServer",
+   "VirtoCommerce.CustomerModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.CustomerModule.Web/Controllers/Api/CustomerModuleController.cs",
+    "route": "api",
+    "actions": 42,
+    "authorizedActions": 14
+   },
+   {
+    "file": "src/VirtoCommerce.CustomerModule.Web/Controllers/Api/CustomerPreferenceController.cs",
+    "route": "api/customer-preferences",
+    "actions": 5,
+    "authorizedActions": 5
+   },
+   {
+    "file": "src/VirtoCommerce.CustomerModule.Web/Controllers/Api/OrganizationMembershipController.cs",
+    "route": "api/customer/organization-memberships",
+    "actions": 9,
+    "authorizedActions": 9
+   }
+  ],
+  "permissions": [
+   "customer:access",
+   "customer:create",
+   "customer:delete",
+   "customer:invite",
+   "customer:organization-membership:create",
+   "customer:organization-membership:delete",
+   "customer:organization-membership:read",
+   "customer:organization-membership:update",
+   "customer:read",
+   "customer:update"
+  ],
+  "settings": [
+   "Customer.ContactDefaultStatus",
+   "Customer.ContactStatuses",
+   "Customer.EmployeeStatuses",
+   "Customer.ExportImport.PageSize",
+   "Customer.MemberGroups",
+   "Customer.MembershipRolesWhitelist",
+   "Customer.OrganizationDefaultStatus",
+   "Customer.OrganizationMembershipStatuses",
+   "Customer.OrganizationRolesWhitelist",
+   "Customer.OrganizationStatuses",
+   "Customer.Search.EventBasedIndexation.Enable",
+   "Customer.VendorStatuses",
+   "Customer.WebContactIdTemplate",
+   "VirtoCommerce.Search.IndexingJobs.IndexationDate.Member"
+  ],
+  "domainEventsPublished": [
+   "MemberChangedEvent",
+   "MemberChangingEvent"
+  ],
+  "declaredEvents": [
+   "AddressChangedEvent",
+   "AddressChangingEvent",
+   "CustomerPreferenceChangedEvent",
+   "CustomerPreferenceChangingEvent",
+   "MemberChangedEvent",
+   "MemberChangingEvent",
+   "OrganizationMembershipChangedEvent",
+   "OrganizationMembershipChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.CustomerModule.Data/Handlers/DeleteOrganizationMembershipUserChangedEventHandler.cs",
+   "src/VirtoCommerce.CustomerModule.Data/Handlers/IndexMemberChangedEventHandler.cs",
+   "src/VirtoCommerce.CustomerModule.Data/Handlers/IndexOrganizationMembersChangedEventHandler.cs",
+   "src/VirtoCommerce.CustomerModule.Data/Handlers/IndexOrganizationMembershipChangedEventHandler.cs",
+   "src/VirtoCommerce.CustomerModule.Data/Handlers/LogChangesEventHandler.cs",
+   "src/VirtoCommerce.CustomerModule.Data/Handlers/RevokeTokenOrganizationMembershipChangedEventHandler.cs",
+   "src/VirtoCommerce.CustomerModule.Data/Handlers/SecurtityAccountChangesEventHandler.cs"
+  ],
+  "handledEvents": [
+   "MemberChangedEvent",
+   "OrganizationMembershipChangedEvent",
+   "UserChangedEvent",
+   "UserRoleAddedEvent",
+   "UserRoleRemovedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [
+   "src/VirtoCommerce.CustomerModule.Data/Search/Indexing/MemberDocumentBuilder.cs",
+   "src/VirtoCommerce.CustomerModule.Data/Search/Indexing/MemberDocumentChangesProvider.cs",
+   "tests/VirtoCommerce.CustomerModule.Tests/Handlers/IndexOrganizationMembersChangedEventHandlerTests.cs",
+   "tests/VirtoCommerce.CustomerModule.Tests/Handlers/IndexOrganizationMembershipChangedEventHandlerTests.cs"
+  ],
+  "migrationCount": 65,
+  "hasAdminUi": true,
+  "adminUiFiles": 64,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "AddressEntity",
+   "Contact2Entity",
+   "ContactEntity",
+   "CustomerPreferenceEntity",
+   "EmailEntity",
+   "EmployeeEntity",
+   "FavoriteAddressEntity",
+   "MemberDynamicPropertyObjectValueEntity",
+   "MemberEntity",
+   "MemberGroupEntity",
+   "MemberRelationEntity",
+   "NoteEntity",
+   "OrganizationEntity",
+   "OrganizationMembershipEntity",
+   "OrganizationMembershipRoleEntity",
+   "OrganizationRoleEntity",
+   "PhoneEntity",
+   "SeoInfoEntity",
+   "SupplierEntity",
+   "VendorEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "908c08c",
+   "lastCommitDate": "2026-08-07",
+   "lastCommit": "908c08c 2026-08-07 3.1023.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Customer module is Virto Commerce's contacts management system. It stores and manages the people and companies that interact with a Virto Commerce solution — store customers, employees, partner organisations, and third-party vendors — in a single polymorphic hierarchy. The module provides a complete back-office experience (the **Companies and contacts** blade with a `<va-filter-panel>`-powered filter for member type and created/modified date ranges), a REST API for polymorphic CRUD and search, pluggable search indexing, integration events for downstream modules, and fine-grained permissions.",
+  "keyFeatures": [
+   "**Polymorphic member hierarchy** — `Contact`, `Organization`, `Employee`, `Vendor` inherit from a shared `Member` base and live in a parent/child tree (companies can contain sub-companies, employees, and contacts).",
+   "**Extensible member types** — additional types can be registered by downstream modules via `memberTypesResolverService.registerType(...)` on the UI side and the polymorphic JSON converter on the API side.",
+   "**Extensible filter panel** — downstream modules can contribute custom rows to the Members blade's `<va-filter-panel>` via `memberListFilterExtensionService.register(...)`. Each registered descriptor renders a partial inside the panel and hooks into `hasActiveFilters` / `clearFilters` / the Lucene token assembly used by `getSearchCriteria`. See [samples/VirtoCommerce.CustomerSampleModule.Web](samples/VirtoCommerce.CustomerSampleModule.Web) for a working **Job title** example.",
+   "**Polymorphic REST API** — a single `/api/members` surface handles search/CRUD for every type, with type-specific convenience routes (`/contacts`, `/organizations`, `/vendors`, `/employees`).",
+   "**Structured filter panel** — filter members by type and Created/Modified date ranges (preset + custom) using Lucene-style keyword syntax (`membertype:Organization`, `createddate:[2026-01-01 TO]`).",
+   "**Search indexing** — member documents are indexed through the Search module with event-driven reindexing on create/update/delete.",
+   "**Invite customers** — generate invitation emails that onboard external contacts with a specific role (`RegisterCompanyEmailNotification` template).",
+   "**Dynamic properties & SEO** — all member types support dynamic properties; `Vendor` also ships with SEO widget integration.",
+   "**Favourite addresses and customer preferences** — per-member preference storage with its own CRUD/search services.",
+   "**Multi-database support** — ships adapters for SQL Server, MySQL, and PostgreSQL.",
+   "**Organization-scoped permissions** — `AssociatedOrganizationsOnlyScope` restricts access to members belonging to the caller's organisation."
+  ],
+  "docs": [
+   {
+    "label": "Customer module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/contacts/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Customer"
+   },
+   {
+    "label": "View on Github",
+    "href": "https://github.com/VirtoCommerce/vc-module-customer"
+   },
+   {
+    "label": "Developer guide",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/extending-domain-models/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-customer/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key features",
+   "Architecture",
+   "Configuration",
+   "Documentation",
+   "References",
+   "Available resources",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": "Who you sell to and who works for you: contacts, the organizations they belong to, employees, and the addresses, notes and preferences attached to each. In B2B this is the module that models the buying company and its people, not just a login.",
+  "forArchitect": "One `Member` hierarchy — contact, organization, employee — with relations and memberships on top, which is why organization structure is a query here rather than a join across modules. It sits beside platform security rather than inside it: it handles `UserChangedEvent`, `UserRoleAddedEvent` and `UserRoleRemovedEvent` to keep member data aligned with accounts, so a solution that creates users must expect members to follow. Four index builders feed member search.",
+  "forDeveloper": "`MemberChangingEvent` and `MemberChangedEvent` are the hooks; the 42-action member controller is the write surface, and the storefront path is the Profile experience API. Statuses, groups and the membership role whitelist are settings — `Customer.MembershipRolesWhitelist` decides which roles a customer administrator may hand out.",
+  "owns": [
+   "MemberEntity",
+   "ContactEntity",
+   "OrganizationEntity",
+   "EmployeeEntity",
+   "MemberRelationEntity",
+   "OrganizationMembershipEntity"
+  ],
+  "reachForItWhen": [
+   "You need the customer or company record behind an order, a cart or a login",
+   "B2B structure matters: who belongs to which organization, and with what role",
+   "You are storing contact-level data — addresses, notes, preferences — that is not authentication"
+  ],
+  "doNotReachForItWhen": [
+   "You need credentials, roles or tokens — that is platform security, and this module only reacts to it",
+   "You are listing or searching members at scale on a storefront: use the index and the profile experience API",
+   "The data belongs to an order — an order keeps its own copy of the addresses it shipped to"
+  ]
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-customer",
+  "links": [
+   {
+    "label": "Customer module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/contacts/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Developer guide",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/extending-domain-models/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

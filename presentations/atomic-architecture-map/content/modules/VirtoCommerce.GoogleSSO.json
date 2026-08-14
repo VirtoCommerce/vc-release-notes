@@ -1,0 +1,140 @@
+{
+ "id": "VirtoCommerce.GoogleSSO",
+ "repo": "vc-module-google-sso",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-google-sso",
+ "name": "Google Single Sign-On",
+ "tagline": "Enables Google external login setup (Single Sign-On) for Virto Commerce Platform and Frontend",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.GoogleSSO.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.GoogleSSO.Web.dll",
+  "authors": [
+   "Vasily Kotov"
+  ],
+  "tags": "Google",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.GoogleSSO.Core",
+   "VirtoCommerce.GoogleSSO.Data",
+   "VirtoCommerce.GoogleSSO.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "c2fcf31",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "c2fcf31 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Google Single Sign-On (SSO) is a module that provides users with a simplified sign-in experience. It allows users to access multiple applications with a single set of credentials, eliminating the need to remember different usernames and passwords for each application.",
+  "keyFeatures": [
+   "The Google SSO module can be integrated with both the Virto Commerce Platform and the Frontend Application"
+  ],
+  "docs": [
+   {
+    "label": "Google SSO module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/google-sso/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.GoogleSSO"
+   },
+   {
+    "label": "Add Google as SSO provider to Platform",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Security/extensions/adding-google-as-sso-provider/"
+   },
+   {
+    "label": "Add Google as SSO provider to Frontend",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/authentication/adding-google-as-sso-provider/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-google-sso"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-google-sso/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Setup",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-google-sso",
+  "links": [
+   {
+    "label": "Google SSO module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/google-sso/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Add Google as SSO provider to Platform",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Security/extensions/adding-google-as-sso-provider/",
+    "source": "readme"
+   },
+   {
+    "label": "Add Google as SSO provider to Frontend",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/authentication/adding-google-as-sso-provider/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

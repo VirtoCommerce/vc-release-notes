@@ -1,0 +1,172 @@
+{
+ "id": "VirtoCommerce.ElasticAppSearch",
+ "repo": "vc-module-elastic-app-search",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-elastic-app-search",
+ "name": "Elastic App Search",
+ "tagline": "Search functionality with Elastic App Search service",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.ElasticAppSearch.svg",
+ "facts": {
+  "manifestVersion": "3.1002.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.ElasticAppSearch.Web.dll",
+  "authors": [
+   "Aleksandr Vishnyakov",
+   "Konstantin Savosteev",
+   "Alexander Siniouguine"
+  ],
+  "tags": "elastic app search",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ElasticAppSearch.Core",
+   "VirtoCommerce.ElasticAppSearch.Data",
+   "VirtoCommerce.ElasticAppSearch.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [
+   "elasticappsearch:access",
+   "elasticappsearch:diagnostic"
+  ],
+  "settings": [
+   "ElasticAppSearch.MaxFacetValueCount"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "c959938",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "c959938 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "> **Important Note**: As confirmed in Elastic's official resources ([Enterprise Search FAQ](https://www.elastic.co/resources/search/enterprise-search-faq) and [9.x Upgrade Guide](https://www.elastic.co/guide/en/enterprise-search/8.18/upgrading-to-9-x.html)) Standalone App Search is deprecated (fully removed in 9.x). For Elastic customers who currently use Elastic App Search product line with its included features and functionalities, these products remain available in the latest 8.x versions and will be maintained until January 15, 2027 and supported until July 15, 2027 after the official EOL announcement, according to our EOL policies. Virto Commerce will discontinue support for legacy App Search and transition all development efforts to the new [Elasticsearch 9 module](https://github.com/VirtoCommerce/vc-module-elastic-search-9).",
+  "keyFeatures": [
+   "Fulltext Search Provider compatible with Elastic App Search version 8.12 and above.",
+   "Boosting Profile functionality.",
+   "Dynamic Boosting Concatenation: The provider combines dynamic boosting with query and static boosting from the Search Relevance Tuning panel."
+  ],
+  "docs": [
+   {
+    "label": "Elastic App Search module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/elastic-app-search/overview/"
+   },
+   {
+    "label": "Elastic App Search module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/integration/elastic-app-search-overview/"
+   },
+   {
+    "label": "Elastic App Search configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#elastic-app-search"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.ElasticAppSearch"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-elastic-app-search/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-elastic-app-search/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Configuration",
+   "App Menu",
+   "Dynamic boosting",
+   "Diagnostic",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-elastic-app-search",
+  "links": [
+   {
+    "label": "Elastic App Search module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/elastic-app-search/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Elastic App Search module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/integration/elastic-app-search-overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Elastic App Search configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#elastic-app-search",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

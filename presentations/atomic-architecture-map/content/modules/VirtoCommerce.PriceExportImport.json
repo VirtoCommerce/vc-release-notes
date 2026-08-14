@@ -1,0 +1,168 @@
+{
+ "id": "VirtoCommerce.PriceExportImport",
+ "repo": "vc-module-price-export-import",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-price-export-import",
+ "name": "Price Export Import",
+ "tagline": "This module adds prices export and import functionality using it for price management.",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.PriceExportImport.svg",
+ "facts": {
+  "manifestVersion": "3.1002.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.PriceExportImportModule.Web.dll",
+  "authors": [
+   "Solution team"
+  ],
+  "tags": "price import export",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Export",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Pricing",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.PriceExportImportModule.Core",
+   "VirtoCommerce.PriceExportImportModule.Data",
+   "VirtoCommerce.PriceExportImportModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.PriceExportImportModule.Web/Controllers/Api/ImportController.cs",
+    "route": "api/pricing/import",
+    "actions": 4,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "pricing:simpleImport"
+  ],
+  "settings": [
+   "PriceExportImport.Export.LimitOfLines",
+   "PriceExportImport.Import.FileMaxSize",
+   "PriceExportImport.Import.LimitOfLines"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 9,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "db44ca4",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "db44ca4 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "If you want to transfer a large amount of price information between Virto Commerce and another system, you can use a specially-formatted spreadsheet to import or export that data. Virto Commerce uses CSV (semicolon-separated value) files to perform this kind of bulk task.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "Price Export and Import module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/price-export-import/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.PriceExportImport"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-price-export-import/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-price-export-import/releases/latest"
+   }
+  ],
+  "sections": [
+   "Business scenarios",
+   "Documentation",
+   "Development",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-price-export-import",
+  "links": [
+   {
+    "label": "Price Export and Import module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/price-export-import/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

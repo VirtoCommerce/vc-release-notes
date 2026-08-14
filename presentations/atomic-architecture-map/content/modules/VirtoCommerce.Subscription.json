@@ -1,0 +1,222 @@
+{
+ "id": "VirtoCommerce.Subscription",
+ "repo": "vc-module-subscription",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-subscription",
+ "name": "Subscriptions",
+ "tagline": "Represent recurrent subscriptions functionality",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#9D86F5",
+ "icon": "assets/module-icons/VirtoCommerce.Subscription.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.SubscriptionModule.Web.dll",
+  "authors": [
+   "Egidijus MaЕѕeika",
+   "Eugeney Tatarincev"
+  ],
+  "tags": "subscriptions system",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1011.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Notifications",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.SubscriptionModule.Core",
+   "VirtoCommerce.SubscriptionModule.Data",
+   "VirtoCommerce.SubscriptionModule.Data.MySql",
+   "VirtoCommerce.SubscriptionModule.Data.PostgreSql",
+   "VirtoCommerce.SubscriptionModule.Data.SqlServer",
+   "VirtoCommerce.SubscriptionModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.SubscriptionModule.Web/Controllers/Api/SubscriptionModuleController.cs",
+    "route": "api/subscriptions",
+    "actions": 14,
+    "authorizedActions": 11
+   }
+  ],
+  "permissions": [
+   "paymentplan:manage",
+   "subscription:access",
+   "subscription:create",
+   "subscription:delete",
+   "subscription:read",
+   "subscription:update"
+  ],
+  "settings": [
+   "Subscription.CronExpression",
+   "Subscription.CronExpressionOrdersJob",
+   "Subscription.EnableSubscriptionOrdersCreateJob",
+   "Subscription.EnableSubscriptionProcessJob",
+   "Subscription.EnableSubscriptions",
+   "Subscription.ExportImport.Description",
+   "Subscription.PastDue.Delay",
+   "Subscription.Status",
+   "Subscription.SubscriptionNewNumberTemplate"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "PaymentPlanChangedEvent",
+   "PaymentPlanChangingEvent",
+   "SubscriptionChangedEvent",
+   "SubscriptionChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.SubscriptionModule.Data/Handlers/CreateSubscriptionOrderChangedEventHandler.cs",
+   "src/VirtoCommerce.SubscriptionModule.Data/Handlers/LogChangesSubscriptionChangedEventHandler.cs",
+   "src/VirtoCommerce.SubscriptionModule.Data/Handlers/SendNotificationsSubscriptionChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "OrderChangedEvent",
+   "SubscriptionChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 11,
+  "hasAdminUi": true,
+  "adminUiFiles": 23,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "PaymentPlanEntity",
+   "SubscriptionEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "52c91e3",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "52c91e3 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce Subscription module represents subscriptions and recurring orders management system. It enables retailers to sell subscription-based offerings and shoppers to place recurring orders online.",
+  "keyFeatures": [
+   "Trial periods",
+   "Grace periods",
+   "Free subscriptions",
+   "Product or bundle selling on a subscription",
+   "Multiple products via one subscription",
+   "View a list of existing subscriptions with filtration and sorting",
+   "View full subscription history with all notifications, invoices and changes",
+   "Update active subscriptions (including payment plan changes)",
+   "Manual invoicing on subscription with any amount",
+   "Notifications for each life phase and subscription events",
+   "Possibility to use templates for notifications",
+   "Possibility to edit notification templates and manage the list of notification types",
+   "View information about upcomming invoice"
+  ],
+  "docs": [
+   {
+    "label": "Subscription module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/subscription/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Subscription"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-subscription"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-subscription/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-subscription",
+  "links": [
+   {
+    "label": "Subscription module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/subscription/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

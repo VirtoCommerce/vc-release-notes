@@ -1,0 +1,280 @@
+{
+ "id": "VirtoCommerce.CustomerReviews",
+ "repo": "vc-module-customer-review",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-customer-review",
+ "name": "Rating and Reviews",
+ "tagline": "Enables customers to share their feedback on products and vendors after making a purchase, helping others make informed decisions.",
+ "latestVersion": "3.1006.0",
+ "active": true,
+ "groups": [],
+ "accent": "#F87FAC",
+ "icon": "assets/module-icons/VirtoCommerce.CustomerReviews.svg",
+ "facts": {
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.CustomerReviews.Web.dll",
+  "authors": [
+   "Egidijus Mazeika",
+   "Andrew Nikutin",
+   "Evgeny Gusev",
+   "Aleksandr Vishniakov"
+  ],
+  "tags": "customer review",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1011.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.FileExperienceApi",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Notifications",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.ProfileExperienceApiModule",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCatalog",
+    "version": "3.1007.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.CustomerReviews.Core",
+   "VirtoCommerce.CustomerReviews.Data",
+   "VirtoCommerce.CustomerReviews.Data.MySql",
+   "VirtoCommerce.CustomerReviews.Data.PostgreSql",
+   "VirtoCommerce.CustomerReviews.Data.SqlServer",
+   "VirtoCommerce.CustomerReviews.ExperienceApi",
+   "VirtoCommerce.CustomerReviews.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.CustomerReviews.Web/Controllers/Api/CustomerReviewsModuleController.cs",
+    "route": "api/customerReviews",
+    "actions": 9,
+    "authorizedActions": 7
+   },
+   {
+    "file": "src/VirtoCommerce.CustomerReviews.Web/Controllers/Api/CustomerReviewsModuleRatingController.cs",
+    "route": "api/rating",
+    "actions": 2,
+    "authorizedActions": 2
+   }
+  ],
+  "permissions": [
+   "customerReviews:delete",
+   "customerReviews:ratingRead",
+   "customerReviews:ratingRecalc",
+   "customerReviews:read",
+   "customerReviews:update"
+  ],
+  "settings": [
+   "CustomerReviews.Calculation.Method",
+   "CustomerReviews.CanSubmitReviewWhenHasOrder",
+   "CustomerReviews.CustomerReviewsEnabled",
+   "CustomerReviews.CustomerReviewsEnabledForAnonymous",
+   "CustomerReviews.CustomerReviewsEnabledRequestReviewJob",
+   "CustomerReviews.CustomerReviewsRequestReviewCronJob",
+   "CustomerReviews.CustomerReviewsRequestReviewDaysInState",
+   "CustomerReviews.CustomerReviewsRequestReviewMaxRequests",
+   "CustomerReviews.CustomerReviewsRequestReviewOrderInState",
+   "CustomerReviews.ReviewMaximumImages"
+  ],
+  "domainEventsPublished": [
+   "ReviewStatusChangedEvent"
+  ],
+  "declaredEvents": [
+   "CustomerReviewChangeEvent",
+   "CustomerReviewChangedEvent",
+   "ReviewStatusChangedEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.CustomerReviews.Data/Handlers/OrderChangedEventHandler.cs",
+   "src/VirtoCommerce.CustomerReviews.Data/Handlers/ReviewStatusChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "OrderChangedEvent",
+   "ReviewStatusChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.CustomerReviews.ExperienceApi/Queries/CanLeaveFeedbackQueryBuilder.cs",
+   "src/VirtoCommerce.CustomerReviews.ExperienceApi/Queries/CustomerReviewQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 18,
+  "hasAdminUi": true,
+  "adminUiFiles": 12,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "CustomerReviewEntity",
+   "CustomerReviewImageEntity",
+   "RatingEntity",
+   "RequestReviewEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "4977d66",
+   "lastCommitDate": "2026-08-05",
+   "lastCommit": "4977d66 2026-08-05 3.1007.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Rating and Reviews (Customer Reviews) module enables shoppers to submit reviews and ratings for products and other entities in a Virto Commerce store. Merchandisers and moderators can review, approve, reject, or delete content through the Admin Portal before it goes live, while customer-facing applications can consume ratings and reviews through REST or GraphQL APIs for listing, sorting, and filtering. The module is built on top of a flexible `EntityId` / `EntityType` contract, which means reviews are not limited to products — the module can be extended to rate vendors, delivery services, orders, managers, price lists, or any other domain object used in your solution. > ***Note:*** *70% of online shoppers say reviews are a decision maker for a purchase.*",
+  "keyFeatures": [
+   "**Review lifecycle management** — create, update, moderate (approve/reject/reset), and delete reviews through the Admin Portal or REST API.",
+   "**Rich review content** — title, body, numeric rating, and up to N attached images per review (configurable).",
+   "**Rating aggregation** — pluggable rating calculators with two built-in strategies: `Average` and [Wilson lower bound](https://www.evanmiller.org/how-not-to-sort-by-average-rating.html). Ratings are computed per entity and per store.",
+   "**Multi-store and store-agnostic support** — each store maintains its own ratings and can be configured independently; non-store-scoped reviews are also supported.",
+   "**Flexible entity model** — reviews are keyed by `EntityId` + `EntityType`, so additional object types (vendor, order, custom objects) can be registered without modifying the module's source code.",
+   "**Anonymous vs. authenticated reviews** — per-store toggle to allow or require a signed-in user.",
+   "**\"Purchase-verified\" reviews** — optional store-level rule restricting reviews to customers who have previously ordered the product.",
+   "**Email review reminders** — recurring Hangfire job that emails buyers after their order reaches a configured status (e.g. `Completed`), prompting them to leave feedback. Reminder cadence, eligibility window, and the maximum number of reminders per customer are all configurable.",
+   "**GraphQL (xAPI) integration** — storefront-facing GraphQL schema for querying reviews, checking whether the current user can leave feedback, and submitting new reviews.",
+   "**Image uploads** — integrates with `VirtoCommerce.FileExperienceApi` / Assets for a dedicated `review-images` scope.",
+   "**Event-driven integrations** — publishes `CustomerReviewChangeEvent`, `CustomerReviewChangedEvent`, and `ReviewStatusChangedEvent` so other modules can react to moderation changes and rating recalculations.",
+   "**Multi-database support** — ships with EF Core providers for SQL Server, PostgreSQL, and MySQL.",
+   "**Permissions-aware Admin UI** — fine-grained permissions for reading reviews, updating, deleting, reading ratings, and triggering rating recalculation."
+  ],
+  "docs": [
+   {
+    "label": "Rating and Reviews module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/rating-reviews/overview/"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Reviews/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.CustomerReviews"
+   },
+   {
+    "label": "Reviewing products on Frontend",
+    "href": "https://docs.virtocommerce.org/storefront/user-guide/account/review-products"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-customer-review"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-customer-review/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key features",
+   "Documentation",
+   "Configuration",
+   "Architecture",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-customer-review",
+  "links": [
+   {
+    "label": "Rating and Reviews module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/rating-reviews/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Reviews/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Reviewing products on Frontend",
+    "href": "https://docs.virtocommerce.org/storefront/user-guide/account/review-products",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

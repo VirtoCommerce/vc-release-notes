@@ -1,0 +1,164 @@
+{
+ "id": "VirtoCommerce.EnvironmentsCompare",
+ "repo": "vc-module-environments-compare",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-environments-compare",
+ "name": "Environments Compare",
+ "tagline": "Enables backend administrators to compare platform settings, environment configurations, and system information across multiple Virto Commerce environments",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.EnvironmentsCompare.svg",
+ "facts": {
+  "manifestVersion": "3.1002.0",
+  "platformVersion": "3.1007.10",
+  "assembly": "VirtoCommerce.EnvironmentsCompare.Web.dll",
+  "authors": [
+   "Kirill Iusupov"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.EnvironmentsCompare.Core",
+   "VirtoCommerce.EnvironmentsCompare.Data",
+   "VirtoCommerce.EnvironmentsCompare.Data.MySql",
+   "VirtoCommerce.EnvironmentsCompare.Data.PostgreSql",
+   "VirtoCommerce.EnvironmentsCompare.Data.SqlServer",
+   "VirtoCommerce.EnvironmentsCompare.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.EnvironmentsCompare.Web/Controllers/Api/EnvironmentsCompareController.cs",
+    "route": "api/environments-compare",
+    "actions": 4,
+    "authorizedActions": 4
+   },
+   {
+    "file": "src/VirtoCommerce.EnvironmentsCompare.Web/Controllers/Api/EnvironmentsCompareExternalController.cs",
+    "route": null,
+    "actions": 1,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "environments-compare:access",
+   "environments-compare:read"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 10,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "acd0b1f",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "acd0b1f 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Environments Compare Module enables backend administrators to compare platform settings, environment configurations, and system information across multiple Virto Commerce environments (development, staging, production, etc.). This module helps identify configuration discrepancies, troubleshoot environment-specific issues, and ensure consistency across deployments. The module provides a web-based interface within the Virto Commerce platform where users can select multiple environments, compare their settings side-by-side, and view differences with visual indicators. It supports secure communication with remote environments using API key authentication and automatically masks sensitive data such as passwords and secure strings.",
+  "keyFeatures": [
+   "**Multi-Environment Comparison**: Compare settings across two or more environments simultaneously, including the current environment and remote environments",
+   "**Comprehensive Settings Coverage**:",
+   "Platform settings (grouped by settings groups)",
+   "Environment variables (system and process variables)",
+   ".NET runtime information (framework version, OS description, architecture)",
+   "Server features and hosting configuration",
+   "**Environment Settings View**: From the environments list, click any environment to open a dedicated blade showing all of its settings in the same structured, filterable layout as the comparison view. This blade focuses on a single environment (without comparison controls), making it easy to inspect, search, and review configuration scopes and groups for one environment at a time.",
+   "**Base Environment Comparison**: Select a base environment and compare all other environments against it to highlight differences",
+   "**Difference Filtering**: Toggle between showing all settings or only differences to focus on what's changed",
+   "**Search**: Quickly filter specific settings using a search bar",
+   "**Settings Export**: Choose an environment and export its settings for future reference",
+   "**Security Features**:",
+   "API key-based authentication for secure communication with remote environments",
+   "Automatic masking of secret/sensitive settings (passwords, secure strings) using SHA1 hashes",
+   "**Visual Indicators**: Clear visual feedback showing which settings differ from the base environment and which environments have errors",
+   "**Error Handling**: Displays connection errors and missing settings with descriptive error messages",
+   "**External API Endpoint**: Provides a secure endpoint for remote environments to expose their settings for comparison"
+  ],
+  "docs": [],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-environments-compare/releases"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Screenshots",
+   "Setup",
+   "Scenarios",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-environments-compare",
+  "links": [],
+  "checkedOnline": false
+ }
+}

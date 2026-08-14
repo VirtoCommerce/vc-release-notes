@@ -1,0 +1,148 @@
+{
+ "id": "VirtoCommerce.News",
+ "repo": "vc-module-news",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-news",
+ "name": "News",
+ "tagline": "Module allowing content managers to publish news articles",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [],
+ "accent": "#B79DFB",
+ "icon": "assets/module-icons/VirtoCommerce.News.svg",
+ "facts": {
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.News.Web.dll",
+  "authors": [
+   "Iusupov Kirill"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.News.Core",
+   "VirtoCommerce.News.Data",
+   "VirtoCommerce.News.Data.MySql",
+   "VirtoCommerce.News.Data.PostgreSql",
+   "VirtoCommerce.News.Data.SqlServer",
+   "VirtoCommerce.News.ExperienceApi",
+   "VirtoCommerce.News.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.News.Web/Controllers/Api/NewsArticleController.cs",
+    "route": "api/news",
+    "actions": 15,
+    "authorizedActions": 15
+   }
+  ],
+  "permissions": [
+   "news:access",
+   "news:create",
+   "news:delete",
+   "news:publish",
+   "news:read",
+   "news:update"
+  ],
+  "settings": [
+   "News.Enabled",
+   "News.UseNewsPrefixInLinks",
+   "News.UseStoreDefaultLanguage"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "NewsArticleChangedEvent",
+   "NewsArticleChangingEvent"
+  ],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.News.ExperienceApi/Queries/NewsArticleAuthorQueryBuilder.cs",
+   "src/VirtoCommerce.News.ExperienceApi/Queries/NewsArticleQueryBuilder.cs",
+   "src/VirtoCommerce.News.ExperienceApi/Queries/NewsArticlesQueryBuilder.cs",
+   "src/VirtoCommerce.News.ExperienceApi/Queries/NewsArticleTagsQueryBuilder.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 12,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "NewsArticleEntity",
+   "NewsArticleLocalizedContentEntity",
+   "NewsArticleLocalizedTagEntity",
+   "NewsArticleUserGroupEntity",
+   "SeoInfoEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "1424e31",
+   "lastCommitDate": "2026-07-27",
+   "lastCommit": "1424e31 2026-07-27 3.1006.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The News module enables content managers to publish news articles for selected user groups using different languages within the Virto Commerce platform. Additionally, the module offers features for scheduling articles publishing.",
+  "keyFeatures": [
+   "Write articles using extended markup",
+   "Localize articles to multiple languages",
+   "Select multiple target user groups",
+   "Shedule articles publishing",
+   "Clone articles",
+   "Setup SEO data"
+  ],
+  "docs": [],
+  "references": [],
+  "sections": [
+   "Key features",
+   "Screenshots",
+   "XAPI Specification",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-news",
+  "links": [],
+  "checkedOnline": false
+ }
+}

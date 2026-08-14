@@ -1,0 +1,124 @@
+{
+ "id": "VirtoCommerce.Hotjar",
+ "repo": "vc-module-hotjar",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-hotjar",
+ "name": "Hotjar",
+ "tagline": "Allows to assign Hotjar Site Id for a Store and get insights about the shopping behaviour of your users with Heatmaps, Recordings, Feedback and etc.",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.Hotjar.svg",
+ "facts": {
+  "manifestVersion": "3.1002.0",
+  "platformVersion": "3.1007.10",
+  "assembly": "VirtoCommerce.Hotjar.Web.dll",
+  "authors": [
+   "Oleg Zhuk"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.Hotjar.Core",
+   "VirtoCommerce.Hotjar.Data",
+   "VirtoCommerce.Hotjar.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.Hotjar.Web/Controllers/Api/HotjarController.cs",
+    "route": "api/hotjar",
+    "actions": 2,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "Hotjar:access"
+  ],
+  "settings": [
+   "Hotjar.EnableTracking",
+   "Hotjar.SiteId",
+   "Hotjar.SnippetVersion"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 1,
+  "localizations": [
+   "en"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "d3d6e42",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "d3d6e42 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Hotjar module allows you to assign Hotjar Site Id for a Store and get insights about the shopping behaviour of your users with Heatmaps, Recordings, Feedback and etc.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "Hotjar",
+    "href": "https://www.hotjar.com/"
+   },
+   {
+    "label": "Module Documentation",
+    "href": "https://docs.virtocommerce.org/modules/hotjar/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Download Latest Release",
+    "href": "https://github.com/VirtoCommerce/vc-module-hotjar/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key Features",
+   "Screenshots",
+   "Setup",
+   "Integration with Virto Storefront",
+   "Application Menu",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-hotjar",
+  "links": [
+   {
+    "label": "Module Documentation",
+    "href": "https://docs.virtocommerce.org/modules/hotjar/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

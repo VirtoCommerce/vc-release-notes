@@ -1,0 +1,215 @@
+{
+ "id": "VirtoCommerce.Search",
+ "repo": "vc-module-search",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-search",
+ "name": "Search Core",
+ "tagline": "Defines Core Abstractions for indexed search functionality above different search providers, like: Elasticsearch, Azure Search, etc.",
+ "latestVersion": "3.1007.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.Search.svg",
+ "facts": {
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.SearchModule.Web.dll",
+  "authors": [
+   "Eugeny Tatarincev"
+  ],
+  "tags": "security core",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.SearchModule.Core",
+   "VirtoCommerce.SearchModule.Data",
+   "VirtoCommerce.SearchModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.SearchModule.Web/Controllers/Api/IndexFieldSettingController.cs",
+    "route": "api/search/index-field-settings",
+    "actions": 5,
+    "authorizedActions": 1
+   },
+   {
+    "file": "src/VirtoCommerce.SearchModule.Web/Controllers/Api/SearchIndexationModuleController.cs",
+    "route": "api/search/indexes",
+    "actions": 7,
+    "authorizedActions": 7
+   }
+  ],
+  "permissions": [
+   "search:index:access",
+   "search:index:manage",
+   "search:index:read",
+   "search:index:rebuild"
+  ],
+  "settings": [
+   "VirtoCommerce.Search.IndexPartitionSize",
+   "VirtoCommerce.Search.IndexSettings",
+   "VirtoCommerce.Search.IndexingJobs.CronExpression",
+   "VirtoCommerce.Search.IndexingJobs.Enable",
+   "VirtoCommerce.Search.PartialDocumentUpdate.Enable"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [
+   "src/VirtoCommerce.SearchModule.Data/Handlers/ObjectSettingEntryChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "ObjectSettingChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [
+   "src/VirtoCommerce.SearchModule.Core/BackgroundJobs/IIndexingJobService.cs",
+   "src/VirtoCommerce.SearchModule.Core/Extensions/IndexDocumentConfigurationExtensions.cs",
+   "src/VirtoCommerce.SearchModule.Core/Model/IndexDocumentChange.cs",
+   "src/VirtoCommerce.SearchModule.Core/Model/IndexDocumentSource.cs",
+   "src/VirtoCommerce.SearchModule.Core/Services/IIndexDocumentBuilder.cs",
+   "src/VirtoCommerce.SearchModule.Core/Services/IIndexDocumentChangesProvider.cs",
+   "src/VirtoCommerce.SearchModule.Data/BackgroundJobs/IndexingJobs.cs",
+   "src/VirtoCommerce.SearchModule.Data/Services/BatchIndexingOptions.cs",
+   "src/VirtoCommerce.SearchModule.Data/Services/DummyIndexDocumentBuilder.cs",
+   "src/VirtoCommerce.SearchModule.Data/Services/IndexDocumentChangeFeedFactoryAdapter.cs",
+   "src/VirtoCommerce.SearchModule.Data/Services/IndexingManager.cs",
+   "tests/VirtoCommerce.SearchModule.Tests/DocumentSource.cs"
+  ],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 22,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "0596bce",
+   "lastCommitDate": "2026-08-06",
+   "lastCommit": "0596bce 2026-08-06 fix: Bump postcss from 8.5.13 to 8.5.24 in /src/VirtoCommerce.SearchModule.Web (#144)",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce Search module provides the **core abstractions and orchestration** for indexed search in Virto Commerce. It standardizes how documents are described, indexed, queried, and managed, while delegating the actual search engine implementation to pluggable provider modules. The module is designed to support multiple document types (e.g., Products, Categories, Members, Orders) and to let you route different document types to different providers when needed. **Providers** This module defines common contracts for indexed search across search engines. Use one of the provider modules below or implement your own provider: * [Elasticsearch 9](https://github.com/VirtoCommerce/vc-module-elastic-search-9): Version compatible with Elasticsearch 8 and 10. For driving innovation like semantic and hybrid search. * [Elasticsearch 8](https://github.com/VirtoCommerce/vc-module-elastic-search-8): Version compatible with Elasticsearch 8 and 9. For driving innovation like semantic and hybrid search. * [Algolia](https://github.com/VirtoCommerce/vc-module-algolia-search): A cloud-based search platform that provides developers with a set of APIs to easily implement fast and relevant search experiences in their applications. * [Azure Cognitive Search](https://github.com/VirtoCommerce/vc-module-azure-search): A fully managed cloud search service offered by Microsoft Azure that enables developers to build powerful search capabilities into applications without the need for managing infrastructure. * [Lucene](https://github.com/VirtoCommerce/vc-module-lucene-search): Recommended for local development. * [Elastic App Search](https://github.com/VirtoCommerce/vc-module-elastic-app-search): Preferred search provider with rich no-code search customization and analytics tools. * [Elasticsearch](https://github.com/VirtoCommerce/vc-module-elastic-search): Version compatible with Elasticsearch 7.x. * And you can easily create a module and integrate with your favorite search engine. > If no provider is installed/registered, the module falls back to a dummy provider and will throw a clear runtime error instructing you to install a provider module.",
+  "keyFeatures": [
+   "**Pluggable provider model**: swap search engines without changing the rest of the platform.",
+   "**Multi-document support**: index and search multiple document types in a unified way.",
+   "**Per-document provider & scope routing**: select provider/scope per document type via configuration.",
+   "**Indexing orchestration**: supports full rebuild and incremental “changes” indexation.",
+   "**Blue-green indexation support**: supports backup indices and index swap for providers that implement it.",
+   "**Scheduled background jobs**: recurring indexation via Hangfire, controllable by platform settings.",
+   "**Search phrase parsing**: query/phrase parsing infrastructure (ANTLR-based) for consistent request building.",
+   "**Admin integration**: API endpoints, permissions, and back office UI assets/localization for managing indexing."
+  ],
+  "docs": [
+   {
+    "label": "Search module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/search/overview/"
+   },
+   {
+    "label": "Search module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Search"
+   },
+   {
+    "label": "Search providers configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#search"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-search"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-search/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": "The engine room behind every product list, filter and search box. It holds no business data of its own — it describes how other modules' data is turned into searchable documents, and keeps those documents in step with the database.",
+  "forArchitect": "The clearest port-and-adapter in the platform: **no database, no entities, no migrations, and no module dependencies**. Providers — Elasticsearch, Azure Search, OpenSearch, Algolia, Lucene — plug in behind it, and twelve document builders are contributed by the modules that own the data. That inversion is why Catalog, Customer, Orders and Pricing all list Search as a dependency and none of them knows which engine is running. Indexing is a background job, so an index host and a request host can be different machines.",
+  "forDeveloper": "Contribute an `IIndexDocumentBuilder` for your own entity rather than writing to the index directly, and let the changes provider tell the job what moved. `VirtoCommerce.Search.IndexingJobs.CronExpression` and `.Enable` control the schedule; `search:index:rebuild` is the permission behind a full reindex. Partial document update exists for the case where one field changed and the whole document need not be rebuilt.",
+  "owns": [],
+  "reachForItWhen": [
+   "Anything must be searchable, filterable or facetable at storefront scale",
+   "You are adding your own entity to the index — write a document builder, not an index writer",
+   "A provider needs swapping, or a second index has to be built alongside the live one"
+  ],
+  "doNotReachForItWhen": [
+   "You need a transactional read of the current row — the index is eventually consistent, on purpose",
+   "You are looking for the data itself: this module stores none of it",
+   "A single record must be correct the instant it is written — read the owning module, not the index"
+  ]
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-search",
+  "links": [
+   {
+    "label": "Search module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/search/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Search module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Search providers configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#search",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

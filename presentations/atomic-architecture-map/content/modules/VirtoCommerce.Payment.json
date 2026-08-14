@@ -1,0 +1,182 @@
+{
+ "id": "VirtoCommerce.Payment",
+ "repo": "vc-module-payment",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-payment",
+ "name": "Payment",
+ "tagline": "Provides management and integration of various payment methods.",
+ "latestVersion": "3.1006.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#FFC24D",
+ "icon": "assets/module-icons/VirtoCommerce.Payment.svg",
+ "facts": {
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.PaymentModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "payments",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.Payment.Core",
+   "VirtoCommerce.Payment.Data",
+   "VirtoCommerce.Payment.Web",
+   "VirtoCommerce.PaymentModule.Data.MySql",
+   "VirtoCommerce.PaymentModule.Data.PostgreSql",
+   "VirtoCommerce.PaymentModule.Data.SqlServer"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.Payment.Web/Controllers/Api/PaymentModuleController.cs",
+    "route": "api/payment",
+    "actions": 4,
+    "authorizedActions": 0
+   }
+  ],
+  "permissions": [],
+  "settings": [
+   "VirtoCommerce.Payment.DefaultManualPaymentMethod.ExampleSetting"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "PaymentMethodChangeEvent",
+   "PaymentMethodChangedEvent",
+   "PaymentMethodInstancingEvent"
+  ],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 13,
+  "hasAdminUi": true,
+  "adminUiFiles": 8,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [
+   "PaymentMethodLocalizedNameEntity",
+   "StorePaymentMethodEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "9436a9f",
+   "lastCommitDate": "2026-07-28",
+   "lastCommit": "9436a9f 2026-07-28 3.1007.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Payment module provides management and integration of various payment methods within the Virto Commerce platform. It defines an extensible abstraction for payment processing — including payment registration, post-processing verification, void, capture, and refund operations — and exposes a REST API and admin UI for configuring which payment methods are active per store. The module ships with a built-in `DefaultManualPaymentMethod` and allows other modules to register custom payment method implementations at runtime through the `IPaymentMethodsRegistrar` interface.",
+  "keyFeatures": [
+   "**Extensible payment method registration** — Register custom payment methods via code using `IPaymentMethodsRegistrar.RegisterPaymentMethod<T>()`; payment methods are resolved through `AbstractTypeFactory` polymorphism",
+   "**Full payment lifecycle** — Abstract `PaymentMethod` base class supports Process, PostProcess, Void, Capture, and Refund operations with both synchronous (obsolete) and async APIs",
+   "**Per-store configuration** — Each payment method is persisted per store with settings for activation, priority, logo, deferred payment, partial payment availability, and localized display names",
+   "**Search and filtering** — Search payment methods by store, code, keyword, and active status; includes both persisted and transient (registered but not yet configured) methods in results",
+   "**Built-in manual payment method** — `DefaultManualPaymentMethod` provides an out-of-the-box payment method supporting capture and refund flows for manual/offline payment scenarios",
+   "**Localized display names** — Payment methods support localized names per language through the `PaymentMethodLocalizedName` entity",
+   "**Domain events** — Publishes `PaymentMethodChangeEvent` (before save), `PaymentMethodChangedEvent` (after save), and `PaymentMethodInstancingEvent` (before instantiation) for extensibility",
+   "**Export/Import** — Full platform export/import support for payment method configurations with batched processing",
+   "**Multi-database support** — Entity Framework Core migrations for SQL Server, PostgreSQL, and MySQL",
+   "**Polymorphic JSON serialization** — Custom `PaymentMethodsJsonConverter` enables correct deserialization of payment method subtypes via the `TypeName` discriminator"
+  ],
+  "docs": [
+   {
+    "label": "Payment module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/payment/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Payment"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-payment"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-payment/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "Developer Guide: Payment Flow End-to-End",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-payment",
+  "links": [
+   {
+    "label": "Payment module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/payment/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

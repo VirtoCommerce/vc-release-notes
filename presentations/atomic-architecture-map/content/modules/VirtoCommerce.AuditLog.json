@@ -1,0 +1,143 @@
+{
+ "id": "VirtoCommerce.AuditLog",
+ "repo": "vc-module-audit-log",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-audit-log",
+ "name": "Audit Log",
+ "tagline": "Provides extended audit features",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.AuditLog.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1007.10",
+  "assembly": "VirtoCommerce.AuditLog.Web.dll",
+  "authors": [
+   "John Doe"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.ApplicationInsights",
+    "version": "3.1001.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.AuditLog.Core",
+   "VirtoCommerce.AuditLog.Data",
+   "VirtoCommerce.AuditLog.Data.MySql",
+   "VirtoCommerce.AuditLog.Data.PostgreSql",
+   "VirtoCommerce.AuditLog.Data.SqlServer",
+   "VirtoCommerce.AuditLog.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.AuditLog.Web/Controllers/Api/AuditLogController.cs",
+    "route": "api/audit-log",
+    "actions": 5,
+    "authorizedActions": 5
+   },
+   {
+    "file": "src/VirtoCommerce.AuditLog.Web/Controllers/Api/HttpDependencySettingController.cs",
+    "route": "api/audit-log/http-dependency-settings",
+    "actions": 4,
+    "authorizedActions": 4
+   }
+  ],
+  "permissions": [
+   "AuditLog:access",
+   "AuditLog:create",
+   "AuditLog:delete",
+   "AuditLog:read",
+   "AuditLog:update"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "HttpDependencySettingChangedEvent",
+   "HttpDependencySettingChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.AuditLog.Core/Handlers/IDomainEventHandler.cs"
+  ],
+  "handledEvents": [
+   "DomainEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 9,
+  "hasAdminUi": true,
+  "adminUiFiles": 27,
+  "localizations": [
+   "en"
+  ],
+  "entities": [
+   "AuditLogRecordEntity",
+   "AuditLogRecordFieldEntity",
+   "HttpDependencySettingEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "69e5940",
+   "lastCommitDate": "2026-08-05",
+   "lastCommit": "69e5940 2026-08-05 3.1003.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The module addresses two operational concerns: - **Who changed what, and when** — by subscribing to domain events and persisting structured, field-level diffs for tracked entities (with deep child-record nesting). - **What did the system actually send and receive over HTTP** — by attaching request/response bodies and headers to Application Insights telemetry for both inbound requests and outbound dependencies, based on configurable rules. Both features are designed to be non-intrusive: change tracking runs on a background channel so domain handlers return immediately, and telemetry enrichment falls back gracefully when the settings cache is cold.",
+  "keyFeatures": [
+   "Subscribes to `GenericChangedEntryEvent<T>` and compares old/new snapshots.",
+   "Tracks **primitive properties** (string, int, enum, DateTime, …).",
+   "Tracks **primitive collections** (e.g. `IList<string> Tags`) via set equality.",
+   "Tracks **`IEntity` child collections** matched by `Id`.",
+   "Tracks **ValueObject child collections** matched by position.",
+   "Tracks **single `IEntity` / ValueObject child properties**.",
+   "Supports **deep nesting** — child records can carry their own child records (e.g. Contact → Organization → Address).",
+   "Each record stores operation type (`Added` / `Modified` / `Deleted`), changed fields with old/new values, and a tree of child records.",
+   "Domain events are processed **asynchronously** through a bounded `Channel<T>` and a background `IHostedService`, so event publishers are not blocked.",
+   "**`HttpLoggingMiddleware`** captures inbound request/response content for matching routes.",
+   "**`HttpTelemetryInitializer`** enriches outgoing `DependencyTelemetry` (Application Insights) with request/response content and headers.",
+   "Per-host / per-method / per-path rules with independent limits for request and response body length.",
+   "Settings are kept in a singleton in-memory cache, pre-warmed at startup and invalidated automatically when the management API mutates them.",
+   "Cold-cache reads on the telemetry path are bounded by a short timeout so a slow database never blocks the request pipeline.",
+   "REST endpoints under `api/audit-log` and `api/audit-log/http-dependency-setting/...`.",
+   "Module-scoped permissions: `AuditLog:access`, `AuditLog:read`, `AuditLog:create`, `AuditLog:update`, `AuditLog:delete`."
+  ],
+  "docs": [],
+  "references": [],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-audit-log",
+  "links": [],
+  "checkedOnline": false
+ }
+}

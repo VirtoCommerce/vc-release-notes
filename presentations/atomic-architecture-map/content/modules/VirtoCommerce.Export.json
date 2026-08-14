@@ -1,0 +1,172 @@
+{
+ "id": "VirtoCommerce.Export",
+ "repo": "vc-module-export",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-export",
+ "name": "Generic Export",
+ "tagline": "Generic export functionality",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.Export.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.ExportModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "export",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ExportModule.Core",
+   "VirtoCommerce.ExportModule.CsvProvider",
+   "VirtoCommerce.ExportModule.Data",
+   "VirtoCommerce.ExportModule.JsonProvider",
+   "VirtoCommerce.ExportModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.ExportModule.Web/Controllers/Api/ExportController.cs",
+    "route": "api/export",
+    "actions": 6,
+    "authorizedActions": 5
+   }
+  ],
+  "permissions": [
+   "export:access",
+   "export:download"
+  ],
+  "settings": [
+   "Export.FileNameTemplate"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 16,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "TestSearchEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "9a7b0f0",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "9a7b0f0 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Generic Export module provides a pluggable, provider-based export infrastructure for the Virto Commerce platform. It allows any module to register its domain entities as exportable types and then export them to different file formats (JSON, CSV) via a unified REST API. Export operations run as Hangfire background jobs with real-time progress reporting through push notifications, and the resulting files are persisted to the platform's blob storage for subsequent download.",
+  "keyFeatures": [
+   "**Pluggable export type registry** — Other modules register their exportable entity types at startup; the export module discovers and exposes them through a single API.",
+   "**Multiple export providers** — Ships with JSON (hierarchical) and CSV (tabular) providers out of the box; additional providers can be added via DI.",
+   "**Background job execution** — Export tasks are queued as Hangfire background jobs, keeping API responses non-blocking and supporting cancellation.",
+   "**Real-time progress notifications** — Push notifications report export progress (processed/total counts, errors, completion) to the calling client.",
+   "**Property-level filtering** — Callers can select which properties to include in the export, and the module strips excluded properties before writing.",
+   "**Tabular conversion** — Entities that implement `ITabularConvertible` can be flattened for CSV export while retaining their full hierarchy for JSON export.",
+   "**Paged data retrieval** — A generic `ExportPagedDataSource` base class handles pagination, so consuming modules only need to implement the data-fetch logic.",
+   "**Fluent type registration** — `ExportedTypeDefinitionBuilder` and its extension methods provide a fluent API for registering export types with metadata, data sources, and groups.",
+   "**Configurable file naming** — Export file names are generated from a configurable template with timestamp formatting.",
+   "**OR-based authorization** — The `AuthorizeAny` attribute allows endpoints to accept any one of several permissions (e.g., platform export OR module download)."
+  ],
+  "docs": [
+   {
+    "label": "Generic Export module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/generic-export/overview/"
+   },
+   {
+    "label": "REST API Reference",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Export"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-export"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download Latest Release",
+    "href": "https://github.com/VirtoCommerce/vc-module-export/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-export",
+  "links": [
+   {
+    "label": "Generic Export module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/generic-export/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

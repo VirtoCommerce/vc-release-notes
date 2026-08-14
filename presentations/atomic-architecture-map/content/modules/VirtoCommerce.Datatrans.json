@@ -1,0 +1,144 @@
+{
+ "id": "VirtoCommerce.Datatrans",
+ "repo": "vc-module-datatrans",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-datatrans",
+ "name": "Datatrans Payment",
+ "tagline": "Datatrans payment module provides integration with Datatrans payment gateway for Virto Commerce.",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.Datatrans.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.Datatrans.Web.dll",
+  "authors": [
+   "Basil Kotov"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Payment",
+    "version": "3.1002.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.Datatrans.Core",
+   "VirtoCommerce.Datatrans.Data",
+   "VirtoCommerce.Datatrans.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [
+   "VirtoCommerce.Payment.Datatrans.LightboxAutoSettle",
+   "VirtoCommerce.Payment.Datatrans.LightboxPaymentMethods",
+   "VirtoCommerce.Payment.Datatrans.PaymentMode",
+   "VirtoCommerce.Payment.Datatrans.ReturnUrl",
+   "VirtoCommerce.Payment.Datatrans.Sandbox"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "cec58f3",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "cec58f3 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Datatrans payment module provides integration with [Datatrans](https://www.datatrans.ch/en) payment gateway for Virto Commerce. It supports two payment modes:",
+  "keyFeatures": [
+   "Two payment modes: Secure Fields (inline) and Lightbox (popup)",
+   "Configurable payment method filtering for Lightbox mode",
+   "Auto-settlement option for Lightbox transactions",
+   "Full payment lifecycle: authorize, capture, void, refund",
+   "Sandbox and production environments",
+   "3-D Secure support",
+   "UI localization for Lightbox — the popup is rendered in the shopper's current culture via the Datatrans `language` parameter"
+  ],
+  "docs": [],
+  "references": [
+   {
+    "label": "Datatrans Introduction",
+    "href": "https://docs.datatrans.ch/docs/introduction"
+   },
+   {
+    "label": "Lightbox mode",
+    "href": "https://docs.datatrans.ch/docs/redirect-lightbox"
+   },
+   {
+    "label": "Secure Fields mode",
+    "href": "https://docs.datatrans.ch/docs/redirect-lightbox"
+   },
+   {
+    "label": "Language support",
+    "href": "https://docs.datatrans.ch/docs/redirect-lightbox#language-support"
+   }
+  ],
+  "sections": [
+   "Features",
+   "Installation",
+   "Configuration",
+   "Payment Modes",
+   "Localization",
+   "Frontend Integration",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-datatrans",
+  "links": [],
+  "checkedOnline": false
+ }
+}

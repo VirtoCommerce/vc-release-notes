@@ -1,0 +1,206 @@
+{
+ "id": "VirtoCommerce.BackgroundJobs",
+ "repo": "vc-module-background-jobs",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-background-jobs",
+ "name": "Background Jobs",
+ "tagline": "Handles asynchronous processing, allowing applications to offload time-consuming, repetitive, or resource-heavy tasks outside the platform",
+ "latestVersion": "3.1050.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.BackgroundJobs.svg",
+ "facts": {
+  "manifestVersion": "3.1051.0",
+  "platformVersion": "3.1050.0",
+  "assembly": "VirtoCommerce.BackgroundJobs.Web.dll",
+  "authors": [
+   "Oleg Zhuk"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.BackgroundJobs.Core",
+   "VirtoCommerce.BackgroundJobs.Data",
+   "VirtoCommerce.BackgroundJobs.Hangfire",
+   "VirtoCommerce.BackgroundJobs.InMemory",
+   "VirtoCommerce.BackgroundJobs.RabbitMQ",
+   "VirtoCommerce.BackgroundJobs.Web",
+   "VirtoCommerce.Platform.Hangfire.Shim"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "samples/VirtoCommerce.BackgroundJobs.GoogleCloudTasks/Controllers/GoogleCloudTasksCallbackController.cs",
+    "route": "api/background-jobs/google-cloud-tasks",
+    "actions": 1,
+    "authorizedActions": 0
+   },
+   {
+    "file": "samples/VirtoCommerce.BackgroundJobs.SampleModule/Controllers/Api/BenchmarkController.cs",
+    "route": "api/background-jobs-sample/benchmark",
+    "actions": 3,
+    "authorizedActions": 0
+   },
+   {
+    "file": "samples/VirtoCommerce.BackgroundJobs.SampleModule/Controllers/Api/SampleJobsController.cs",
+    "route": "api/background-jobs-sample",
+    "actions": 2,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.BackgroundJobs.Web/Controllers/Api/BackgroundJobsAdminController.cs",
+    "route": "api/background-jobs",
+    "actions": 3,
+    "authorizedActions": 3
+   },
+   {
+    "file": "src/VirtoCommerce.BackgroundJobs.Web/Controllers/Api/JobsController.cs",
+    "route": "api/platform/jobs",
+    "actions": 1,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "background-jobs:access",
+   "background-jobs:create",
+   "background-jobs:delete",
+   "background-jobs:execute",
+   "background-jobs:read",
+   "background-jobs:update"
+  ],
+  "settings": [
+   "BackgroundJobs.Sample.EnableHeartbeat",
+   "BackgroundJobs.Sample.HeartbeatCron"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [
+   "src/VirtoCommerce.BackgroundJobs.Data/Recurring/RecurringJobsApplier.cs",
+   "src/VirtoCommerce.BackgroundJobs.Hangfire/RecurringJobService.cs",
+   "src/VirtoCommerce.BackgroundJobs.Web/Module.cs"
+  ],
+  "handledEvents": [
+   "ObjectSettingChangedEvent"
+  ],
+  "subscribesDynamically": true,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 1,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "85296e3",
+   "lastCommitDate": "2026-07-29",
+   "lastCommit": "85296e3 2026-07-29 fix: Update with Migrating from VirtoCommerce.Platform.Hangfire",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Background Jobs module is the Virto Commerce **background-processing engine**. The platform itself no longer depends on Hangfire directly — it depends only on a small, engine-agnostic abstraction in `VirtoCommerce.Platform.Core`, and this module provides the actual engine that runs the work. A module (or the platform) defines a serializable **payload** and an `IBackgroundJobHandler<TPayload>` **handler**, then enqueues it through the `IBackgroundJob` facade. Exactly **one engine per platform instance** — chosen by configuration — executes it: **Hangfire** (the default) or **RabbitMQ**. The same enqueue code runs unchanged on any engine, with or without live progress reported to the admin UI. This module replaces the platform's previously built-in Hangfire integration **without breaking existing modules**: it ships a type-forwarding `VirtoCommerce.Platform.Hangfire.dll`, so modules that referenced the old platform Hangfire assembly keep working once this module is installed.",
+  "keyFeatures": [
+   "**Engine-agnostic job API** — define a payload + `IBackgroundJobHandler<TPayload>` handler and enqueue via the",
+   "**Pluggable engines behind one port** (`IJobEngine`) — Hangfire and RabbitMQ ship in the box; selected by a",
+   "**Fire-and-forget with or without progress** — opt into live progress streamed to the admin notification UI over",
+   "**Map/reduce (fan-out → aggregate)** — split big work into N map tasks that run in parallel across all workers, then",
+   "**Instance modes** — the same container image runs as `Producer` (enqueue only), `Worker` (process only) or",
+   "**No breaking changes** — a type-forwarding shim keeps existing `VirtoCommerce.Platform.Hangfire.*` consumers",
+   "**Extensible by partners** — override a handler via DI (last registration wins) and extend a payload via",
+   "**Static enqueue for migration** — a Hangfire-style `BackgroundJob.Enqueue<THandler>(payload)` static entry point",
+   "**Admin & integration REST API** — list registered handlers and recurring schedules for troubleshooting, and",
+   "**Application Insights telemetry** — every job on every engine emits pre-aggregated duration/queue-latency metrics",
+   "**Graceful when absent** — if no engine module is installed, the platform boots and surfaces an actionable"
+  ],
+  "docs": [
+   {
+    "label": "Background processing developer guide",
+    "href": "https://docs.virtocommerce.org/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.BackgroundJobs"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-background-jobs/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-background-jobs/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Telemetry (Application Insights)",
+   "Components",
+   "Usage",
+   "Migrating from VirtoCommerce.Platform.Hangfire",
+   "Writing a custom engine",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-background-jobs",
+  "links": [
+   {
+    "label": "Background processing developer guide",
+    "href": "https://docs.virtocommerce.org/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

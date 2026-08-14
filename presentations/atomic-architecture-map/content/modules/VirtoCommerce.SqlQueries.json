@@ -1,0 +1,159 @@
+{
+ "id": "VirtoCommerce.SqlQueries",
+ "repo": "vc-module-sql-queries",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-sql-queries",
+ "name": "Sql Queries",
+ "tagline": "Adds SQL query/report capabilities to the VirtoCommerce platform, enabling advanced data access directly through SQL.",
+ "latestVersion": "3.1006.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.SqlQueries.svg",
+ "facts": {
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1007.10",
+  "assembly": "VirtoCommerce.SqlQueries.Web.dll",
+  "authors": [
+   "VirtoCommerce"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.SqlQueries.Core",
+   "VirtoCommerce.SqlQueries.Data",
+   "VirtoCommerce.SqlQueries.Data.MySql",
+   "VirtoCommerce.SqlQueries.Data.PostgreSql",
+   "VirtoCommerce.SqlQueries.Data.SqlServer",
+   "VirtoCommerce.SqlQueries.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.SqlQueries.Web/Controllers/Api/SqlQueriesController.cs",
+    "route": "api/sql-queries",
+    "actions": 11,
+    "authorizedActions": 11
+   }
+  ],
+  "permissions": [
+   "sql-queries:access",
+   "sql-queries:create",
+   "sql-queries:delete",
+   "sql-queries:read",
+   "sql-queries:update"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "SqlQueryChangedEvent",
+   "SqlQueryChangingEvent"
+  ],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 6,
+  "hasAdminUi": true,
+  "adminUiFiles": 11,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "SqlQueryEntity",
+   "SqlQueryParameterEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "5359716",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "5359716 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "This module is designed to empower administrators and developers by providing a secure and flexible way to perform direct database queries within the VirtoCommerce environment. It integrates seamlessly with the platform and supports a variety of query types, enhancing the ability to retrieve, analyze, and manage business data without external tools.",
+  "keyFeatures": [
+   "Execute custom SQL queries against the VirtoCommerce databases.",
+   "Integrate with the platform’s security and permissions system to control query access.",
+   "Return results in user-friendly formats for reporting and analysis: HTML, PDF, CSV, XLSX.",
+   "Supports query parameters: Short Text, Date Time, Boolean, Integer, Decimal.",
+   "Supports multiple database providers: SQL Server (default), MySQL, and PostgreSQL.",
+   "Supports multiple connection strings.",
+   "Platform Backup & Restore support."
+  ],
+  "docs": [
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-sql-queries"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-sql-queries/releases"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Screenshots",
+   "Configuration",
+   "Sample reports",
+   "Permissions",
+   "Claude Code skills",
+   "Backup & Restore",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-sql-queries",
+  "links": [],
+  "checkedOnline": false
+ }
+}

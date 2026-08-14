@@ -1,0 +1,208 @@
+{
+ "id": "VirtoCommerce.Pages",
+ "repo": "vc-module-pages",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-pages",
+ "name": "Virto Pages",
+ "tagline": "Provides a robust and flexible solution for managing content in digital commerce scenarios. Decoupling the CMS post-publishing ensures long-term efficiency, adaptability, and performance.",
+ "latestVersion": "3.1008.0",
+ "active": true,
+ "groups": [],
+ "accent": "#B79DFB",
+ "icon": "assets/module-icons/VirtoCommerce.Pages.svg",
+ "facts": {
+  "manifestVersion": "3.1009.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.Pages.Web.dll",
+  "authors": [
+   "Basil Kotov"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1010.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Seo",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.Pages.Core",
+   "VirtoCommerce.Pages.Data",
+   "VirtoCommerce.Pages.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.Pages.Web/Controllers/Api/PagesController.cs",
+    "route": "api/pages",
+    "actions": 1,
+    "authorizedActions": 0
+   }
+  ],
+  "permissions": [
+   "Pages:create",
+   "Pages:delete",
+   "Pages:read",
+   "Pages:update"
+  ],
+  "settings": [
+   "VirtoPages.Enable",
+   "VirtoPages.ScheduledSync.Enable"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [
+   "src/VirtoCommerce.Pages.Data/Handlers/PageChangedHandler.cs"
+  ],
+  "handledEvents": [
+   "PagesDomainEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [
+   "src/VirtoCommerce.Pages.Data/Handlers/PageChangedHandler.cs",
+   "src/VirtoCommerce.Pages.Data/Search/PageIndexDocumentBuilder.cs",
+   "src/VirtoCommerce.Pages.Data/Search/PageIndexDocumentChangesProvider.cs",
+   "src/VirtoCommerce.Pages.Web/Module.cs",
+   "tests/VirtoCommerce.Pages.Tests/PageIndexDocumentChangesProviderTests.cs"
+  ],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 6,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "d7519f6",
+   "lastCommitDate": "2026-07-30",
+   "lastCommit": "d7519f6 2026-07-30 3.1009.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce Pages module is a solution designed to connect different CMS seamlessly within the Virto Commerce. It offers a CMS-agnostic architecture, enabling users to manage public, private, and personalized pages effectively. Once pages are published, they are stored within Virto Pages, making the CMS optional after the design phase. This approach allows for flexibility in detaching, replacing, or using multiple CMS platforms simultaneously for scenarios like landing pages, blogs, and more.",
+  "keyFeatures": [
+   "**CMS-Agnostic Architecture**: CMS is required only during the design phase. Once published, content is stored in Virto Pages for use without real-time CMS dependency.",
+   "**Hosted Content Pages**: Save pages retrieved from a CMS into the Virto platform for efficient management.",
+   "**Content Scenarios:**",
+   "**Public Pages**: Accessible to all users.",
+   "**Private Pages:** Restricted to authorized users.",
+   "**Personalized Pages:** Tailored content for specific user groups.",
+   "**Scheduled Publishing:** Define start and end dates for content visibility.",
+   "**Retrieve Pages by permalink**: Access pages easily using unique identifiers or user-friendly URLs.",
+   "**Retrieve Pages by ID**: Access pages easily using unique identifiers or user-friendly URLs.",
+   "**Full-Text Search Capabilities:** Quickly search and retrieve pages by keyword.",
+   "**Index Rebuild**: Rebuild the full-text search index from the admin UI or via background jobs through the platform's standard indexing infrastructure.",
+   "**Content Providers**: Pluggable abstraction for pulling pages from 3rd-party CMS platforms. CMS integration modules implement `IPageContentProvider` to supply pages for indexing.",
+   "**Scheduled Sync**: Periodic background synchronization of modified pages from content providers. Disabled by default; enable via the `VirtoPages.ScheduledSync.Enable` setting.",
+   "**Export/Import**: Backup and restore pages through the platform's generic export/import mechanism."
+  ],
+  "docs": [
+   {
+    "label": "Pages module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/pages/overview/"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Pages/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Pages"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-pages"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-pages/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Supported CMS Platforms",
+   "Architecture",
+   "Content Providers",
+   "User guide",
+   "Module Workflow",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-pages",
+  "links": [
+   {
+    "label": "Pages module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/pages/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "GraphQL API documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Pages/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

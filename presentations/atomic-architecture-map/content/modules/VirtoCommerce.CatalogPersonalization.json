@@ -1,0 +1,195 @@
+{
+ "id": "VirtoCommerce.CatalogPersonalization",
+ "repo": "vc-module-catalog-personalization",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-catalog-personalization",
+ "name": "Catalog Personalization",
+ "tagline": "Help businesses personalize their categories and products to specific User Groups",
+ "latestVersion": "3.1004.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#3FD8B4",
+ "icon": "assets/module-icons/VirtoCommerce.CatalogPersonalization.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.CatalogPersonalizationModule.Web.dll",
+  "authors": [
+   "Eugeney Tarincev",
+   "Artyom Androsov",
+   "Artem Dudarev"
+  ],
+  "tags": "catalog personalization products categories",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.CatalogPersonalizationModule.Core",
+   "VirtoCommerce.CatalogPersonalizationModule.Data",
+   "VirtoCommerce.CatalogPersonalizationModule.Data.MySql",
+   "VirtoCommerce.CatalogPersonalizationModule.Data.PostgreSql",
+   "VirtoCommerce.CatalogPersonalizationModule.Data.SqlServer",
+   "VirtoCommerce.CatalogPersonalizationModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.CatalogPersonalizationModule.Web/Controllers/Api/PersonalizationModuleController.cs",
+    "route": "api/personalization",
+    "actions": 6,
+    "authorizedActions": 0
+   }
+  ],
+  "permissions": [
+   "personalization:update"
+  ],
+  "settings": [
+   "CatalogPersonalization.CronExpression",
+   "CatalogPersonalization.EventBasedIndexation",
+   "CatalogPersonalization.LogTaggedItemsChanges",
+   "CatalogPersonalization.TagsInheritancePolicy"
+  ],
+  "domainEventsPublished": [
+   "TaggedItemChangedEvent",
+   "TaggedItemChangingEvent"
+  ],
+  "declaredEvents": [
+   "TaggedItemChangedEvent",
+   "TaggedItemChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.CatalogPersonalizationModule.Data/Handlers/LogChangesChangedEventHandler.cs",
+   "src/VirtoCommerce.CatalogPersonalizationModule.Data/Handlers/TaggedItemChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "TaggedItemChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [
+   "src/VirtoCommerce.CatalogPersonalizationModule.Data/Search/Indexing/TaggedItemDocumentBuilderBase.cs",
+   "src/VirtoCommerce.CatalogPersonalizationModule.Data/Search/Indexing/TaggedItemIndexChangesProvider.cs"
+  ],
+  "migrationCount": 9,
+  "hasAdminUi": true,
+  "adminUiFiles": 10,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [
+   "TagEntity",
+   "TaggedItemEntity",
+   "TaggedItemOutlineEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "781d62f",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "781d62f 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Catalog Personalization module enables the personalization of catalogs through the use of User Groups. This module allows catalog objects such as products and categories to be assigned to User Groups, and different policies for User Group propagation in the catalog objects hierarchy can be defined.",
+  "keyFeatures": [
+   "**Catalog visibility personalization**: Control who sees what in your storefront with the Catalog Personalization module.",
+   "**Flexible User Group propagation**: Choose the propagation policy that works best for your catalog hierarchy with the User Group Propagation Policies feature.",
+   "**Filtering with User Groups**: Improve storefront search results by assigning User Groups to Product Categories with the User Groups for Products or Categories Filtration feature.",
+   "**Efficient User Group assignment**: Save time and effort with the Assign User Groups feature, allowing you to easily create and assign User Groups to Catalog Objects."
+  ],
+  "docs": [
+   {
+    "label": "Catalog Personalization module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/catalog-personalization/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.CatalogPersonalization"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-catalog-personalization"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-catalog-personalization/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "User Group propagation",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-catalog-personalization",
+  "links": [
+   {
+    "label": "Catalog Personalization module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/catalog-personalization/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

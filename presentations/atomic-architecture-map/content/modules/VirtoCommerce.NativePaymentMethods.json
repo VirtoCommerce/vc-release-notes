@@ -1,0 +1,167 @@
+{
+ "id": "VirtoCommerce.NativePaymentMethods",
+ "repo": "vc-module-NativePaymentMethods",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-NativePaymentMethods",
+ "name": "Native Payment Methods",
+ "tagline": "Non-integrative payment methods support",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#FFC24D",
+ "icon": "assets/module-icons/VirtoCommerce.NativePaymentMethods.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1017.0",
+  "assembly": "VirtoCommerce.NativePaymentMethods.Web.dll",
+  "authors": [
+   "Mikhail Getmanskiy"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Payment",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.NativePaymentMethods.Core",
+   "VirtoCommerce.NativePaymentMethods.Data",
+   "VirtoCommerce.NativePaymentMethods.Data.MySql",
+   "VirtoCommerce.NativePaymentMethods.Data.PostgreSql",
+   "VirtoCommerce.NativePaymentMethods.Data.SqlServer",
+   "VirtoCommerce.NativePaymentMethods.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.NativePaymentMethods.Web/Controllers/Api/NativePaymentMethodsController.cs",
+    "route": "api/native-payment-methods",
+    "actions": 4,
+    "authorizedActions": 4
+   }
+  ],
+  "permissions": [
+   "NativePaymentMethods:access",
+   "NativePaymentMethods:create",
+   "NativePaymentMethods:delete",
+   "NativePaymentMethods:read",
+   "NativePaymentMethods:update"
+  ],
+  "settings": [
+   "NativePaymentMethods.DefaultSetting"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "PaymentMethodChangedEvent",
+   "PaymentMethodChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.NativePaymentMethods.Data/Handlers/PaymentMethodInstancingEventHandler.cs"
+  ],
+  "handledEvents": [
+   "PaymentMethodInstancingEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 6,
+  "hasAdminUi": true,
+  "adminUiFiles": 10,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [
+   "NativePaymentMethodEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "d362291",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "d362291 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "This module enables creating non-integrative payment methods without code changes. Such methods cannon provide any functionality similar to the manual test payment method; at the same time, they have various code pieces, names, descriptions, and logos, and may be useful to designate various kinds of cash payments.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "Native Payment Methods module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/native-payment-methods/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.NativePaymentMethods"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-native-payment-methods"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-native-payment-methods/releases/latest"
+   }
+  ],
+  "sections": [
+   "Functional requirements",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-NativePaymentMethods",
+  "links": [
+   {
+    "label": "Native Payment Methods module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/native-payment-methods/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

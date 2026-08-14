@@ -1,0 +1,91 @@
+{
+ "id": "VirtoCommerce.SeqLog",
+ "repo": "vc-module-seq-log",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-seq-log",
+ "name": "Seq log sink",
+ "tagline": "Writes logs events to Serilog Seq",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.SeqLog.svg",
+ "facts": {
+  "manifestVersion": "3.1002.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.SeqLog.Web.dll",
+  "authors": [
+   "VirtoCommerce"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.SeqLog.Core",
+   "VirtoCommerce.SeqLog.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "fe5d9b3",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "fe5d9b3 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Seq log module collects application logging data in Seq.",
+  "keyFeatures": [],
+  "docs": [],
+  "references": [
+   {
+    "label": "Seq overview",
+    "href": "https://docs.datalust.co/docs/an-overview-of-seq"
+   },
+   {
+    "label": "Serilog Library",
+    "href": "https://serilog.net/"
+   },
+   {
+    "label": "Download Latest Release",
+    "href": "https://github.com/VirtoCommerce/vc-module-seq-log/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Configure Logging",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-seq-log",
+  "links": [],
+  "checkedOnline": false
+ }
+}

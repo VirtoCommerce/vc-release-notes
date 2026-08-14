@@ -1,0 +1,128 @@
+{
+ "id": "VirtoCommerce.AI",
+ "repo": "vc-module-ai",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-ai",
+ "name": "AI",
+ "tagline": "AI manifest aggregation module for VirtoCommerce Platform. Collects and exposes AI tool and agent definitions from all installed modules.",
+ "latestVersion": "3.1001.0",
+ "active": true,
+ "groups": [],
+ "accent": "#A66BFF",
+ "icon": "assets/module-icons/VirtoCommerce.AI.svg",
+ "facts": {
+  "manifestVersion": "3.1001.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.AI.Web.dll",
+  "authors": [
+   "Maksim Zinchuk"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.AI.Core",
+   "VirtoCommerce.AI.Data",
+   "VirtoCommerce.AI.Data.MySql",
+   "VirtoCommerce.AI.Data.PostgreSql",
+   "VirtoCommerce.AI.Data.SqlServer",
+   "VirtoCommerce.AI.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.AI.Web/Controllers/Api/AIController.cs",
+    "route": "api/ai",
+    "actions": 6,
+    "authorizedActions": 2
+   }
+  ],
+  "permissions": [
+   "ai:access",
+   "ai:create",
+   "ai:delete",
+   "ai:read",
+   "ai:update"
+  ],
+  "settings": [
+   "AI.Enabled"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 4,
+  "localizations": [
+   "en"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "readFrom": "shallow clone",
+   "branch": "dev",
+   "lastCommit": "cc3c1b0 2026-07-14 Merge pull request #7 from VirtoCommerce/VCST-5373",
+   "lastCommitDate": "2026-07-14"
+  }
+ },
+ "readme": {
+  "overview": "The VirtoCommerce.AI module provides: - A centralized endpoint (`/api/ai/manifest`) that aggregates AI capabilities from all installed modules. This enables external AI backends (like the Python-based virto-oz-backend) to discover and use tools and agents defined across your VirtoCommerce installation. - An **AI Assistant blade** in the platform admin that embeds an external chatbot SPA via `<iframe>`. The chatbot URL is configured through `appsettings.json` and exposed to the admin UI through a typed options endpoint.",
+  "keyFeatures": [
+   "**Automatic Discovery**: Scans all installed modules for AI definitions",
+   "**Tool Definitions**: Aggregates YAML-based tool definitions from `ai/tools/` directories",
+   "**Agent Definitions**: Aggregates Markdown-based agent definitions from `ai/agents/` directories",
+   "**ETag Caching**: Supports HTTP ETag headers for efficient bandwidth usage",
+   "**Cache Invalidation**: API endpoint to force manifest regeneration",
+   "**Permission-Based Access**: All endpoints protected by VirtoCommerce RBAC",
+   "**AI Assistant blade**: Embeds an external chatbot SPA into the admin UI via iframe (configurable through `appsettings.json`)"
+  ],
+  "docs": [],
+  "references": [
+   {
+    "label": "VirtoCommerce Module Development",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/creating-custom-module/"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Features",
+   "API Endpoints",
+   "AI Assistant Admin Blade",
+   "How Modules Contribute AI Definitions",
+   "Your Capabilities",
+   "Guidelines",
+   "Module Structure",
+   "Installation",
+   "Permissions",
+   "Integration with virto-oz-backend",
+   "Configuration",
+   "Development",
+   "Architecture",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-ai",
+  "links": [],
+  "checkedOnline": false
+ }
+}

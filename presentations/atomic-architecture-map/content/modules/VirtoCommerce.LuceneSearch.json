@@ -1,0 +1,144 @@
+{
+ "id": "VirtoCommerce.LuceneSearch",
+ "repo": "vc-module-lucene-search",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-lucene-search",
+ "name": "Lucene Search",
+ "tagline": "Indexed search functionality with Lucene engine",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.LuceneSearch.svg",
+ "facts": {
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.LuceneSearchModule.Web.dll",
+  "authors": [
+   "Artem Dudarev"
+  ],
+  "tags": "lucene search",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Search",
+    "version": "3.1004.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.LuceneSearchModule.Data",
+   "VirtoCommerce.LuceneSearchModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "32fd1b8",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "32fd1b8 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Lucene Search provider is configurable by these configuration keys:",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "Lucene Search module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/lucene/overview/"
+   },
+   {
+    "label": "Lucene Search module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/integration/lucene/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.LuceneSearch"
+   },
+   {
+    "label": "Lucene Search configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#lucene"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-lucene-search"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-lucene-search/releases/latest"
+   }
+  ],
+  "sections": [
+   "Configuration",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-lucene-search",
+  "links": [
+   {
+    "label": "Lucene Search module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/lucene/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Lucene Search module developer documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Indexed-Search/integration/lucene/",
+    "source": "readme"
+   },
+   {
+    "label": "Lucene Search configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#lucene",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

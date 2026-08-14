@@ -1,0 +1,178 @@
+{
+ "id": "VirtoCommerce.Assets",
+ "repo": "vc-module-assets",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-assets",
+ "name": "Assets Management",
+ "tagline": "Common abstractions for asset search, retrieval, and manipulation, making it easy for developers to work with assets regardless of their underlying storage location.",
+ "latestVersion": "3.1006.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.Assets.svg",
+ "facts": {
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.AssetsModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "assets",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.AssetsModule.Core",
+   "VirtoCommerce.AssetsModule.Data",
+   "VirtoCommerce.AssetsModule.Data.MySql",
+   "VirtoCommerce.AssetsModule.Data.PostgreSql",
+   "VirtoCommerce.AssetsModule.Data.SqlServer",
+   "VirtoCommerce.AssetsModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.AssetsModule.Web/Controllers/AssetEntryController.cs",
+    "route": "api/assetentries",
+    "actions": 4,
+    "authorizedActions": 4
+   },
+   {
+    "file": "src/VirtoCommerce.AssetsModule.Web/Controllers/AssetsController.cs",
+    "route": "api/assets",
+    "actions": 5,
+    "authorizedActions": 5
+   }
+  ],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "AssetEntryChangedEvent",
+   "AssetEntryChangingEvent",
+   "BlobCreatedEvent",
+   "BlobDeletedEvent"
+  ],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 7,
+  "hasAdminUi": true,
+  "adminUiFiles": 8,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "AssetEntryEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "1d1ab11",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "1d1ab11 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Virto Commerce Assets module is a base module that provides a powerful, flexible, and extensible platform for managing assets in Virto Commerce.  With this module, you can easily search, organize, and retrieve assets stored in different locations, including file systems, Azure storage, and other custom asset storage solutions. The module is designed to be highly configurable and extensible, allowing developers to easily add new asset storage providers or customize existing ones to meet the unique needs of their business. It defines a set of common abstractions for asset search, retrieval, and manipulation, making it easy for developers to work with assets regardless of their underlying storage location. ***Note:*** *You cannot work with the Platform files directly; the only way to do so is through the Assets abstraction.* Virto Commerce has out-of-the box providers: * [File System](https://github.com/VirtoCommerce/vc-module-filesystem-assets) * [Azure Blob Storage](https://github.com/VirtoCommerce/vc-module-azureblob-assets)",
+  "keyFeatures": [
+   "Upload files",
+   "Read files",
+   "Search files"
+  ],
+  "docs": [
+   {
+    "label": "Assets module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/assets/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Assets"
+   },
+   {
+    "label": "Assets management providers configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#assets"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-assets/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-assets/releases/latest"
+   }
+  ],
+  "sections": [
+   "Overview",
+   "Key features",
+   "Uploading file to Assets",
+   "Asset modules",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-assets",
+  "links": [
+   {
+    "label": "Assets module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/assets/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Assets management providers configuration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#assets",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

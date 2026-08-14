@@ -1,0 +1,258 @@
+{
+ "id": "VirtoCommerce.XCart",
+ "repo": "vc-module-x-cart",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-cart",
+ "name": "Cart Experience API",
+ "tagline": "Dedicated to cart-related functionalities, ensuring efficient handling of shopping cart and checkout operations.",
+ "latestVersion": "3.1029.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#FFC24D",
+ "icon": "assets/module-icons/VirtoCommerce.XCart.svg",
+ "facts": {
+  "manifestVersion": "3.1030.0",
+  "platformVersion": "3.1048.0",
+  "assembly": "VirtoCommerce.XCart.Web.dll",
+  "authors": [
+   "Eugeny Tatarincev",
+   "Yan Brovkin",
+   "Fillip Kuksov",
+   "Egidijus Mažeika",
+   "Andrei Kostyrin",
+   "Dmitri Pushnitsa",
+   "Alexandr Andreev",
+   "Andrey Kozlov",
+   "Konstantin Savosteev",
+   "Aleksandr Vishniakov",
+   "Artem Dudarev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Cart",
+    "version": "3.1008.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1029.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.FileExperienceApi",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Inventory",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Marketing",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Payment",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Pricing",
+    "version": "3.1003.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Shipping",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1015.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCatalog",
+    "version": "3.1007.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.XCart.Core",
+   "VirtoCommerce.XCart.Data",
+   "VirtoCommerce.XCart.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [
+   "XPurchase.IsSelectedForCheckout"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [
+   "src/VirtoCommerce.XCart.Data/Handlers/CartChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "CartChangedEvent"
+  ],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [
+   "src/VirtoCommerce.XCart.Data/Queries/GetCartQueryBuilder.cs",
+   "src/VirtoCommerce.XCart.Data/Queries/GetConfigurationItemsQueryBuilder.cs",
+   "src/VirtoCommerce.XCart.Data/Queries/GetPricesSumQueryBuilder.cs",
+   "src/VirtoCommerce.XCart.Data/Queries/GetProductConfigurationQueryBulder.cs",
+   "src/VirtoCommerce.XCart.Data/Queries/GetSavedForLaterListQueryBuilder.cs",
+   "src/VirtoCommerce.XCart.Data/Queries/PickupLocationsQueryBuilder.cs",
+   "src/VirtoCommerce.XCart.Data/Queries/SearchCartQueryBuilder.cs",
+   "src/VirtoCommerce.XCart.Data/Schemas/PurchaseSchema.cs",
+   "tests/VirtoCommerce.XCart.Tests/GraphQLSingletonMediatorInjectionTests.cs"
+  ],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "2377912",
+   "lastCommitDate": "2026-08-10",
+   "lastCommit": "2377912 2026-08-10 3.1030.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The xCart module provides high-performance API for shopping carts with the following key features: * Working with a shopping cart. * Auto evaluating taxes and prices. * Multi-language and multi-currency capabilities. * Lazy resolving.",
+  "keyFeatures": [],
+  "docs": [
+   {
+    "label": "xCart documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Cart/overview/"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-cart"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-x-cart/releases/latest"
+   }
+  ],
+  "sections": [
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-x-cart",
+  "links": [
+   {
+    "label": "xCart documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/Cart/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Experience API Documentation",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/",
+    "source": "readme"
+   },
+   {
+    "label": "Getting started",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/getting-started/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use GraphiQL",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/graphiql/",
+    "source": "readme"
+   },
+   {
+    "label": "How to use Postman",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/postman/",
+    "source": "readme"
+   },
+   {
+    "label": "How to extend",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/GraphQL-Storefront-API-Reference-xAPI/x-api-extensions/",
+    "source": "readme"
+   },
+   {
+    "label": "Virto Commerce Frontend architecture",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/architecture/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

@@ -1,0 +1,194 @@
+{
+ "id": "VirtoCommerce.Tax",
+ "repo": "vc-module-tax",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-tax",
+ "name": "Tax Core",
+ "tagline": "Defines Core Abstractions for taxes evaluation by using different tax providers and FixedRateTaxProvider.",
+ "latestVersion": "3.1005.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#FFC24D",
+ "icon": "assets/module-icons/VirtoCommerce.Tax.svg",
+ "facts": {
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.TaxModule.Web.dll",
+  "authors": [
+   "Virto Commerce"
+  ],
+  "tags": "stores",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1007.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.TaxModule.Core",
+   "VirtoCommerce.TaxModule.Data",
+   "VirtoCommerce.TaxModule.Data.MySql",
+   "VirtoCommerce.TaxModule.Data.PostgreSql",
+   "VirtoCommerce.TaxModule.Data.SqlServer",
+   "VirtoCommerce.TaxModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.TaxModule.Web/Controllers/Api/TaxModuleController.cs",
+    "route": "api/taxes",
+    "actions": 4,
+    "authorizedActions": 0
+   }
+  ],
+  "permissions": [],
+  "settings": [
+   "VirtoCommerce.Core.FixedTaxRateProvider.Rate",
+   "VirtoCommerce.Core.General.TaxTypes"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [
+   "TaxChangeEvent",
+   "TaxChangedEvent"
+  ],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 7,
+  "hasAdminUi": true,
+  "adminUiFiles": 8,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [
+   "StoreTaxProviderEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "1389fbd",
+   "lastCommitDate": "2026-07-28",
+   "lastCommit": "1389fbd 2026-07-28 3.1006.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Tax module provides a flexible way to evaluate taxes by using different tax providers and core abstractions for custom tax providers. It allows easy addition of custom rules for tax calculation.",
+  "keyFeatures": [
+   "**Flexible tax calculation**: Evaluate tax using different tax providers, including the built-in FixedRateTaxProvider, and easily add custom rules for tax calculation.",
+   "**UI integration**: Display the list of available tax providers on the user interface and edit their settings directly from the platform.",
+   "**Store-level tax configuration**: Connect tax providers to specific stores and configure different tax rates based on location, product type, or other parameters.",
+   "**Customizable tax providers**: Implement custom tax providers by creating new modules that inherit from the abstract TaxProviderBase class.",
+   "**Programmatic tax provider registration**: Register new tax providers programmatically by implementing the ITaxProvider interface.",
+   "**API access**: Access the list of available tax providers and their settings via the public API."
+  ],
+  "docs": [
+   {
+    "label": "Tax module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/tax/overview/"
+   },
+   {
+    "label": "New tax provider registration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Taxes/new-tax-provider-registration/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Tax"
+   },
+   {
+    "label": "Tax configurations",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#tax"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-tax"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-tax/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Default providers",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-tax",
+  "links": [
+   {
+    "label": "Tax module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/tax/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "New tax provider registration",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Taxes/new-tax-provider-registration/",
+    "source": "readme"
+   },
+   {
+    "label": "Tax configurations",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Configuration-Reference/appsettingsjson/#tax",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

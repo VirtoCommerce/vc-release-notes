@@ -1,0 +1,135 @@
+{
+ "id": "VirtoCommerce.Core",
+ "repo": "vc-module-core",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-core",
+ "name": "Commerce core",
+ "tagline": "Common e-commerce domain functionality",
+ "latestVersion": "3.1008.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.Core.svg",
+ "facts": {
+  "manifestVersion": "3.1008.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.CoreModule.Web.dll",
+  "authors": [
+   "Eugeny Tatarincev",
+   "Artem Dudarev"
+  ],
+  "tags": "security core",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.CoreModule.Core",
+   "VirtoCommerce.CoreModule.Data",
+   "VirtoCommerce.CoreModule.Data.MySql",
+   "VirtoCommerce.CoreModule.Data.PostgreSql",
+   "VirtoCommerce.CoreModule.Data.SqlServer",
+   "VirtoCommerce.CoreModule.Web",
+   "VirtoCommerce.Tools"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.CoreModule.Web/Controllers/Api/CommerceController.cs",
+    "route": "api",
+    "actions": 9,
+    "authorizedActions": 6
+   }
+  ],
+  "permissions": [
+   "core:currency:create",
+   "core:currency:delete",
+   "core:currency:update",
+   "core:packageType:create",
+   "core:packageType:delete",
+   "core:packageType:update"
+  ],
+  "settings": [
+   "VirtoCommerce.Core.FixedTaxRateProvider.Rate",
+   "VirtoCommerce.Core.General.MeasureUnits",
+   "VirtoCommerce.Core.General.TaxTypes",
+   "VirtoCommerce.Core.General.WeightUnits"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 14,
+  "hasAdminUi": true,
+  "adminUiFiles": 36,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
+  ],
+  "entities": [
+   "CurrencyEntity",
+   "PackageTypeEntity",
+   "SequenceEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "37bf433",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "37bf433 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Virto Commerce Core module provides **shared commerce domain models**, **cross-cutting abstractions**, and **core operational services** used by other Virto Commerce modules. It is the foundation for common functionality such as currencies, package types, SEO abstractions, conditions infrastructure, money rounding policies, and unique number generation.",
+  "keyFeatures": [
+   "**Common commerce domain models**: shared types for money/currency, tax, addresses, outlines, SEO.",
+   "**Currency management API**: list/create/update/delete currencies.",
+   "**Package types management API**: list/create/update/delete package types.",
+   "**Money rounding**: default rounding policy with an extension point to override it via DI.",
+   "**Unique number generator**: sequence-based generator with configurable retry policy and counter reset rules.",
+   "**Conditions engine foundation**: condition tree types, JSON converter, and a set of built-in conditions (geo, language, URL, etc.).",
+   "**Multi-database support**: EF Core database provider selection (SQL Server / PostgreSQL / MySQL).",
+   "**Export/Import support**: integrates with platform export/import pipeline for module data.",
+   "**Back office assets**: scripts/templates and localization resources for admin UI scenarios."
+  ],
+  "docs": [],
+  "references": [],
+  "sections": [
+   "Overview",
+   "Key Features",
+   "Configuration",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-core",
+  "links": [],
+  "checkedOnline": false
+ }
+}

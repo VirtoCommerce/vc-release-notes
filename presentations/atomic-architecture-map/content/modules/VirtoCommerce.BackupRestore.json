@@ -1,0 +1,173 @@
+{
+ "id": "VirtoCommerce.BackupRestore",
+ "repo": "vc-module-backup-restore",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-backup-restore",
+ "name": "Backup & Restore",
+ "tagline": "The Backup & Restore module provides full platform backup and restore (export/import) for Virto Commerce. It packages platform data (users, roles, permissions, settings and dynamic properties) together with the data of all installed modules into a single, optionally AES-256 encrypted ZIP archive, and restores it on demand with real-time progress tracking and sample data installation.",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.BackupRestore.svg",
+ "facts": {
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.BackupRestore.Web.dll",
+  "authors": [
+   "Oleg Zhuk"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.BackupRestore.Core",
+   "VirtoCommerce.BackupRestore.Data",
+   "VirtoCommerce.BackupRestore.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.BackupRestore.Web/Controllers/Api/BackupRestoreController.cs",
+    "route": "api/platform",
+    "actions": 4,
+    "authorizedActions": 3
+   },
+   {
+    "file": "src/VirtoCommerce.BackupRestore.Web/Controllers/Api/SampleDataController.cs",
+    "route": "api/platform",
+    "actions": 6,
+    "authorizedActions": 4
+   }
+  ],
+  "permissions": [
+   "platform:backuprestore:access",
+   "platform:backuprestore:backup",
+   "platform:backuprestore:restore",
+   "platform:backuprestore:storage",
+   "platform:export",
+   "platform:import"
+  ],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 15,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "1072dd5",
+   "lastCommitDate": "2026-07-23",
+   "lastCommit": "1072dd5 2026-07-23 3.1004.0",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "The Backup & Restore module provides full platform backup and restore (export/import) for Virto Commerce. It packages platform data — users, roles, permissions, settings and dynamic properties — together with the data of all installed modules into a single, optionally AES-256 encrypted ZIP archive, and restores it back on demand. Long-running operations execute as Hangfire background jobs with a real-time progress timeline, and the module also installs sample data for fresh environments.",
+  "keyFeatures": [
+   "**Full platform backup** — exports security data (roles, users, user API keys), settings, and dynamic properties (including dictionary items), plus the data of every installed module that participates via `IExportSupport`.",
+   "**One-click restore** — imports a backup back into the platform, creating or merging entities; domain events are suppressed during restore to avoid cascading side effects, and the operator who started the restore is preserved so their session is not invalidated.",
+   "**Optional AES-256 encryption** — password-protected ZIP archives; the generated password is shown once. `Manifest.json` is always written unencrypted so the import UI can detect encryption and prompt before reading protected entries.",
+   "**Module participation model** — any module that implements `IExportSupport` / `IImportSupport` is automatically included in backups and restores; no per-module wiring required.",
+   "**Streaming & memory-efficient** — large JSON collections are read and written in pages (batches of 50) so big datasets never load fully into memory.",
+   "**Real-time progress** — export and restore run as Hangfire background jobs and stream a structured progress log (info/warning/error) to the admin UI via push notifications.",
+   "**Sample data installation** — discovers and imports sample datasets, and contributes the sample-data step to the platform setup wizard.",
+   "**Backward compatible** — preserves the original `api/platform/*` routes, permission strings, backup ZIP layout, and admin UI; the implementation satisfies both the modern `IBackupRestoreManager` and the legacy `IPlatformExportImportManager`."
+  ],
+  "docs": [
+   {
+    "label": "Backup and restore user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.BackupRestore"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-backup-restore/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-backup-restore/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-backup-restore",
+  "links": [
+   {
+    "label": "Backup and restore user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

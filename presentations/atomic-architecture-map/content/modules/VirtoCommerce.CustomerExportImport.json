@@ -1,0 +1,175 @@
+{
+ "id": "VirtoCommerce.CustomerExportImport",
+ "repo": "vc-module-customer-export-import",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-customer-export-import",
+ "name": "Customer Export Import",
+ "tagline": "This module adds customers export and import functionality. Use it for customer management.",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [],
+ "accent": "#F87FAC",
+ "icon": "assets/module-icons/VirtoCommerce.CustomerExportImport.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.CustomerExportImportModule.Web.dll",
+  "authors": [
+   "Alexey Shibanov"
+  ],
+  "tags": "customer export import",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1013.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1005.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.CustomerExportImportModule.Core",
+   "VirtoCommerce.CustomerExportImportModule.Data",
+   "VirtoCommerce.CustomerExportImportModule.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.CustomerExportImportModule.Web/Controllers/Api/ExportController.cs",
+    "route": "api/customer/export",
+    "actions": 2,
+    "authorizedActions": 1
+   },
+   {
+    "file": "src/VirtoCommerce.CustomerExportImportModule.Web/Controllers/Api/ImportController.cs",
+    "route": "api/customer/import",
+    "actions": 4,
+    "authorizedActions": 1
+   }
+  ],
+  "permissions": [
+   "customer:simpleExport",
+   "customer:simpleImport"
+  ],
+  "settings": [
+   "CustomerExportImport.Export.LimitOfLines",
+   "CustomerExportImport.Import.AddressRegionStrongValidation",
+   "CustomerExportImport.Import.FileMaxSize",
+   "CustomerExportImport.Import.LimitOfLines"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": true,
+  "adminUiFiles": 15,
+  "localizations": [
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
+  ],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "611d020",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "611d020 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "If you want to transfer a large amount of customer information between Virto Commerce and another system, then you can use a specially-formatted spreadsheet to import or export that data. Virto Commerce uses CSV (semicolon-separated value) files to perform this kind of bulk task.",
+  "keyFeatures": [
+   "Export and update contacts",
+   "Export and update organizations",
+   "Migrate contacts, organizations, and accounts from another system"
+  ],
+  "docs": [
+   {
+    "label": "Customer Export and Import module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/customer-export-import/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.CustomerExportImport"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-customer-export-import/"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-customer-export-import/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "Development",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-customer-export-import",
+  "links": [
+   {
+    "label": "Customer Export and Import module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/customer-export-import/overview/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}

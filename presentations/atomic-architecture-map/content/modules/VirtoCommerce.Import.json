@@ -1,0 +1,145 @@
+{
+ "id": "VirtoCommerce.Import",
+ "repo": "vc-module-Import",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-Import",
+ "name": "Import",
+ "tagline": "Provides flexible functionality for writing Importers",
+ "latestVersion": "3.1002.0",
+ "active": true,
+ "groups": [],
+ "accent": "#5FC8F5",
+ "icon": "assets/module-icons/VirtoCommerce.Import.svg",
+ "facts": {
+  "manifestVersion": "3.1002.0",
+  "platformVersion": "3.1002.0",
+  "assembly": "VirtoCommerce.ImportModule.Web.dll",
+  "authors": [
+   "Eugeney Tatarincev",
+   "Vladimir Buravlev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [
+   {
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1000.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Notifications",
+    "version": "3.1000.0",
+    "optional": false
+   }
+  ],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.ImportModule.Core",
+   "VirtoCommerce.ImportModule.CsvHelper",
+   "VirtoCommerce.ImportModule.Data",
+   "VirtoCommerce.ImportModule.Data.MySql",
+   "VirtoCommerce.ImportModule.Data.PostgreSql",
+   "VirtoCommerce.ImportModule.Data.SqlServer",
+   "VirtoCommerce.ImportModule.Web"
+  ],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
+  "restControllers": [
+   {
+    "file": "src/VirtoCommerce.ImportModule.Web/Controllers/Api/ImportController.cs",
+    "route": "api/import",
+    "actions": 12,
+    "authorizedActions": 8
+   },
+   {
+    "file": "src/VirtoCommerce.ImportModule.Web/Controllers/Api/OrganizationController.cs",
+    "route": "api/import",
+    "actions": 1,
+    "authorizedActions": 0
+   }
+  ],
+  "permissions": [
+   "import:access",
+   "import:create",
+   "import:delete",
+   "import:execute",
+   "import:read",
+   "import:update"
+  ],
+  "settings": [
+   "Import.DefaultImportReporter",
+   "Import.FileMaxSize",
+   "Import.LimitOfLines",
+   "Import.MaxErrorsCountThreshold",
+   "Import.RemainingEstimator"
+  ],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 16,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [
+   "en"
+  ],
+  "entities": [
+   "ImportProfileEntity",
+   "ImportRunHistoryEntity"
+  ],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "a7b4069",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "a7b4069 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Provides flexible functionality for writing your own Importers",
+  "keyFeatures": [],
+  "docs": [],
+  "references": [
+   {
+    "label": "Download Latest Release",
+    "href": "https://github.com/VirtoCommerce/vc-module-import/releases/"
+   }
+  ],
+  "sections": [
+   "Key Features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "overview only"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-Import",
+  "links": [],
+  "checkedOnline": false
+ }
+}

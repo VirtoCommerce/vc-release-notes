@@ -1,0 +1,142 @@
+{
+ "id": "VirtoCommerce.AzureAD",
+ "repo": "vc-module-azure-ad",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-azure-ad",
+ "name": "Azure Active Directory Single Sign-On",
+ "tagline": "Azure AD SSO integrates with Azure AD to provide secure authentication and authorization for cloud and on-premises applications.",
+ "latestVersion": "3.1003.0",
+ "active": true,
+ "groups": [
+  "commerce"
+ ],
+ "accent": "#5FD080",
+ "icon": "assets/module-icons/VirtoCommerce.AzureAD.svg",
+ "facts": {
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1039.0",
+  "assembly": "VirtoCommerce.AzureAD.Web.dll",
+  "authors": [
+   "Konstantin Savosteev"
+  ],
+  "tags": "extension module",
+  "dependsOn": [],
+  "optionalDependencies": [],
+  "projects": [
+   "VirtoCommerce.AzureAD.Core",
+   "VirtoCommerce.AzureAD.Data",
+   "VirtoCommerce.AzureAD.Web"
+  ],
+  "databaseProviders": [],
+  "restControllers": [],
+  "permissions": [],
+  "settings": [],
+  "domainEventsPublished": [],
+  "declaredEvents": [],
+  "eventHandlers": [],
+  "handledEvents": [],
+  "subscribesDynamically": false,
+  "graphqlBuilders": [],
+  "indexDocumentBuilders": [],
+  "migrationCount": 0,
+  "hasAdminUi": false,
+  "adminUiFiles": 0,
+  "localizations": [],
+  "entities": [],
+  "git": {
+   "ref": "origin/dev",
+   "sha": "dae7ae1",
+   "lastCommitDate": "2026-07-15",
+   "lastCommit": "dae7ae1 2026-07-15 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
+  }
+ },
+ "readme": {
+  "overview": "Azure Active Directory (AD) Single Sign-On (SSO) is a module that provides users with a simplified sign-in experience. It allows users to access multiple applications with a single set of credentials, eliminating the need to remember different usernames and passwords for each application.",
+  "keyFeatures": [
+   "The Azure AD module can be integrated with both the Virto Commerce Platform and the Frontend Application:",
+   "Azure AD supports single-tenant and multi-tenant configurations."
+  ],
+  "docs": [
+   {
+    "label": "Azure AD module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/azure-ad/overview/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.AzureAD"
+   },
+   {
+    "label": "Add Azure AD as SSO provider to Platform",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Security/extensions/adding-azure-as-sso-provider"
+   },
+   {
+    "label": "Add Azure AD as SSO provider to Frontend",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/authentication/adding-sso-provider"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-azure-ad"
+   }
+  ],
+  "references": [
+   {
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-azure-ad/releases/latest"
+   }
+  ],
+  "sections": [
+   "Key features",
+   "Documentation",
+   "References",
+   "License"
+  ],
+  "quality": "full"
+ },
+ "notes": {
+  "forAnalyst": null,
+  "forArchitect": null,
+  "forDeveloper": null,
+  "owns": [],
+  "reachForItWhen": [],
+  "doNotReachForItWhen": []
+ },
+ "extractedAt": "2026-08-14",
+ "extractedBy": "tools/module-profile.js",
+ "documentation": {
+  "repository": "https://github.com/VirtoCommerce/vc-module-azure-ad",
+  "links": [
+   {
+    "label": "Azure AD module user documentation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/azure-ad/overview/",
+    "source": "readme"
+   },
+   {
+    "label": "Add Azure AD as SSO provider to Platform",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Security/extensions/adding-azure-as-sso-provider",
+    "source": "readme"
+   },
+   {
+    "label": "Add Azure AD as SSO provider to Frontend",
+    "href": "https://docs.virtocommerce.org/storefront/developer-guide/authentication/adding-sso-provider",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": false
+ }
+}
