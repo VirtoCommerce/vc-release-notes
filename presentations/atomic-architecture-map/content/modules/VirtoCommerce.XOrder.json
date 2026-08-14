@@ -183,12 +183,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Order history and order detail for a signed-in shopper, plus the mutations that let them act on an order.",
+  "forArchitect": "Nine schema builders over Orders. Six required dependencies and a hard line at the cart boundary: it needs XCart's chain, which is why an order Cell and a purchase Cell are usually the same host.",
+  "forDeveloper": "Authorisation is the interesting part — an order query must be scoped to the caller, so extend the authorization requirements rather than the query when adding a field a customer should not see.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

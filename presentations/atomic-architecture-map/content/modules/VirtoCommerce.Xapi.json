@@ -202,12 +202,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "The front door for every storefront and AI client: one GraphQL endpoint where a caller asks for exactly the fields it needs.",
+  "forArchitect": "The core of the experience-API tier — 15 schema builders of its own, and the machinery every other X module plugs into. No database. It declares an incompatibility with the deprecated VirtoCommerce.ExperienceApi, so the two cannot be installed together, and nine settings gate introspection, the playground, complexity limits and WebSocket keep-alive.",
+  "forDeveloper": "Query and mutation types resolve through `AbstractTypeFactory`, so a solution extends a shipped query instead of forking it. Builders are singletons — resolve the mediator per request through `context.GetMediator()`, never in a constructor (the old ctor is `[Obsolete]`, diagnostic VC0015).",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

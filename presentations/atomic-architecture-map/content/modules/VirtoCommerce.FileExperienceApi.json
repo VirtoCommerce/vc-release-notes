@@ -164,12 +164,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Uploading and fetching files from a storefront — order attachments, quote documents, customer uploads.",
+  "forArchitect": "One schema builder over Assets, with permissions of its own: it exists so a storefront can handle files without exposing the back-office asset API. Two dependencies, no storage.",
+  "forDeveloper": "Uploads are scoped and permissioned here; the bytes still land in whichever blob provider is installed. Validate size and type at this edge rather than downstream.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

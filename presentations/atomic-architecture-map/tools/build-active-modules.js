@@ -89,8 +89,11 @@ const modules = registry
     const deps = newest.Dependencies || [];
     return {
       id: entry.Id,
-      /* Tile id, kept in the molecule namespace so existing deep links keep working. */
-      moleculeId: 'mod-' + short(entry.Id).replace(/([a-z0-9])([A-Z])/g, '$1-$2').replace(/Module$/, '').replace(/-+$/, '').toLowerCase(),
+      /* The module id IS the tile id, so a deep link reads #/molecule/VirtoCommerce.Core — the identity
+         a developer already has from module.manifest, the registry and every dependency list. The old
+         derived slug is kept so links written against it still resolve. */
+      moleculeId: entry.Id,
+      slug: 'mod-' + short(entry.Id).replace(/([a-z0-9])([A-Z])/g, '$1-$2').replace(/Module$/, '').replace(/-+$/, '').toLowerCase(),
       name: displayName(entry),
       registryTitle: entry.Title || null,
       description: entry.Description || null,

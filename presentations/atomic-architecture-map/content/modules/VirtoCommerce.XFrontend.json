@@ -115,12 +115,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "The settings and metadata a Virto storefront needs to configure itself — theme, locale, feature flags — served through the same endpoint as its data.",
+  "forArchitect": "One schema builder and seven settings: it exists so the frontend has a single place to ask \"how am I configured?\" instead of reading store, content and platform settings separately. One optional dependency keeps it installable on a thin host.",
+  "forDeveloper": "Treat it as the contract between vc-frontend and the platform: add a field here when the frontend needs to know something, rather than teaching the frontend three APIs.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

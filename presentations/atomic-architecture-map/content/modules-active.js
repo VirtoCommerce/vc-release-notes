@@ -7,7 +7,8 @@
 window.VC_ACTIVE_MODULES = [
  {
   "id": "VirtoCommerce.AI",
-  "moleculeId": "mod-ai",
+  "moleculeId": "VirtoCommerce.AI",
+  "slug": "mod-ai",
   "name": "AI",
   "registryTitle": "VirtoCommerce AI",
   "description": "AI manifest aggregation module for VirtoCommerce Platform. Collects and exposes AI tool and agent definitions from all installed modules.",
@@ -24,7 +25,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.AlgoliaSearch",
-  "moleculeId": "mod-algolia-search",
+  "moleculeId": "VirtoCommerce.AlgoliaSearch",
+  "slug": "mod-algolia-search",
   "name": "Algolia Search",
   "registryTitle": "Algolia Search",
   "description": "Indexed search functionality with Algolia Search Engine",
@@ -43,7 +45,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Assets",
-  "moleculeId": "mod-assets",
+  "moleculeId": "VirtoCommerce.Assets",
+  "slug": "mod-assets",
   "name": "Assets Management",
   "registryTitle": "Assets Management",
   "description": "Common abstractions for asset search, retrieval, and manipulation, making it easy for developers to work with assets regardless of their underlying storage location.",
@@ -62,7 +65,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.AuditLog",
-  "moleculeId": "mod-audit-log",
+  "moleculeId": "VirtoCommerce.AuditLog",
+  "slug": "mod-audit-log",
   "name": "Audit Log",
   "registryTitle": "Audit Log",
   "description": "Provides extended audit features",
@@ -81,7 +85,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.AuthorizeNetPayment",
-  "moleculeId": "mod-authorize-net-payment",
+  "moleculeId": "VirtoCommerce.AuthorizeNetPayment",
+  "slug": "mod-authorize-net-payment",
   "name": "Authorize.Net Payment Method",
   "registryTitle": "Authorize.Net Payment Method",
   "description": "Provides the integration with Authorize.Net payment provider",
@@ -103,7 +108,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.AvalaraTax",
-  "moleculeId": "mod-avalara-tax",
+  "moleculeId": "VirtoCommerce.AvalaraTax",
+  "slug": "mod-avalara-tax",
   "name": "Avalara Tax Provider",
   "registryTitle": "Avalara Tax Provider",
   "description": "Provides real time integration with Avalara Tax https://www.avalara.com/",
@@ -127,7 +133,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.AzureAD",
-  "moleculeId": "mod-azure-ad",
+  "moleculeId": "VirtoCommerce.AzureAD",
+  "slug": "mod-azure-ad",
   "name": "Azure Active Directory Single Sign-On",
   "registryTitle": "Azure Active Directory Single Sign-On",
   "description": "Azure AD SSO integrates with Azure AD to provide secure authentication and authorization for cloud and on-premises applications.",
@@ -146,7 +153,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.AzureAppConfiguration",
-  "moleculeId": "mod-azure-app-configuration",
+  "moleculeId": "VirtoCommerce.AzureAppConfiguration",
+  "slug": "mod-azure-app-configuration",
   "name": "Azure App Configuration",
   "registryTitle": "Azure App Configuration",
   "description": "Allows using Azure App Configuration to externalize storage and management of your app settings for Virto Commerce",
@@ -163,7 +171,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.ApplicationInsights",
-  "moleculeId": "mod-application-insights",
+  "moleculeId": "VirtoCommerce.ApplicationInsights",
+  "slug": "mod-application-insights",
   "name": "Azure Application Insights",
   "registryTitle": "Azure Application Insights",
   "description": "Enables developers and administrators to collect, monitor, and analyze application performance, usage, and diagnostic data",
@@ -182,7 +191,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.AzureBlobAssets",
-  "moleculeId": "mod-azure-blob-assets",
+  "moleculeId": "VirtoCommerce.AzureBlobAssets",
+  "slug": "mod-azure-blob-assets",
   "name": "Azure Blob Storage Assets Provider",
   "registryTitle": "Azure Blob Storage Assets Provider",
   "description": "Provide integration with Azure Blob Storage for Assets Management",
@@ -203,7 +213,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.AzureSearch",
-  "moleculeId": "mod-azure-search",
+  "moleculeId": "VirtoCommerce.AzureSearch",
+  "slug": "mod-azure-search",
   "name": "Azure Search",
   "registryTitle": "Azure Search",
   "description": "Search functionality with Elastic Azure Search service",
@@ -224,7 +235,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.BackInStock",
-  "moleculeId": "mod-back-in-stock",
+  "moleculeId": "VirtoCommerce.BackInStock",
+  "slug": "mod-back-in-stock",
   "name": "Back In Stock",
   "registryTitle": "Back In Stock",
   "description": "Provides customer ability to subscribe for notification, when product is back in stock.",
@@ -249,7 +261,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.BackgroundJobs",
-  "moleculeId": "mod-background-jobs",
+  "moleculeId": "VirtoCommerce.BackgroundJobs",
+  "slug": "mod-background-jobs",
   "name": "Background Jobs",
   "registryTitle": "Background Jobs",
   "description": "Handles asynchronous processing, allowing applications to offload time-consuming, repetitive, or resource-heavy tasks outside the platform",
@@ -268,7 +281,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.BackupRestore",
-  "moleculeId": "mod-backup-restore",
+  "moleculeId": "VirtoCommerce.BackupRestore",
+  "slug": "mod-backup-restore",
   "name": "Backup & Restore",
   "registryTitle": "Backup & Restore",
   "description": "The Backup & Restore module provides full platform backup and restore (export/import) for Virto Commerce. It packages platform data (users, roles, permissions, settings and dynamic properties) together with the data of all installed modules into a single, optionally AES-256 encrypted ZIP archive, and restores it on demand with real-time progress tracking and sample data installation.",
@@ -289,7 +303,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.BuilderIO",
-  "moleculeId": "mod-builder-io",
+  "moleculeId": "VirtoCommerce.BuilderIO",
+  "slug": "mod-builder-io",
   "name": "Builder.io",
   "registryTitle": "Builder.io",
   "description": "Integration module for Builder.io",
@@ -311,7 +326,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.BulkActionsModule",
-  "moleculeId": "mod-bulk-actions",
+  "moleculeId": "VirtoCommerce.BulkActionsModule",
+  "slug": "mod-bulk-actions",
   "name": "Bulk Actions",
   "registryTitle": "Bulk Actions",
   "description": "Bulk actions module",
@@ -332,7 +348,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.XPickup",
-  "moleculeId": "mod-xpickup",
+  "moleculeId": "VirtoCommerce.XPickup",
+  "slug": "mod-xpickup",
   "name": "Buy online pickup in store (BOPIS) Experience API",
   "registryTitle": "Buy online pickup in store (BOPIS) Experience API",
   "description": "Handles buy online pickup in store (BOPIS) operations",
@@ -355,7 +372,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.XCart",
-  "moleculeId": "mod-xcart",
+  "moleculeId": "VirtoCommerce.XCart",
+  "slug": "mod-xcart",
   "name": "Cart Experience API",
   "registryTitle": "Cart Experience API",
   "description": "Dedicated to cart-related functionalities, ensuring efficient handling of shopping cart and checkout operations.",
@@ -385,7 +403,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Catalog",
-  "moleculeId": "mod-catalog",
+  "moleculeId": "VirtoCommerce.Catalog",
+  "slug": "mod-catalog",
   "name": "Catalog",
   "registryTitle": "Catalog",
   "description": "Easily manage your products, categories, variations, and properties",
@@ -413,7 +432,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.XCatalog",
-  "moleculeId": "mod-xcatalog",
+  "moleculeId": "VirtoCommerce.XCatalog",
+  "slug": "mod-xcatalog",
   "name": "Catalog Experience API",
   "registryTitle": "Catalog Experience API",
   "description": "Manages all catalog-related operations, from product listings to detailed item information.",
@@ -439,7 +459,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.CatalogPersonalization",
-  "moleculeId": "mod-catalog-personalization",
+  "moleculeId": "VirtoCommerce.CatalogPersonalization",
+  "slug": "mod-catalog-personalization",
   "name": "Catalog Personalization",
   "registryTitle": "Catalog Personalization",
   "description": "Help businesses personalize their categories and products to specific User Groups",
@@ -462,7 +483,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.CatalogPublishing",
-  "moleculeId": "mod-catalog-publishing",
+  "moleculeId": "VirtoCommerce.CatalogPublishing",
+  "slug": "mod-catalog-publishing",
   "name": "Catalog Publishing",
   "registryTitle": "Catalog Publishing",
   "description": "Allow you to see progress on filling in information about products and marks missed info.",
@@ -484,7 +506,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.XCMS",
-  "moleculeId": "mod-xcms",
+  "moleculeId": "VirtoCommerce.XCMS",
+  "slug": "mod-xcms",
   "name": "CMS Experience API",
   "registryTitle": "CMS Experience API",
   "description": "Integrates with content management systems, facilitating seamless content delivery and management.",
@@ -510,7 +533,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.PageBuilderModule",
-  "moleculeId": "mod-page-builder",
+  "moleculeId": "VirtoCommerce.PageBuilderModule",
+  "slug": "mod-page-builder",
   "name": "CMS Page Builder",
   "registryTitle": "CMS Page Builder",
   "description": "Compose pages in visual page builder.",
@@ -538,7 +562,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Core",
-  "moleculeId": "mod-core",
+  "moleculeId": "VirtoCommerce.Core",
+  "slug": "mod-core",
   "name": "Commerce core",
   "registryTitle": "Commerce core module",
   "description": "Common e-commerce domain functionality",
@@ -557,7 +582,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.ProfileExperienceApiModule",
-  "moleculeId": "mod-profile-experience-api",
+  "moleculeId": "VirtoCommerce.ProfileExperienceApiModule",
+  "slug": "mod-profile-experience-api",
   "name": "Commerce Profile Experience API",
   "registryTitle": "Commerce Profile Experience API",
   "description": null,
@@ -585,7 +611,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Customer",
-  "moleculeId": "mod-customer",
+  "moleculeId": "VirtoCommerce.Customer",
+  "slug": "mod-customer",
   "name": "Companies and Contacts",
   "registryTitle": "Companies and Contacts",
   "description": "Managing customers contacts and organizations",
@@ -610,7 +637,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Content",
-  "moleculeId": "mod-content",
+  "moleculeId": "VirtoCommerce.Content",
+  "slug": "mod-content",
   "name": "Content",
   "registryTitle": "Content",
   "description": "Easily create, edit, and publish content such as pages, blog posts, and news articles.",
@@ -635,7 +663,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Contentful",
-  "moleculeId": "mod-contentful",
+  "moleculeId": "VirtoCommerce.Contentful",
+  "slug": "mod-contentful",
   "name": "Contentful",
   "registryTitle": "Contentful",
   "description": "Integration for contentful.com.",
@@ -660,7 +689,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Contracts",
-  "moleculeId": "mod-contracts",
+  "moleculeId": "VirtoCommerce.Contracts",
+  "slug": "mod-contracts",
   "name": "Contracts",
   "registryTitle": "Contracts",
   "description": "Contract based price personalization for customers and organizations",
@@ -682,7 +712,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Xapi",
-  "moleculeId": "mod-xapi",
+  "moleculeId": "VirtoCommerce.Xapi",
+  "slug": "mod-xapi",
   "name": "Core Experience API",
   "registryTitle": "Core Experience API",
   "description": "Module represents a core functionality for GraphQL and other XAPI modules",
@@ -711,7 +742,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.CatalogCsvImportModule",
-  "moleculeId": "mod-catalog-csv-import",
+  "moleculeId": "VirtoCommerce.CatalogCsvImportModule",
+  "slug": "mod-catalog-csv-import",
   "name": "CSV Catalog Export and Import",
   "registryTitle": "CSV Catalog Export and Import Module",
   "description": "Enables seamless export and import of catalog data in CSV format, simplifying data management and integration with external systems.",
@@ -737,7 +769,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.CustomerExportImport",
-  "moleculeId": "mod-customer-export-import",
+  "moleculeId": "VirtoCommerce.CustomerExportImport",
+  "slug": "mod-customer-export-import",
   "name": "Customer Export Import",
   "registryTitle": "Customer Export Import",
   "description": "This module adds customers export and import functionality. Use it for customer management.",
@@ -758,7 +791,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.CyberSourcePayment",
-  "moleculeId": "mod-cyber-source-payment",
+  "moleculeId": "VirtoCommerce.CyberSourcePayment",
+  "slug": "mod-cyber-source-payment",
   "name": "CyberSource Payment",
   "registryTitle": "CyberSource Payment Module",
   "description": "Integrates CyberSource's payment solutions into your Virto Commerce platform",
@@ -780,7 +814,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Datatrans",
-  "moleculeId": "mod-datatrans",
+  "moleculeId": "VirtoCommerce.Datatrans",
+  "slug": "mod-datatrans",
   "name": "Datatrans Payment",
   "registryTitle": "Datatrans Payment",
   "description": "Datatrans payment module provides integration with Datatrans payment gateway for Virto Commerce.",
@@ -801,7 +836,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.DynamicAssociationsModule",
-  "moleculeId": "mod-dynamic-associations",
+  "moleculeId": "VirtoCommerce.DynamicAssociationsModule",
+  "slug": "mod-dynamic-associations",
   "name": "Dynamic Associations",
   "registryTitle": "Dynamic Associations",
   "description": "Dynamic rule based product associations module",
@@ -823,7 +859,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.ElasticAppSearch",
-  "moleculeId": "mod-elastic-app-search",
+  "moleculeId": "VirtoCommerce.ElasticAppSearch",
+  "slug": "mod-elastic-app-search",
   "name": "Elastic App Search",
   "registryTitle": "Elastic App Search",
   "description": "Search functionality with Elastic App Search service",
@@ -842,7 +879,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.ElasticSearch8",
-  "moleculeId": "mod-elastic-search8",
+  "moleculeId": "VirtoCommerce.ElasticSearch8",
+  "slug": "mod-elastic-search8",
   "name": "Elastic Search 8",
   "registryTitle": "Elastic Search 8",
   "description": "Indexed search functionality with Elastic 8 engines",
@@ -863,7 +901,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.ElasticSearch9",
-  "moleculeId": "mod-elastic-search9",
+  "moleculeId": "VirtoCommerce.ElasticSearch9",
+  "slug": "mod-elastic-search9",
   "name": "Elastic Search 9",
   "registryTitle": "Elastic Search 9",
   "description": "Indexed search functionality with Elastic 9 engines.",
@@ -882,7 +921,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.EnvironmentsCompare",
-  "moleculeId": "mod-environments-compare",
+  "moleculeId": "VirtoCommerce.EnvironmentsCompare",
+  "slug": "mod-environments-compare",
   "name": "Environments Compare",
   "registryTitle": "Environments Compare",
   "description": "Enables backend administrators to compare platform settings, environment configurations, and system information across multiple Virto Commerce environments",
@@ -901,7 +941,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.EventBus",
-  "moleculeId": "mod-event-bus",
+  "moleculeId": "VirtoCommerce.EventBus",
+  "slug": "mod-event-bus",
   "name": "Event Bus",
   "registryTitle": "Event Bus module",
   "description": "The module enables you to be notified of new messages or changes via a Message Queue of your choice",
@@ -920,7 +961,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.FileExperienceApi",
-  "moleculeId": "mod-file-experience-api",
+  "moleculeId": "VirtoCommerce.FileExperienceApi",
+  "slug": "mod-file-experience-api",
   "name": "File Experience API",
   "registryTitle": "File Experience API",
   "description": "Manages all file-related operations, from file upload to file content download for different client applications.",
@@ -942,7 +984,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.FileSystemAssets",
-  "moleculeId": "mod-file-system-assets",
+  "moleculeId": "VirtoCommerce.FileSystemAssets",
+  "slug": "mod-file-system-assets",
   "name": "File Systems Assets Provider",
   "registryTitle": "File Systems Assets Provider",
   "description": "Provide integration with File Systems for Assets Management",
@@ -963,7 +1006,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.XFrontend",
-  "moleculeId": "mod-xfrontend",
+  "moleculeId": "VirtoCommerce.XFrontend",
+  "slug": "mod-xfrontend",
   "name": "Frontend Experience API",
   "registryTitle": "Frontend Experience API",
   "description": "Built on top of the Virto Commerce XAPI platform, the Frontend Experience API exposes optimized queries specifically for rendering and user experience scenarios.",
@@ -987,7 +1031,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.ModuleFederation",
-  "moleculeId": "mod-module-federation",
+  "moleculeId": "VirtoCommerce.ModuleFederation",
+  "slug": "mod-module-federation",
   "name": "Frontend Modules Registry",
   "registryTitle": "Frontend Modules Registry",
   "description": "Provides API endpoint for dynamic frontend module discovery via Module Federation. Replaces static apps.json.",
@@ -1004,7 +1049,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.GDPR",
-  "moleculeId": "mod-gdpr",
+  "moleculeId": "VirtoCommerce.GDPR",
+  "slug": "mod-gdpr",
   "name": "GDPR",
   "registryTitle": "GDPR",
   "description": "Apply General Data Protection Regulation policies with review or remove their personal details, by anonymizing them, from your online store.",
@@ -1024,7 +1070,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Export",
-  "moleculeId": "mod-export",
+  "moleculeId": "VirtoCommerce.Export",
+  "slug": "mod-export",
   "name": "Generic Export",
   "registryTitle": "Generic Export",
   "description": "Generic export functionality",
@@ -1045,7 +1092,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.GoogleEcommerceAnalytics",
-  "moleculeId": "mod-google-ecommerce-analytics",
+  "moleculeId": "VirtoCommerce.GoogleEcommerceAnalytics",
+  "slug": "mod-google-ecommerce-analytics",
   "name": "Google Analytics 4",
   "registryTitle": "Google Analytics 4",
   "description": "Allows you active Measurement Id for a Store and measure traffic and ecommerce events to collect information about the shopping behavior of your users.",
@@ -1064,7 +1112,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.GoogleSSO",
-  "moleculeId": "mod-google-sso",
+  "moleculeId": "VirtoCommerce.GoogleSSO",
+  "slug": "mod-google-sso",
   "name": "Google Single Sign-On",
   "registryTitle": "Google Single Sign-On",
   "description": "Enables Google external login setup (Single Sign-On) for Virto Commerce Platform and Frontend",
@@ -1081,7 +1130,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Hotjar",
-  "moleculeId": "mod-hotjar",
+  "moleculeId": "VirtoCommerce.Hotjar",
+  "slug": "mod-hotjar",
   "name": "Hotjar",
   "registryTitle": "Hotjar",
   "description": "Allows to assign Hotjar Site Id for a Store and get insights about the shopping behaviour of your users with Heatmaps, Recordings, Feedback and etc.",
@@ -1100,7 +1150,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.ImageTools",
-  "moleculeId": "mod-image-tools",
+  "moleculeId": "VirtoCommerce.ImageTools",
+  "slug": "mod-image-tools",
   "name": "Image Tools",
   "registryTitle": "Image Tools",
   "description": "Image tools helps to automate thumbnail generation procedures with resizing and cropping",
@@ -1121,7 +1172,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Import",
-  "moleculeId": "mod-import",
+  "moleculeId": "VirtoCommerce.Import",
+  "slug": "mod-import",
   "name": "Import",
   "registryTitle": "Import module",
   "description": "Provides flexible functionality for writing Importers",
@@ -1143,7 +1195,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Inventory",
-  "moleculeId": "mod-inventory",
+  "moleculeId": "VirtoCommerce.Inventory",
+  "slug": "mod-inventory",
   "name": "Inventory",
   "registryTitle": "Inventory",
   "description": "Simplify inventory management functionality",
@@ -1167,7 +1220,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Loyalty",
-  "moleculeId": "mod-loyalty",
+  "moleculeId": "VirtoCommerce.Loyalty",
+  "slug": "mod-loyalty",
   "name": "Loyalty",
   "registryTitle": "Loyalty",
   "description": "Customer loyalty program is offering your customers some reward for shopping at your store.",
@@ -1190,7 +1244,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.LuceneSearch",
-  "moleculeId": "mod-lucene-search",
+  "moleculeId": "VirtoCommerce.LuceneSearch",
+  "slug": "mod-lucene-search",
   "name": "Lucene Search",
   "registryTitle": "Lucene Search",
   "description": "Indexed search functionality with Lucene engine",
@@ -1211,7 +1266,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Marketing",
-  "moleculeId": "mod-marketing",
+  "moleculeId": "VirtoCommerce.Marketing",
+  "slug": "mod-marketing",
   "name": "Marketing",
   "registryTitle": "Marketing",
   "description": "Marketing system with dynamic contents and promotions management",
@@ -1240,7 +1296,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.MarketingExperienceApi",
-  "moleculeId": "mod-marketing-experience-api",
+  "moleculeId": "VirtoCommerce.MarketingExperienceApi",
+  "slug": "mod-marketing-experience-api",
   "name": "Marketing Experience API",
   "registryTitle": "Marketing Experience API",
   "description": "Experience Api extension for Marketing",
@@ -1261,7 +1318,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.NativePaymentMethods",
-  "moleculeId": "mod-native-payment-methods",
+  "moleculeId": "VirtoCommerce.NativePaymentMethods",
+  "slug": "mod-native-payment-methods",
   "name": "Native Payment Methods",
   "registryTitle": "Native Payment Methods",
   "description": "Non-integrative payment methods support",
@@ -1280,7 +1338,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.News",
-  "moleculeId": "mod-news",
+  "moleculeId": "VirtoCommerce.News",
+  "slug": "mod-news",
   "name": "News",
   "registryTitle": "News",
   "description": "Module allowing content managers to publish news articles",
@@ -1299,7 +1358,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Notifications",
-  "moleculeId": "mod-notifications",
+  "moleculeId": "VirtoCommerce.Notifications",
+  "slug": "mod-notifications",
   "name": "Notifications",
   "registryTitle": "Notifications",
   "description": "Provides a comprehensive infrastructure for managing and delivering notifications within the Virto Commerce platform.",
@@ -1320,7 +1380,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.OpenSearch",
-  "moleculeId": "mod-open-search",
+  "moleculeId": "VirtoCommerce.OpenSearch",
+  "slug": "mod-open-search",
   "name": "Open Search",
   "registryTitle": "Open Search",
   "description": "Indexed search functionality with OpenSearch",
@@ -1339,7 +1400,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.OpenTelemetry",
-  "moleculeId": "mod-open-telemetry",
+  "moleculeId": "VirtoCommerce.OpenTelemetry",
+  "slug": "mod-open-telemetry",
   "name": "Open Telemetry",
   "registryTitle": "Open Telemetry",
   "description": "Provides Open Telemetry metrics, tracing, and logging via OTLP exporter",
@@ -1356,7 +1418,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.OpenIdConnectModule",
-  "moleculeId": "mod-open-id-connect",
+  "moleculeId": "VirtoCommerce.OpenIdConnectModule",
+  "slug": "mod-open-id-connect",
   "name": "OpenID Connect",
   "registryTitle": "OpenID Connect",
   "description": "OpenID Connect is an identity module on top of the OAuth 2.0",
@@ -1373,7 +1436,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.XOrder",
-  "moleculeId": "mod-xorder",
+  "moleculeId": "VirtoCommerce.XOrder",
+  "slug": "mod-xorder",
   "name": "Order Experience API",
   "registryTitle": "Order Experience API",
   "description": "Focuses on order processing, providing robust support for order lifecycle management.",
@@ -1399,7 +1463,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Orders",
-  "moleculeId": "mod-orders",
+  "moleculeId": "VirtoCommerce.Orders",
+  "slug": "mod-orders",
   "name": "Order Management",
   "registryTitle": "Order Management",
   "description": "Document based flexible order management system.",
@@ -1430,7 +1495,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.OrderManagement",
-  "moleculeId": "mod-order-management",
+  "moleculeId": "VirtoCommerce.OrderManagement",
+  "slug": "mod-order-management",
   "name": "Order Management (Business Rules)",
   "registryTitle": "Order Management (Business Rules)",
   "description": "Consolidates order management business rules.",
@@ -1453,7 +1519,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Payment",
-  "moleculeId": "mod-payment",
+  "moleculeId": "VirtoCommerce.Payment",
+  "slug": "mod-payment",
   "name": "Payment",
   "registryTitle": "Payment module",
   "description": "Provides management and integration of various payment methods.",
@@ -1475,7 +1542,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.PriceExportImport",
-  "moleculeId": "mod-price-export-import",
+  "moleculeId": "VirtoCommerce.PriceExportImport",
+  "slug": "mod-price-export-import",
   "name": "Price Export Import",
   "registryTitle": "Price Export Import",
   "description": "This module adds prices export and import functionality using it for price management.",
@@ -1497,7 +1565,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Pricing",
-  "moleculeId": "mod-pricing",
+  "moleculeId": "VirtoCommerce.Pricing",
+  "slug": "mod-pricing",
   "name": "Pricing",
   "registryTitle": "Pricing",
   "description": "Robust pricing management functionality based on price list and dynamic evaluation",
@@ -1523,7 +1592,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.XRecommend",
-  "moleculeId": "mod-xrecommend",
+  "moleculeId": "VirtoCommerce.XRecommend",
+  "slug": "mod-xrecommend",
   "name": "Product Recommendations",
   "registryTitle": "Product Recommendations",
   "description": "Recommendations encourage users to expand their search and browse more broadly. Users can jump to similar or complementary items if they don’t find a precise match.",
@@ -1543,7 +1613,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.ProductSnapshot",
-  "moleculeId": "mod-product-snapshot",
+  "moleculeId": "VirtoCommerce.ProductSnapshot",
+  "slug": "mod-product-snapshot",
   "name": "Product Snapshot",
   "registryTitle": "Product Snapshot",
   "description": "The Product Snapshot module captures and stores product information at the moment an order is created.\n  This ensures that customers and store operators always have access to the exact product details (prices, properties, images, descriptions)\n  that were valid at the time of purchase, even if the product catalog is later modified or products are deleted.",
@@ -1564,7 +1635,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.PushMessages",
-  "moleculeId": "mod-push-messages",
+  "moleculeId": "VirtoCommerce.PushMessages",
+  "slug": "mod-push-messages",
   "name": "Push Messages",
   "registryTitle": "Push Messages",
   "description": "Enables back-end admins to send custom notifications to selected organizations within the Virto Commerce platform.",
@@ -1584,7 +1656,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Quote",
-  "moleculeId": "mod-quote",
+  "moleculeId": "VirtoCommerce.Quote",
+  "slug": "mod-quote",
   "name": "Quotes",
   "registryTitle": "Quotes",
   "description": "Quoter enables business users to execute quote requests online. Once initiated, an online conversation takes place with internal users who interact with the business user's request. The internal user can set prices for quantity breaks or discounts. The quote is then made available to the business user online. The business user can accept the quote and place the order, continue the conversation, or reject the quote.",
@@ -1615,7 +1688,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.CustomerReviews",
-  "moleculeId": "mod-customer-reviews",
+  "moleculeId": "VirtoCommerce.CustomerReviews",
+  "slug": "mod-customer-reviews",
   "name": "Rating and Reviews",
   "registryTitle": "Rating and Reviews",
   "description": "Enables customers to share their feedback on products and vendors after making a purchase, helping others make informed decisions.",
@@ -1643,7 +1717,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Return",
-  "moleculeId": "mod-return",
+  "moleculeId": "VirtoCommerce.Return",
+  "slug": "mod-return",
   "name": "Returns",
   "registryTitle": "Returns",
   "description": "Return management module",
@@ -1663,7 +1738,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.SalesRep",
-  "moleculeId": "mod-sales-rep",
+  "moleculeId": "VirtoCommerce.SalesRep",
+  "slug": "mod-sales-rep",
   "name": "Sales Rep",
   "registryTitle": "Virto Commerce Sales Rep",
   "description": "Virto Commerce Sales Rep",
@@ -1691,7 +1767,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Sanity",
-  "moleculeId": "mod-sanity",
+  "moleculeId": "VirtoCommerce.Sanity",
+  "slug": "mod-sanity",
   "name": "Sanity",
   "registryTitle": "Sanity",
   "description": "Integration module for Sanity CMS",
@@ -1712,7 +1789,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Search",
-  "moleculeId": "mod-search",
+  "moleculeId": "VirtoCommerce.Search",
+  "slug": "mod-search",
   "name": "Search Core",
   "registryTitle": "Search Core",
   "description": "Defines Core Abstractions for indexed search functionality above different search providers, like: Elasticsearch, Azure Search, etc.",
@@ -1731,7 +1809,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Seo",
-  "moleculeId": "mod-seo",
+  "moleculeId": "VirtoCommerce.Seo",
+  "slug": "mod-seo",
   "name": "SEO",
   "registryTitle": "SEO",
   "description": "Infrastructure for managing SEO metadata across the platform",
@@ -1750,7 +1829,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.SeqLog",
-  "moleculeId": "mod-seq-log",
+  "moleculeId": "VirtoCommerce.SeqLog",
+  "slug": "mod-seq-log",
   "name": "Seq log sink",
   "registryTitle": "SeqLog",
   "description": "Writes logs events to Serilog Seq",
@@ -1767,7 +1847,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Shipping",
-  "moleculeId": "mod-shipping",
+  "moleculeId": "VirtoCommerce.Shipping",
+  "slug": "mod-shipping",
   "name": "Shipping",
   "registryTitle": "Shipping",
   "description": "Add shipping methods management",
@@ -1790,7 +1871,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.ShipStation",
-  "moleculeId": "mod-ship-station",
+  "moleculeId": "VirtoCommerce.ShipStation",
+  "slug": "mod-ship-station",
   "name": "ShipStation Integration",
   "registryTitle": "ShipStation Integration",
   "description": "Enables synchronizing customer orders with ShipStation",
@@ -1809,7 +1891,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Cart",
-  "moleculeId": "mod-cart",
+  "moleculeId": "VirtoCommerce.Cart",
+  "slug": "mod-cart",
   "name": "Shopping Cart",
   "registryTitle": "Shopping Cart",
   "description": "Shopping cart / checkout functionality",
@@ -1838,7 +1921,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Sitemaps",
-  "moleculeId": "mod-sitemaps",
+  "moleculeId": "VirtoCommerce.Sitemaps",
+  "slug": "mod-sitemaps",
   "name": "Sitemap Generator",
   "registryTitle": "Sitemap Generator",
   "description": "Simplifies the process of generating sitemaps for online stores",
@@ -1864,7 +1948,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Skyflow",
-  "moleculeId": "mod-skyflow",
+  "moleculeId": "VirtoCommerce.Skyflow",
+  "slug": "mod-skyflow",
   "name": "Skyflow",
   "registryTitle": "Skyflow",
   "description": "Skyflow Integration as payment provider enables a unified user experience for Credit Card transactions across diverse payment providers.",
@@ -1885,7 +1970,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.SqlQueries",
-  "moleculeId": "mod-sql-queries",
+  "moleculeId": "VirtoCommerce.SqlQueries",
+  "slug": "mod-sql-queries",
   "name": "Sql Queries",
   "registryTitle": "Sql Queries",
   "description": "Adds SQL query/report capabilities to the VirtoCommerce platform, enabling advanced data access directly through SQL.",
@@ -1902,7 +1988,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.StateMachine",
-  "moleculeId": "mod-state-machine",
+  "moleculeId": "VirtoCommerce.StateMachine",
+  "slug": "mod-state-machine",
   "name": "State Machine",
   "registryTitle": "StateMachine module",
   "description": "Provides core functionality for entity's State Machine",
@@ -1921,7 +2008,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Store",
-  "moleculeId": "mod-store",
+  "moleculeId": "VirtoCommerce.Store",
+  "slug": "mod-store",
   "name": "Store",
   "registryTitle": "Store",
   "description": "Multi store management with individual store settings",
@@ -1944,7 +2032,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Subscription",
-  "moleculeId": "mod-subscription",
+  "moleculeId": "VirtoCommerce.Subscription",
+  "slug": "mod-subscription",
   "name": "Subscriptions",
   "registryTitle": "Subscriptions",
   "description": "Represent recurrent subscriptions functionality",
@@ -1969,7 +2058,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.SystemOperations",
-  "moleculeId": "mod-system-operations",
+  "moleculeId": "VirtoCommerce.SystemOperations",
+  "slug": "mod-system-operations",
   "name": "System Operations",
   "registryTitle": "System Operations",
   "description": "Developer tools page with centralized platform maintenance operations.",
@@ -1986,7 +2076,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.TaskManagement",
-  "moleculeId": "mod-task-management",
+  "moleculeId": "VirtoCommerce.TaskManagement",
+  "slug": "mod-task-management",
   "name": "Task Management",
   "registryTitle": "Task Management",
   "description": "Headquarters personas can use task management to create task lists for retail stores, and to track status by store or worker.",
@@ -2007,7 +2098,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Tax",
-  "moleculeId": "mod-tax",
+  "moleculeId": "VirtoCommerce.Tax",
+  "slug": "mod-tax",
   "name": "Tax Core",
   "registryTitle": "Tax Core",
   "description": "Defines Core Abstractions for taxes evaluation by using different tax providers and FixedRateTaxProvider.",
@@ -2029,7 +2121,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.UCP",
-  "moleculeId": "mod-ucp",
+  "moleculeId": "VirtoCommerce.UCP",
+  "slug": "mod-ucp",
   "name": "Universal Commerce Protocol",
   "registryTitle": "Universal Commerce Protocol",
   "description": "Universal Commerce Protocol facade for Virto Commerce capabilities.",
@@ -2053,7 +2146,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.Pages",
-  "moleculeId": "mod-pages",
+  "moleculeId": "VirtoCommerce.Pages",
+  "slug": "mod-pages",
   "name": "Virto Pages",
   "registryTitle": "Virto Pages",
   "description": "Provides a robust and flexible solution for managing content in digital commerce scenarios. Decoupling the CMS post-publishing ensures long-term efficiency, adaptability, and performance.",
@@ -2075,7 +2169,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.WebHooks",
-  "moleculeId": "mod-web-hooks",
+  "moleculeId": "VirtoCommerce.WebHooks",
+  "slug": "mod-web-hooks",
   "name": "Webhooks",
   "registryTitle": "Webhooks",
   "description": "Manage user defined webhooks",
@@ -2092,7 +2187,8 @@ window.VC_ACTIVE_MODULES = [
  },
  {
   "id": "VirtoCommerce.WhiteLabeling",
-  "moleculeId": "mod-white-labeling",
+  "moleculeId": "VirtoCommerce.WhiteLabeling",
+  "slug": "mod-white-labeling",
   "name": "White Labeling",
   "registryTitle": "White Labeling",
   "description": "Provides White labeling functionality for organizations",

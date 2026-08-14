@@ -176,12 +176,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Pages, blocks and menus delivered to a storefront through the same GraphQL endpoint as products.",
+  "forArchitect": "Three schema builders over Content, with two optional dependencies — so a content Cell can run without the commerce modules at all. That makes it the cheapest capability to split out, and the usual first split in practice.",
+  "forDeveloper": "Content comes from blob storage through Content's services; a query here composes rather than reads files. Cache with care: editorial changes are expected to appear without a deployment.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

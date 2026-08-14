@@ -220,12 +220,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "A sales representative working on behalf of a customer: seeing their accounts, building baskets for them and placing orders in their name.",
+  "forArchitect": "The largest schema surface in the catalogue — **19 builders** — and ten required dependencies, because impersonating a customer touches profile, cart, order and pricing at once. One index builder of its own. No database: it composes.",
+  "forDeveloper": "Acting-on-behalf-of is an authorisation problem before it is an API problem: the rep's own permissions and the customer's scope both apply, and getting that wrong exposes one customer's data to another.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

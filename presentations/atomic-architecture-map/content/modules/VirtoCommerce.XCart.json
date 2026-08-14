@@ -205,12 +205,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Everything a shopper does with a basket, as one API: add, change, apply a coupon, quote shipping, and start checkout.",
+  "forArchitect": "Nine schema builders over Cart, and ten required dependencies — the widest of the X modules, because a cart mutation touches pricing, tax, shipping, payment and inventory in one call. That coupling is why a purchase Cell usually carries catalog with it.",
+  "forDeveloper": "Cart mutations are the hot write path: they run cart validation and totals recalculation, so keep custom logic in cart event handlers rather than in a resolver, and expect events to fire from every mutation.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

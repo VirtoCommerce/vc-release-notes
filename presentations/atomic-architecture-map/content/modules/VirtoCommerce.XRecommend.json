@@ -175,12 +175,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Product recommendations for a storefront — \"customers also bought\", trending, and similar lists.",
+  "forArchitect": "Four schema builders and, unusually for an X module, two entities and 15 migrations of its own: it stores the recommendation data it serves rather than deriving it live. Two dependencies only, so it attaches to a catalog Cell cheaply.",
+  "forDeveloper": "Four declared events make its data subscribable. Treat recommendation quality as data, not code — the module gives you the surface and the storage, not the algorithm.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

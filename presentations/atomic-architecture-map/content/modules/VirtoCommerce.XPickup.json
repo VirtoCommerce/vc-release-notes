@@ -135,12 +135,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Buy online, pick up in store: which locations can fulfil a basket, and where a shopper chooses to collect.",
+  "forArchitect": "Two schema builders over Shipping's pickup locations and Inventory's availability — a small module whose value is joining two others at the API edge. Five settings, and it needs both of those modules present.",
+  "forDeveloper": "Availability per location is an index read; a location's data is Shipping's. Nothing here is authoritative, so fix a wrong pickup option in the owning module.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

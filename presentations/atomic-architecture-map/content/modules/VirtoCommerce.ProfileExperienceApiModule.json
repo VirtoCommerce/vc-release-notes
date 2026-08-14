@@ -166,12 +166,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Account and company self-service for a signed-in shopper: their profile, their addresses, their colleagues and who may do what.",
+  "forArchitect": "Four schema builders over Customer, with four optional dependencies — the most optional of any X module, which is what lets a customer-and-company Cell stand on its own. B2B organisation structure is the part that makes it more than a profile editor.",
+  "forDeveloper": "Authorisation is the work: every query is scoped to the caller and their organisation role. Extend the requirements, not the resolver, when adding a field only an administrator should see.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

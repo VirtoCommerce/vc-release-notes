@@ -143,12 +143,20 @@
   "quality": "full"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Campaign content and promotions as a storefront sees them — what to show, where, and to whom.",
+  "forArchitect": "Two schema builders over Marketing. Three required dependencies and no storage: personalised content is evaluated per request, which is why a marketing Cell is usually folded into the catalog host rather than deployed alone.",
+  "forDeveloper": "Dynamic content placement is evaluated live; cache the query result, not the decision, or a campaign change will not appear.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",

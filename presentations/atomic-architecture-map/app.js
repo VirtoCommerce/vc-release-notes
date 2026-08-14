@@ -24,7 +24,7 @@
      downstream — rendering, filtering, deep links, the drawer — sees a single kind of thing. */
   var MODULE_TILES = (window.VC_ACTIVE_MODULES || []).map(function (m) {
     return {
-      id: m.moleculeId, kind: 'module', name: m.name, moduleId: m.id, version: m.version,
+      id: m.moleculeId, slug: m.slug, kind: 'module', name: m.name, moduleId: m.id, version: m.version,
       sub: m.description || '', group: (m.groups && m.groups[0]) || 'extension',
       dependsOn: m.dependsOn, optional: m.optional, incompatibleWith: m.incompatibleWith,
       platformVersion: m.platformVersion, tags: m.tags, registryTitle: m.registryTitle,
@@ -1662,10 +1662,25 @@
 
     var kind = match[1];
     var id = decodeURIComponent(match[2]);
+    /* Module tiles are addressed by module id — #/molecule/VirtoCommerce.Core. A link written against
+       the old derived slug (#/molecule/mod-core) still resolves through the second lookup, so nothing
+       already pasted goes dead; the address bar then shows the id form. */
     var item = kind === 'atom' ? byId(ATOMS, id)
       : kind === 'layer' ? byId(LAYERS, id)
       : kind === 'cell' ? byId(CELLS, id)
-      : byId(MOLECULES, id);
+      : byId(MOLECULES, id) || (function () {
+          for (var i = 0; i < MOLECULES.length; i++) {
+            if (MOLECULES[i].slug === id) return MOLECULES[i];
+          }
+          return null;
+        })();
+
+    /* A legacy slug resolves, then rewrites itself to the canonical id so the address bar and any
+       copied link agree from that point on. */
+    if (item && kind === 'molecule' && item.id !== id) {
+      location.replace('#/molecule/' + encodeURIComponent(item.id));
+      return;
+    }
 
     if (!item) {
       document.getElementById('drawer-eyebrow').textContent = 'Not found';

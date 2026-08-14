@@ -179,12 +179,20 @@
   "quality": "overview only"
  },
  "notes": {
-  "forAnalyst": null,
-  "forArchitect": null,
-  "forDeveloper": null,
+  "forAnalyst": "Product, category and search queries for a storefront — the read side of the catalogue, shaped for a page rather than for a table.",
+  "forArchitect": "Eight schema builders over Catalog, and the module that makes a catalog-read Cell possible: it declares three optional dependencies, so it can be deployed without pricing, inventory or marketing and simply returns less. Reads go to the index, not the catalog tables.",
+  "forDeveloper": "Extend `ProductType` and the search query through the factory to add solution fields. Watch the N+1: resolve child collections through DataLoader, and remember a reindex is what makes new fields visible.",
   "owns": [],
-  "reachForItWhen": [],
-  "doNotReachForItWhen": []
+  "reachForItWhen": [
+   "A storefront, app or agent needs data shaped for one round trip",
+   "You are extending an existing query or mutation rather than adding an endpoint",
+   "The host should serve only this capability's API surface"
+  ],
+  "doNotReachForItWhen": [
+   "Back-office CRUD — that is the module's REST controller",
+   "You need a table: these modules own no schema, they compose other modules' services",
+   "Bulk writes: a mutation per row is slower than the owning module's import path"
+  ]
  },
  "extractedAt": "2026-08-14",
  "extractedBy": "tools/module-profile.js",
