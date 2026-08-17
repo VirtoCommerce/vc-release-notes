@@ -7,6 +7,14 @@
       "runtimeArgs": ["-m", "http.server", "8901", "--directory", "."],
       "port": 8901,
       "url": "http://localhost:8901"
+    },
+    {
+      "name": "atomic-map-live",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8902", "--directory",
+                      "C:/Projects/git/VirtoCommerce/vc-release-notes/presentations/atomic-architecture-map"],
+      "port": 8902,
+      "url": "http://localhost:8902"
     }
   ]
 }

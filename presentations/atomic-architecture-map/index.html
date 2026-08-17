@@ -58,6 +58,9 @@
     <h2 class="section-heading" id="cells-heading">Cells<span class="hint">Packaged Business Capabilities — what <code>vc-build install</code> actually installs, from vc-modules/pbc</span></h2>
     <div id="cells" class="cell-shelf"></div>
   </section>
+  <!-- Provenance and sources, filled by app.js: what on this page is generated, what is authored,
+       and where to check either. The counts the old footer printed live in the section headings. -->
+  <footer class="pagefoot" id="pagefoot"></footer>
 </main>
 
 
@@ -157,6 +160,9 @@
 <script src="content/atoms.js"></script>
 <script src="content/cells.js"></script>
 <script src="content/molecules.js"></script>
+<!-- Authored: business features and the modules each one needs. Checked against the active catalogue
+     by check-content.js, so it cannot name a module that no longer ships. -->
+<script src="content/features.js"></script>
 <!-- Generated pair: accents come from the module icons, profiles from the module checkouts.
      See tools/sync-module-icons.js and tools/module-profile.js — neither file is hand-edited. -->
 <script src="content/module-accents.js"></script>

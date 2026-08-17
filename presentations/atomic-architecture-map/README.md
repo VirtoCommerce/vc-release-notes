@@ -43,7 +43,17 @@ content/
   atoms.js            families + every atom — this is where you will spend your time
   molecules.js        the modules (from the registry) + reserved composite topics
   cells.js            reserved business capabilities, from the module registry
+  features.js         business features → the modules each one needs (authored, checked)
+  modules-active.js   the active module catalogue          — generated
+  module-accents.js   accents + families from the icon set — generated
+  modules.generated.js  one profile per module             — generated
+  cells.generated.js    the six published PBCs             — generated
 ```
+
+The page ends with a **footer** built by `renderFooter()`: which tiers are generated and from where,
+which are authored and what checks them, and links to the registry, the PBC packages and the docs. It
+prints with the poster, because a reference pinned to a wall should say where its facts came from. The
+counts the old footer printed live in the section headings instead.
 
 **Renderer and content are decoupled on purpose.** Adding or correcting an atom means editing one
 object in `content/atoms.js`. You should never need to touch `app.js`.
@@ -424,6 +434,71 @@ cell can be deployed on its own.
 - The shelf holds one row at 1440px. Adding a seventh cell costs a second row, and the poster has
   no spare height — see **One screen** below.
 
+### Business features
+
+`content/features.js` is the layer between what a business asks for and the modules that ship it —
+89 features in 11 categories, each naming the modules it needs. It has no tile of its own: it is a
+lens applied to the tiers that do. On a PBC page it produces **Business features included**; in the
+builder it is the primary way to compose a package; and `#/feature/<id>` is a page per feature
+showing what it needs and which packages ship it.
+
+### The custom PBC builder
+
+`#/cell/custom` is the seventh cell tile: a package you compose. Two ways in, both editing one set of
+module ids and both redrawing from it — **Pick business features**, and the **+ tile in each band of
+the schema**, which opens a dialog listing only what that band can hold and the package does not
+already have, filtered as you type. (A third control — 96 module checkboxes at the foot of the page —
+was removed: it was a whole extra list to keep in sync, and a reason to scroll past the thing being
+edited.)
+
+- **The schema is the editor.** Each chip carries an × ; a module that is only present because
+  something else requires it shows 🔒 instead, with the holder named in the tooltip, because removing
+  it would undo itself on the next redraw.
+- **Un-ticking a feature takes the chain with it.** The modules satisfying it go, and so does every
+  ticked module that would drag one of them back in as a dependency — removing "Product catalogue"
+  from a package that quotes removes Quotes too. The tooltip on a ✓ names what would go before the
+  click. Removing only the feature's own modules was worse: whenever one was another module's
+  dependency, the tick stayed lit and the click looked broken.
+- **Dependencies are closed automatically** and marked (dashed chips, `Pulled in` in the summary). A
+  package missing a required module does not install, so the builder never offers one.
+- **The manifest arrives folded** — the header lines plus `"Modules": [ … 24 modules … ]`, and the
+  folded line is itself clickable. The copy button always copies the whole thing; a folded snippet
+  that copied an ellipsis would be a trap.
+
+A published package page shows only what that package *has*. It used to list what it lacked too, and
+that was advice the reader could not act on there — a published manifest is fixed, so wanting more
+means building a package. The page ends that block with one button that hands the package to the
+builder, where every feature carries a live status and ticking one ticks its modules.
+
+```js
+{ id: 'card-payments', name: 'Card payments via gateway', category: 'Cart & checkout',
+  blurb: 'Take card payments without card data entering your systems.',
+  modules: ['VirtoCommerce.Payment',
+            ['VirtoCommerce.AuthorizeNetPayment', 'VirtoCommerce.CyberSourcePayment', 'VirtoCommerce.Datatrans']] }
+```
+
+- **`modules` is a list of slots.** A string is required outright; a nested array is an **any-of**
+  slot that one of its members satisfies. Search engines, gateways, identity providers, CMS
+  connectors and telemetry backends are interchangeable by design — without any-of, a package
+  shipping Algolia would read as having no search. The first member of a slot is what an
+  "add this" badge suggests, so put the commonly deployed one first.
+- **Authored, but checked.** The judgement about what a feature requires cannot be parsed out of
+  source. The module *ids* can be, and are: `check-content.js` fails on an id that is not in the
+  active catalogue, on a duplicate inside one feature, and on a blurb that names a module — the
+  blurb is read by a business audience.
+- **Coverage is enforced, not aspirational.** Every active module must appear in at least one
+  feature. A newly published module therefore fails the checker until someone says what a business
+  gets from it, which is the whole point of the tier.
+- **Inclusion is all-or-nothing, with an explicit partial state.** `✓` every slot satisfied,
+  `◐` some, `+` none. A package page shows every feature it does not have along with its price, so
+  the reader sorts by budget instead of trusting a cut-off.
+- Features no published PBC satisfies are printed by the checker as information, not a failure —
+  that list is exactly what the custom builder is for (10 of them today).
+
+> The **Molecules** and **Cells** sections above still describe the earlier authored tiers. Both were
+> rebuilt as projections — molecules are the 96 active registry modules, cells are the six published
+> PBCs from `vc-modules/pbc/*.json` — and that prose has not caught up yet.
+
 ### One screen
 
 The poster is **exactly 900px at 1440×900** and that is not negotiable: it is the whole promise of
@@ -486,8 +561,13 @@ panel already fills the viewport.
 
 ## Keyboard
 
-`/` search · `←→↑↓` move between tiles · `Enter` open · `Esc` close or clear · `f` full-screen
+`/` search · `←→↑↓` move between tiles · `Enter` open · `Esc` back, then close · `f` full-screen
 panel · `?` legend
+
+Following a link **inside** the panel is a step deeper, not a new place: opening a module from a
+package page and then closing lands back on that package, and the close button says so — it shows
+`↩ Back to Digital Catalog` while there is somewhere to return to, and `✕` when there is not. A tile
+on the poster starts a fresh trail; clicking the scrim drops the whole trail at once.
 
 `Ctrl`/`Cmd`+`P` prints the poster in landscape with the legend and without the drawer — the paper
 version to pin above a desk. It fits **one page on A3**; on A4 it runs to two, breaking between

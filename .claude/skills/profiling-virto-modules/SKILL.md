@@ -105,3 +105,13 @@ node tools/module-profile.js --all --ref origin/dev --online
 One pass over every active module with a checkout: fetch, export the ref, extract, preserve notes. Facts only — notes are then authored a module at a time, highest-traffic first (Catalog, Cart, Orders, Customer, Pricing, Inventory, Store, Search, Content). The checker prints `module profiles: N (M with authored notes)` so the written share is always visible.
 
 A module without a local checkout cannot be profiled; its tile still opens a registry-only page. Clone it, or leave it — do not hand-write facts for it.
+
+## A new module also needs a business feature
+
+`content/features.js` maps business features to the modules that ship them, and `check-content.js` **fails** if an active module belongs to no feature. So when `build-active-modules.js` picks up a newly published module, one more step is required: either add it to an existing feature or write a new one.
+
+- Interchangeable providers go into the **any-of slot** of the feature they implement — a new search engine joins `search-engine-choice`, a new gateway joins `card-payments` — not into a feature of their own. A feature per adapter would claim the product gained a capability when it gained a second way to do the same thing.
+- A genuinely new capability gets its own record: business name, category, one-sentence blurb with no module id in it, and the minimum module set.
+- The module's own `notes.forAnalyst` line is usually the raw material for the blurb — but the blurb is about the outcome, not the module.
+
+The checker prints `features → N in C categories, covering M/96 active modules` so coverage is visible on every run.

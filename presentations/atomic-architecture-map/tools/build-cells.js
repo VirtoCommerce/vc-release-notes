@@ -67,6 +67,96 @@ const PBCS = [
       'customer lifecycle, improving business relationships and customer retention.' }
 ];
 
+/* What the business gets, per package — the sentence a stakeholder repeats, not the module that
+   implements it. `requires` names the modules the claim depends on, so the generator can drop a
+   bullet from a package that does not contain them instead of over-promising. */
+const BUSINESS_OUTCOMES = {
+  'virto-start': [
+    { text: 'A shopper can find products, fill a basket and pay \u2014 the whole path works on day one.',
+      requires: ['VirtoCommerce.Catalog', 'VirtoCommerce.Cart', 'VirtoCommerce.Orders'] },
+    { text: 'Search, filter and browse a large catalogue at storefront speed.',
+      requires: ['VirtoCommerce.Search'] },
+    { text: 'Sell to companies as well as people: organisations, their buyers, and who may order.',
+      requires: ['VirtoCommerce.Customer'] },
+    { text: 'Run campaigns and discounts without a release \u2014 promotions and coupons are configuration.',
+      requires: ['VirtoCommerce.Marketing'] },
+    { text: 'Publish editorial pages and menus beside the products, edited by marketing.',
+      requires: ['VirtoCommerce.Content'] },
+    { text: 'Tell other systems what happened \u2014 orders and changes stream out over webhooks or a queue.',
+      requires: ['VirtoCommerce.WebHooks', 'VirtoCommerce.EventBus'] }
+  ],
+  'idp': [
+    { text: 'One account signs a person into every application you run, not just the store.',
+      requires: ['VirtoCommerce.AzureAD'] },
+    { text: 'Stop holding passwords: identity is proven by a directory the organisation already trusts.',
+      requires: ['VirtoCommerce.AzureAD'] },
+    { text: 'Grant and revoke access centrally, so leavers lose it everywhere at once.',
+      requires: ['VirtoCommerce.Core'] },
+    { text: 'Every sign-in and permission change is recorded, which is what an auditor asks for.',
+      requires: ['VirtoCommerce.ApplicationInsights'] },
+    { text: 'Other systems hear about account changes immediately rather than on a nightly sync.',
+      requires: ['VirtoCommerce.EventBus'] },
+    { text: 'Deploy it on its own: eight modules, no catalogue, no checkout, nothing to keep in step.',
+      requires: ['VirtoCommerce.Core'] }
+  ],
+  'digital-catalog': [
+    { text: 'Expose your catalogue to any channel \u2014 web, app, marketplace, AI agent \u2014 through one API.',
+      requires: ['VirtoCommerce.XCatalog'] },
+    { text: 'Shoppers find things: faceted search, filters and browse over a large assortment.',
+      requires: ['VirtoCommerce.Search', 'VirtoCommerce.Catalog'] },
+    { text: 'Show different audiences different catalogues, without a second catalogue to maintain.',
+      requires: ['VirtoCommerce.CatalogPersonalization'] },
+    { text: 'Know what is not ready to publish before a customer finds the gap.',
+      requires: ['VirtoCommerce.CatalogPublishing'] },
+    { text: 'No checkout, so no payment scope, no tax rules, and a much smaller thing to run.',
+      requires: ['VirtoCommerce.Catalog'] },
+    { text: 'Editorial content and images sit beside the product data and are searchable with it.',
+      requires: ['VirtoCommerce.Content'] }
+  ],
+  'purchase': [
+    { text: 'Add cart and checkout to a catalogue you already have \u2014 yours, or several vendors\u2019 APIs.',
+      requires: ['VirtoCommerce.XCart', 'VirtoCommerce.Cart'] },
+    { text: 'Take money: payment methods per store, with the gateway of the business\u2019s choosing.',
+      requires: ['VirtoCommerce.Payment'] },
+    { text: 'Quote shipping and tax before the shopper commits, not after.',
+      requires: ['VirtoCommerce.Shipping', 'VirtoCommerce.Tax'] },
+    { text: 'Turn a basket into an order document that finance and fulfilment can both work from.',
+      requires: ['VirtoCommerce.Orders'] },
+    { text: 'Apply promotions and coupons at checkout, changed by marketing rather than by a release.',
+      requires: ['VirtoCommerce.Marketing'] },
+    { text: 'Sell to organisations: a buyer orders on behalf of their company, within their limits.',
+      requires: ['VirtoCommerce.Customer'] }
+  ],
+  'pim': [
+    { text: 'Category managers author product data in one place instead of in spreadsheets.',
+      requires: ['VirtoCommerce.Catalog'] },
+    { text: 'Load and extract product data in bulk, with the mapping saved for next time.',
+      requires: ['VirtoCommerce.CatalogCsvImportModule'] },
+    { text: 'See which products are incomplete, per channel, before they go live.',
+      requires: ['VirtoCommerce.CatalogPublishing'] },
+    { text: 'Relate products to each other by rule \u2014 accessories and alternatives without hand-linking.',
+      requires: ['VirtoCommerce.DynamicAssociationsModule'] },
+    { text: 'Publish the same product data to every channel that asks for it, over one API.',
+      requires: ['VirtoCommerce.Search'] },
+    { text: 'No storefront and no checkout: an authoring tool, deployable next to whatever sells.',
+      requires: ['VirtoCommerce.Catalog'] }
+  ],
+  'crm': [
+    { text: 'Hold the companies you sell to, their people, and the relationships between them.',
+      requires: ['VirtoCommerce.Customer'] },
+    { text: 'Model B2B structure: who belongs to which organisation, and what each of them may do.',
+      requires: ['VirtoCommerce.Customer'] },
+    { text: 'Let a customer administrator manage their own colleagues, within limits you set.',
+      requires: ['VirtoCommerce.ProfileExperienceApiModule'] },
+    { text: 'Migrate contacts in and pull lists out in bulk, as files.',
+      requires: ['VirtoCommerce.CustomerExportImport'] },
+    { text: 'Find a customer or company instantly, however many you hold.',
+      requires: ['VirtoCommerce.Search'] },
+    { text: 'Keep other systems in step \u2014 a customer change is an event, not a nightly export.',
+      requires: ['VirtoCommerce.EventBus'] }
+  ]
+};
+
 /* The tier-level framing, from the same readme. Every PBC page opens with it, because the question
    "what is a PBC?" comes before "what is in this one?". */
 const PBC_INTRO =
@@ -125,6 +215,20 @@ const cells = PBCS.map(pbc => {
   const layers = { xapi: [], services: [], platform: [], integration: [], outbound: [] };
   for (const id of known) layers[layerOf(id)].push(id);
 
+  /* A bullet survives only if the package actually contains a module it names. Over-promising on a
+     page a salesperson reads from is worse than saying less. */
+  const claims = BUSINESS_OUTCOMES[pbc.id] || [];
+  const outcomes = claims.filter(o => o.requires.some(id => known.indexOf(id) !== -1)).map(o => o.text);
+  const dropped = claims.filter(o => !o.requires.some(id => known.indexOf(id) !== -1))
+    .map(o => o.text.slice(0, 40) + '…');
+
+  /* The evidence half: the business-facing modules, in the reader's own order of interest. The API and
+     services layers first; where a package has neither (IdP), everything it does have. */
+  let evidence = layers.xapi.concat(layers.services);
+  if (!evidence.length) evidence = known.slice();
+
+  if (dropped.length) console.log('  ' + pbc.id + ': dropped ' + dropped.length + ' claim(s) the package cannot support: ' + dropped.join(' | '));
+
   return {
     id: pbc.id,
     name: pbc.name,
@@ -137,6 +241,8 @@ const cells = PBCS.map(pbc => {
     platformVersion: manifest.PlatformVersion || null,
     moduleCount: known.length,
     modules: known,
+    businessOutcomes: outcomes,
+    businessEvidence: evidence,
     /* Named in the package but not in the active registry — the package file is behind. */
     unlisted: unknown,
     layers: layers
@@ -165,6 +271,8 @@ if (CHECK) {
     console.log('  ' + c.name.padEnd(32) + String(c.moduleCount).padStart(3) + ' modules  ' +
       'xapi ' + l.xapi.length + ' · services ' + l.services.length + ' · platform ' + l.platform.length +
       ' · integrations ' + l.integration.length + ' · outbound ' + l.outbound.length +
+      '   outcomes ' + c.businessOutcomes.length + '/' + (BUSINESS_OUTCOMES[c.id] || []).length +
+      ' · evidence ' + c.businessEvidence.length +
       (c.unlisted.length ? '   NOT IN REGISTRY: ' + c.unlisted.join(', ') : ''));
   }
 }

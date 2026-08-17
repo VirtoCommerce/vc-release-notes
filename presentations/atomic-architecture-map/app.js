@@ -39,6 +39,63 @@
   var TOPIC_TILES = (window.VC_MAP_MOLECULES || []).filter(function (m) { return m.kind !== 'module'; });
   var MOLECULES = MODULE_TILES.concat(TOPIC_TILES);
 
+  /* ---------- business features ----------
+     The layer between "what the business asked for" and "which modules ship it". Authored in
+     content/features.js; everything below is derived from it, so a package's capability list is a
+     computation over its module set rather than a second thing to keep true. */
+  var FEATURES = window.VC_MAP_FEATURES || [];
+  var FEATURE_CATEGORIES = (function () {
+    var seen = {}, order = [];
+    FEATURES.forEach(function (f) { if (!seen[f.category]) { seen[f.category] = 1; order.push(f.category); } });
+    return order;
+  })();
+
+  /* Each entry in `modules` is one slot. A plain string is a slot of one; an array is a slot any of
+     whose members satisfies it — interchangeable search engines, gateways, identity providers. */
+  function featureSlots(f) {
+    return (f.modules || []).map(function (slot) { return Array.isArray(slot) ? slot : [slot]; });
+  }
+
+  function featureModules(f) {
+    return featureSlots(f).reduce(function (all, slot) { return all.concat(slot); }, []);
+  }
+
+  /* Against a set of installed modules: is the feature there, half there, or absent — and if it is
+     not there, what is the shortest way to get it. `missing` holds one preferred module per empty
+     slot (the first alternative, which is the commonly deployed one). */
+  function featureState(f, has) {
+    var slots = featureSlots(f), met = 0, missing = [];
+    slots.forEach(function (slot) {
+      var found = null;
+      for (var i = 0; i < slot.length; i++) if (has[slot[i]]) { found = slot[i]; break; }
+      if (found) met++; else missing.push(slot[0]);
+    });
+    return {
+      met: met, total: slots.length, missing: missing,
+      status: met === slots.length ? 'in' : (met ? 'part' : 'out')
+    };
+  }
+
+  function moduleSet(ids) {
+    var has = {};
+    (ids || []).forEach(function (id) { has[id] = true; });
+    return has;
+  }
+
+  /* Group a feature list into its categories, in the order content/features.js declares them, so the
+     reading order is authored rather than alphabetical by accident. */
+  function groupFeatures(list) {
+    var by = {};
+    list.forEach(function (f) { (by[f.category] = by[f.category] || []).push(f); });
+    return FEATURE_CATEGORIES.filter(function (c) { return by[c]; })
+      .map(function (c) { return { category: c, features: by[c] }; });
+  }
+
+  function featureById(id) {
+    for (var i = 0; i < FEATURES.length; i++) if (FEATURES[i].id === id) return FEATURES[i];
+    return null;
+  }
+
   var ADOPTION = {
     'platform':  { glyph: '●', label: 'Platform',  cls: 'adopt-platform',  blurb: 'Platform-native. This is the Virto way.' },
     'module':    { glyph: '◐', label: 'Module',    cls: 'adopt-module',    blurb: 'Ships outside platform core — install the module or tool.' },
@@ -267,6 +324,41 @@
     }
   }
 
+  /* The footer answers the question a reference map has to answer about itself: which of this is read
+     from somewhere, which of it is somebody's judgement, and where to check. Counts stay in the
+     section headings where they belong — a footer repeating them told the reader nothing. */
+  function renderFooter() {
+    var host = document.getElementById('pagefoot');
+    if (!host) return;
+    host.textContent = '';
+
+    var written = MODULE_PROFILES.filter(function (p) { return p.notes; }).length;
+
+    append(host, [
+      el('div', { class: 'pagefoot-main' },
+        el('p', { class: 'pagefoot-line' }, rich(
+          '**Generated, not maintained by hand:** the ' + MODULE_TILES.length + ' module tiles come from ' +
+          '`vc-modules/modules_v3.json`, the ' + CELLS.length + ' PBCs from the package manifests in ' +
+          '`vc-modules/pbc`, and each module page from a checkout read at `origin/dev`.')),
+        el('p', { class: 'pagefoot-line' }, rich(
+          '**Authored, and checked:** ' + ATOMS.length + ' atom pages, ' + written + ' module notes and ' +
+          FEATURES.length + ' business features are written by hand — `check-content.js` fails on a source ' +
+          'path, doc page, module id or version that no longer exists, so what is stale is loud rather than quiet.'))),
+
+      el('nav', { class: 'pagefoot-links', 'aria-label': 'Sources' }, [
+        { label: 'Module registry', href: 'https://github.com/VirtoCommerce/vc-modules/blob/master/modules_v3.json' },
+        { label: 'PBC packages', href: 'https://github.com/VirtoCommerce/vc-modules/tree/master/pbc' },
+        { label: 'Platform docs', href: 'https://docs.virtocommerce.org/platform/developer-guide/' },
+        { label: 'vc-platform', href: 'https://github.com/VirtoCommerce/vc-platform' }
+      ].map(function (link) {
+        return el('a', { class: 'pagefoot-link', href: link.href, target: '_blank',
+                         rel: 'noopener noreferrer', text: link.label });
+      }).concat([
+        el('span', { class: 'pagefoot-hint', text: 'Ctrl / Cmd + P prints it — one A3 page' })
+      ]))
+    ]);
+  }
+
   function renderFilters() {
     var host = document.getElementById('filters');
     host.textContent = '';
@@ -487,18 +579,132 @@
     return node;
   }
 
-  function pbcSchema(layers) {
-    return el('div', { class: 'pbc-schema' }, PBC_LAYERS.map(function (layer) {
+  /* `edit` turns the schema from a picture into a control: each band grows a + tile that opens a
+     module picker for that band, and each chip an × that takes it back out. Published packages pass
+     nothing and get the picture, because their composition is not the reader's to change. */
+  function pbcSchema(layers, edit) {
+    return el('div', { class: 'pbc-schema' + (edit ? ' is-editable' : '') }, PBC_LAYERS.map(function (layer) {
       var ids = (layers && layers[layer.key]) || [];
+      var chips = ids.map(function (id) {
+            if (!edit) return moduleChip(id);
+            /* The × is its own button beside the chip, not inside it: a button within a button is
+               invalid markup and the inner one stops being reachable. A module that is only present
+               because something else requires it cannot be removed on its own — the × says so and is
+               disabled, rather than looking live and silently undoing itself on the next redraw. */
+            var held = edit.heldBy(id);
+            return el('div', { class: 'pbc-chip' + (held ? ' is-dep' : '') }, moduleChip(id),
+              el('button', { type: 'button', class: 'pbc-chip-x' + (held ? ' is-locked' : ''),
+                disabled: held ? 'disabled' : null,
+                title: held
+                  ? moduleTag(id) + ' is required by ' + held + ' — remove that to drop it'
+                  : 'Remove ' + moduleTag(id) + ' from the package',
+                'aria-label': held ? moduleTag(id) + ' is required by ' + held : 'Remove ' + moduleTag(id),
+                onclick: function () { edit.onRemove(id); } }, held ? '🔒' : '✕'));
+          });
+
+      /* The + tile is the last cell of the band's grid, so it sits where the next module will appear.
+         Only in edit mode: a published package must stay a picture. */
+      if (edit) {
+        /* `is-module` on purpose: it buys the module tile's two-column grid, so the + sits in the icon
+           slot and the label beside it exactly where a module's name would be. Without it the tile
+           falls to the topic rule — a single-column pill — and the glyph stacks above the label. */
+        chips.push(el('button', { type: 'button', class: 'molecule is-module has-icon pbc-add',
+          title: 'Add a module to the ' + layer.name + ' layer',
+          onclick: function (event) { edit.onAdd(layer, event.currentTarget); } },
+          el('span', { class: 'mod-icon pbc-add-glyph', 'aria-hidden': 'true', text: '+' }),
+          el('span', { class: 'mol-name', text: 'Add module' })));
+      }
+
+      var body = chips.length
+        ? el('div', { class: 'pbc-layer-body' }, chips)
+        : el('div', { class: 'pbc-layer-empty', text: 'nothing in this layer — the capability does not reach it' });
+
       return el('div', { class: 'pbc-layer is-' + layer.key + (ids.length ? '' : ' is-empty') },
         el('div', { class: 'pbc-layer-head' },
           el('span', { class: 'pbc-layer-name', text: layer.name }),
           el('span', { class: 'pbc-layer-hint', text: layer.hint }),
           el('span', { class: 'pbc-layer-n', text: String(ids.length) })),
-        ids.length
-          ? el('div', { class: 'pbc-layer-body' }, ids.map(moduleChip))
-          : el('div', { class: 'pbc-layer-empty', text: 'nothing in this layer — the capability does not reach it' }));
+        body);
     }));
+  }
+
+  /* ---------- the module picker ----------
+     A small dialog over the panel, so adding a module to a band does not mean scrolling to the
+     bottom of the page and hunting through 96 checkboxes. It lists only what that band can hold and
+     the package does not already have, filtered as you type. */
+  var pickerHost = null;
+
+  function closeModulePicker() {
+    if (!pickerHost) return;
+    var trigger = pickerHost.trigger;
+    document.body.removeChild(pickerHost.node);
+    pickerHost = null;
+    if (trigger && document.body.contains(trigger)) trigger.focus();
+  }
+
+  function openModulePicker(opts) {
+    closeModulePicker();
+
+    var list = el('div', { class: 'mod-picker-list' });
+    var count = el('span', { class: 'mod-picker-n' });
+    var search = el('input', { type: 'search', class: 'mod-picker-search',
+      placeholder: 'Filter by name…', 'aria-label': 'Filter modules by name' });
+
+    function draw() {
+      /* `has` is read on every draw, not captured once: the package changes under the dialog as the
+         reader adds modules, and a stale list would offer something twice. */
+      var has = typeof opts.has === 'function' ? opts.has() : (opts.has || {});
+      var q = search.value.trim().toLowerCase();
+      var members = MODULE_TILES.filter(function (m) {
+        return layerOfModule(m.moduleId) === opts.layer.key && !has[m.moduleId];
+      }).filter(function (m) {
+        return !q || String(m.name).toLowerCase().indexOf(q) !== -1
+                  || m.moduleId.toLowerCase().indexOf(q) !== -1;
+      }).sort(function (a, b) { return String(a.name).localeCompare(String(b.name)); });
+
+      count.textContent = members.length + ' available';
+      list.textContent = '';
+      if (!members.length) {
+        append(list, el('p', { class: 'empty', text: q
+          ? 'No module in this layer matches “' + search.value.trim() + '”.'
+          : 'Every module in this layer is already in the package.' }));
+        return;
+      }
+      append(list, members.map(function (m) {
+        var id = m.moduleId, accent = MODULE_ACCENTS[id];
+        return el('button', {
+          type: 'button', class: 'mod-picker-row', style: accent ? '--accent:' + accent : null,
+          title: id + (m.sub ? ' — ' + m.sub : ''),
+          onclick: function () { opts.onPick(id); draw(); }   /* stays open: adding two is common */
+        },
+          accent ? moduleIcon(id, 20) : null,
+          el('span', { class: 'mod-picker-name', text: m.name }),
+          el('span', { class: 'mod-picker-sub', text: m.sub || '' }),
+          el('span', { class: 'mod-picker-plus', text: '+', 'aria-hidden': 'true' }));
+      }));
+    }
+
+    search.addEventListener('input', draw);
+
+    var panel = el('div', { class: 'mod-picker', role: 'dialog', 'aria-modal': 'true',
+                            'aria-label': 'Add a module to the ' + opts.layer.name + ' layer' },
+      el('div', { class: 'mod-picker-head' },
+        el('span', { class: 'mod-picker-title', text: 'Add to ' + opts.layer.name }),
+        count,
+        el('button', { type: 'button', class: 'icon-btn', 'aria-label': 'Close',
+                       onclick: closeModulePicker }, '✕')),
+      el('p', { class: 'mod-picker-hint', text: opts.layer.hint +
+        ' — a module lands in this band by the same rule the published packages use, so the list is what can go here.' }),
+      search, list);
+
+    var backdrop = el('div', { class: 'mod-picker-backdrop', onclick: function (event) {
+      if (event.target === backdrop) closeModulePicker();
+    } }, panel);
+
+    pickerHost = { node: backdrop, trigger: opts.trigger, redraw: draw };
+    document.body.appendChild(backdrop);
+    draw();
+    search.focus();
   }
 
   // ---------------------------------------------------------------- molecules
@@ -816,7 +1022,9 @@
       el('div', { class: 'snippet-bar' },
         el('span', { class: 'snippet-lang', text: LANG_LABELS[snippet.lang] || snippet.lang || 'code' }),
         copy),
-      el('pre', {}, el('code', {}, highlight(snippet.code, snippet.lang))));
+      /* `display` lets a caller show a shortened form — a folded manifest, say — while `code` stays
+         what the copy button puts on the clipboard. */
+      el('pre', {}, el('code', {}, highlight(snippet.display || snippet.code, snippet.lang))));
   }
 
   function copyText(text) {
@@ -1605,14 +1813,152 @@
     ]);
   }
 
+  /* ---------- feature rendering ----------
+     One row shape, used on package pages, in the builder and in the feature drawer itself: a status
+     glyph, the business name, the one-line promise, and — when the feature is not there — what would
+     have to be installed for it to be. */
+  var FEATURE_GLYPH = { in: '✓', part: '◐', out: '+' };
+
+  /* Two names for a module, and they are not interchangeable. The friendly one reads in a sentence;
+     the id form is what goes in a manifest — and it is short, which matters in a badge. */
+  function moduleTag(id) { return id.replace('VirtoCommerce.', ''); }
+
+  function moduleShort(id) {
+    var p = profileOf(id);
+    return (p && p.name) || id.replace('VirtoCommerce.', '');
+  }
+
+  function featureRow(f, has, showMissing, onPick, hint) {
+    var st = featureState(f, has);
+    var extra = hint ? hint(f, st) : null;
+    return el('button', {
+      type: 'button', class: 'feat-row is-' + st.status + (onPick ? ' is-pick' : ''),
+      title: (onPick ? (st.status === 'in' ? 'Remove ' : 'Add ') + f.name + ' — ' : f.name + ' — needs ') +
+        (extra || featureSlots(f).map(function (slot) {
+          return slot.map(moduleShort).join(' or ');
+        }).join(' + ')),
+      onclick: onPick ? function () { onPick(f, st); } : function () { openHash('feature', f.id, null); }
+    },
+      el('span', { class: 'feat-glyph', text: FEATURE_GLYPH[st.status], 'aria-hidden': 'true' }),
+      el('span', { class: 'feat-name', text: f.name }),
+      /* The badge precedes the blurb on purpose: the blurb takes a whole line, so anything after it
+         lands on a third one. Name then price then description also happens to be the reading order
+         a buyer wants. */
+      showMissing && st.missing.length
+        ? el('span', { class: 'feat-add', text: '+ ' + st.missing.map(moduleTag).join(' + ') })
+        : null,
+      el('span', { class: 'feat-blurb', text: f.blurb }));
+  }
+
+  /* Categories in the order content/features.js declares them, each with its own count, because a
+     flat list of eighty rows is a wall and the categories are how a stakeholder scans it. */
+  function featureGroups(features, has, showMissing, onPick, hint) {
+    return el('div', { class: 'feat-groups' }, groupFeatures(features).map(function (g) {
+      return el('div', { class: 'feat-group' },
+        el('div', { class: 'feat-group-head' },
+          el('span', { class: 'feat-group-name', text: g.category }),
+          el('span', { class: 'feat-group-n', text: String(g.features.length) })),
+        el('div', { class: 'feat-group-body' }, g.features.map(function (f) {
+          return featureRow(f, has, showMissing, onPick, hint);
+        })));
+    }));
+  }
+
+  function renderFeatureDrawer(f) {
+    var eyebrow = document.getElementById('drawer-eyebrow');
+    eyebrow.textContent = '';
+    append(eyebrow, [
+      el('span', { class: 'cell-split is-yes', text: 'Business feature' }),
+      el('span', { text: '· ' + f.category })
+    ]);
+    document.getElementById('drawer-title').textContent = f.name;
+
+    var body = document.getElementById('drawer-body');
+    clearDrawerBody(body);
+
+    append(body, el('p', { class: 'd-lead' }, rich(f.blurb)));
+
+    /* What it needs, slot by slot. An any-of slot is drawn as one row with alternatives, because the
+       distinction between "you need all of these" and "you need one of these" is the whole reason a
+       package with Algolia is not missing search. */
+    var slots = featureSlots(f);
+    var needs = el('div', { class: 'feat-needs' }, slots.map(function (slot) {
+      return el('div', { class: 'feat-need' + (slot.length > 1 ? ' is-any' : '') },
+        el('span', { class: 'feat-need-kind', text: slot.length > 1 ? 'any one of' : 'required' }),
+        el('span', { class: 'feat-need-mods' }, slot.map(moduleChip)));
+    }));
+
+    /* Where it ships. This is the question a salesperson actually has — and the answer is computed
+       from the package manifests, so it cannot flatter the product. */
+    var where = el('div', { class: 'feat-where' }, CELLS.map(function (c) {
+      /* Closed set, same as the package pages: a dependency the manifest leaves implicit still ships. */
+      var st = featureState(f, moduleSet(pbcDependencyClosure(c.modules || []).ids));
+      return el('button', {
+        type: 'button', class: 'feat-where-row is-' + st.status,
+        title: 'Open ' + c.name,
+        onclick: function () { openHash('cell', c.id, null); }
+      },
+        el('span', { class: 'feat-glyph', text: FEATURE_GLYPH[st.status], 'aria-hidden': 'true' }),
+        el('span', { class: 'feat-where-name', text: c.name }),
+        el('span', { class: 'feat-where-text',
+          text: st.status === 'in' ? 'included'
+            : st.status === 'part' ? st.met + ' of ' + st.total + ' slots — add ' + st.missing.map(moduleTag).join(' + ')
+            : 'add ' + st.missing.map(moduleTag).join(' + ') }));
+    }));
+
+    append(body, [
+      block('What has to be installed', needs, true),
+      block('Where it ships today', where, true),
+      block('Build a package around it', el('div', {},
+        el('p', { class: 'dg-cap' }, rich('The custom PBC builder can start from this feature: it ticks the ' +
+          'modules above, closes their dependencies and writes the manifest.')),
+        el('button', { type: 'button', class: 'chip',
+          onclick: function () {
+            customPick = {};
+            customStarted = true;
+            featureState(f, {}).missing.forEach(function (id) { customPick[id] = true; });
+            openHash('cell', CUSTOM_PBC.id, null);
+          } },
+          el('span', { class: 'glyph', text: '◆', 'aria-hidden': 'true' }),
+          'Build custom PBC from this feature')), true)
+    ]);
+
+    append(body, el('div', { class: 'd-meta' },
+      rich('Feature `' + f.id + '` — authored in `content/features.js`, module ids checked against the ' +
+           'active registry by `check-content.js`')));
+  }
+
   function renderCellDrawer(cell) {
     if (cell.id === 'custom') { renderCustomPbcDrawer(); return; }
+
+    /* The feature catalogue against this package: what it has, and how much of it is half there. What
+       it does NOT have is deliberately absent from this page — a published package is fixed, so a list
+       of 23–46 things to add was advice the reader could not act on here. The builder carries it, with
+       every feature and a live status, and one button below hands this package over to it. */
+    var cellFeatures = (function () {
+      /* Against what actually gets installed, not against what the manifest lists. Purchase names 31
+         modules but five of them require Catalog, XCatalog, Seo, Export and the file API, so a
+         Purchase install has a catalogue whether the file mentions one or not. Counting the manifest
+         alone understated it by nine features — and made this page disagree with the builder, which
+         has always closed dependencies. The schema, the module count and the evidence list still
+         follow the manifest: that is composition, and this is capability. */
+      var closed = pbcDependencyClosure(cell.modules || []);
+      var has = moduleSet(closed.ids);
+      var included = [], partial = [];
+      FEATURES.forEach(function (f) {
+        var st = featureState(f, has);
+        if (st.status === 'in') included.push(f);
+        else if (st.status === 'part') partial.push(f);
+      });
+      return { has: has, included: included, partial: partial, pulled: closed.added };
+    })();
 
     var eyebrow = document.getElementById('drawer-eyebrow');
     eyebrow.textContent = '';
     append(eyebrow, [
       el('span', { class: 'cell-split is-yes', text: 'Packaged Business Capability' }),
       el('span', { text: '· ' + cell.moduleCount + ' modules' }),
+      el('span', { text: '· ' + cellFeatures.included.length + ' of ' + FEATURES.length + ' business features' }),
       cell.platformVersion ? el('span', { text: '· platform ' + cell.platformVersion }) : null
     ].filter(Boolean));
     document.getElementById('drawer-title').textContent = cell.name;
@@ -1631,20 +1977,91 @@
         cell.overview ? el('p', { class: 'dg-cap' }, rich('**' + cell.name + '.** ' + cell.overview)) : null
       ), true),
 
-      block('Install it', el('div', {},
-        el('p', { class: 'dg-cap' }, rich('A PBC is a package manifest in `vc-modules/pbc`, installed with the ' +
-          'vc-build CLI. Versions in that file are ignored on this map — the tier documents composition, and a ' +
-          'pinned version goes stale long before the module set does.')),
-        snippetBlock({ lang: 'bash',
-          code: 'vc-build install -PackageManifestPath "' + cell.manifest + '"' })), true),
+      /* What the business gets, then the modules that back it. The bullets are authored and checked
+         against the package's own module list; the evidence lines are each module's own business
+         sentence, so a claim is one click from the thing that implements it and nothing here needs
+         maintaining twice. */
+      (cell.businessOutcomes || []).length
+        ? block('What the business gets', list(cell.businessOutcomes, 'good'), true)
+        : null,
+
+      /* The feature catalogue, applied to this package's module set. Nothing here is authored per
+         package: a feature is included when the modules it needs are present, which means this list
+         changes the moment a manifest does. */
+      cellFeatures.included.length
+        ? block('Business features included', el('div', {},
+            el('p', { class: 'dg-cap' }, rich('**' + cellFeatures.included.length + ' of ' + FEATURES.length +
+              '** catalogued business features work with this package as it installs' +
+              (cellFeatures.partial.length ? ', and ' + cellFeatures.partial.length + ' more are partly there' : '') + '. ' +
+              (cellFeatures.pulled.length
+                ? 'That counts ' + cellFeatures.pulled.length + ' module(s) the manifest does not name but its ' +
+                  'modules require, so an install brings them anyway: ' +
+                  cellFeatures.pulled.map(function (id) { return '`' + moduleTag(id) + '`'; }).join(' ') + '.'
+                : ''))),
+            featureGroups(cellFeatures.included, cellFeatures.has, false),
+            /* A published package is a fixed thing, so this page does not shop: wanting more than it
+               contains means building a package, and that is the builder's page. One line and one
+               button, instead of the 23–46 rows of "add a module" this block used to carry — those
+               belong where they can be acted on. */
+            el('p', { class: 'dg-cap', style: 'margin-top:10px' },
+              rich('Need more than this? A published package is fixed — **Build custom PBC** starts from these ' +
+                   String(cell.moduleCount) + ' modules and lets you add the other ' +
+                   String(FEATURES.length - cellFeatures.included.length) + ' features.')),
+            el('div', { class: 'pbc-presets' },
+              el('button', { type: 'button', class: 'chip is-template',
+                title: 'Open the builder with this package already ticked',
+                onclick: function () {
+                  customPick = {};
+                  customStarted = true;
+                  (cell.modules || []).forEach(function (id) { customPick[id] = true; });
+                  openHash('cell', CUSTOM_PBC.id, null);
+                } },
+                el('span', { class: 'glyph', text: '◆', 'aria-hidden': 'true' }),
+                'Build custom PBC from ' + cell.name))), true)
+        : null,
 
       block('How a request travels', pbcSchema(cell.layers), true),
+
+      /* A table, not a list of cards: the reader is comparing modules against each other here, and a
+         column of names beside a column of purposes is what comparison wants. The sentence in the
+         second column is each module's own authored business line, so nothing is maintained twice. */
+      (cell.businessEvidence || []).length
+        ? block('Backed by these modules', el('div', { class: 'pbc-table-wrap' },
+            el('table', { class: 'pbc-table' },
+              el('thead', {}, el('tr', {},
+                el('th', { scope: 'col', text: 'Module' }),
+                el('th', { scope: 'col', text: 'What it does for the business' }))),
+              el('tbody', {}, cell.businessEvidence.map(function (id) {
+                var p = profileOf(id);
+                var line = p && p.notes && p.notes.forAnalyst ? p.notes.forAnalyst
+                  : (p && p.tagline) || '';
+                var accent = MODULE_ACCENTS[id];
+                return el('tr', { class: 'pbc-table-row', style: accent ? '--accent:' + accent : null },
+                  el('th', { scope: 'row' },
+                    el('button', {
+                      type: 'button', class: 'pbc-table-link', title: 'Open ' + id,
+                      onclick: function () { openHash('molecule', id, null); }
+                    },
+                      accent ? moduleIcon(id, 20) : null,
+                      el('span', { class: 'pbc-table-name', text: (p && p.name) || moduleTag(id) }))),
+                  /* The sentence sits in a span, not straight in the cell: a fixed-layout column
+                     ignores max-width, and a 912px line of prose is a bad measure. */
+                  el('td', { class: 'pbc-table-text' }, el('span', { class: 'pbc-table-line', text: line })));
+              })))), true)
+        : null,
 
       cell.unlisted && cell.unlisted.length
         ? block('Named in the package but not in the registry', list(cell.unlisted.map(function (id) {
             return '`' + id + '` — the package file is ahead of, or behind, the module registry';
           })), 'is-half')
         : null,
+
+      block('Install it', el('div', {},
+        el('p', { class: 'dg-cap' }, rich('A PBC is a package manifest in `vc-modules/pbc`, installed with the ' +
+          'vc-build CLI. Versions in that file are ignored on this map — the tier documents composition, and a ' +
+          'pinned version goes stale long before the module set does.')),
+        snippetBlock({ lang: 'bash',
+          code: 'vc-build install -PackageManifestPath "' + cell.manifest + '"' })), true),
 
       block('Reference', docLinks([
         { label: 'Package manifest on GitHub', href: cell.manifestUrl },
@@ -1745,18 +2162,105 @@
     var schemaHost = el('div', {});
     var summaryHost = el('div', {});
     var manifestHost = el('div', {});
+    var featureHost = el('div', {});
+    var manifestOpen = false;   // folded on arrival; the toggle below unfolds it
+
+    /* What the package holds right now, dependencies included. A function, not a value, because the
+       module dialog stays open across redraws and has to see the set as it is. */
+    function currentSet() {
+      return moduleSet(pbcDependencyClosure(
+        Object.keys(customPick).filter(function (k) { return customPick[k]; })).ids);
+    }
+
+    /* Which ticked modules would keep `id` in the package: the ones whose required closure reaches it.
+       Walking the dependency graph upward is the only way to answer it — a module can arrive three
+       levels below something the reader asked for. */
+    function holdersOf(id, picked) {
+      return picked.filter(function (p) {
+        return p !== id && pbcDependencyClosure([p]).ids.indexOf(id) !== -1;
+      });
+    }
+
+    /* Everything that has to go for feature `f` to actually be gone: the modules satisfying it, plus
+       every ticked module that would drag one of them back in as a dependency. Removing the first
+       group alone looked like a no-op whenever the module was a dependency of something else — the
+       tick stayed lit and the reader clicked it again. */
+    function featureRemovalSet(f, picked, has) {
+      var targets = featureModules(f).filter(function (id) { return has[id]; });
+      var out = {};
+      targets.forEach(function (id) {
+        out[id] = true;
+        holdersOf(id, picked).forEach(function (p) { out[p] = true; });
+      });
+      return Object.keys(out);
+    }
+
+    /* Ticking a feature ticks its modules, which is how a business shops: nobody asks for
+       `VirtoCommerce.Quote`, they ask to negotiate quotes. Unticking takes the whole chain with it —
+       dependants included — because a feature that cannot be switched off is not a control. */
+    function toggleFeature(f, st) {
+      if (st.status === 'in') {
+        var picked = Object.keys(customPick).filter(function (k) { return customPick[k]; });
+        featureRemovalSet(f, picked, moduleSet(pbcDependencyClosure(picked).ids))
+          .forEach(function (id) { delete customPick[id]; });
+      } else st.missing.forEach(function (id) { customPick[id] = true; });
+      redraw();
+    }
+
+    /* The tooltip says what a click costs before it costs it: removing "Product catalogue" from a
+       package that quotes also removes Quotes, and that should not be a surprise. */
+    function featureHint(f, st) {
+      if (st.status !== 'in') return null;
+      var picked = Object.keys(customPick).filter(function (k) { return customPick[k]; });
+      var going = featureRemovalSet(f, picked, moduleSet(pbcDependencyClosure(picked).ids));
+      return going.length
+        ? 'removes ' + going.map(moduleTag).join(', ') + ' and anything only they required'
+        : null;
+    }
 
     function redraw() {
       var picked = Object.keys(customPick).filter(function (k) { return customPick[k]; });
       var closed = pbcDependencyClosure(picked);
+      /* Status is read from the closed set, not the ticked one: a dependency pulled in automatically
+         counts towards a feature exactly as a deliberate tick does. */
+      var has = moduleSet(closed.ids);
+      var inCount = 0, partCount = 0;
+      FEATURES.forEach(function (f) {
+        var s = featureState(f, has);
+        if (s.status === 'in') inCount++; else if (s.status === 'part') partCount++;
+      });
 
       schemaHost.textContent = '';
-      append(schemaHost, pbcSchema(customLayers(closed.ids)));
+      append(schemaHost, pbcSchema(customLayers(closed.ids), {
+        onAdd: function (layer, trigger) {
+          openModulePicker({ layer: layer, trigger: trigger, has: currentSet, onPick: function (id) {
+            customPick[id] = true;
+            redraw();
+          } });
+        },
+        /* Which ticked module is holding this one, if the reader did not ask for it directly. */
+        heldBy: function (id) {
+          if (customPick[id]) return null;
+          var holders = picked.filter(function (p) {
+            return p !== id && pbcDependencyClosure([p]).ids.indexOf(id) !== -1;
+          }).map(moduleTag);
+          return holders.length ? holders.slice(0, 3).join(', ') : 'another module';
+        },
+        onRemove: function (id) { delete customPick[id]; redraw(); }
+      }));
+
+      /* An open dialog is showing a list that just changed underneath it. */
+      if (pickerHost && pickerHost.redraw) pickerHost.redraw();
+
+      featureHost.textContent = '';
+      append(featureHost, featureGroups(FEATURES, has, true, toggleFeature, featureHint));
 
       summaryHost.textContent = '';
       var fromTemplate = template.filter(function (id) { return customPick[id]; }).length;
       append(summaryHost, factRows([
         ['Chosen', picked.length ? String(picked.length) + ' module(s)' : 'nothing yet — pick a capability below'],
+        ['Business features', inCount + ' of ' + FEATURES.length + ' included' +
+          (partCount ? ', ' + partCount + ' partly there' : '')],
         fromTemplate ? ['Baseline', fromTemplate + ' of the ' + template.length +
           ' modules every published PBC includes — telemetry, storage, identity, the commerce core and both outbound channels'] : null,
         closed.added.length ? ['Pulled in', closed.added.length + ' required dependency(ies): ' +
@@ -1764,12 +2268,43 @@
         ['Package size', String(closed.ids.length) + ' modules in total']
       ]));
 
+      /* The manifest arrives folded: the interesting part is the three header lines, and eighty
+         `{ "Id": … }` rows push everything below them off the screen. Copy still takes the whole
+         thing — a folded snippet that copies an ellipsis would be a trap. */
       manifestHost.textContent = '';
-      var manifest = '{\n  "ManifestVersion": "2.0",\n  "PlatformVersion": "' +
-        (META.platformVersion || '3.1058.0') + '",\n  "Modules": [\n' +
-        closed.ids.map(function (id) { return '    { "Id": "' + id + '" }'; }).join(',\n') +
-        '\n  ]\n}';
-      append(manifestHost, snippetBlock({ lang: 'json', code: manifest }));
+      var head = '{\n  "ManifestVersion": "2.0",\n  "PlatformVersion": "' +
+        (META.platformVersion || '3.1058.0') + '",\n';
+      var rows = closed.ids.map(function (id) { return '    { "Id": "' + id + '" }'; }).join(',\n');
+      var full = head + '  "Modules": [\n' + rows + '\n  ]\n}';
+      var folded = head + '  "Modules": [ … ' + closed.ids.length + ' modules … ]\n}';
+
+      var snippet = snippetBlock({ lang: 'json', code: full, display: manifestOpen ? null : folded });
+
+      /* The folded `"Modules": [ … ]` line is the obvious thing to click, so it is clickable — the
+         chip stays for anyone who reads the label first. Only while folded: once the JSON is open,
+         clicking it should select text, not throw the reader back to a summary. */
+      if (!manifestOpen) {
+        var pre = snippet.querySelector('pre');
+        pre.classList.add('is-foldable');
+        pre.setAttribute('role', 'button');
+        pre.setAttribute('tabindex', '0');
+        pre.title = 'Click to see the whole manifest (' + closed.ids.length + ' modules)';
+        pre.addEventListener('click', function () { manifestOpen = true; redraw(); });
+        pre.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') { manifestOpen = true; redraw(); event.preventDefault(); }
+        });
+      }
+
+      append(manifestHost, [
+        el('div', { class: 'pbc-presets', style: 'margin-bottom:6px' },
+          el('button', { type: 'button', class: 'chip',
+            'aria-expanded': manifestOpen ? 'true' : 'false',
+            title: manifestOpen ? 'Fold the module list away' : 'Show every module in the manifest',
+            onclick: function () { manifestOpen = !manifestOpen; redraw(); } },
+            el('span', { class: 'glyph', text: manifestOpen ? '▾' : '▸', 'aria-hidden': 'true' }),
+            manifestOpen ? 'Collapse module list' : 'Expand ' + closed.ids.length + ' modules')),
+        snippet
+      ]);
     }
 
     /* Preset buttons: start from a published PBC rather than from an empty page, which is how a real
@@ -1805,47 +2340,23 @@
       renderCustomPbcDrawer();
     });
 
-    /* The picker's groups are the schema's bands, in the same order and the same colours, with modules
-       sorted by name inside each. Grouping by icon family looked tidy but answered the wrong question:
-       what a reader needs while composing a package is which layer a module will land in. */
-    var LAYER_HUES = { xapi: '#5FC8F5', services: '#3FD8B4', platform: '#9D86F5',
-                       integration: '#5FD080', outbound: '#FFC24D' };
-
-    var picker = el('div', { class: 'pbc-picker' }, PBC_LAYERS.map(function (layer) {
-      var members = MODULE_TILES
-        .filter(function (m) { return layerOfModule(m.moduleId) === layer.key; })
-        .sort(function (a, b) { return String(a.name).localeCompare(String(b.name)); });
-      if (!members.length) return null;
-
-      return el('div', { class: 'pbc-picker-group is-' + layer.key },
-        el('div', { class: 'pbc-picker-head', style: '--accent:' + LAYER_HUES[layer.key] },
-          el('span', { class: 'mol-family-swatch', 'aria-hidden': 'true' }),
-          el('span', { class: 'mol-family-name', text: layer.name }),
-          el('span', { class: 'pbc-picker-n', text: String(members.length) })),
-        el('div', { class: 'pbc-picker-body' }, members.map(function (m) {
-          var id = m.moduleId;
-          var label = el('label', { class: 'pbc-pick' + (customPick[id] ? ' is-on' : ''),
-                                    style: MODULE_ACCENTS[id] ? '--accent:' + MODULE_ACCENTS[id] : null,
-                                    title: id + (m.sub ? ' — ' + m.sub : '') });
-          var box = el('input', { type: 'checkbox' });
-          box.checked = !!customPick[id];
-          box.addEventListener('change', function () {
-            customPick[id] = box.checked;
-            label.classList.toggle('is-on', box.checked);
-            redraw();
-          });
-          append(label, [box, MODULE_ACCENTS[id] ? moduleIcon(id, 18) : null,
-                         el('span', { class: 'pbc-pick-name', text: m.name })]);
-          return label;
-        })));
-    }).filter(Boolean));
+    /* The 96-checkbox list that used to sit at the foot of this page is gone. Everything it could do is
+       now done where the reader is already looking: the + tile in each band opens a dialog scoped to
+       that band, and a feature ticks its own modules. A third control over the same state was one
+       more thing to keep in sync and one more reason to scroll. */
 
     append(body, [
       block('Start from', presets, true),
       block('What it becomes', schemaHost, true),
       block('Package', summaryHost, 'is-half'),
-      block('Manifest for vc-build', manifestHost, true),
-      block('Pick capabilities', picker, true)
+      /* The business question, and the only list on the page now: a reader who never touches the
+         schema still gets an installable package out of it. */
+      block('Pick business features', el('div', {},
+        el('p', { class: 'dg-cap' }, rich('Click a feature to add the modules it needs — ✓ means the package has ' +
+          'it, ◐ means part of it is there. Clicking a ✓ takes it back out, along with anything that was ' +
+          'only there to support it; hover a ✓ to see what would go.')),
+        featureHost), true),
+      block('Manifest for vc-build', manifestHost, true)
     ]);
 
     redraw();
@@ -1878,9 +2389,38 @@
 
   // ---------------------------------------------------------------- open / close
 
+  /* Where "close" goes back to, deepest last. A module opened from a package page is a step deeper,
+     not a new place: closing it should land back on the package the reader was reading, and only a
+     second close should return to the poster. `fromDrawer` is what tells the two apart — a link
+     inside the panel pushes, a tile on the poster starts fresh. */
+  var navStack = [];
+  var fromDrawer = false;
+
+  function navLabel(entry) {
+    if (!entry) return null;
+    var item = entry.kind === 'cell' ? (byId(CELLS, entry.id) || (entry.id === CUSTOM_PBC.id ? CUSTOM_PBC : null))
+      : entry.kind === 'feature' ? featureById(entry.id)
+      : entry.kind === 'atom' ? byId(ATOMS, entry.id)
+      : entry.kind === 'layer' ? byId(LAYERS, entry.id)
+      : byId(MOLECULES, entry.id);
+    return (item && item.name) || entry.id;
+  }
+
+  /* The close button says which it is, because a ✕ that navigates somewhere is a lie. */
+  function syncCloseButton() {
+    var button = document.getElementById('drawer-close');
+    var back = navStack.length ? navStack[navStack.length - 1] : null;
+    button.textContent = back ? '↩' : '✕';
+    button.title = back ? 'Back to ' + navLabel(back) + ' ( Esc )' : 'Close details ( Esc )';
+    button.setAttribute('aria-label', back ? 'Back to ' + navLabel(back) : 'Close details (Esc)');
+  }
+
   function openHash(kind, id, trigger) {
     lastTrigger = trigger || lastTrigger;
     var next = '#/' + kind + '/' + id;
+    var same = state.open && state.open.kind === kind && state.open.id === id;
+    if (!fromDrawer) navStack.length = 0;          // a poster tile is a fresh start, not a step deeper
+    else if (state.open && !same) navStack.push(state.open);
     if (location.hash === next) openFromHash();
     else location.hash = next;
   }
@@ -1892,7 +2432,10 @@
   }
 
   function openFromHash() {
-    var match = /^#\/(atom|layer|cell|molecule)\/(.+)$/.exec(location.hash || '');
+    /* Any navigation ends the dialog: it belongs to the page that opened it. */
+    closeModulePicker();
+
+    var match = /^#\/(atom|layer|cell|molecule|feature)\/(.+)$/.exec(location.hash || '');
     if (!match) { closeDrawer(true); return; }
 
     var kind = match[1];
@@ -1903,6 +2446,7 @@
     var item = kind === 'atom' ? byId(ATOMS, id)
       : kind === 'layer' ? byId(LAYERS, id)
       : kind === 'cell' ? (byId(CELLS, id) || (id === CUSTOM_PBC.id ? CUSTOM_PBC : null))
+      : kind === 'feature' ? featureById(id)
       : byId(MOLECULES, id) || (function () {
           for (var i = 0; i < MOLECULES.length; i++) {
             if (MOLECULES[i].slug === id) return MOLECULES[i];
@@ -1931,6 +2475,10 @@
     if (kind === 'cell') {
       renderCellDrawer(item);
       if (nodes.cells[id]) nodes.cells[id].classList.add('is-active');
+    } else if (kind === 'feature') {
+      /* A feature has no tile of its own — it is reached from a package page or the builder — so
+         nothing lights up on the poster behind it. */
+      renderFeatureDrawer(item);
     } else if (kind === 'atom') {
       renderAtomDrawer(item);
       if (nodes.atoms[id]) nodes.atoms[id].classList.add('is-active');
@@ -1943,7 +2491,13 @@
       if (nodes.molecules[id]) nodes.molecules[id].classList.add('is-active');
     }
 
+    /* Browser back walks the same path the stack records, so if the new location is what the stack was
+       holding, that step has been taken — drop it instead of letting it queue up behind the reader. */
+    var top = navStack.length ? navStack[navStack.length - 1] : null;
+    if (top && top.kind === kind && top.id === id) navStack.pop();
+
     state.open = { kind: kind, id: id };
+    syncCloseButton();
     showDrawer();
   }
 
@@ -1983,10 +2537,20 @@
   }
 
   function closeDrawer(silent) {
+    /* One step back before closing: a reader who opened a module from a package page expects to land
+       on that package again, not on the poster with their place lost. */
+    if (!silent && navStack.length) {
+      var back = navStack.pop();
+      location.hash = '#/' + back.kind + '/' + encodeURIComponent(back.id);
+      return;
+    }
+
     drawer.hidden = true;
     scrim.hidden = true;
     clearActive();
     state.open = null;
+    navStack.length = 0;
+    syncCloseButton();
     if (!silent && location.hash) location.hash = '';
     if (lastTrigger && document.body.contains(lastTrigger)) lastTrigger.focus();
   }
@@ -2014,6 +2578,13 @@
   document.addEventListener('keydown', function (event) {
     var target = event.target;
     var typing = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA');
+
+    /* The module dialog is the innermost thing open, so it answers Escape first — otherwise one press
+       would shut the whole panel behind it. Nothing else on the page listens while it is up. */
+    if (pickerHost) {
+      if (event.key === 'Escape') { closeModulePicker(); event.preventDefault(); }
+      return;
+    }
 
     if (event.key === 'Escape') {
       if (!drawer.hidden) { closeDrawer(); event.preventDefault(); }
@@ -2076,6 +2647,7 @@
     renderMolecules();
     renderCells();
     renderBrand();
+    renderFooter();
     applyFilter();
 
     document.getElementById('search').addEventListener('input', function (event) { setQuery(event.target.value); });
@@ -2084,9 +2656,16 @@
       document.getElementById('search').focus();
     });
     document.getElementById('legend-toggle').addEventListener('click', toggleLegend);
+    /* Capture phase, so this runs before the clicked control's own handler and openHash can tell a
+       link inside the panel (a step deeper) from a tile on the poster (a fresh start). */
+    document.addEventListener('click', function (event) {
+      fromDrawer = !!(event.target && event.target.closest && event.target.closest('#drawer-body'));
+    }, true);
+
     document.getElementById('drawer-close').addEventListener('click', function () { closeDrawer(); });
     document.getElementById('drawer-expand').addEventListener('click', toggleExpanded);
-    scrim.addEventListener('click', function () { closeDrawer(); });
+    /* Clicking away is "get me out", not "go back one" — the scrim drops the whole trail. */
+    scrim.addEventListener('click', function () { navStack.length = 0; closeDrawer(); });
 
     var wasFull = '0';
     try { wasFull = localStorage.getItem('vc-atomic-map-drawer-full') || '0'; } catch (e) { /* ignore */ }

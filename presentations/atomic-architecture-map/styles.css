@@ -481,7 +481,35 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 .x-ref:hover { text-decoration: none; border-bottom-style: solid; }
 .x-ref:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
 
-/* ---------- footer ---------- */
+/* ---------- footer ----------
+   Two columns: what is generated and what is authored on the left, the sources on the right. Quiet
+   type — it is provenance, not content — but it prints, because a poster on a wall should say where
+   its facts came from. */
+.pagefoot {
+  display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 28px;
+  margin: 18px 0 4px; padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.pagefoot-main { flex: 1 1 32rem; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.pagefoot-line { margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--muted); max-width: 74rem; }
+.pagefoot-line strong { color: var(--text); font-weight: 650; }
+.pagefoot-line code {
+  font: 10.5px var(--mono); padding: 0 3px; border-radius: 4px;
+  background: var(--surface-2); color: var(--text);
+}
+.pagefoot-links {
+  flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px;
+  font-size: 11.5px;
+}
+.pagefoot-link { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border-strong); }
+.pagefoot-link:hover { color: var(--focus); border-bottom-color: var(--focus); }
+.pagefoot-link:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.pagefoot-hint { color: var(--muted); font: 10px var(--mono); }
+
+@media (max-width: 720px) {
+  .pagefoot { gap: 10px; }
+  .pagefoot-main { flex-basis: 100%; }
+}
 
 
 
@@ -989,42 +1017,261 @@ main { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
 /* The chip fills its cell rather than shrinking to its text, which is the whole point of the grid. */
 .pbc-layer-body .molecule { width: 100%; }
 
+/* ---------- editing the schema (builder only) ----------
+   The band is where the package is visible, so it is also where it should be changed: a + tile per
+   band, and an × per chip. The × sits over the chip's top-right corner and appears on hover or focus,
+   so 80 chips do not turn into 80 crosses. */
+.pbc-chip { position: relative; min-width: 0; }
+.pbc-chip-x {
+  position: absolute; top: -5px; right: -5px; width: 17px; height: 17px;
+  display: grid; place-items: center; padding: 0;
+  font-size: 9px; line-height: 1; cursor: pointer;
+  border: 1px solid var(--border-strong); border-radius: 50%;
+  background: var(--surface); color: var(--muted);
+  opacity: 0; transition: opacity .12s ease;
+}
+.pbc-chip:hover .pbc-chip-x,
+.pbc-chip:focus-within .pbc-chip-x { opacity: 1; }
+/* No hover on a touch screen, so a control that only appears on hover does not exist there. */
+@media (hover: none), (max-width: 720px) {
+  .pbc-chip-x { opacity: 1; }
+}
+.pbc-chip-x:hover { border-color: var(--bad); color: var(--bad); }
+/* A module held by another module's requirements: shown, explained in the tooltip, not removable. */
+.pbc-chip-x.is-locked { cursor: not-allowed; font-size: 8px; }
+.pbc-chip-x.is-locked:hover { border-color: var(--border-strong); color: var(--muted); }
+.pbc-chip.is-dep .molecule { border-style: dashed; }
+
+/* A module tile that has no module yet: same size, same grid, same icon slot — grey and dashed, so it
+   reads as the empty seat at the end of the row rather than as another module. */
+.molecule.pbc-add {
+  border-style: dashed; border-left-color: var(--border-strong); color: var(--muted);
+  background: transparent;
+}
+.molecule.pbc-add:hover {
+  border-color: var(--focus); border-left-color: var(--focus); color: var(--focus);
+  background: var(--surface-2);
+}
+.molecule.pbc-add:focus-visible { color: var(--focus); }
+/* The + fills the 22px icon square, so the label starts on the same x as every module name above it. */
+.pbc-add-glyph {
+  width: 22px; height: 22px; display: grid; place-items: center;
+  border: 1px dashed var(--border-strong); border-radius: 5px;
+  background: var(--surface-2);
+  font: 12px var(--mono); font-weight: 700; line-height: 1; color: inherit;
+}
+.molecule.pbc-add:hover .pbc-add-glyph { border-color: var(--focus); background: transparent; }
+
+/* ---------- the module dialog ----------
+   Above the panel (z-index 50) and its scrim (40), because it is the innermost thing open. */
+.mod-picker-backdrop {
+  position: fixed; inset: 0; z-index: 60;
+  display: grid; place-items: center; padding: 24px;
+  background: rgba(8, 12, 20, .52);
+}
+.mod-picker {
+  width: min(560px, 100%); max-height: min(72vh, 620px);
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 14px 16px 16px; border-radius: 14px;
+  background: var(--surface); border: 1px solid var(--border-strong);
+  box-shadow: 0 18px 48px rgba(8, 12, 20, .35);
+}
+.mod-picker-head { display: flex; align-items: baseline; gap: 8px; }
+.mod-picker-title { font-size: 13px; font-weight: 700; }
+.mod-picker-n {
+  margin-left: auto; font: 9.5px var(--mono); font-weight: 700; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.mod-picker-head .icon-btn { margin-left: 4px; }
+.mod-picker-hint { font-size: 11.5px; line-height: 1.45; color: var(--muted); margin: 0; }
+.mod-picker-search {
+  font: inherit; font-size: 13px; padding: 5px 9px;
+  border: 1px solid var(--border-strong); border-radius: 8px;
+  background: var(--surface-2); color: var(--text);
+}
+.mod-picker-search:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.mod-picker-list { overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+.mod-picker-row {
+  display: grid; grid-template-columns: auto 132px minmax(0, 1fr) auto;
+  align-items: center; gap: 8px;
+  width: 100%; text-align: left; font: inherit; cursor: pointer;
+  padding: 4px 8px 5px 6px; border-radius: 8px;
+  background: transparent; color: var(--text);
+  border: 1px solid transparent; border-left: 3px solid var(--accent, var(--border-strong));
+}
+.mod-picker-row:hover { background: var(--surface-2); border-color: var(--border); }
+.mod-picker-name { font: 10px var(--mono); font-weight: 700; overflow-wrap: anywhere; }
+.mod-picker-sub {
+  font-size: 11.5px; color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.mod-picker-plus { font: 13px var(--mono); font-weight: 700; color: var(--muted); }
+.mod-picker-row:hover .mod-picker-plus { color: var(--focus); }
+
+@media (max-width: 560px) {
+  .mod-picker-backdrop { padding: 10px; align-items: end; }
+  .mod-picker { max-height: 82vh; }
+  .mod-picker-row { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .mod-picker-sub { display: none; }
+}
+
 /* ---------- the builder ----------
    Presets first, then a checkbox per module grouped by family. The checkbox is real and focusable —
    a div with a click handler would have been shorter and unusable by keyboard. */
+/* The module evidence list that used to live here is now a table — see .pbc-table below. */
+
 .pbc-presets { display: flex; flex-wrap: wrap; gap: 5px; }
 /* The template chip leads the row and reads as the default rather than as one option among seven. */
 .pbc-presets .chip.is-template { border-color: var(--focus); color: var(--focus); font-weight: 700; }
 .pbc-presets .chip.is-template .glyph { color: var(--focus); }
-.pbc-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px 14px; }
-.pbc-picker-group { min-width: 0; }
-.pbc-picker-head {
-  display: flex; align-items: center; gap: 6px; padding-bottom: 3px; margin-bottom: 5px;
-  border-bottom: 2px solid var(--accent, var(--border-strong));
-  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
-}
-.pbc-picker-n {
-  margin-left: auto; font: 9.5px var(--mono); font-weight: 700; color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-.pbc-picker-body { display: flex; flex-direction: column; gap: 2px; }
-.pbc-pick {
-  display: grid; grid-template-columns: auto auto minmax(0, 1fr);
-  align-items: center; gap: 6px;
-  padding: 2px 7px 2px 5px; border-radius: 7px;
-  border: 1px solid var(--border); border-left: 3px solid var(--accent, var(--border-strong));
-  background: var(--surface); cursor: pointer;
-}
-.pbc-pick:hover { background: var(--surface-2); }
-.pbc-pick.is-on { border-color: var(--accent, var(--focus)); box-shadow: inset 0 0 0 1px var(--accent, var(--focus)); }
-.pbc-pick input { margin: 0; accent-color: var(--focus); }
-.pbc-pick-name { font: 9.5px var(--mono); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.pbc-pick .mod-icon { width: 18px; height: 18px; border-radius: 5px; }
+/* The 96-checkbox module picker that lived here is gone: the + tile in each schema band and the
+   feature list replaced it. See .pbc-add and .mod-picker. */
 
 @media (max-width: 560px) {
-  .pbc-picker { grid-template-columns: minmax(0, 1fr); }
   /* One module per row on a phone, like every other tier. */
   .drawer, .drawer.is-full { --pbc-cols: 1; }
+}
+
+/* A folded manifest invites the click that unfolds it. */
+pre.is-foldable { cursor: pointer; }
+pre.is-foldable:hover { background: var(--surface-2); }
+pre.is-foldable:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* ---------- business features ----------
+   The layer between what a business asks for and the modules that ship it. Rows are dense on
+   purpose: eighty-nine features have to be scannable in a category at a glance, and the status glyph
+   carries the meaning so it survives greyscale. */
+.feat-groups {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(420px, 100%), 1fr));
+  gap: 14px 26px; align-items: start;
+}
+.feat-group { min-width: 0; }
+.feat-group-head {
+  display: flex; align-items: center; gap: 6px; padding-bottom: 3px; margin-bottom: 4px;
+  border-bottom: 1px solid var(--border-strong);
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+  color: var(--muted);
+}
+.feat-group-n { margin-left: auto; font: 9.5px var(--mono); font-weight: 700; font-variant-numeric: tabular-nums; }
+.feat-group-body { display: flex; flex-direction: column; gap: 1px; }
+
+/* Two lines, always: the name and the price on the first, the sentence indented beneath. Side by side
+   was tried and abandoned — the expanded panel gives a category column ~563px and the side panel
+   ~500px, too close for any name width to keep one honest and let the other wrap, so both ended up
+   with three-line sentences squeezed into a third of the row. Flex, not grid, because each row is its
+   own box: grid columns would size to their own content and the edges would step about row to row. */
+.feat-row {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 1px 8px;
+  width: 100%; text-align: left; font: inherit; cursor: pointer;
+  padding: 3px 7px 4px 5px; border-radius: 7px;
+  background: transparent; color: var(--text);
+  border: 1px solid transparent; border-left: 3px solid transparent;
+}
+.feat-row:hover { background: var(--surface-2); border-color: var(--border); }
+.feat-glyph { flex: 0 0 12px; font: 11px var(--mono); font-weight: 700; text-align: center; }
+/* No grow: a growing name eats the free space and pushes the price badge onto a third line. */
+.feat-name { flex: 0 1 auto; min-width: 0; font-size: 13px; font-weight: 650; line-height: 1.35; }
+/* Own line, indented to sit under the name rather than under the glyph. */
+.feat-blurb {
+  flex: 1 1 100%; min-width: 0; padding-left: 20px;
+  font-size: 12.5px; line-height: 1.4; color: var(--muted);
+}
+/* The price of a missing feature. It wraps rather than pushing the row wide: two modules with long
+   names ran 357px on one line and pushed the panel into a horizontal scroll. */
+.feat-add {
+  flex: 0 1 auto; margin-left: auto; max-width: 13rem;
+  font: 9.5px var(--mono); font-weight: 700; line-height: 1.3; text-align: right;
+  padding: 1px 5px 2px; border-radius: 5px;
+  border: 1px dashed var(--border-strong); color: var(--muted);
+}
+/* Included, half there, absent — colour reinforces the glyph, never replaces it. */
+.feat-row.is-in { border-left-color: var(--ok); }
+.feat-row.is-in .feat-glyph { color: var(--ok); }
+.feat-row.is-part { border-left-color: var(--warn); }
+.feat-row.is-part .feat-glyph { color: var(--warn); }
+.feat-row.is-out { border-left-color: var(--border); }
+.feat-row.is-out .feat-name { font-weight: 600; color: var(--muted); }
+.feat-row.is-out .feat-glyph { color: var(--muted); }
+/* In the builder the row is an action, so it gets an affordance the read-only lists do not. */
+.feat-row.is-pick { border-color: var(--border); background: var(--surface); }
+.feat-row.is-pick.is-in { background: color-mix(in srgb, var(--ok) 8%, var(--surface)); }
+.feat-row.is-pick:hover { border-color: var(--focus); }
+
+/* The feature page: what has to be installed, one row per slot. */
+.feat-needs { display: flex; flex-direction: column; gap: 8px; }
+.feat-need { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; align-items: start; }
+.feat-need-kind {
+  font: 9.5px var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+  color: var(--muted); padding-top: 7px;
+}
+.feat-need.is-any .feat-need-kind { color: var(--warn); }
+.feat-need-mods { display: flex; flex-wrap: wrap; gap: 5px; }
+.feat-need-mods .molecule { width: 200px; }
+
+.feat-where { display: flex; flex-direction: column; gap: 2px; }
+.feat-where-row {
+  display: grid; grid-template-columns: 14px 150px minmax(0, 1fr);
+  align-items: baseline; gap: 9px;
+  width: 100%; text-align: left; font: inherit; cursor: pointer;
+  padding: 4px 8px 5px 6px; border-radius: 7px;
+  background: transparent; color: var(--text);
+  border: 1px solid transparent; border-left: 3px solid var(--border);
+}
+.feat-where-row:hover { background: var(--surface-2); border-color: var(--border); }
+.feat-where-row.is-in { border-left-color: var(--ok); }
+.feat-where-row.is-in .feat-glyph { color: var(--ok); }
+.feat-where-row.is-part { border-left-color: var(--warn); }
+.feat-where-row.is-part .feat-glyph { color: var(--warn); }
+.feat-where-row.is-out .feat-glyph, .feat-where-row.is-out .feat-where-text { color: var(--muted); }
+.feat-where-name { font: 10px var(--mono); font-weight: 700; overflow-wrap: anywhere; }
+.feat-where-text { font-size: 13px; line-height: 1.45; }
+
+@media (max-width: 720px) {
+  /* The badge drops below the name too: a phone has no room for both on one line. */
+  .feat-add { flex: 0 1 100%; margin-left: 20px; text-align: left; }
+  .feat-where-row { grid-template-columns: 14px minmax(0, 1fr); }
+  .feat-where-text { grid-column: 2 / -1; }
+  .feat-need { grid-template-columns: minmax(0, 1fr); }
+  .feat-need-kind { padding-top: 0; }
+  .feat-need-mods .molecule { width: 100%; }
+}
+
+/* ---------- the module table on a package page ----------
+   Two columns, because the reader is comparing modules with each other: names down one side,
+   purposes down the other. Wide content scrolls inside the wrapper, never the panel. */
+.pbc-table-wrap { overflow-x: auto; }
+/* Fixed layout, not auto: an auto table sizes to its content's minimum, and a column of sentences
+   pushed the side panel 262px wider than itself. Fixed makes the columns obey the panel instead. */
+.pbc-table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+.pbc-table th, .pbc-table td { text-align: left; vertical-align: baseline; }
+.pbc-table thead th {
+  padding: 0 8px 4px 6px; border-bottom: 1px solid var(--border-strong);
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--muted);
+}
+.pbc-table thead th:first-child { width: 188px; }
+.pbc-table-row > * { padding: 4px 8px 5px 6px; border-bottom: 1px solid var(--border); }
+.pbc-table-row:last-child > * { border-bottom: 0; }
+.pbc-table-row:hover > * { background: var(--surface-2); }
+/* The accent stays on the row, as it is on every other module surface in the map. */
+.pbc-table-row > th { border-left: 3px solid var(--accent, var(--border-strong)); font-weight: 400; }
+.pbc-table-link {
+  display: flex; align-items: center; gap: 8px;
+  font: inherit; text-align: left; cursor: pointer;
+  padding: 0; background: none; border: 0; color: var(--text);
+}
+.pbc-table-link:hover .pbc-table-name { text-decoration: underline; }
+.pbc-table-name { font: 10px var(--mono); font-weight: 700; overflow-wrap: anywhere; }
+.pbc-table-text { font-size: 13px; line-height: 1.45; overflow-wrap: break-word; }
+.pbc-table-line { display: inline-block; max-width: 46rem; }
+
+@media (max-width: 720px) {
+  /* Stacked: a name column plus a sentence does not fit a phone, and a table that scrolls sideways
+     is worse than one that reads as pairs. */
+  .pbc-table, .pbc-table tbody, .pbc-table-row, .pbc-table-row > * { display: block; }
+  .pbc-table thead { display: none; }
+  .pbc-table-row { margin-bottom: 6px; border-left: 3px solid var(--accent, var(--border-strong)); }
+  .pbc-table-row > th { border-left: 0; padding-bottom: 0; }
+  .pbc-table-row > * { border-bottom: 0; }
 }
 
 /* A module chip the cell can run without — dashed, and labelled, so the meaning survives

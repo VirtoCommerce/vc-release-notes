@@ -30,7 +30,7 @@ if (REPO) {
 }
 
 global.window = {};
-for (const f of ['content/meta.js', 'content/architecture.js', 'content/atoms.js', 'content/cells.js', 'content/molecules.js',
+for (const f of ['content/meta.js', 'content/architecture.js', 'content/atoms.js', 'content/cells.js', 'content/molecules.js', 'content/features.js',
                  'content/module-accents.js', 'content/modules-active.js', 'content/cells.generated.js']) {
   new Function(fs.readFileSync(path.join(MAP, f), 'utf8')).call(global);
 }
@@ -435,6 +435,78 @@ for (const c of PBCS) {
   }
 }
 
+/* ---------- business features ----------
+   content/features.js is authored, and its whole value is that the module ids in it are real: the
+   PBC pages and the builder compute capability from them, so a stale id silently removes a feature
+   from a package that has it. Three rules, each with a real failure it prevents:
+     • every module named must be in the active catalogue  — a renamed or retired module is caught
+     • every active module must appear in some feature      — a newly published module gets a business
+                                                              meaning instead of quietly having none
+     • no feature may name a module twice                   — a duplicate makes the slot count wrong */
+const FEATURES = global.window.VC_MAP_FEATURES || [];
+const featureSlotsOf = f => (f.modules || []).map(s => (Array.isArray(s) ? s : [s]));
+const featureModulesOf = f => featureSlotsOf(f).flat();
+const featureCategories = new Set(FEATURES.map(f => f.category));
+const featureModuleUse = new Set();
+
+if (!FEATURES.length) add('feature', 'features.js', 'no features — content/features.js is empty or did not load');
+
+const featureIds = new Set();
+for (const f of FEATURES) {
+  if (!f.id) { add('feature', '(no id)', 'missing id'); continue; }
+  if (featureIds.has(f.id)) add('feature', f.id, 'duplicate id');
+  featureIds.add(f.id);
+  if (!f.name) add('feature', f.id, 'missing name');
+  if (!f.category) add('feature', f.id, 'missing category');
+  if (!f.blurb) add('feature', f.id, 'missing blurb — the page shows it beside the name');
+  if (f.blurb && /VirtoCommerce\./.test(f.blurb)) {
+    add('feature', f.id, 'blurb names a module — it is read by a business audience, keep module ids out of it');
+  }
+  const mods = featureModulesOf(f);
+  if (!mods.length) add('feature', f.id, 'names no modules, so nothing can ever satisfy it');
+  const seen = new Set();
+  for (const id of mods) {
+    if (seen.has(id)) add('feature', f.id, `names "${id}" more than once`);
+    seen.add(id);
+    featureModuleUse.add(id);
+    if (!activeIds.has(id)) add('feature', f.id, `module "${id}" is not in the active catalogue`);
+  }
+}
+
+/* A module nobody can explain in business terms is a gap in this tier, not in the module. */
+const featurelessModules = ACTIVE_MODULES.map(m => m.id).filter(id => !featureModuleUse.has(id));
+if (featurelessModules.length) {
+  add('feature', 'coverage', `${featurelessModules.length} active module(s) belong to no feature — ` +
+      `add them to content/features.js: ${featurelessModules.join(', ')}`);
+}
+
+/* Capability is measured against what a package installs, not what its manifest lists — the same
+   rule the pages use (app.js closes the graph before computing features). Purchase names 31 modules
+   but five of them require Catalog, XCatalog, Seo, Export and the file API, and an install brings
+   those too; counting the manifest alone understated it by nine features. */
+const shortToId = new Map(ACTIVE_MODULES.map(m => [m.id.replace('VirtoCommerce.', ''), m.id]));
+const requiredDeps = new Map(ACTIVE_MODULES.map(m =>
+  [m.id, (m.dependsOn || []).map(d => shortToId.get(d)).filter(Boolean)]));
+function closeDeps(ids) {
+  const set = new Set(ids);
+  for (let changed = true; changed;) {
+    changed = false;
+    for (const id of [...set]) for (const dep of requiredDeps.get(id) || []) {
+      if (!set.has(dep)) { set.add(dep); changed = true; }
+    }
+  }
+  return set;
+}
+const featuresIn = pbc => {
+  const has = closeDeps(pbc.modules || []);
+  return FEATURES.filter(f => featureSlotsOf(f).every(slot => slot.some(id => has.has(id))));
+};
+
+/* Informational, not a failure: a feature no published package satisfies is a legitimate thing to
+   catalogue (it is what the builder is for), but it is worth seeing the list. */
+const featureCoverage = FEATURES.map(f => ({ id: f.id, count: PBCS.filter(c => featuresIn(c).includes(f)).length }));
+const orphanFeatures = featureCoverage.filter(f => !f.count).map(f => f.id);
+
 /* Two kinds of molecule, two contracts. A module tile is verified identity plus a dependency
    graph read from the registry, so it needs no prose; a composite topic is prose that has not been
    written, so it must at least say what is coming. */
@@ -629,6 +701,13 @@ console.log(`module profiles: ${profileFiles.length} (${profilesWithNotes} with 
 console.log('PBCs → ' + PBCS.map(c => `${c.name} (${c.moduleCount} modules: ` +
   PBC_LAYER_KEYS.map(k => `${k[0]}${(c.layers[k] || []).length}`).join('/') + ')').join('  |  '));
 if (pbcUnlisted.length) console.log('PBC modules not in the registry: ' + pbcUnlisted.join(' | '));
+console.log('features → ' + FEATURES.length + ' in ' + featureCategories.size + ' categories, covering ' +
+  featureModuleUse.size + '/' + ACTIVE_MODULES.length + ' active modules; per PBC: ' +
+  PBCS.map(c => c.id + ' ' + featuresIn(c).length).join(' · '));
+if (orphanFeatures.length) {
+  console.log(`features no published PBC satisfies (${orphanFeatures.length} — what the builder is for): ` +
+              orphanFeatures.join(', '));
+}
 console.log(`families → ${byFamily}`);
 console.log(`adoption → ${byAdoption}`);
 console.log((REPO
