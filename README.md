@@ -61,14 +61,14 @@ Product, engineering, and business stakeholders review what shipped, mark featur
 .
 ├── index.html                   # Landing page (served at virtocommerce.github.io/vc-release-notes/)
 ├── 2026-01/ ... 2026-09/        # One folder per monthly release, each with a self-contained index.html
-├── presentations/               # Strategic decks (release strategy, etc.)
-├── prompts/                     # Reusable prompt to generate a new deck from a raw release-notes URL
+├── presentations/               # Strategic decks (public)
+├── prompts/                     # Reusable prompt templates (release-notes, RFI evidence)
 └── .claude/skills/              # Claude Code skills that automate deck generation (see below)
 ```
 
 ## 🤖 Add a deck with Claude Code
 
-Two skills live in [`.claude/skills/`](.claude/skills/) — anyone using Claude Code inside this repo gets them automatically. They encode the full workflow (fetch source, plan sections, replace slides, wire chronological links, update landing pages, verify at 4 viewports) so you don't need to remember it.
+Three skills live in [`.claude/skills/`](.claude/skills/) — anyone using Claude Code inside this repo gets them automatically. They encode the full workflow (fetch source, plan sections, replace slides, wire chronological links, update landing pages, verify at 4 viewports) so you don't need to remember it.
 
 ### 🗓️ `release-notes-deck` — monthly release deck from a forum URL
 
@@ -123,6 +123,36 @@ Make a partner-onboarding deck in the same style as the Release Strategy one
 5. Registers the new deck on the [top-level `index.html`](index.html) presentations grid and this README's Strategic Decks table.
 6. Same four-viewport visual verification.
 
+### 📋 `rfi-evidence-deck` — RFI response deck from a live demo tenant
+
+**Use when** you need to answer an RFI (Request for Information) requirement by proving each named element against a live Virto Commerce demo — one slide per element, backed by a real signed-in screenshot or a UI mock injected into the live storefront chrome.
+
+**How to invoke** — paste the requirement text plus the demo URL. Trigger phrases:
+
+```
+Create an RFI evidence deck for requirement 1.8 based on https://front-vcptcore-aidemo.govirto.com/
+```
+```
+Answer requirement 1.9 (order management) against the live demo — every element illustrated with the actual UI
+```
+```
+/rfi-evidence-deck
+```
+
+A ready-to-fill prompt template lives at [`prompts/rfi-evidence-prompt.md`](prompts/rfi-evidence-prompt.md).
+
+**What the skill does:**
+
+1. Reads the requirement, maps the storefront (mega-menu, catalog, PDP, cart, sign-in), decides per element: direct screenshot vs DOM-injected mock.
+2. Sets up a Playwright + local Edge screenshot pipeline in the session scratchpad — persistent `.edge-profile`, a `login.js` that hands the visible window to **you** for sign-in (Claude never types passwords), a `capture.js` for headless signed-in shots, and one `review-<mock>.js` per mock so you can inspect the layout in DevTools before capturing.
+3. For elements the tenant doesn't surface, injects a mock into `.vc-layout` with `width: 100%` (no left offset) — Inter / JetBrains Mono, 12 px radius, Virto navy/blue/green/amber tokens, box-shadow that matches the site's cards.
+4. Runs a **UX/verstka quality-check pass on every mock before the screenshot fires**: left/width alignment ≤ 8 px, smallest font ≥ 10 px, button height ≥ 32 px, no horizontal overflow, box-shadow present, corner radius ≥ 8 px.
+5. Assembles the deck in the business-presentation style with an RFI-specific slide vocabulary (one element slide per named item; `RFI asks for` / `Virto delivers` / `Confirmed on demo` blocks; compare-style summary matrix at the end).
+6. Wires the click-to-zoom **lightbox** on every evidence image (`Esc` / backdrop / `✕` closes) and the fullscreen `F` shortcut inherited from the strategic-deck shell.
+7. Does **not** add the deck to `index.html` / this README — RFI decks are typically response artefacts for a specific opportunity, not general marketing. You decide when (and if) to link them publicly.
+
+RFI decks are **response-specific artefacts** — the skill produces them under `presentations/rfi-<major>-<minor>-<slug>.html` with screenshots at `presentations/rfi-evidence/`, both **gitignored** by default. Share the output with the RFI reviewer directly (attach the HTML + evidence folder to the response), not via GitHub Pages. The skill contains the full slide template inline — no sample deck ships in this repo.
+
 ### Skill boundaries — which one applies
 
 | Signal | Skill |
@@ -131,14 +161,17 @@ Make a partner-onboarding deck in the same style as the Release Strategy one
 | The deck is one month | `release-notes-deck` |
 | The deck is a topic / story / playbook | `business-presentation` |
 | You gave a content draft, not a URL | `business-presentation` |
+| You have an RFI requirement + demo tenant URL | `rfi-evidence-deck` |
+| The deck must prove capabilities against live UI | `rfi-evidence-deck` |
 | The deck should have `+ Add to backlog` + Markdown export | `release-notes-deck` |
 | The deck should have `compare` / `myths` / `glossary` slides | `business-presentation` |
+| The deck should inject mock panels over the live demo | `rfi-evidence-deck` |
 
-Both skills produce self-contained HTML that matches the shared design tokens (Virto navy/blue/cyan/gold, Inter + JetBrains Mono, same shadow/radius scales) and inherit the mobile-first responsive layout used by every existing deck.
+All three skills produce self-contained HTML that matches the shared design tokens (Virto navy/blue/cyan/gold, Inter + JetBrains Mono, same shadow/radius scales) and inherit the mobile-first responsive layout used by every existing deck.
 
 ### Not using Claude Code?
 
-Everything is still doable by hand — the [master spec](prompts/release-notes-presentation-prompt.md) has the full CSS/JS/markup contract, and [`presentations/release-strategy-for-business-users.html`](presentations/release-strategy-for-business-users.html) is the reference for the business-deck style. Copy the closest existing deck, replace the slides array, update the cover/thanks/chronology, verify at four viewports.
+Everything is still doable by hand — the [master spec](prompts/release-notes-presentation-prompt.md) has the full CSS/JS/markup contract, and [`presentations/release-strategy-for-business-users.html`](presentations/release-strategy-for-business-users.html) is the reference for the business-deck style. For RFI evidence decks, the [`rfi-evidence-prompt`](prompts/rfi-evidence-prompt.md) template and the [`rfi-evidence-deck` skill](.claude/skills/rfi-evidence-deck/SKILL.md) contain the full slide vocabulary + evidence-image lightbox + injection pattern inline — copy the closest existing strategic deck as your starting CSS shell, follow the RFI slide template in the skill, replace the slides array, update the cover/thanks/chronology, verify at four viewports.
 
 ## 🧭 References
 
