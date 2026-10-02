@@ -97,6 +97,28 @@ grep -c ':fullscreen' 2026-<NEW>/index.html   # should print 6
 
 Windowed view stays exactly as before — nothing changes until fullscreen is entered.
 
+### 5a. Verify wide-monitor comfort mode is present (mandatory)
+
+Every deck also ships with two media queries that scale the slide up on big displays (same `zoom` trick as fullscreen, triggered by viewport width — no user action required). Because you copied the previous month, the block is already there. If not, port it:
+
+```bash
+python .scripts/port_wide_monitor.py 2026-<NEW>/index.html
+```
+
+Idempotent — files that already contain `min-width: 1700px` are skipped. Grep to confirm:
+
+```bash
+grep -c 'min-width: 1700px' 2026-<NEW>/index.html   # should print 1
+```
+
+**What the block gives you (no user action):**
+- At viewport ≥ 1700×980: slide becomes 1680×1008, `.slide-inner { zoom: 1.4 }` — +40% to fonts, visuals and padding.
+- At viewport ≥ 2200×1280: slide becomes 2040×1224, `.slide-inner { zoom: 1.7 }` — +70% for 4K/5K.
+- Below 1700px wide: unchanged 1200×720 card, no zoom.
+- Nav pill and keyboard-hint strip keep their size (they are chrome, not content).
+
+The threshold lives above common laptop widths (1366 / 1440 / 1536 / 1600) so laptops see the baseline layout; FHD/QHD/4K monitors trigger scaling automatically.
+
 ### 6. Wire the previous month's forward link
 
 In `2026-<PREV>/index.html`, both cover and thanks slides have `<div class="cover-nav">…</div>`. Add a second `<a class="cover-nav-link">` alongside the existing back-link, this time pointing forward with a right-chevron:

@@ -120,6 +120,26 @@ The script extracts the current `:fullscreen` block from `presentations/integrat
 
 If you're authoring by hand, the block goes right before the mobile media query and contains six selectors: `:fullscreen .stage`, `:fullscreen .slide`, `:fullscreen .slide-inner`, `:fullscreen .hint`, `:fullscreen .nav`, `:fullscreen .nav:hover, :fullscreen .nav:focus-within`.
 
+### 6a. Wire up wide-monitor comfort mode (mandatory)
+
+Alongside fullscreen, every deck ships with two media queries that scale the slide up on big displays — same `zoom` trick as fullscreen, triggered by viewport width so users on FHD/QHD/4K monitors see comfortable text without doing anything.
+
+**What the block does (no user action):**
+- At viewport ≥ 1700×980: slide grows to 1680×1008, `.slide-inner { zoom: 1.4 }` (+40% to text, visuals, padding).
+- At viewport ≥ 2200×1280: slide grows to 2040×1224, `.slide-inner { zoom: 1.7 }` (+70% for 4K/5K).
+- Below 1700px wide: baseline 1200×720 card, no zoom. Laptops (1366/1440/1536/1600) stay on the original layout.
+- Nav pill and keyboard-hint strip keep their size — they are chrome, not content.
+
+**Automation** — a reusable idempotent script lives at [.scripts/port_wide_monitor.py](../../../.scripts/port_wide_monitor.py). Run it on every new deck:
+
+```bash
+python .scripts/port_wide_monitor.py presentations/<new-deck>.html
+```
+
+The script injects the two media queries right before the mobile `@media (max-width: 900px)` block (falls back to `@media (max-width: 1024px)` for decks that use that breakpoint). Files that already contain `min-width: 1700px` are skipped, so the script is safe to re-run.
+
+If you're authoring by hand, the block has two media queries, both scoped to `.slide` sizing + `.slide-inner { zoom }`. See the reference block in `presentations/integration-capabilities.html` or any 2026-NN deck.
+
 ### 7. Wire up the hidden easter eggs (mandatory)
 
 Every business deck in this repo ships with **two hidden delighter interactions**. They are opt-in via keyboard shortcut, add no visual weight until triggered, and take almost nothing to include. Ship them by default; they're part of the house style.

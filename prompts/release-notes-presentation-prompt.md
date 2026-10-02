@@ -195,6 +195,7 @@ When a screenshot fails to load, replace the `<img>` with a centered icon circle
 
 - Desktop first (1200×720), collapses to single column under 900px
 - On mobile: hide Start/End jump buttons, hide keyboard hint, stack problem/solution/integration above the visual, reduce paddings
+- **Wide-monitor comfort** (big displays, no user action): at `min-width: 1700px and min-height: 980px` the slide grows to 1680×1008 with `.slide-inner { zoom: 1.4 }`; at `min-width: 2200px and min-height: 1280px` it grows to 2040×1224 with `zoom: 1.7`. Nav pill and keyboard-hint strip are chrome, not scaled. Threshold sits above common laptop widths (1366/1440/1536/1600). Automated via `.scripts/port_wide_monitor.py`.
 - Print CSS: make all slides visible and page-break between them. Hide the `.toc-panel` and `.toc-backdrop` (in addition to `.nav`, `.progress-bar`, `.hint`).
 
 ## COPY STYLE
