@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Virto Commerce – Release Notes | September 2026</title>
+<title>Virto Commerce – Release Notes | October 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -567,6 +567,17 @@
   .no-visual p {
     font-size: 13px; color: var(--virto-muted);
     line-height: 1.5; max-width: 280px;
+  }
+
+  .visual-svg {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px;
+  }
+  .visual-svg svg {
+    width: 100%; height: 100%;
+    max-width: 100%; max-height: 100%;
+    display: block;
   }
 
   .slide-footer {
@@ -1457,282 +1468,281 @@ const slides = [
     num: 'Section 01  ·  WOW',
     title: 'Top Business',
     titleAccent: 'Features',
-    desc: 'B2B access control, admin security, AI-agent discovery, Sales Rep Hub maturity and hardened data protection — the highest-impact changes this month. Start here if you have 5 minutes.',
+    desc: 'Loyalty missions and organization-level earning, a durable sign-in log, order-price visibility control, shared Page Builder components and the matured Sales Rep Hub — the highest-impact changes this month. Start here if you have 5 minutes.',
     statValue: '7',
     statLabel: 'Business-critical features'
   },
   {
-    category: 'B2B · Customer 3.1021.0',
+    category: 'Security · Platform 3.1071.0',
     wow: true,
-    title: '<span class="accent">Multi-organization</span> membership control',
-    problem: 'B2B contacts belonging to multiple organizations shared one global status — reject or lock the contact and every organization lost them; approve them and they had access everywhere. There was no way to invite an existing customer to a new organization, cancel a pending invite, or lock a member per org.',
-    solution: 'Admins can now <strong>invite existing customers, resend or cancel invitations, and approve, reject or lock membership per organization</strong>. Users see and accept or reject pending invitations from their account dashboard; the organization switcher lists only active memberships. Global <em>Rejected</em> / <em>Deleted</em> status still blocks sign-in unless a per-membership override exists.',
-    size: 'L',
-    integration: 'Update Customer to <code>3.1021.0</code>. <strong>Breaking change:</strong> the old <code>RegistrationInvitationEmailNotification</code> templates are replaced with new <code>organization-invite</code> templates — <strong>no auto-migration</strong>, and the new templates ship English-only. Recreate any customized invitation copy against the new template.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/d/d9c4c8c577437df3afc25ef7cd664e8f5d7fb91e.png',
-    caption: 'Invite, approve, reject or lock membership per organization'
-  },
-  {
-    category: 'Security · Platform 3.1054.0',
-    wow: true,
-    title: 'Independent <span class="accent">admin-UI access control</span>',
-    problem: 'API tokens issued for non-staff purposes could still open the admin back-office if the underlying permissions overlapped. There was no clean way to allow a partner or an integration account to hit the API without also exposing the admin panel to them.',
-    solution: 'A new <strong><code>PlatformUI</code></strong> configuration section separates admin-UI access from API permissions: <code>AllowedAccountTypes</code> filters who can log in, and <code>AllowedPermissions</code> / <code>DeniedPermissions</code> use permission masks (<code>platform:*</code>, <code>catalog:*</code>) to gate the panel independently from token scopes.',
+    title: '<span class="accent">Sign-in log</span> — every attempt, every path',
+    problem: 'There was no durable, queryable record of who tried to sign in to the platform. Password sign-ins, SSO, API tokens and Login-on-behalf sessions each left different traces (or none), so answering an auditor&apos;s "who accessed this account on this date" or an incident "where did the failed attempts come from" meant stitching together application logs and guesses.',
+    solution: 'Platform now writes <strong>every sign-in attempt</strong> — successful or failed, including <em>Login-on-behalf</em> sessions — to a durable log. Each entry captures date, username typed, outcome, failure reason, sign-in type, operator (for on-behalf), IP address, host, user-agent, store and member. Filter, search and export directly from the admin UI.',
     size: 'S',
-    integration: 'Update Platform to <code>3.1054.0</code>. Add a <code>PlatformUI</code> section to <code>appsettings</code> defining allowed account types and permission masks. Audit non-staff accounts before enabling — the block is immediate.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/c/caa3acf511ddf6ccf6633dda8fdb255483bf19a9.jpeg',
-    caption: 'Admin sign-in filtered by account type and permission mask'
+    integration: 'Update Platform to <code>3.1071.0</code>. Logging is automatic — no appsettings or opt-in. Define your retention policy before the volume builds up.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/5/50aaeb834b44fec306aaba2509ab281cf1af65d6_2_458x500.png',
+    caption: 'Sign-in log dashboard with per-outcome widgets'
   },
   {
-    category: 'Security · Pickup 3.1004.0 + Catalog CSV 3.1003.0 + Profile xAPI 3.1016.0',
+    category: 'B2B · Loyalty 3.1008.0',
     wow: true,
-    title: 'AutoMapper <span class="accent">vulnerability closed</span>',
-    problem: 'The AutoMapper library carried a published CVE (<code>GHSA-rvv3-g6hj-g44x</code>) that touched multiple platform modules — every deployment shipping those modules was exposed until the library shipped a fix or the mapping layer moved.',
-    solution: 'AutoMapper is <strong>replaced with explicit, hand-written mapping</strong> in the affected modules — Pickup, Catalog CSV Import/Export and the Profile Experience API. Zero API surface changes; the vulnerability path is gone.',
-    size: 'S',
-    integration: 'Upgrade Pickup to <code>3.1004.0</code>, Catalog CSV Import/Export to <code>3.1003.0</code>, and Profile Experience API to <code>3.1016.0</code>. No consumer-side changes required — mapping happens inside the modules.',
-    noVisual: true,
-    icon: 'refund'
-  },
-  {
-    category: 'B2B · Sales Rep 3.1002.0 / 3.1003.0 / 3.1006.0',
-    wow: true,
-    title: 'Sales Rep Hub — <span class="accent">dashboard, analytics, docs</span>',
-    problem: 'The Sales Rep Hub shipped last month with a fixed layout, no revenue analytics inside it, and no way for a rep to share sales collateral (catalogs, lookbooks, pricing sheets) with the customers they served.',
-    solution: 'Three shipping upgrades: reps <strong>drag and drop dashboard widgets</strong> into the layout that suits their workflow (persisted across sessions and devices); new GraphQL queries expose <strong>MTD / YTD order totals with YoY comparisons</strong>, top products by revenue and units, and cart / customer counts scoped to the rep\'s org; and reps can <strong>publish a shared document library</strong> that their customers access from their own account dashboard.',
+    title: 'Loyalty points at the <span class="accent">organization level</span>',
+    problem: 'Loyalty earning and redemption worked for individual customers only. A B2B buying group with half a dozen outlet managers purchasing against the same account could never pool progress or share rewards — every manager earned (and spent) their own crumbs.',
+    solution: 'Organizations are first-class loyalty actors: <strong>missions complete collectively</strong> across every purchase placed on behalf of the organization, <strong>points accumulate on the org&apos;s balance</strong>, and <strong>any manager with permission can redeem</strong>. Individual earning still works alongside — the two are compatible, not exclusive.',
     size: 'M',
-    integration: 'Update Sales Rep to <code>3.1002.0</code> (dashboard), <code>3.1003.0</code> (analytics — new GraphQL <code>CustomerOrderStatistics</code>, <code>TopSellers</code>, <code>CustomerCartStatistics</code>, <code>CustomerCounts</code>, <code>OrderFilterRules</code> queries) and <code>3.1006.0</code> (document library). Configure the document repository per rep team.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/f/f4d67f25826ecfa0cd38e8decd68b245abdf8b63.gif',
-    caption: 'Drag-and-drop dashboard widgets, persisted per rep'
+    integration: 'Update Loyalty to <code>3.1008.0</code>. Configure which missions apply at the organization level in the backend; grant the redemption permission to the right manager roles.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/b/b859862dd77f05fd5480ec87b4d5d005e05d1ae0_2_690x477.png',
+    caption: 'Organization-level mission rewards available to any manager'
   },
   {
-    category: 'AI Commerce · Frontend 2.55.0 / 2.56.0',
+    category: 'B2B · Orders 3.1015.0',
     wow: true,
-    title: '<span class="accent">AI-agent discovery</span> — Organization schema + /llms.txt',
-    problem: 'AI shopping agents landing on your storefront had no structured way to identify the brand behind it — no verified organization, no logo, no social profiles — and no shortcut to your policies, category structure, or contact info. Every agent had to crawl and guess.',
-    solution: 'The storefront now publishes an <strong>Organization schema (JSON-LD)</strong> on the homepage — name, logo, social profiles, contact info, founding date, plus Open Graph tags — and a <strong><code>/llms.txt</code></strong> brand brief in plain text with product categories, policies, agent capabilities and contact info. Agents get the same identity signals humans do, in a format they can parse.',
-    size: 'S',
-    integration: 'Update Frontend to <code>2.55.0</code> (Organization schema) and <code>2.56.0</code> (<code>/llms.txt</code>). Configure store information settings and the <code>/llms.txt</code> content in admin UI. Defaults ship for both.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/6/61762038fcb04b59cfd42ec09afb3718579a090c.jpeg',
-    caption: 'Organization schema with social profiles — for humans and agents'
+    title: '<span class="accent">Hide prices</span>, keep order access',
+    problem: 'Order price visibility was controlled by authorization, applied inconsistently across read and write paths, and could not be scoped by store, store type or organization. The common B2B requirement — "give this user full access to orders but never show them the money" — had no clean implementation.',
+    solution: 'A new <strong>Order Price Visibility service</strong> owns the decision in one place: an administrator gives the user full access to orders while <strong>restricting price fields</strong> independently. Rules can filter by store, store type or organization; UI and API both honor the same decision.',
+    size: 'M',
+    integration: 'Update Orders to <code>3.1015.0</code>. Implement the restriction service with your own rules (store / store type / organization). The default implementation is permissive — the service is the extension point.',
+    svg: '<svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg" aria-label="Order with prices redacted"><defs><linearGradient id="opvbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F7FB"/><stop offset="1" stop-color="#EAF1FA"/></linearGradient><linearGradient id="opvmask" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#07254A"/><stop offset="1" stop-color="#0B3270"/></linearGradient></defs><rect width="520" height="400" fill="url(#opvbg)"/><rect x="40" y="36" width="440" height="330" rx="18" fill="#FFFFFF" stroke="#DCE5F1"/><rect x="40" y="36" width="440" height="54" rx="18" fill="#07254A"/><rect x="40" y="60" width="440" height="30" fill="#07254A"/><text x="64" y="70" font-family="Inter,sans-serif" font-weight="700" font-size="15" fill="#FFFFFF">Order #SO-10427</text><circle cx="440" cy="63" r="11" fill="#22C55E"/><path d="M435 63 l4 4 l6-7" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><text x="64" y="118" font-family="Inter,sans-serif" font-size="10" fill="#5B6B82" letter-spacing="1.5" font-weight="700">PRODUCT</text><text x="328" y="118" font-family="Inter,sans-serif" font-size="10" fill="#5B6B82" letter-spacing="1.5" font-weight="700">QTY</text><text x="456" y="118" font-family="Inter,sans-serif" font-size="10" fill="#5B6B82" letter-spacing="1.5" font-weight="700" text-anchor="end">PRICE</text><line x1="60" y1="128" x2="460" y2="128" stroke="#DCE5F1"/><text x="64" y="156" font-family="Inter,sans-serif" font-size="13" fill="#0F172A" font-weight="500">Industrial regulator</text><text x="64" y="172" font-family="JetBrains Mono,monospace" font-size="10" fill="#5B6B82">SKU-A14-220</text><text x="340" y="162" font-family="JetBrains Mono,monospace" font-size="13" fill="#0F172A">x12</text><rect x="382" y="150" width="78" height="20" rx="4" fill="url(#opvmask)"/><line x1="60" y1="188" x2="460" y2="188" stroke="#DCE5F1" stroke-dasharray="3 3"/><text x="64" y="216" font-family="Inter,sans-serif" font-size="13" fill="#0F172A" font-weight="500">Pressure gauge, 3in</text><text x="64" y="232" font-family="JetBrains Mono,monospace" font-size="10" fill="#5B6B82">SKU-B07-100</text><text x="340" y="222" font-family="JetBrains Mono,monospace" font-size="13" fill="#0F172A">x48</text><rect x="382" y="210" width="78" height="20" rx="4" fill="url(#opvmask)"/><line x1="60" y1="248" x2="460" y2="248" stroke="#DCE5F1" stroke-dasharray="3 3"/><text x="64" y="276" font-family="Inter,sans-serif" font-size="13" fill="#0F172A" font-weight="500">Mounting bracket set</text><text x="64" y="292" font-family="JetBrains Mono,monospace" font-size="10" fill="#5B6B82">SKU-C02-040</text><text x="340" y="282" font-family="JetBrains Mono,monospace" font-size="13" fill="#0F172A">x6</text><rect x="382" y="270" width="78" height="20" rx="4" fill="url(#opvmask)"/><line x1="60" y1="306" x2="460" y2="306" stroke="#07254A" stroke-width="1.5"/><g transform="translate(60,318)"><rect width="156" height="28" rx="14" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/><path d="M14 14 l5 5 l9-10" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="19" font-family="Inter,sans-serif" font-size="11" fill="#166534" font-weight="700" letter-spacing="0.3">ORDER ACCESS</text></g><g transform="translate(228,318)"><rect width="156" height="28" rx="14" fill="#FFF4E5" stroke="#F97316" stroke-width="1.5"/><path d="M13 7 l10 10 M23 7 l-10 10" fill="none" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/><text x="38" y="19" font-family="Inter,sans-serif" font-size="11" fill="#9A3412" font-weight="700" letter-spacing="0.3">PRICE HIDDEN</text></g></svg>',
+    caption: 'Order and price visibility are now separate decisions'
   },
   {
-    category: 'Fulfillment · Inventory 3.1005.0',
+    category: 'Loyalty · Loyalty 3.1006.0 + Frontend 2.57.0',
     wow: true,
-    title: '<span class="accent">Stock quantities</span> per fulfillment center',
-    problem: 'Fulfillment managers saw only aggregate stock across the store — the number that mattered (how much of a product sits in <em>this specific center</em>) required exports, spreadsheets or a report request. Cross-location allocation decisions were guesswork.',
-    solution: 'Open a fulfillment center and see the <strong>stock quantity of every product held there</strong>. No exports, no queries — just a per-location inventory view for the manager who runs that location.',
-    size: 'S',
-    integration: 'Update Inventory to <code>3.1005.0</code>. No configuration required — the view is available in the fulfillment center detail page.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/b/bc9198f7001b10846675bf7ad7c7cc5bf30e6cfa.png',
-    caption: 'Per-product stock, per fulfillment center'
+    title: 'Loyalty <span class="accent">missions and challenges</span>',
+    problem: 'Loyalty programs rewarded transactions but not goals. A customer who spent $500 across the quarter got the same experience as one who hit a specific SKU target — no "complete this to unlock" mechanic to drive the behavior the business actually wanted.',
+    solution: 'Shoppers see <strong>open missions on their account</strong> with goal descriptions, progress and fixed point rewards. Managers configure missions by <strong>order value or count targets, specific SKUs, store scope, date ranges and customer-group targeting</strong> — turn any campaign into a tracked, progress-visible challenge.',
+    size: 'M',
+    integration: 'Update Loyalty to <code>3.1006.0</code> and Frontend to <code>2.57.0</code>. Configure missions in the backend; the storefront picks them up automatically.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/f/f802b626e20d80a06b5b157a29a3bdf8917a9716_2_690x270.jpeg',
+    caption: 'Open missions with progress and reward on the customer account'
   },
   {
-    category: 'Data · Backup and Restore 3.1005.0',
+    category: 'Content · Page Builder 3.1026.0',
     wow: true,
-    title: 'Backup — <span class="accent">catalog images and files</span>',
-    problem: 'Backup and Restore routed binary catalog assets — product images, attached files — through the browser. Large catalogs stalled; some archives came back missing binaries entirely. Migration and DR scenarios silently lost data.',
-    solution: 'Catalog images and files are now handled via <strong>direct binary streaming</strong>. Backups run reliably at large-catalog volumes, and restores rebuild the full asset set — no browser bottleneck, no silent gaps.',
+    title: '<span class="accent">Shared components</span> for Page Builder',
+    problem: 'Reusable content blocks — promotional banners, footer sections, marketing CTAs — had to be rebuilt and maintained on every page they appeared. A copy change meant hunting down every instance; a styling tweak meant editing it N times.',
+    solution: 'Create a component once, <strong>add it to any page</strong>, and choose per-instance whether it stays <strong>synchronized</strong> with the master or diverges with <strong>independent edits</strong>. Page Builder Office shows <strong>where every component is used</strong>, so a change&apos;s blast radius is visible before the save.',
     size: 'S',
-    integration: 'Update Backup and Restore to <code>3.1005.0</code>. Existing backup archives keep restoring; new archives use the streaming path automatically.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/e/e6128ac2442bbbde297b0974ccdbedd459d11eae.png',
-    caption: 'Catalog images and files ride the streaming path'
+    integration: 'Update Page Builder to <code>3.1026.0</code>. No migration — existing pages keep working; convert high-reuse blocks into shared components as you touch them.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/b/b9f7a59751217f79450ff04f5322bbf6d579b103_2_690x331.png',
+    caption: 'Shared component creation inside Page Builder'
+  },
+  {
+    category: 'B2B · Sales Rep 3.1006.0 + Frontend 2.57.0',
+    wow: true,
+    title: 'Sales Rep <span class="accent">shared document library</span>',
+    problem: 'Reps hunted for the approved brochure, this quarter&apos;s price sheet, the right product image or the current spec PDF across email threads, SharePoint folders, and shared drives — then re-emailed each one to the customer. Nothing was in one place, nothing was obviously the current version.',
+    solution: 'A <strong>central library</strong> administrators curate into categories, surfaced on the <strong>rep&apos;s Frontend dashboard</strong>. Reps share collateral with customers in a click; customers see the same documents from <strong>their own account</strong>.',
+    size: 'M',
+    integration: 'Update Sales Rep to <code>3.1006.0</code> and Frontend to <code>2.57.0</code>. Upload the approved materials and organize into categories.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/f/f84fcab6113172f662dfd7cac290fc65dc04199b_2_690x337.png',
+    caption: 'Centralized sales collateral on the rep dashboard'
+  },
+  {
+    category: 'Storefront · Frontend 2.57.0',
+    wow: true,
+    title: 'Product comparison, <span class="accent">tabs and pins</span>',
+    problem: 'The comparison page listed every attribute of every product in one long flat column — scrolling fatigue drowned the handful of differences that actually mattered to the buying decision.',
+    solution: 'Attributes now <strong>group into category tabs</strong>; an <strong>All / Differences toggle</strong> hides identical rows so only the actual differences remain visible; <strong>any attribute can be pinned</strong> to the top for cross-tab visibility. Same data, better decision.',
+    size: 'S',
+    integration: 'Update Frontend to <code>2.57.0</code>. Automatic — the new comparison view replaces the old one on first render.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/e/e87f1a5de29877f8f0c10f52647bdf195809a276_2_530x499.png',
+    caption: 'Category tabs with Differences toggle and pin controls'
   },
 
-  /* ===== SECTION 02: STOREFRONT & UX ===== */
+  /* ===== SECTION 02: PAGE BUILDER & CONTENT ===== */
   {
     type: 'divider',
     num: 'Section 02',
-    title: 'Storefront',
-    titleAccent: '& UX',
-    desc: 'Dark-mode coverage across five themes, a refreshed product-reviews widget, and one-tap multi-channel wishlist sharing.',
-    statValue: '3',
-    statLabel: 'Storefront updates'
+    title: 'Page Builder &',
+    titleAccent: 'Content',
+    desc: 'Beyond shared components, the editor gets anchor-link navigation inside Subscribe blocks and a confirmation prompt before overwriting files on upload — small guardrails against the two sharpest edges content editors hit.',
+    statValue: '2',
+    statLabel: 'Content-editor features'
   },
   {
-    category: 'Frontend · 2.55.0',
-    title: '<span class="accent">Dark mode</span> across five themes',
-    problem: 'Dark-mode coverage was uneven across the shipped theme set — some themes had it, some had partial tokens, some had none. Merchants standardizing on a dark palette had to pick a theme by dark-mode support rather than by design.',
-    solution: 'Dark mode is now available or updated across <strong>Mercury, Coffee, Watermelon, Black-Gold and Red</strong>. Same token approach, same accessibility posture, same per-store or per-user preference.',
+    category: 'Content · Page Builder 3.1022.0',
+    title: '<span class="accent">Anchor links</span> inside Subscribe blocks',
+    problem: 'Text inside a Subscribe form block could not link to other sections of the page. Tables of contents, jump links and "back to top" patterns had to live outside the block or use custom markup.',
+    solution: 'Selected text in a Subscribe form block now <strong>accepts link targets</strong>, including <strong>anchors elsewhere on the page</strong>. Tables of contents, jump links, "back to top" and section navigation work in-block without workarounds.',
     size: 'S',
-    integration: 'Update Frontend to <code>2.55.0</code>. Select the theme variant in store settings; audit any custom overrides against the refreshed dark tokens.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/4/492df0cadbeebdc6ed7917cf1b88560fe2770d0c.webp',
-    caption: 'Dark mode across the shipped theme family'
+    integration: 'Update Page Builder to <code>3.1022.0</code>. Content editors use the existing link UI in the Subscribe block.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/7/70d632afc1bc379aec7fe2a2ef185487b21b7284_2_689x319.png',
+    caption: 'Anchor target picker in the Subscribe block link dialog'
   },
   {
-    category: 'Frontend · 2.56.0',
-    title: 'Product reviews — <span class="accent">refreshed</span>',
-    problem: 'The reviews widget looked dated: whole-star ratings only, unpluralized counts, and a photo carousel that could not be driven from the keyboard.',
-    solution: 'Reviews get a modern refresh: <strong>fractional-fill star ratings</strong>, pluralized review counts, an improved image preview, and a <strong>keyboard-navigable photo carousel</strong>. Same widget slot — no re-work on the storefront.',
+    category: 'Content · Page Builder 3.1025.0',
+    title: 'File-upload <span class="accent">conflict guard</span>',
+    problem: 'Uploading a file whose full name already existed in the target folder silently overwrote the live asset. Nothing warned the editor; the only recovery was to notice the production page was now broken and restore from backup.',
+    solution: 'The uploader now <strong>asks before overwriting</strong>. If a file with the same full name exists, a confirmation prompt is shown and nothing is written until the editor confirms.',
     size: 'S',
-    integration: 'Update Frontend to <code>2.56.0</code>. No configuration required.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/2/2964cfce10677200fa0b6ab1c72fe37b86697d88.jpeg',
-    caption: 'Fractional-fill stars and keyboard-navigable carousel'
-  },
-  {
-    category: 'Frontend · 2.56.0',
-    title: 'Wishlist sharing — <span class="accent">one tap, both channels</span>',
-    problem: 'Sharing a wishlist forced the customer to pick a channel — email or push — on every share. The friction cost conversions; recipients on the "wrong" channel missed the notification entirely.',
-    solution: 'Sharing now <strong>notifies the recipient on both channels — email and push — automatically</strong>. No selection screen, no missed handoff.',
-    size: 'S',
-    integration: 'Update Frontend to <code>2.56.0</code>. No configuration required.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/4/4c4aa8763a4bd4c29617e7acbce168a90542be34.png',
-    caption: 'Both channels, one tap'
+    integration: 'Update Page Builder to <code>3.1025.0</code>. Automatic — the prompt appears on any name collision.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/c/cd338d6f90f603fd43e136bbb5b0a5e352882355_2_690x316.png',
+    caption: 'Confirmation prompt before an overwrite upload'
   },
 
-  /* ===== SECTION 03: MARKETPLACE ===== */
+  /* ===== SECTION 03: SALES REP ===== */
   {
     type: 'divider',
     num: 'Section 03',
-    title: 'Marketplace',
-    titleAccent: '& Vendors',
-    desc: 'Configurable-product parity: defaults, conditional sections, text caps and section names on order line items.',
+    title: 'Sales Rep,',
+    titleAccent: 'Beyond The Library',
+    desc: 'The document library sits in WOW. The other Sales Rep delivery this month is a workflow surface reps had been improvising with sticky notes and spreadsheets — in-app task management with a calendar view.',
     statValue: '1',
-    statLabel: 'Marketplace update'
+    statLabel: 'Workflow upgrade'
   },
   {
-    category: 'Marketplace · Vendor Portal',
-    title: 'Marketplace configurable products — <span class="accent">parity with the catalog</span>',
-    problem: 'Marketplace configurable products lacked the polish of their catalog counterparts — no defaults on options, no conditional sections, no text caps, and order line items showed a raw configuration blob instead of readable section names.',
-    solution: 'The vendor portal picks up <strong>default values per option</strong>, <strong>conditional sections</strong> that appear based on earlier selections, <strong>max-length</strong> constraints on text sections, and <strong>section names on order line items</strong> (e.g. <em>Boot brand</em>, <em>Boot size</em>, <em>Binding</em>) — buyers see itemized selections instead of one string, and fulfilment operators can act without decoding it.',
-    size: 'M',
-    integration: 'Update the Marketplace Vendor Portal module. Configure per-product defaults and conditional visibility through the standard configurable-product admin.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/4/41712bd3cb6221b44232d6ed2c1b4b09edbc6c6c.jpeg',
-    caption: 'Default option values, conditional sections and readable line items'
+    category: 'B2B · Sales Rep 3.1009.0',
+    title: 'Rep <span class="accent">task management</span>',
+    problem: 'Reps tracked their own follow-ups, callbacks and deadlines in whichever tool was handy — a notes app, a shared sheet, their inbox. Nothing was integrated with the rest of the hub; nothing surfaced in the dashboard.',
+    solution: 'Reps create tasks with <strong>title, description, due date and priority</strong>, work from a view grouped as <strong>Upcoming, Overdue, Completed</strong>, and see <strong>task indicators on the calendar</strong>. Built-in, no setup.',
+    size: 'S',
+    integration: 'Update Sales Rep to <code>3.1009.0</code>. Available from the rep dashboard immediately — no admin configuration.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/e/e1b660c39b4a3b2aa6256c89ac2ff9fb86046a6e_2_690x310.png',
+    caption: 'Task management with calendar indicators'
   },
 
-  /* ===== SECTION 04: PLATFORM, OBSERVABILITY & NOTIFICATIONS ===== */
+  /* ===== SECTION 04: FRONTEND & STOREFRONT UX ===== */
   {
     type: 'divider',
     num: 'Section 04',
-    title: 'Platform,',
-    titleAccent: 'Observability & Notifications',
-    desc: 'End-to-end UCP tracing through OpenTelemetry, a tabbed notification-template editor, and unguessable CSV export links.',
+    title: 'Frontend &',
+    titleAccent: 'Storefront UX',
+    desc: 'SSO on Login-on-behalf, honest organization-switcher behavior when a membership is locked, and a batch of UI-kit improvements that tighten accessibility and surface a new date-range picker.',
     statValue: '3',
-    statLabel: 'Platform updates'
+    statLabel: 'Storefront features'
   },
   {
-    category: 'UCP · 3.1005.0',
-    title: 'UCP — <span class="accent">end-to-end tracing</span>',
-    problem: 'When a UCP request failed inside xAPI catalog search, the trail went cold at the protocol boundary. Operations teams saw the failure but not its journey — no correlation, no per-hop timing, no attribution.',
-    solution: 'UCP requests are now <strong>traced end-to-end with OpenTelemetry</strong>, plugged into the Platform\'s standard observability pipeline. Every hop through xAPI, catalog and downstream services shows up as a linked span.',
+    category: 'Security · Frontend 2.57.0',
+    title: '<span class="accent">SSO</span> on Login-on-behalf',
+    problem: 'Login-on-behalf only accepted username and password. If the destination account signed in via SSO, operators either kept a parallel password around or could not use the feature at all.',
+    solution: 'The Session page now <strong>honors SSO</strong> on Login-on-behalf wherever a store has it enabled. No separate credential path required.',
     size: 'S',
-    integration: 'Update UCP to <code>3.1005.0</code>. Enable OpenTelemetry collection using the standard Platform observability setup; tracing appears in whatever backend the platform is already pointed at.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/9/9a4ae4f0aabada82db6aa3d0cef2013f67658dbf.png',
-    caption: 'UCP spans linked through xAPI and downstream services'
+    integration: 'Update Frontend to <code>2.57.0</code>. Available where SSO is already configured on the store.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/9/9cf83fae18fd7971f3354fb9290570211e985dbe_2_690x296.png',
+    caption: 'SSO sign-in option on the Login-on-behalf session page'
   },
   {
-    category: 'Notification · 3.1013.0',
-    title: 'Template editor — <span class="accent">tabs, preview, autocomplete</span>',
-    problem: 'The notification template editor was a single long vertical scroll — subject, body, JSON, preview all stacked below one another. Building a complex notification meant scrolling far more than authoring.',
-    solution: 'A <strong>compact, tabbed workspace</strong> replaces the vertical scroll: live preview, JSON editor, variable autocomplete, and a full-screen mode for focused authoring.',
+    category: 'B2B · Frontend 2.58.0',
+    title: 'Locked organizations <span class="accent">visible, not hidden</span>',
+    problem: 'When a member&apos;s organization was locked, it <em>disappeared</em> from the organization switcher. Multi-org users assumed they had been removed, support tickets followed, and the actual state (locked, not deleted) was invisible.',
+    solution: 'The switcher <strong>shows locked organizations marked and disabled</strong>, instead of silently omitting them. The membership state is now the UX, not a guess.',
     size: 'S',
-    integration: 'Update Notification to <code>3.1013.0</code>. The new editor replaces the existing UI — no configuration required.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/d/dff2c87ff58fff74017867380f486ac2b9baa5d9.png',
-    caption: 'Tabbed template editor with live preview'
+    integration: 'Update Frontend to <code>2.58.0</code>. Automatic.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/8/8704871558d941af1513f03682bf9c31589612f9.png',
+    caption: 'Locked organization visible and disabled in the switcher'
   },
   {
-    category: 'Security · Catalog CSV 3.1004.0',
-    title: 'CSV export — <span class="accent">unguessable</span> filenames',
-    problem: 'Exported CSV download links used predictable filenames. Anyone with the store URL pattern and a mildly determined script could enumerate exports from other operators.',
-    solution: 'Every exported file gets a <strong>6-digit random token</strong> appended to its name. Enumeration attacks close automatically — no operator action needed.',
+    category: 'DX · Frontend 2.58.0',
+    title: 'UI Kit — <span class="accent">accessibility and a date-range picker</span>',
+    problem: 'The design system drifted from spec in a few places that mattered: button icon sizing and label casing, and keyboard-only focus indicators that were ambiguous. There was also no first-class date-range picker component — teams built one-offs.',
+    solution: '<strong>VcButton</strong> icon sizing and label casing now match spec; focus indicators gain <strong>clearer accessibility styling</strong>; a new <strong>VcDateRangePicker</strong> ships. Smaller inconsistencies across the kit cleaned up in the same pass.',
     size: 'S',
-    integration: 'Update Catalog CSV Import/Export to <code>3.1004.0</code>. Rollout is transparent to existing consumers.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/3/3ebda152e966c04e632dba88184e2d9086378f24.png',
-    caption: 'Randomized token appended to every export filename'
+    integration: 'Update Frontend to <code>2.58.0</code> and refresh the component library in your storefront. Where you have a custom date-range picker, consider switching to <code>VcDateRangePicker</code>.',
+    svg: '<svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg" aria-label="UI Kit - accessibility and date-range picker"><defs><linearGradient id="uibg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F7FB"/><stop offset="1" stop-color="#EAF1FA"/></linearGradient><linearGradient id="uirange" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2B7FFF"/><stop offset="1" stop-color="#38BDF8"/></linearGradient></defs><rect width="520" height="400" fill="url(#uibg)"/><text x="40" y="36" font-family="Inter,sans-serif" font-size="10" fill="#5B6B82" letter-spacing="2.5" font-weight="700">VC - DESIGN SYSTEM</text><g transform="translate(40,60)"><rect x="-8" y="-8" width="216" height="62" rx="20" fill="none" stroke="#38BDF8" stroke-width="3" stroke-dasharray="5 3"/><rect width="200" height="46" rx="14" fill="#2B7FFF"/><path d="M20 23 h14 M27 16 v14" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/><text x="48" y="30" font-family="Inter,sans-serif" font-size="15" fill="#FFFFFF" font-weight="700">Create order</text></g><text x="40" y="150" font-family="Inter,sans-serif" font-size="11" fill="#07254A" font-weight="700">VcButton <tspan fill="#5B6B82" font-weight="500">- focus-visible ring (3px)</tspan></text><g transform="translate(300,60)"><rect width="180" height="46" rx="14" fill="#07254A"/><circle cx="24" cy="23" r="11" fill="#FBBF24"/><text x="24" y="28" font-family="Inter,sans-serif" font-size="13" fill="#07254A" font-weight="900" text-anchor="middle">A</text><text x="42" y="29" font-family="Inter,sans-serif" font-size="13" fill="#FFFFFF" font-weight="700">WCAG 2.2 AA</text></g><text x="300" y="150" font-family="Inter,sans-serif" font-size="11" fill="#07254A" font-weight="700">Focus indicators <tspan fill="#5B6B82" font-weight="500">- to spec</tspan></text><g transform="translate(40,174)"><rect width="440" height="202" rx="18" fill="#FFFFFF" stroke="#DCE5F1"/><rect width="440" height="48" rx="18" fill="#07254A"/><rect y="28" width="440" height="20" fill="#07254A"/><text x="22" y="30" font-family="Inter,sans-serif" font-size="13" fill="#FFFFFF" font-weight="700">VcDateRangePicker</text><text x="418" y="30" font-family="Inter,sans-serif" font-size="12" fill="#38BDF8" font-weight="600" text-anchor="end">October 2026</text><g transform="translate(40,84)"><rect x="0" y="18" width="360" height="12" rx="6" fill="#EAF1FA"/><rect x="52" y="18" width="252" height="12" rx="6" fill="url(#uirange)"/><circle cx="52" cy="24" r="13" fill="#2B7FFF"/><circle cx="52" cy="24" r="5" fill="#FFFFFF"/><text x="52" y="58" font-family="JetBrains Mono,monospace" font-size="11" fill="#07254A" font-weight="700" text-anchor="middle">OCT 7</text><circle cx="304" cy="24" r="13" fill="#38BDF8"/><circle cx="304" cy="24" r="5" fill="#FFFFFF"/><text x="304" y="58" font-family="JetBrains Mono,monospace" font-size="11" fill="#07254A" font-weight="700" text-anchor="middle">OCT 21</text></g><g transform="translate(40,176)" font-family="Inter,sans-serif" font-size="9" fill="#5B6B82" letter-spacing="1" text-anchor="middle"><text x="0">1</text><text x="60">7</text><text x="150">14</text><text x="252">21</text><text x="358">31</text></g></g></svg>',
+    caption: 'VcButton focus ring, A11y labelling, VcDateRangePicker'
   },
 
-  /* ===== SECTION 05: VC-SHELL & ADMIN UX ===== */
+  /* ===== SECTION 05: CATALOG, CUSTOMER & ADMIN ===== */
   {
     type: 'divider',
     num: 'Section 05',
-    title: 'VC-Shell',
-    titleAccent: '& Admin UX',
-    desc: 'WCAG 2.2 conformance across the admin surface plus a wave of quality-of-life polish — session handling, mobile tables, keyboard shortcuts and the AI assistant panel.',
-    statValue: '2',
-    statLabel: 'Admin experience updates'
+    title: 'Catalog, Customer',
+    titleAccent: '& Admin',
+    desc: 'Per-store customer company roles, two-direction facet priority sorting, and a user-group visibility shortcut that answers "who does this rule actually match?" without a separate search.',
+    statValue: '3',
+    statLabel: 'Admin workflow features'
   },
   {
-    category: 'VC-Shell · Accessibility',
-    title: '<span class="accent">WCAG 2.2</span> across the admin',
-    problem: 'The admin surface accumulated accessibility gaps as it grew — inconsistent keyboard navigation, focus that got lost inside side menus and blades, tap targets that were too small on the scheduler, popups that trapped screen readers, missing ARIA labels on dashboard widgets and resize controls.',
-    solution: 'A cross-cutting <strong>WCAG 2.2 sweep</strong> delivers improved keyboard navigation and focus management, enhanced tap targets, localized accessible ARIA labels, password-manager autocomplete support, and fixes for the side menu, dashboard widgets, resize controls, popups, blades and the scheduler.',
+    category: 'B2B · Customer 3.1023.0',
+    title: 'Company roles, <span class="accent">per store</span>',
+    problem: 'Customer company roles were a single global list — every store saw every role, whether the role made sense in that store or not.',
+    solution: 'Administrators <strong>configure the set of company roles per store</strong> in the backend. The Frontend role list only shows the roles that store defines, keeping assignment focused.',
     size: 'S',
-    integration: 'Update VC-Shell. Existing custom widgets and blades keep working — the sweep touches shell-level components. Audit any deeply customized blades against the updated focus and ARIA patterns.',
-    noVisual: true,
-    icon: 'globe'
+    integration: 'Update Customer to <code>3.1023.0</code>. Define the per-store role sets in the backend.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/d/db56400a205a95096004056e939a7058c54fa277_2_690x299.png',
+    caption: 'Per-store company role list on the Frontend'
   },
   {
-    category: 'VC-Shell · Admin Polish',
-    title: 'Session, mobile, keyboard, <span class="accent">AI panel</span>',
-    problem: 'Four independent friction points hit admins daily: expired sessions dropped users into raw server errors instead of the login screen; the VcDataTable card view broke on mobile (scroll issues, cut rows, image widths); keyboard shortcuts were inconsistent across the vendor portal; and the AI assistant panel had unreliable keyboard handling and small security gaps.',
-    solution: 'One consolidated sweep: expired sessions <strong>redirect to login</strong> instead of failing on a blade; VcDataTable mobile card view <strong>scrolls cleanly, shows the bottom row, and responds to image column widths</strong>; keyboard shortcuts are <strong>fully supported across every vendor-portal module</strong> with OS-aware tooltips; and the AI assistant panel gets <strong>tighter security and reliable keyboard handling</strong> (including keyboard-based dismissal).',
+    category: 'Catalog · Catalog 3.1044.0',
+    title: 'Facet sorting — <span class="accent">two directions</span>',
+    problem: 'Facet priority sorting offered one direction, and administrators had to guess which direction. Setting a facet high in the list meant one deployment behaved differently from another with the same configuration.',
+    solution: 'Priority sorting now offers both <strong>ascending and descending</strong>, selected per property alongside Name, Numeric and Score. The admin chooses the direction, not the implementation.',
     size: 'S',
-    integration: 'Update VC-Shell. All four fixes are shell-level — no consumer changes required.',
-    noVisual: true,
-    icon: 'speed'
+    integration: 'Update Catalog to <code>3.1044.0</code>. Re-check facet priority configurations after upgrade — the default is unchanged, but the explicit choice is now exposed.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/9/9eadb1ff2e647eb8f5c308a631dc9a1f5597fe17_2_335x500.png',
+    caption: 'Priority ascending and descending in the facet sort selector'
+  },
+  {
+    category: 'Core · Core 3.1008.0',
+    title: 'User-group rules — <span class="accent">show me who matches</span>',
+    problem: 'Managers writing a Promotion, a Loyalty mission or a Pricelist assignment could not preview which customers actually matched the user-group condition. The only way to check was a separate search in a different screen, run with the same filter by hand.',
+    solution: 'Every user-group condition in <strong>Promotions, Loyalty missions and Pricelist assignment</strong> now has a <strong>"Show customers"</strong> link. Clicking opens a blade listing the selected contacts, in-context.',
+    size: 'S',
+    integration: 'Update Core to <code>3.1008.0</code>. Built-in — no configuration.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/optimized/2X/0/0edc8a43461b2514e2009a6a2c16d825c6241f70_2_690x239.png',
+    caption: 'Show-customers link next to every user-group condition'
   },
 
-  /* ===== SECTION 06: QUALITY & DOCUMENTATION ===== */
+  /* ===== SECTION 06: PLATFORM, QUALITY & COMMUNITY ===== */
   {
     type: 'divider',
     num: 'Section 06',
-    title: 'Quality &',
-    titleAccent: 'Documentation',
-    desc: 'A three-layer performance-diagnostics plugin, risk-proportional QA test routing, and rolling Edge documentation for early adopters.',
-    statValue: '3',
-    statLabel: 'DX & QA updates'
+    title: 'Platform, Quality',
+    titleAccent: '& Community',
+    desc: 'Marketplace vendor-side cleanup, VC-Shell platform fixes, a reworked QA flow that trims regression time, three new Knowledge Hub briefs, and the Entra-only Azure SQL authentication guide.',
+    statValue: '5',
+    statLabel: 'Platform & community'
   },
   {
-    category: 'Developer Tools · vc-perf',
-    title: '<span class="accent">vc-perf</span> — three-layer performance diagnostics',
-    problem: 'Performance work in custom modules meant piecing together tools per project — a benchmark here, a load test there, a profiler somewhere else — with no standardized way to compare code paths, measure live concurrency, or attribute allocations back to a specific call site.',
-    solution: '<strong>vc-perf</strong> ships a three-layer diagnostic stack behind one <code>/perf-loop</code> command: <strong>L1 (BenchmarkDotNet)</strong> for code-level A/B with allocation and timing; <strong>L2 (k6 harness)</strong> for live concurrency (throughput, p95, GC pressure); <strong>L3 (dotnet-trace)</strong> for call-site attribution of allocations and CPU time. Advisory, non-blocking — community developers can adopt as much or as little as fits their custom code.',
+    category: 'Marketplace · Vendor UX',
+    title: 'Marketplace — <span class="accent">cleaner vendor flows</span>',
+    problem: 'Vendors adding offers hit a chain of papercuts: custom properties required the master catalog taxonomy to be pre-defined, the custom-property workflow was multi-step and confusing, keyword search sometimes missed offers, a special-price deletion failed silently, and offer renames silently reverted.',
+    solution: 'Custom properties <strong>no longer require master-catalog pre-definition</strong>; the custom-property workflow was reshaped for usability; the search, special-price and rename bugs are closed. Separately, <strong>self-serve vendor returns management</strong> is in development — vendors will handle returns themselves without opening a support ticket.',
     size: 'S',
-    integration: 'Install the vc-perf plugin. Route through <code>/perf-loop</code> when analyzing hot paths; nothing production-affecting.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/2/2bcc5612108d74adc88f92f945e9646d0ebc4ecc.png',
-    caption: 'Three-layer performance analysis behind one command'
+    integration: 'Update the Marketplace vendor-portal modules referenced in your deployment. The fixes are backward-compatible; the self-serve returns feature will land in a future release.',
+    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/0/06490b919fbec043a8b562b8b0fe313c29a6a4b3.png',
+    caption: 'Streamlined vendor custom-property workflow'
   },
   {
-    category: 'QA · Agentic Pipeline',
-    title: 'QA pipeline — <span class="accent">risk-proportional</span> testing',
-    problem: 'Every ticket got the same test depth — a one-line bug fix and a revenue-critical checkout change went through the same full-cross-layer regression. Low-risk fixes waited on tests they did not need; high-risk changes got diluted attention.',
-    solution: 'A new <code>/qa-test</code> command routes tickets by flow type and depth. <strong>Fast verification pass</strong> for bug fixes, <strong>full cross-layer testing</strong> for high-priority or revenue-critical changes, direct integration with the production test suite (no separate promotion step), and <strong>triaged action lists</strong> replacing raw failure dumps.',
+    category: 'DX · VC-Shell',
+    title: 'VC-Shell — <span class="accent">focus, routing, stability</span>',
+    problem: 'Legacy blade-stack behavior left focus unrestored after sign-out and blade expansion, URL ownership scattered across adapters produced five defects over time, skeleton loaders over-rendered, stale search responses overwrote fresh ones, and the custom-property workflow had three parallel implementations.',
+    solution: 'Focus restoration after sign-out and blade expansion is fixed; <strong>URL ownership centralized to the blade stack</strong> (five legacy-adapter defects closed in one move); skeleton rendering and stale-response races resolved; the custom-property workflow moves to <strong>a single inline-modal implementation</strong> with a loading state on the Create button.',
     size: 'S',
-    integration: 'Internal QA infrastructure — no customer action required.',
-    image: 'https://canada1.discourse-cdn.com/flex032/uploads/virtocommerce/original/2X/3/3a692b61ee35113afac228e0cfe1614f8937f18d.png',
-    caption: 'Test depth routed by change risk'
+    integration: 'Pull the current VC-Shell release through your platform shell dependency. Internal — no consumer API changes.',
+    svg: '<svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg" aria-label="VC-Shell blade stack with centralized URL routing"><defs><linearGradient id="shbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F7FB"/><stop offset="1" stop-color="#EAF1FA"/></linearGradient><linearGradient id="shblade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F4F7FB"/></linearGradient></defs><rect width="520" height="400" fill="url(#shbg)"/><g transform="translate(40,30)"><rect width="440" height="36" rx="10" fill="#07254A"/><circle cx="16" cy="18" r="5" fill="#22C55E"/><text x="34" y="23" font-family="JetBrains Mono,monospace" font-size="12" fill="#FFFFFF">/catalog/<tspan fill="#38BDF8">products</tspan>/<tspan fill="#38BDF8">p-427</tspan>/<tspan fill="#FBBF24">pricing</tspan></text><text x="418" y="23" font-family="Inter,sans-serif" font-size="9" fill="#5B6B82" letter-spacing="1.5" text-anchor="end" font-weight="700">BLADE STACK</text></g><g transform="translate(78,86)"><rect width="400" height="86" rx="12" fill="url(#shblade)" stroke="#DCE5F1"/><rect x="12" y="12" width="4" height="62" rx="2" fill="#DCE5F1"/><text x="28" y="32" font-family="Inter,sans-serif" font-size="13" fill="#5B6B82" font-weight="700">Catalog</text><rect x="28" y="44" width="200" height="8" rx="4" fill="#DCE5F1"/><rect x="28" y="58" width="140" height="8" rx="4" fill="#DCE5F1"/></g><g transform="translate(60,154)"><rect width="420" height="100" rx="13" fill="#FFFFFF" stroke="#DCE5F1"/><rect x="12" y="12" width="4" height="76" rx="2" fill="#38BDF8"/><text x="28" y="34" font-family="Inter,sans-serif" font-size="14" fill="#07254A" font-weight="700">Product - P-427</text><rect x="28" y="48" width="240" height="8" rx="4" fill="#DCE5F1"/><rect x="28" y="62" width="180" height="8" rx="4" fill="#DCE5F1"/><rect x="28" y="76" width="120" height="8" rx="4" fill="#DCE5F1"/></g><g transform="translate(40,236)"><rect x="-5" y="-5" width="460" height="130" rx="18" fill="none" stroke="#38BDF8" stroke-width="3" stroke-dasharray="6 3"/><rect width="450" height="120" rx="14" fill="#07254A"/><rect x="12" y="14" width="4" height="92" rx="2" fill="#FBBF24"/><text x="30" y="38" font-family="Inter,sans-serif" font-size="15" fill="#FFFFFF" font-weight="700">Pricing - bulk edit</text><text x="30" y="56" font-family="Inter,sans-serif" font-size="10" fill="#38BDF8" letter-spacing="1.5" font-weight="700">FOCUSED BLADE</text><rect x="30" y="72" width="200" height="10" rx="5" fill="#1A6CFF"/><rect x="30" y="88" width="140" height="10" rx="5" fill="#1A6CFF" fill-opacity="0.5"/><rect x="340" y="80" width="94" height="26" rx="13" fill="#2B7FFF"/><circle cx="358" cy="93" r="7" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="12 6"/><text x="400" y="97" font-family="Inter,sans-serif" font-size="11" fill="#FFFFFF" font-weight="700" text-anchor="middle">Create</text></g><g transform="translate(40,382)"><circle cx="7" cy="7" r="6" fill="#22C55E"/><text x="20" y="10" font-family="Inter,sans-serif" font-size="10" fill="#5B6B82" letter-spacing="1" font-weight="700">5 LEGACY DEFECTS CLOSED - SKELETON RACES FIXED - FOCUS RESTORED</text></g></svg>',
+    caption: 'Centralized URL routing in the blade stack'
   },
   {
-    category: 'Docs · Rolling Edge',
-    title: '<span class="accent">Edge documentation</span> for early adopters',
-    problem: 'Documentation only covered stable versions. Teams using early builds off the main branch had no matching docs — features shipped in code without a corresponding page anywhere they could point to.',
-    solution: 'A continuous <strong>Edge</strong> version tracks the main branch, with numbered versions cut per Platform stable release. Early adopters get the same documentation experience as stable users, on the same site.',
+    category: 'Quality · Internal process',
+    title: 'QA — <span class="accent">faster, less regression risk</span>',
+    problem: 'Testing started late (environment waits), full regression cycles were slow, and known issues occasionally slipped through to release because the right re-run did not happen.',
+    solution: 'The <code>/qa-test</code> flow was reworked: <strong>5-minute environment checks</strong> up front, <strong>testing starts on checklist readiness</strong>, test-writing happens in parallel, and the slow full regression is replaced with <strong>re-run of changed tests only</strong>. Faster shipping, lower miss rate.',
     size: 'S',
-    integration: 'No integration required — Edge docs live alongside the stable versions on the docs site with per-version links.',
-    noVisual: true,
-    icon: 'book'
-  },
-
-  /* ===== SECTION 07: COMMUNITY & RECOGNITION ===== */
-  {
-    type: 'divider',
-    num: 'Section 07',
-    title: 'Community',
-    titleAccent: '& Recognition',
-    desc: 'Analyst recognition in Gartner\'s 2026 Hype Cycle plus new community resources on digital transformation and B2B commerce modernization.',
-    statValue: '3',
-    statLabel: 'Community resources'
+    integration: 'Internal process change — no customer action required. Reflected in the cadence of releases going forward.',
+    svg: '<svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg" aria-label="QA process flow - faster shipping, less regression risk"><defs><linearGradient id="qabg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F7FB"/><stop offset="1" stop-color="#EAF1FA"/></linearGradient><linearGradient id="qastep4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B7FFF"/><stop offset="1" stop-color="#1A6CFF"/></linearGradient></defs><rect width="520" height="400" fill="url(#qabg)"/><text x="40" y="38" font-family="Inter,sans-serif" font-size="11" fill="#5B6B82" letter-spacing="2.5" font-weight="700">/QA-TEST FLOW - REWORKED</text><g transform="translate(460,24)" fill="#FBBF24"><path d="M12 0 L0 18 L10 18 L6 32 L22 14 L12 14 Z"/></g><line x1="60" y1="76" x2="60" y2="336" stroke="#38BDF8" stroke-width="3" stroke-dasharray="2 4"/><g transform="translate(0,66)"><circle cx="60" cy="22" r="18" fill="#07254A"/><text x="60" y="27" font-family="JetBrains Mono,monospace" font-size="13" fill="#FBBF24" font-weight="700" text-anchor="middle">01</text><rect x="92" y="2" width="388" height="46" rx="12" fill="#FFFFFF" stroke="#DCE5F1"/><text x="108" y="22" font-family="Inter,sans-serif" font-size="14" fill="#07254A" font-weight="700">Environment check</text><g transform="translate(392,14)"><rect width="76" height="22" rx="11" fill="#DCFCE7" stroke="#22C55E"/><text x="38" y="15" font-family="JetBrains Mono,monospace" font-size="11" fill="#166534" font-weight="700" text-anchor="middle">5 min</text></g><text x="108" y="39" font-family="Inter,sans-serif" font-size="11" fill="#5B6B82">Smoke test upfront, not after waiting</text></g><g transform="translate(0,130)"><circle cx="60" cy="22" r="18" fill="#07254A"/><text x="60" y="27" font-family="JetBrains Mono,monospace" font-size="13" fill="#FBBF24" font-weight="700" text-anchor="middle">02</text><rect x="92" y="2" width="388" height="46" rx="12" fill="#FFFFFF" stroke="#DCE5F1"/><text x="108" y="22" font-family="Inter,sans-serif" font-size="14" fill="#07254A" font-weight="700">Checklist readiness</text><text x="108" y="39" font-family="Inter,sans-serif" font-size="11" fill="#5B6B82">Testing starts the moment the checklist is ready</text></g><g transform="translate(0,194)"><circle cx="60" cy="22" r="18" fill="#07254A"/><text x="60" y="27" font-family="JetBrains Mono,monospace" font-size="13" fill="#FBBF24" font-weight="700" text-anchor="middle">03</text><rect x="92" y="2" width="388" height="46" rx="12" fill="#FFFFFF" stroke="#DCE5F1"/><text x="108" y="22" font-family="Inter,sans-serif" font-size="14" fill="#07254A" font-weight="700">Parallel test authoring</text><g transform="translate(380,16)"><path d="M0 10 h30 M20 1 l10 9 l-10 9" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 10 h30 M70 1 l10 9 l-10 9" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g><text x="108" y="39" font-family="Inter,sans-serif" font-size="11" fill="#5B6B82">Write and run tests side by side, not sequentially</text></g><g transform="translate(0,258)"><circle cx="60" cy="22" r="18" fill="url(#qastep4)"/><text x="60" y="27" font-family="JetBrains Mono,monospace" font-size="13" fill="#FFFFFF" font-weight="700" text-anchor="middle">04</text><rect x="92" y="2" width="388" height="56" rx="12" fill="#07254A"/><text x="108" y="24" font-family="Inter,sans-serif" font-size="14" fill="#FFFFFF" font-weight="700">Changed tests only</text><g transform="translate(378,10)"><rect width="100" height="22" rx="11" fill="#FBBF24"/><text x="50" y="15" font-family="Inter,sans-serif" font-size="10" fill="#07254A" font-weight="900" text-anchor="middle">NO FULL RUN</text></g><text x="108" y="46" font-family="Inter,sans-serif" font-size="11" fill="#38BDF8">Re-run only what changed, not the whole regression</text></g><g transform="translate(40,340)"><rect width="440" height="38" rx="19" fill="#22C55E"/><path d="M22 19 l6 6 l12-13" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="52" y="24" font-family="Inter,sans-serif" font-size="13" fill="#FFFFFF" font-weight="700">Faster shipping, lower miss rate</text></g></svg>',
+    caption: 'Four-step rework of the /qa-test flow'
   },
   {
-    category: 'Recognition · Gartner 2026',
-    title: 'Gartner Hype Cycle — <span class="accent">two categories</span>',
-    problem: 'B2B teams evaluating commerce platforms need independent analyst positioning to unlock procurement conversations.',
-    solution: 'Virto Commerce is listed as a Sample Vendor in the <strong>Gartner 2026 Hype Cycle</strong> for both <strong>Composable Commerce</strong> and <strong>API-Based Digital Commerce</strong>. New community assets support the buying conversation: the <em>Why Digital Transformation Fails</em> podcast, the <em>Circular Commerce tech stack</em> podcast, and a 12-page <strong>FMCG B2B Commerce Modernization Playbook</strong> with an evaluation framework.',
+    category: 'Community · Knowledge Hub',
+    title: 'Three new briefs — <span class="accent">Integration, Platform, Marketplace</span>',
+    problem: 'Procurement conversations needed a single, current artifact to answer the architectural, security and vendor questions that always come up — not a stack of blog posts and old deck exports.',
+    solution: 'Three briefs are published: a <strong>23-page Integration Decision Guide</strong> with nine connectivity paths across buyer-facing, internal and supplier-facing scenarios; a <strong>30-page Platform Brief</strong> covering architecture, security, pricing, deployment, AI, certifications and ecosystem; and a <strong>40-page Marketplace Brief</strong> covering vendor onboarding, commission models, AI features, operations and TCO.',
     size: 'S',
-    integration: 'No integration required. Cite the Gartner listing in procurement conversations; share the playbook with FMCG buying groups. Full report available on request.',
-    noVisual: true,
-    icon: 'globe'
+    integration: 'No integration required. Share with buying committees, legal, and architecture reviewers in procurement conversations.',
+    svg: '<svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg" aria-label="Three Knowledge Hub briefs - Integration, Platform, Marketplace"><defs><linearGradient id="khbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F7FB"/><stop offset="1" stop-color="#EAF1FA"/></linearGradient></defs><rect width="520" height="400" fill="url(#khbg)"/><text x="260" y="36" font-family="Inter,sans-serif" font-size="11" fill="#5B6B82" letter-spacing="2.5" font-weight="700" text-anchor="middle">KNOWLEDGE HUB - THREE BRIEFS</text><g transform="translate(40,74) rotate(-5 70 110)"><rect width="140" height="220" rx="10" fill="#FFFFFF" stroke="#DCE5F1" stroke-width="1.5"/><rect width="140" height="36" rx="10" fill="#2B7FFF"/><rect y="18" width="140" height="18" fill="#2B7FFF"/><text x="14" y="25" font-family="Inter,sans-serif" font-size="10" fill="#FFFFFF" font-weight="700" letter-spacing="1">INTEGRATION</text><text x="14" y="68" font-family="Inter,sans-serif" font-size="14" fill="#07254A" font-weight="800">Decision Guide</text><rect x="14" y="84" width="112" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="96" width="92" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="108" width="100" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="120" width="74" height="7" rx="3" fill="#DCE5F1"/><g transform="translate(14,148)"><rect width="52" height="26" rx="13" fill="#EAF1FA"/><text x="26" y="18" font-family="JetBrains Mono,monospace" font-size="12" fill="#07254A" font-weight="700" text-anchor="middle">23 p</text></g><text x="14" y="196" font-family="Inter,sans-serif" font-size="9" fill="#5B6B82">9 connectivity paths</text></g><g transform="translate(190,54)"><rect width="140" height="246" rx="10" fill="#FFFFFF" stroke="#DCE5F1" stroke-width="1.5"/><rect width="140" height="36" rx="10" fill="#07254A"/><rect y="18" width="140" height="18" fill="#07254A"/><text x="14" y="25" font-family="Inter,sans-serif" font-size="10" fill="#FBBF24" font-weight="700" letter-spacing="1">PLATFORM</text><text x="14" y="68" font-family="Inter,sans-serif" font-size="14" fill="#07254A" font-weight="800">Brief</text><rect x="14" y="84" width="112" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="96" width="112" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="108" width="80" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="120" width="100" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="132" width="90" height="7" rx="3" fill="#DCE5F1"/><g transform="translate(14,160)"><rect width="52" height="26" rx="13" fill="#07254A"/><text x="26" y="18" font-family="JetBrains Mono,monospace" font-size="12" fill="#FBBF24" font-weight="700" text-anchor="middle">30 p</text></g><text x="14" y="208" font-family="Inter,sans-serif" font-size="9" fill="#5B6B82">Architecture - security - AI</text><text x="14" y="222" font-family="Inter,sans-serif" font-size="9" fill="#5B6B82">Certifications - ecosystem</text></g><g transform="translate(348,74) rotate(5 70 110)"><rect width="140" height="220" rx="10" fill="#FFFFFF" stroke="#DCE5F1" stroke-width="1.5"/><rect width="140" height="36" rx="10" fill="#38BDF8"/><rect y="18" width="140" height="18" fill="#38BDF8"/><text x="14" y="25" font-family="Inter,sans-serif" font-size="10" fill="#FFFFFF" font-weight="700" letter-spacing="1">MARKETPLACE</text><text x="14" y="68" font-family="Inter,sans-serif" font-size="14" fill="#07254A" font-weight="800">Brief</text><rect x="14" y="84" width="100" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="96" width="112" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="108" width="88" height="7" rx="3" fill="#DCE5F1"/><rect x="14" y="120" width="104" height="7" rx="3" fill="#DCE5F1"/><g transform="translate(14,148)"><rect width="52" height="26" rx="13" fill="#EAF1FA"/><text x="26" y="18" font-family="JetBrains Mono,monospace" font-size="12" fill="#07254A" font-weight="700" text-anchor="middle">40 p</text></g><text x="14" y="196" font-family="Inter,sans-serif" font-size="9" fill="#5B6B82">Vendor - commissions - TCO</text></g><text x="260" y="340" font-family="Inter,sans-serif" font-size="11" fill="#5B6B82" text-anchor="middle">For buying committees, legal and architecture reviews</text><g transform="translate(192,358)"><rect width="136" height="30" rx="15" fill="#07254A"/><text x="68" y="19" font-family="JetBrains Mono,monospace" font-size="13" fill="#FBBF24" font-weight="700" text-anchor="middle">93 pages total</text></g></svg>',
+    caption: 'Integration Decision Guide, Platform Brief, Marketplace Brief'
+  },
+  {
+    category: 'Docs · Azure SQL · Entra authentication',
+    title: '<span class="accent">Entra-only</span> Azure SQL configuration guide',
+    problem: 'Hardening an Azure SQL deployment to Microsoft Entra-only authentication (removing SQL password auth) is procedurally fiddly — the exact sequence of role assignments, connection-string changes and application-identity grants was not collected in one place.',
+    solution: 'A new <strong>Microsoft Entra-only authentication</strong> configuration guide walks through the full path for Azure SQL: identity setup, role assignments, platform connection-string changes and verification. One procedure, one page.',
+    size: 'S',
+    integration: 'No code update. Follow the guide when hardening an Azure SQL deployment to Entra-only authentication.',
+    svg: '<svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg" aria-label="Microsoft Entra authentication for Azure SQL"><defs><linearGradient id="ehbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F7FB"/><stop offset="1" stop-color="#EAF1FA"/></linearGradient><linearGradient id="ehcyl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B7FFF"/><stop offset="1" stop-color="#07254A"/></linearGradient></defs><rect width="520" height="400" fill="url(#ehbg)"/><text x="260" y="38" font-family="Inter,sans-serif" font-size="11" fill="#5B6B82" letter-spacing="2.5" font-weight="700" text-anchor="middle">ENTRA-ONLY - AZURE SQL</text><g transform="translate(70,112)"><polygon points="60,0 120,34 120,102 60,136 0,102 0,34" fill="#07254A"/><polygon points="60,20 100,43 100,91 60,114 20,91 20,43" fill="none" stroke="#38BDF8" stroke-width="2.5"/><text x="60" y="82" font-family="Inter,sans-serif" font-size="38" fill="#FBBF24" font-weight="900" text-anchor="middle">E</text><text x="60" y="162" font-family="Inter,sans-serif" font-size="12" fill="#07254A" font-weight="700" text-anchor="middle">Microsoft Entra</text><text x="60" y="178" font-family="Inter,sans-serif" font-size="10" fill="#5B6B82" text-anchor="middle">Identity Provider</text></g><g transform="translate(200,180)"><line x1="0" y1="10" x2="110" y2="10" stroke="#38BDF8" stroke-width="3" stroke-dasharray="6 4"/><path d="M100 2 l12 8 l-12 8" fill="none" stroke="#38BDF8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(32,-16)"><rect width="56" height="22" rx="6" fill="#FBBF24"/><text x="28" y="15" font-family="JetBrains Mono,monospace" font-size="10" fill="#07254A" font-weight="900" text-anchor="middle">TOKEN</text></g></g><g transform="translate(340,106)"><path d="M0 20 Q0 0 60 0 Q120 0 120 20 L120 140 Q120 160 60 160 Q0 160 0 140 Z" fill="url(#ehcyl)"/><ellipse cx="60" cy="20" rx="60" ry="20" fill="#2B7FFF"/><ellipse cx="60" cy="20" rx="60" ry="20" fill="none" stroke="#38BDF8" stroke-width="2"/><path d="M0 60 Q0 80 60 80 Q120 80 120 60" fill="none" stroke="#38BDF8" stroke-width="1.5" opacity="0.5"/><path d="M0 100 Q0 120 60 120 Q120 120 120 100" fill="none" stroke="#38BDF8" stroke-width="1.5" opacity="0.5"/><text x="60" y="26" font-family="Inter,sans-serif" font-size="14" fill="#FFFFFF" font-weight="900" text-anchor="middle">SQL</text><g transform="translate(84,116)"><circle cx="20" cy="20" r="22" fill="#FBBF24" stroke="#FFFFFF" stroke-width="3"/><rect x="12" y="18" width="16" height="12" rx="2" fill="#07254A"/><path d="M15 18 v-4 a5 5 0 0 1 10 0 v4" fill="none" stroke="#07254A" stroke-width="2.5"/></g><text x="60" y="186" font-family="Inter,sans-serif" font-size="12" fill="#07254A" font-weight="700" text-anchor="middle">Azure SQL</text><text x="60" y="202" font-family="Inter,sans-serif" font-size="10" fill="#5B6B82" text-anchor="middle">Database</text></g><g transform="translate(130,332)"><rect width="260" height="40" rx="20" fill="#FEE2E2" stroke="#F97316" stroke-width="2"/><g transform="translate(18,10)"><circle cx="10" cy="10" r="10" fill="none" stroke="#F97316" stroke-width="2.5"/><line x1="3" y1="17" x2="17" y2="3" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/></g><text x="140" y="26" font-family="Inter,sans-serif" font-size="13" fill="#9A3412" font-weight="800" text-anchor="middle">NO SQL PASSWORD AUTH</text></g></svg>',
+    caption: 'Token-based authentication, no SQL password'
   },
 
   { type: 'backlog' },
@@ -1777,7 +1787,7 @@ function renderCover() {
           </div>
           <div class="header-meta">
             <span class="pill">Release Notes</span>
-            <span>September 2026</span>
+            <span>October 2026</span>
           </div>
         </div>
 
@@ -1785,16 +1795,16 @@ function renderCover() {
           <span class="cover-eyebrow">What's new this month</span>
           <h1 class="cover-title">
             Release Notes<br/>
-            <span class="grad">September 2026</span>
+            <span class="grad">October 2026</span>
           </h1>
           <p class="cover-sub">
-            <strong>Multi-organization membership control</strong> lands with per-org invitations, approval and lock state; the Sales Rep Hub matures with a customizable dashboard, revenue analytics and a shared document library; the storefront starts speaking to AI agents natively via <strong>Organization schema</strong> and <strong>/llms.txt</strong>; and a wave of security hardening closes an AutoMapper CVE and adds independent admin-UI access control. Business-impact features come first, technical updates follow. Each slide includes a T-shirt size estimating integration complexity.
+            <strong>Loyalty missions</strong> and <strong>organization-level earning</strong> turn B2B programs into a team sport; a durable <strong>sign-in log</strong> answers every compliance question about who tried to access what; the new <strong>Order Price Visibility</strong> service lets admins give full order access while hiding the money; Page Builder gains <strong>shared components</strong>, anchor-link navigation and an upload collision guard; and the Sales Rep Hub keeps maturing with a shared <strong>document library</strong> and in-app task management. Business-impact features come first, technical updates follow. Each slide includes a T-shirt size estimating integration complexity.
           </p>
           <div class="cover-highlights">
             <span class="cover-chip"><span class="num">7</span>WOW business features</span>
-            <span class="cover-chip"><span class="num">Multi-org</span>Membership control</span>
-            <span class="cover-chip"><span class="num">AI-agent</span>Discovery (schema + /llms.txt)</span>
-            <span class="cover-chip"><span class="num">Gartner</span>Composable Commerce 2026</span>
+            <span class="cover-chip"><span class="num">B2B</span>Org-level loyalty earning</span>
+            <span class="cover-chip"><span class="num">SIEM</span>Sign-in log for compliance</span>
+            <span class="cover-chip"><span class="num">Pricing</span>Order visibility control</span>
           </div>
 
           <div class="ts-legend">
@@ -1811,13 +1821,9 @@ function renderCover() {
 
         <div class="slide-footer">
           <div class="cover-nav">
-            <a class="cover-nav-link" href="../2026-08/" title="August 2026">
+            <a class="cover-nav-link" href="../2026-09/" title="September 2026">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-              August 2026
-            </a>
-            <a class="cover-nav-link" href="../2026-10/" title="October 2026">
-              October 2026
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              September 2026
             </a>
           </div>
           <span class="slide-counter">01 <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
@@ -1872,7 +1878,12 @@ function renderDivider(slide, idx) {
 }
 
 function renderContent(slide, idx) {
-  const visualHTML = slide.noVisual
+  const visualHTML = slide.svg
+    ? `<div class="visual-col">
+         <div class="visual-svg">${slide.svg}</div>
+         ${slide.caption ? `<div class="visual-caption">${slide.caption}</div>` : ''}
+       </div>`
+    : slide.noVisual
     ? `<div class="visual-col">
          <div class="no-visual">
            <div class="icon-circle">${icons[slide.icon] || icons.api}</div>
@@ -1912,7 +1923,7 @@ function renderContent(slide, idx) {
             <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
             <div class="brand-text">
               <span class="b1">Virto Commerce</span>
-              <span class="b2">Release Notes — September 2026</span>
+              <span class="b2">Release Notes — October 2026</span>
             </div>
           </div>
           <div class="header-meta">
@@ -1972,14 +1983,14 @@ function renderThanks(idx) {
           <span class="thanks-eyebrow">That's a wrap</span>
           <h1 class="thanks-title">Thank <span class="grad">you</span></h1>
           <p class="thanks-sub">
-            Explore the full September 2026 release notes, request a Virto Commerce demo, or dive into the admin-UI access-control and multi-organization documentation.
+            Explore the full October 2026 release notes, request a Virto Commerce demo, or dive into the sign-in log, organization-level loyalty and Order Price Visibility documentation.
           </p>
           <div class="thanks-cta">
             <a class="cta-btn" href="https://virtocommerce.com/request-demo" target="_blank" rel="noopener">
               Request a Demo
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
-            <a class="cta-btn outline" href="https://www.virtocommerce.org/t/virto-s-release-notes-september-2026/862" target="_blank" rel="noopener">
+            <a class="cta-btn outline" href="https://www.virtocommerce.org/t/virto-s-release-notes-october-2026/864" target="_blank" rel="noopener">
               Read full release notes
             </a>
             <a class="cta-btn outline" href="https://docs.virtocommerce.org/" target="_blank" rel="noopener">
@@ -1987,17 +1998,13 @@ function renderThanks(idx) {
             </a>
           </div>
           <div class="cover-nav" style="justify-content:center;">
-            <a class="cover-nav-link" href="../2026-08/" title="August 2026">
+            <a class="cover-nav-link" href="../2026-09/" title="September 2026">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-              August 2026
-            </a>
-            <a class="cover-nav-link" href="../2026-10/" title="October 2026">
-              October 2026
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              September 2026
             </a>
           </div>
           <div class="thanks-footer">
-            virtocommerce.com  ·  Release Notes September 2026
+            virtocommerce.com  ·  Release Notes October 2026
           </div>
         </div>
       </div>
@@ -2013,7 +2020,7 @@ function renderBacklog(idx) {
             <div class="brand-mark"><img src="https://avatars.githubusercontent.com/u/5762443?s=200&v=4" alt="Virto Commerce logo" /></div>
             <div class="brand-text">
               <span class="b1">Virto Commerce</span>
-              <span class="b2">Release Notes — September 2026</span>
+              <span class="b2">Release Notes — October 2026</span>
             </div>
           </div>
           <div class="header-meta">
@@ -2219,7 +2226,7 @@ function renderBacklogList() {
 function buildMarkdown() {
   const items = [...backlog].sort((a, b) => a - b);
   const lines = [
-    '# Virto Commerce — September 2026 Backlog',
+    '# Virto Commerce — October 2026 Backlog',
     '',
     `Selected ${items.length} feature${items.length === 1 ? '' : 's'} from the release notes.`,
     '',
@@ -2234,7 +2241,7 @@ function buildMarkdown() {
   });
   lines.push('');
   lines.push('---');
-  lines.push('Source: https://www.virtocommerce.org/t/virto-s-release-notes-september-2026/862');
+  lines.push('Source: https://www.virtocommerce.org/t/virto-s-release-notes-october-2026/864');
   return lines.join('\n');
 }
 

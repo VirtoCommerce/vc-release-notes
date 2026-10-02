@@ -10,7 +10,7 @@ Product, engineering, and business stakeholders review what shipped, mark featur
 
 [![View live site](https://img.shields.io/badge/View_live-virtocommerce.github.io-2B7FFF?style=for-the-badge&logo=github&logoColor=white)](https://virtocommerce.github.io/vc-release-notes/)
 
-[**🌐 Latest release · September 2026 →**](https://virtocommerce.github.io/vc-release-notes/2026-09/)
+[**🌐 Latest release · October 2026 →**](https://virtocommerce.github.io/vc-release-notes/2026-10/)
 
 </div>
 
@@ -25,6 +25,7 @@ Product, engineering, and business stakeholders review what shipped, mark featur
 
 | Release | Highlights | Source |
 | :--- | :--- | :--- |
+| 📊 [**October 2026**](https://virtocommerce.github.io/vc-release-notes/2026-10/) | Loyalty missions, organization-level loyalty earning, durable sign-in log, Order Price Visibility service, Page Builder shared components, Sales Rep document library + task management, product-comparison tabs, UI-kit accessibility | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-october-2026/864) |
 | 📊 [**September 2026**](https://virtocommerce.github.io/vc-release-notes/2026-09/) | Multi-org membership control, admin-UI access control, AutoMapper CVE closed, Sales Rep Hub maturity, AI-agent discovery (Organization schema + `/llms.txt`), fulfillment-center stock, backup for catalog images, Gartner Composable Commerce | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-september-2026/862) |
 | 📊 [**August 2026**](https://virtocommerce.github.io/vc-release-notes/2026-08/) | Native MCP for UCP (AI-agent commerce), Sales Rep Hub, engine-agnostic Background Jobs, VC-Shell 2.2.0, vc-fix QA plugin, Paradigm B2B 5-gold | [Notes](https://www.virtocommerce.org/t/virtos-release-notes-august-2026/858/1) |
 | 📊 [**July 2026** · Stable 15](https://virtocommerce.github.io/vc-release-notes/2026-07/) | .NET 10 + PostgreSQL 18, inline checkout, loyalty payments, Virto OZ in Operator Portal | [Notes](https://www.virtocommerce.org/t/virto-s-release-notes-july-2026/857) |
@@ -60,7 +61,7 @@ Product, engineering, and business stakeholders review what shipped, mark featur
 ```
 .
 ├── index.html                   # Landing page (served at virtocommerce.github.io/vc-release-notes/)
-├── 2026-01/ ... 2026-09/        # One folder per monthly release, each with a self-contained index.html
+├── 2026-01/ ... 2026-10/        # One folder per monthly release, each with a self-contained index.html
 ├── presentations/               # Strategic decks (release strategy, etc.)
 ├── prompts/                     # Reusable prompt to generate a new deck from a raw release-notes URL
 └── .claude/skills/              # Claude Code skills that automate deck generation (see below)

@@ -2,19 +2,11 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "release-notes",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8901", "--directory", "."],
-      "port": 8901,
-      "url": "http://localhost:8901"
-    },
-    {
-      "name": "atomic-map-live",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8902", "--directory",
-                      "C:/Projects/git/VirtoCommerce/vc-release-notes/presentations/atomic-architecture-map"],
-      "port": 8902,
-      "url": "http://localhost:8902"
+      "name": "static-preview",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", ".", "-p", "5173", "-c-1", "--silent"],
+      "port": 5173,
+      "url": "http://localhost:5173"
     }
   ]
 }
