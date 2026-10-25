@@ -38,6 +38,7 @@ Product, engineering, and business stakeholders review what shipped, mark featur
 
 ## 🎯 Strategic decks
 
+- 🤖 [**All Things AI — Virto's AI Roadmap**](https://virtocommerce.github.io/vc-release-notes/presentations/ai-at-virto.html) — eleven AI capabilities across buyers, sellers, operators and implementers, each with a click-to-fullscreen demo video.
 - 🔌 [**Integration Capabilities of Virto Commerce**](https://virtocommerce.github.io/vc-release-notes/presentations/integration-capabilities.html)
 - ☁️ [**Virto Cloud — Enterprise Commerce, Fully Managed**](https://virtocommerce.github.io/vc-release-notes/presentations/virto-cloud.html)
 - 📜 [**Release Strategy for Business Users**](https://virtocommerce.github.io/vc-release-notes/presentations/release-strategy-for-business-users.html)
