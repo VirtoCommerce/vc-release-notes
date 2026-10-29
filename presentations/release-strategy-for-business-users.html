@@ -552,6 +552,442 @@
   .demo-cap strong { color: var(--virto-navy); }
   .demo-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--virto-muted); }
 
+  /* --- Dev-lifecycle pipeline diagram (ANIM.pipeline) --- */
+  .pipeline { gap: 10px; }
+  .pipeline-svg-wrap {
+    width: 100%; flex: 1 1 auto; min-height: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pipeline-svg-wrap svg {
+    width: 100%; height: auto; max-height: 100%; display: block;
+  }
+
+  /* --- Full-width interactive diagram (type: 'wide-diagram') --- */
+  /* Override the slide-inner grid rows so the stage (3rd child) gets the 1fr
+     and title/detail/footer get auto. Default grid-template-rows had only 3
+     explicit tracks which gave the 1fr to the title row by mistake. */
+  .wide-diagram-slide .slide-inner {
+    grid-template-rows: auto auto 1fr auto auto;
+  }
+  .wide-diagram-stage {
+    flex: 1 1 auto; min-height: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2px 4px;
+    overflow: hidden;
+  }
+  .wide-diagram-stage svg {
+    width: 100%; height: 100%;
+    max-width: 100%; max-height: 100%;
+    display: block;
+  }
+  .wide-diagram-stage [data-node] {
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.2s ease;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .wide-diagram-stage [data-node] rect:first-of-type {
+    transition: fill 0.2s ease, stroke-width 0.2s ease;
+  }
+  .wide-diagram-stage [data-node]:hover {
+    filter: drop-shadow(0 4px 10px rgba(43,127,255,0.35));
+  }
+  .wide-diagram-stage [data-node]:hover rect:first-of-type { stroke-width: 2.5; }
+  .wide-diagram-stage [data-node].is-active rect:first-of-type {
+    stroke: #FBBF24;
+    stroke-width: 3;
+  }
+  .wide-diagram-detail {
+    flex: 0 0 auto;
+    margin: 6px 12px 4px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F4F7FB 100%);
+    border: 1px solid var(--virto-line);
+    box-shadow: 0 2px 10px -4px rgba(7, 37, 74, 0.08);
+    min-height: 48px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .wide-diagram-detail .wd-badge {
+    flex-shrink: 0;
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: #2B7FFF; color: #FFFFFF;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; font-weight: 800;
+  }
+  .wide-diagram-detail .wd-text { flex: 1; }
+  .wide-diagram-detail .wd-title {
+    font-size: 13px; font-weight: 800; color: var(--virto-navy);
+    letter-spacing: 0.2px;
+    margin-bottom: 2px;
+  }
+  .wide-diagram-detail .wd-body {
+    font-size: 12.5px; color: var(--virto-text); line-height: 1.4;
+  }
+  .wide-diagram-detail .wd-body code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    background: #EAF1FA; color: var(--virto-navy);
+    padding: 1px 5px; border-radius: 4px;
+  }
+  .wide-diagram-detail.is-default {
+    background: linear-gradient(180deg, #EAF1FA 0%, #DCE5F1 100%);
+  }
+  .wide-diagram-detail.is-default .wd-badge {
+    background: var(--virto-navy); color: #FBBF24;
+  }
+
+  /* ===== HTML/CSS pipeline flow (replaces the old SVG) ===== */
+  .pipeline-flow-wrap {
+    flex: 1 1 auto;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+  }
+  .flow-pipeline {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+    padding: 2px 0;
+  }
+  .flow-side-arrow {
+    position: relative;
+    flex: 0 0 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 4px;
+    padding-bottom: 20px;
+  }
+  .flow-side-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 800;
+    color: #07254A;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .flow-side-track {
+    flex: 1 1 auto;
+    width: 7px;
+    background: repeating-linear-gradient(0deg, #FBBF24 0 8px, transparent 8px 14px);
+    border-radius: 4px;
+    position: relative;
+  }
+  .flow-side-head {
+    width: 0; height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 20px solid #FBBF24;
+    margin-top: -4px;
+  }
+  .flow-lanes {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 2px 4px 2px 0;
+  }
+  .flow-lane {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .flow-lane-label {
+    background: #07254A;
+    border-radius: 10px;
+    padding: 6px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1px;
+  }
+  .flow-lane-label strong {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: #FBBF24;
+    letter-spacing: 2px;
+  }
+  .flow-lane-label small {
+    font-family: 'Inter', sans-serif;
+    font-size: 9.5px;
+    color: #38BDF8;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+  .flow-lane-nodes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px 32px;
+    align-items: stretch;
+    min-width: 0;
+  }
+  /* Chevron arrows as CSS pseudo-elements on nodes */
+  .flow-node:not(:last-child):not(.flow-node--prod)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -22px;
+    width: 12px;
+    height: 12px;
+    border-top: 2.5px solid #38BDF8;
+    border-right: 2.5px solid #38BDF8;
+    transform: translateY(-50%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  .flow-node {
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F4F7FB 100%);
+    border: 2px solid #2B7FFF;
+    border-radius: 12px;
+    padding: 8px 12px 8px 10px;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .flow-node:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px -8px rgba(43,127,255,0.35);
+  }
+  .flow-node.is-active {
+    border-color: #FBBF24;
+    box-shadow: 0 0 0 3px rgba(251,191,36,0.3), 0 8px 22px -8px rgba(251,191,36,0.4);
+  }
+  .flow-node-badge {
+    position: absolute;
+    top: -8px;
+    right: 10px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #2B7FFF;
+    color: #FFFFFF;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 1px 4px rgba(7, 37, 74, 0.2);
+  }
+  .flow-node-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .flow-node-icon {
+    color: #2B7FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .flow-node-icon svg { display: block; }
+  .flow-node-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .flow-node-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: #07254A;
+    letter-spacing: 0.2px;
+    line-height: 1.15;
+  }
+  .flow-node-body {
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    color: #5B6B82;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  /* Variants */
+  .flow-node--security { border-color: #F97316; }
+  .flow-node--security .flow-node-badge { background: #F97316; }
+  .flow-node--security .flow-node-icon { color: #F97316; }
+
+  .flow-node--stable {
+    background: #07254A;
+    border-color: #FBBF24;
+  }
+  .flow-node--stable .flow-node-badge { background: #FBBF24; color: #07254A; }
+  .flow-node--stable .flow-node-icon { color: #FBBF24; }
+  .flow-node--stable .flow-node-title { color: #FFFFFF; }
+  .flow-node--stable .flow-node-body { color: #FBBF24; }
+
+  .flow-node--dashed {
+    border-style: dashed;
+    border-color: #94A3B8;
+    opacity: 0.95;
+  }
+  .flow-node--dashed .flow-node-badge { background: #5B6B82; }
+  .flow-node--dashed .flow-node-icon { color: #5B6B82; }
+
+  /* Production — single wide, prominent, spans all 4 columns, compact single row */
+  .flow-node--prod {
+    grid-column: 1 / -1;
+    background: #1A6CFF;
+    border-color: #38BDF8;
+    border-width: 2px;
+    padding: 8px 14px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+  }
+  .flow-node--prod::after { display: none; }
+  .flow-node--prod .flow-node-badge {
+    background: #07254A;
+    color: #FFFFFF;
+    width: 28px; height: 28px;
+    font-size: 12px;
+  }
+  .flow-prod-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+  .flow-prod-icon {
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .flow-prod-chips {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+    flex-wrap: wrap;
+  }
+  .flow-prod-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: 1.2px;
+    line-height: 1;
+  }
+  .flow-prod-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 11.5px;
+    color: #DCE5F1;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .flow-prod-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .flow-prod-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 11px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(220,229,241,0.55);
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ===== MOBILE: stack lanes vertically, nodes column, chevrons rotate ===== */
+  @media (max-width: 900px) {
+    .pipeline-flow-wrap { overflow: visible; }
+    .flow-pipeline { flex-direction: column; gap: 14px; padding: 4px 0; }
+    .flow-side-arrow {
+      flex-direction: row;
+      padding: 0 4px;
+      gap: 10px;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .flow-side-track {
+      height: 7px; width: auto; flex: 1 1 auto;
+      background: repeating-linear-gradient(90deg, #FBBF24 0 8px, transparent 8px 14px);
+    }
+    .flow-side-head {
+      border-left: 20px solid #FBBF24;
+      border-top: 14px solid transparent;
+      border-bottom: 14px solid transparent;
+      border-right: none;
+      margin: 0;
+    }
+    .flow-lanes { gap: 18px; }
+    .flow-lane {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .flow-lane-label {
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 10px 14px;
+      gap: 10px;
+      justify-content: center;
+    }
+    .flow-lane-label small { font-size: 11px; }
+    .flow-lane-nodes {
+      flex-direction: column;
+      gap: 6px;
+    }
+    /* Mobile: nodes stack vertically, chevrons point down */
+    .flow-lane-nodes {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .flow-node:not(:last-child):not(.flow-node--prod)::after {
+      top: auto;
+      bottom: -22px;
+      right: 50%;
+      transform: translateX(50%) rotate(135deg);
+    }
+    .flow-node {
+      width: 100%;
+      padding: 14px 16px 12px;
+    }
+    .flow-node-badge { top: 10px; right: 12px; width: 24px; height: 24px; font-size: 12px; }
+    .flow-node-title { font-size: 15px; }
+    .flow-node-body { font-size: 12px; }
+    .flow-node-tag { font-size: 11px; }
+    .flow-node--prod {
+      flex-direction: column;
+      padding: 16px;
+      align-items: flex-start;
+    }
+    .flow-prod-main { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .flow-prod-chips { gap: 6px; }
+    .flow-prod-chip { font-size: 10.5px; padding: 5px 10px; }
+    .flow-prod-title { font-size: 20px; }
+    .flow-prod-sub, .flow-prod-note { font-size: 11.5px; }
+  }
+
   /* --- 1. EVOLVE: edge lanes stream, stable snapshot pulses --- */
   .evolve { gap: 9px; }
   .ev-lane { display: flex; align-items: center; gap: 10px; }
@@ -933,6 +1369,17 @@
   }
 
   @media (max-width: 900px) {
+    .wide-diagram-stage {
+      min-height: 0;
+      padding: 4px 2px;
+      overflow: visible;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .wide-diagram-detail { margin: 6px 4px; padding: 10px 12px; }
+    .wide-diagram-detail .wd-badge { width: 28px; height: 28px; font-size: 11px; }
+    .wide-diagram-detail .wd-title { font-size: 12px; }
+    .wide-diagram-detail .wd-body { font-size: 11.5px; line-height: 1.4; }
     /* Let the page scroll vertically when slide content is taller than the viewport */
     html, body { overflow-x: hidden; overflow-y: auto; height: auto; }
     /* Stage is a normal-flow container, not a fixed overlay */
@@ -1550,7 +1997,202 @@ const ANIM = {
         <span class="star"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"/></svg></span>
         <span class="t">Real case: a <b>10-year-old VC 2.x</b> solution → latest Stable + new frontend, <b>17 modules</b>, by <b>1 developer in 2 months</b> — now live.</span>
       </div>
-    </div>`
+    </div>`,
+
+  // 13. Development lifecycle — idea -> prod pipeline for SI partners
+  pipeline: `
+    <div class="demo pipeline">
+      <div class="pipeline-flow-wrap">
+<div class="flow-pipeline">
+  <div class="flow-side-arrow" aria-hidden="true">
+    <span class="flow-side-label">DELIVERY</span>
+    <span class="flow-side-track"></span>
+    <span class="flow-side-head"></span>
+  </div>
+  <div class="flow-lanes">
+    <div class="flow-lane">
+  <div class="flow-lane-label">
+    <strong>IDEA</strong>
+    <small>You +</small>
+    <small>AI co-pilot</small>
+  </div>
+  <div class="flow-lane-nodes">
+    <button type="button" class="flow-node" data-node="1">
+  <span class="flow-node-badge">1</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M4 2h6l3 3v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M10 2v3h3"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">Spec</span>
+      <span class="flow-node-body">Define goal</span>
+    </span>
+  </span>
+</button><button type="button" class="flow-node" data-node="2">
+  <span class="flow-node-badge">2</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="2.5"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2M4 4l1.4 1.4M10.6 10.6L12 12M4 12l1.4-1.4M10.6 5.4L12 4"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">Development</span>
+      <span class="flow-node-body">AI drafts code, human-directed</span>
+    </span>
+  </span>
+</button><button type="button" class="flow-node" data-node="3">
+  <span class="flow-node-badge">3</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="4" cy="3.5" r="2"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><path d="M4 5.5v4.5a2 2 0 0 0 2 2h4"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">Create PR</span>
+      <span class="flow-node-body">Push to GitHub → triggers CI</span>
+    </span>
+  </span>
+</button>
+  </div>
+</div>
+    <div class="flow-lane">
+  <div class="flow-lane-label">
+    <strong>DEV</strong>
+    <small>Every PR</small>
+    <small>GitHub Actions</small>
+  </div>
+  <div class="flow-lane-nodes">
+    <button type="button" class="flow-node" data-node="4">
+  <span class="flow-node-badge">4</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="5.5" r="2.2"/><path d="M2 14v-1c0-2 2.5-3.5 6-3.5s6 1.5 6 3.5v1"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">Code Review</span>
+      <span class="flow-node-body">Expert + AI sign-off</span>
+    </span>
+  </span>
+</button><button type="button" class="flow-node flow-node--security" data-node="5">
+  <span class="flow-node-badge">5</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.5l5.5 2v4c0 3.5-2.5 6.5-5.5 7-3-.5-5.5-3.5-5.5-7v-4z"/><path d="M6 8l1.5 1.5L10.5 6.5" stroke-linecap="round"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">Secure Scan</span>
+      <span class="flow-node-body">CodeQL · Sonar · Dependabot</span>
+    </span>
+  </span>
+</button><button type="button" class="flow-node" data-node="6">
+  <span class="flow-node-badge">6</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 1.5v4L2.5 11.5a1.5 1.5 0 0 0 1.3 2.5h8.4a1.5 1.5 0 0 0 1.3-2.5L10.5 5.5v-4"/><path d="M5 1.5h6"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">Auto Tests</span>
+      <span class="flow-node-body">xUnit · 100% logic covered</span>
+    </span>
+  </span>
+</button><button type="button" class="flow-node" data-node="7">
+  <span class="flow-node-badge">7</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.5l5.5 2.75v6l-5.5 2.75-5.5-2.75v-6z"/><path d="M2.5 4.25L8 7l5.5-2.75"/><path d="M8 7v7"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">Build</span>
+      <span class="flow-node-body">Artifact · NuGet · Docker</span>
+    </span>
+  </span>
+</button>
+  </div>
+</div>
+    <div class="flow-lane">
+  <div class="flow-lane-label">
+    <strong>QA</strong>
+    <small>Pre-release</small>
+    <small>Virto staging</small>
+  </div>
+  <div class="flow-lane-nodes">
+    <button type="button" class="flow-node" data-node="8">
+  <span class="flow-node-badge">8</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 4,14 14,8"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">E2E Tests</span>
+      <span class="flow-node-body">Playwright · REST + GraphQL</span>
+    </span>
+  </span>
+</button><button type="button" class="flow-node flow-node--security" data-node="9">
+  <span class="flow-node-badge">9</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2.5"/><path d="M8 8l4-4" stroke-width="1.6"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">Live Scan</span>
+      <span class="flow-node-body">OWASP ZAP · Trivy · Snyk</span>
+    </span>
+  </span>
+</button><button type="button" class="flow-node" data-node="10">
+  <span class="flow-node-badge">10</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.5c0 3-3.5 4-3.5 7a3.5 3.5 0 0 0 7 0c0-2-1.5-3-2-5-.5 1-1.5 2-1.5 2z"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">Smoke</span>
+      <span class="flow-node-body">5-min preflight on prod-like env</span>
+    </span>
+  </span>
+</button><button type="button" class="flow-node flow-node--stable" data-node="11">
+  <span class="flow-node-badge">11</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><polygon points="8,2 9.6,5.5 13.5,6 10.5,8.8 11.3,12.5 8,10.6 4.7,12.5 5.5,8.8 2.5,6 6.4,5.5"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">STABLE</span>
+      <span class="flow-node-body">Production ready</span>
+    </span>
+  </span>
+</button>
+  </div>
+</div>
+    <div class="flow-lane">
+  <div class="flow-lane-label">
+    <strong>STAGING</strong>
+    <small>UAT + DEMO</small>
+    <small>client envs</small>
+  </div>
+  <div class="flow-lane-nodes">
+    <button type="button" class="flow-node" data-node="12">
+  <span class="flow-node-badge">12</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.5c1.5 2 2.5 4 2.5 7l-2.5 2-2.5-2c0-3 1-5 2.5-7z"/><path d="M5.5 10.5l-2 3 2-.5"/><path d="M10.5 10.5l2 3-2-.5"/><circle cx="8" cy="6.5" r="1" fill="currentColor"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">UAT environment</span>
+      <span class="flow-node-body">Continuous deploy for business review</span>
+    </span>
+  </span>
+</button><button type="button" class="flow-node flow-node--dashed" data-node="13">
+  <span class="flow-node-badge">13</span>
+  <span class="flow-node-row">
+    <span class="flow-node-icon"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="5.5" r="2.2"/><path d="M2 14v-1c0-2 2.5-3.5 6-3.5s6 1.5 6 3.5v1"/></svg></span>
+    <span class="flow-node-text">
+      <span class="flow-node-title">DEMO (Optional)</span>
+      <span class="flow-node-body">Customer-facing demo · skip if unused</span>
+    </span>
+  </span>
+</button>
+  </div>
+</div>
+    <div class="flow-lane">
+  <div class="flow-lane-label">
+    <strong style="font-size:10px;letter-spacing:1px">PRODUCTION</strong>
+    <small>End users</small>
+    <small>live site</small>
+  </div>
+  <div class="flow-lane-nodes flow-lane-nodes--prod">
+    <button type="button" class="flow-node flow-node--prod" data-node="14">
+  <span class="flow-node-badge">14</span>
+  <span class="flow-prod-main">
+    <span class="flow-prod-icon"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6"/><ellipse cx="8" cy="8" rx="3" ry="6"/><line x1="2" y1="8" x2="14" y2="8"/></svg></span>
+    <span class="flow-prod-title">PRODUCTION</span>
+    <span class="flow-prod-sub">live site</span>
+    <span class="flow-prod-chips">
+      <span class="flow-prod-chip">&#10003; Zero-downtime</span>
+      <span class="flow-prod-chip">&#10003; Health-gated</span>
+      <span class="flow-prod-chip">&#10003; Rolling</span>
+    </span>
+  </span>
+</button>
+  </div>
+</div>
+  </div>
+</div>
+      </div>
+    </div>`,
 };
 
 /* ---------------- SLIDE DATA ---------------- */
@@ -1708,6 +2350,29 @@ const slides = [
       { kind: 'a', html: 'Point the CLI at your manifest and run <code>vc-build update</code>. It fetches the latest Stable Platform and Virto modules; you then rebuild your custom modules, run your tests, and deploy. Tip: keep <code>vc-package.json</code> in source control and use a clean folder per stable update.' },
       { kind: 't', html: 'The Virto layers swap in automatically — your work centres on your own modules.' }
     ]
+  },
+  {
+    type: 'wide-diagram',
+    category: 'Engineering',
+    title: 'How to <span class="accent">build solution</span> — from idea to prod',
+    visualHTML: ANIM.pipeline,
+    nodes: {
+      1:  { title: 'Spec',            body: 'A shared contract between business and engineering, drafted with AI. No code starts until the goal is clear and signed off.' },
+      2:  { title: 'Development',     body: 'AI co-pilot drafts and implements the change under human direction. No raw AI output enters the main branch — expert review follows.' },
+      3:  { title: 'Create PR',       body: 'Push the branch as a Pull Request on GitHub. Branch protection on <code>main</code> means the automated pipeline must stay green before anything can merge.' },
+      4:  { title: 'Code Review',     body: 'Expert sign-off before merge, plus an AI second-pair-of-eyes pass. No code enters <code>main</code> unreviewed.' },
+      5:  { title: 'Secure Scan',     body: 'Every change scanned for known vulnerabilities (CodeQL, SonarCloud), outdated libraries (Dependabot) and leaked keys. Nothing dangerous reaches <code>main</code>.' },
+      6:  { title: 'Auto Tests',      body: 'Automated unit + integration suite (<code>xUnit</code>, <code>Moq</code>, <code>FluentAssertions</code>). Catches regressions before any user sees them.' },
+      7:  { title: 'Build',           body: 'Nightly <code>vc-build</code> produces signed, versioned NuGet + Docker artifacts. Repeatable, auditable and reproducible.' },
+      8:  { title: 'E2E Tests',       body: 'Full user journeys through a real browser plus every REST and GraphQL endpoint. Playwright + TypeScript.' },
+      9:  { title: 'Live Scan',       body: 'Attack simulation against running endpoints (OWASP ZAP) plus container image + dependency re-scan (Trivy, Snyk). Last defense before production.' },
+      10: { title: 'Smoke',           body: 'Automated 5-minute preflight on a prod-like environment. One red light rolls the release back before the rollout starts.' },
+      11: { title: 'STABLE',          body: 'The quarterly promise: a signed, versioned bundle of tested module versions. Clients consume it via <code>vc-package.json</code>.' },
+      12: { title: 'UAT environment', body: 'Continuous deployment to the UAT environment for business review and acceptance testing. The business team validates the change here before it moves on.' },
+      13: { title: 'DEMO (Optional)',  body: 'Customer-facing demo environment for stakeholder review. Many partners run this between UAT and Production; others skip it.' },
+      14: { title: 'Production',      body: 'Rolling release to production with health checks. Zero-downtime — previous version stays live until the new one is proven green.' }
+    },
+    defaultDetail: 'Click any step to see the business value it delivers. Every change passes multiple automated gates + mandatory code review + UAT/DEMO/Production separation \u2014 any red gate rolls the change back.'
   },
   {
     category: 'QA',
@@ -2173,6 +2838,33 @@ function renderThanks(idx) {
     </div>`;
 }
 
+function renderWideDiagram(slide, idx) {
+  const nodesJson = JSON.stringify(slide.nodes).replace(/"/g, '&quot;');
+  const defJson = (slide.defaultDetail || '').replace(/"/g, '&quot;');
+  return `
+    <div class="slide wide-diagram-slide" data-index="${idx}" data-nodes="${nodesJson}" data-default="${defJson}">
+      <div class="slide-inner">
+        ${header(slide.category)}
+        <div style="padding: 4px 12px 0;">
+          <span class="topic-tag">Engineering</span>
+          <h2 class="slide-title" style="margin-top: 4px;">${slide.title}</h2>
+        </div>
+        <div class="wide-diagram-stage">${slide.visualHTML}</div>
+        <div class="wide-diagram-detail is-default">
+          <div class="wd-badge">?</div>
+          <div class="wd-text">
+            <div class="wd-title">How to read this diagram</div>
+            <div class="wd-body">${slide.defaultDetail || ''}</div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span class="slide-category">${slide.category}</span>
+          <span class="slide-counter">${String(idx+1).padStart(2,'0')} <span class="total">/ ${String(totalSlides).padStart(2,'0')}</span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
 function render() {
   let html = '';
   slides.forEach((s, i) => {
@@ -2182,6 +2874,7 @@ function render() {
     else if (s.type === 'compare') html += renderCompare(s, i);
     else if (s.type === 'glossary') html += renderGlossary(s, i);
     else if (s.type === 'services') html += renderServices(s, i);
+    else if (s.type === 'wide-diagram') html += renderWideDiagram(s, i);
     else if (s.type === 'thanks') html += renderThanks(i);
     else html += renderContent(s, i);
   });
@@ -2190,6 +2883,30 @@ function render() {
   document.querySelectorAll('[data-goto]').forEach(btn => {
     btn.addEventListener('click', (e) => { e.stopPropagation(); showSlide(parseInt(btn.dataset.goto, 10)); });
   });
+  // Wire up wide-diagram click interactivity (one-time per render)
+  document.querySelectorAll('.wide-diagram-slide').forEach(slide => {
+    const detail = slide.querySelector('.wide-diagram-detail');
+    const stage = slide.querySelector('.wide-diagram-stage');
+    const nodes = JSON.parse(slide.dataset.nodes);
+    const defaultDetail = slide.dataset.default;
+    stage.addEventListener('click', (e) => {
+      const g = e.target.closest('[data-node]');
+      if (!g) return;
+      const id = g.dataset.node;
+      const n = nodes[id];
+      if (!n) return;
+      stage.querySelectorAll('[data-node].is-active').forEach(x => x.classList.remove('is-active'));
+      g.classList.add('is-active');
+      detail.classList.remove('is-default');
+      detail.innerHTML = `
+        <div class="wd-badge">${id}</div>
+        <div class="wd-text">
+          <div class="wd-title">${n.title}</div>
+          <div class="wd-body">${n.body}</div>
+        </div>`;
+    });
+  });
+
   showSlide(0);
 }
 
