@@ -691,14 +691,20 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
     padding: 2px 4px 2px 0;
+    /* fill the whole 1fr grid row of slide-inner */
+    min-height: 100%;
   }
   .flow-lane {
     display: grid;
     grid-template-columns: 92px 1fr;
     gap: 12px;
     align-items: stretch;
+    /* share available vertical space equally so there is no gap at the bottom
+       in fullscreen / wide-monitor mode */
+    flex: 1 1 0;
+    min-height: 0;
   }
   .flow-lane-label {
     background: #07254A;
@@ -729,8 +735,9 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 28px 32px;
-    align-items: stretch;
+    align-items: stretch;    /* nodes stretch vertically to fill the lane */
     min-width: 0;
+    height: 100%;
   }
   /* Chevron arrows as CSS pseudo-elements on nodes */
   .flow-node:not(:last-child):not(.flow-node--prod)::after {
