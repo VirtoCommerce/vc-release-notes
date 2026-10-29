@@ -946,11 +946,16 @@
       border-right: none;
       margin: 0;
     }
-    .flow-lanes { gap: 18px; }
+    .flow-lanes { gap: 18px; min-height: 0; }
     .flow-lane {
       grid-template-columns: 1fr;
       gap: 10px;
+      /* Reset the desktop flex: 1 1 0 — on mobile each lane must take natural height
+         so nodes don't collapse / overlap. The page scrolls instead. */
+      flex: 0 0 auto;
+      min-height: 0;
     }
+    .flow-lane-nodes { height: auto; }
     .flow-lane-label {
       flex-direction: row;
       flex-wrap: wrap;
