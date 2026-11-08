@@ -48,6 +48,7 @@ content/
   module-accents.js   accents + families from the icon set — generated
   modules.generated.js  one profile per module             — generated
   cells.generated.js    the six published PBCs             — generated
+  heat.generated.js     change history for the heat map    — generated (tools/build-heat.js)
 ```
 
 The page ends with a **footer** built by `renderFooter()`: which tiers are generated and from where,
@@ -559,10 +560,52 @@ lists. Snippets, lead text and notes always span the full width; only the short 
 The choice sticks across atoms and reloads, and the button is hidden on narrow screens where the
 panel already fills the viewport.
 
+## Change heat map
+
+The 🔥 **Changes** button next to the theme switch colours every tile by how much it changed in a
+period, so a presentation can show where the platform's work went. Dark orange (light theme) or bright
+orange (dark theme) is hot; a tile that did not change in the period is greyed out.
+
+- **Choosing the period.** Drag across the month histogram in the panel, or use a preset: the last 3,
+  6 or 12 months, a calendar year, or everything since January 2025. **Play** grows the period one
+  month at a time, from its first month to its last.
+- **Reading a tile.** Hover for its score, the number of releases or changes, how many carried
+  features, and the latest feature titles. Opening a tile adds a *Changes* block with up to eight of
+  them. The two hottest steps print the score on the tile.
+- **Presenting.** The button cycles: off → colours with the panel → colours with the panel folded
+  away, so the whole map is on screen. `h` does the same. The period is in the address as
+  `?heat=2025-01..2026-11`, so a link reopens the same view.
+
+Where the numbers come from (`tools/build-heat.js`, written to `content/heat.generated.js`):
+
+| Tier | Source | One event is |
+|---|---|---|
+| Modules | GitHub releases of each active module | a published release |
+| Atoms | commits on vc-platform `origin/dev` that touch a file the atom cites | a commit |
+| Atoms about another repository (XAPI, search, assets, …) | that module's releases | a release |
+| Packages | the sum of their modules | — |
+
+Each event scores **+5** if a new capability appears (a module's first release, or a commit that adds
+a file the atom cites), **+3** if it carries at least one feature, and **+1** for fixes, dependency
+bumps and other updates. A release's items are read from the *Development* and *Bug fixes* sections
+the release workflow writes; an item that reads as maintenance (a bump, a logo, a translation, a
+performance change) counts as an update even under *Development*. Files cited by three or more atoms
+— `Startup.cs` is cited by fourteen — count for an atom only when the commit subject names something
+that atom is about, so one refactor of `Startup.cs` does not heat half the table.
+
+Colour is **ranked within each tier**: the top 5% of atoms (or modules) are the hottest step, then 10%,
+20%, 25% and the rest. A value scale would let Catalog's 190 releases flatten everything else. Packages
+are scaled against the hottest package. The legend says so, because the same colour means "near the
+top of its tier", not "the same number of releases".
+
+Refresh it before a presentation: `node tools/build-heat.js` (about 15 seconds; `--since 2024-01`
+widens the window). `check-content.js` fails if the history names an atom or module that is no longer
+on the map, and prints how far the history reaches.
+
 ## Keyboard
 
 `/` search · `←→↑↓` move between tiles · `Enter` open · `Esc` back, then close · `f` full-screen
-panel · `?` legend
+panel · `?` legend · `h` change heat map
 
 Following a link **inside** the panel is a step deeper, not a new place: opening a module from a
 package page and then closing lands back on that package, and the close button says so — it shows

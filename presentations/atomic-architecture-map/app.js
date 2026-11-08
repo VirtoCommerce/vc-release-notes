@@ -359,6 +359,438 @@
     ]);
   }
 
+  // ---------------------------------------------------------------- change heat map
+
+  /* How much each tile changed in a chosen period, as a warm background under it. The history is
+     content/heat.generated.js (tools/build-heat.js): module releases and vc-platform commits per
+     month, scored +5 for a new capability, +3 for an event with features, +1 for fixes or updates.
+     Colour is binned by rank within each tier — atoms, modules, packages — so every period has a
+     visible top, and a tile that did not change at all is greyed out. */
+  var HEAT = window.VC_MAP_HEAT || null;
+  var heat = { on: false, panelOpen: true, from: 0, to: 0, timer: null, stats: { atom: {}, molecule: {}, cell: {} } };
+  var MONTH_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function heatMonth(i) {
+    var p = HEAT.months[i].split('-');
+    return MONTH_SHORT[+p[1] - 1] + ' ' + p[0];
+  }
+  function heatPeriod() {
+    return heat.from === heat.to ? heatMonth(heat.from) : heatMonth(heat.from) + ' – ' + heatMonth(heat.to);
+  }
+  function heatSum(arr) {
+    var s = 0;
+    for (var i = heat.from; i <= heat.to; i++) s += (arr && arr[i]) || 0;
+    return s;
+  }
+  function heatStatsOf(rec) {
+    if (!rec) return { score: 0, events: 0, features: 0, born: false, highlights: [] };
+    return {
+      score: heatSum(rec.s), events: heatSum(rec.e), features: heatSum(rec.f),
+      born: rec.b >= heat.from && rec.b <= heat.to,
+      highlights: rec.h.filter(function (h) { return h[0] >= heat.from && h[0] <= heat.to && h[1] !== '__born__'; })
+    };
+  }
+
+  /* Bins by rank, not by value: the top 5% are step 5, the next 10% step 4, then 20%, 25% and the
+     rest. A value scale would let Catalog's 190 releases flatten everything else into step 1. */
+  function heatBinner(scores) {
+    var nz = scores.filter(function (s) { return s > 0; }).sort(function (a, b) { return b - a; });
+    if (!nz.length) return function () { return 0; };
+    var cut = function (frac) { return nz[Math.min(nz.length - 1, Math.max(0, Math.ceil(nz.length * frac) - 1))]; };
+    var t5 = cut(0.05), t4 = cut(0.15), t3 = cut(0.35), t2 = cut(0.60);
+    return function (s) {
+      if (s <= 0) return 0;
+      return s >= t5 ? 5 : s >= t4 ? 4 : s >= t3 ? 3 : s >= t2 ? 2 : 1;
+    };
+  }
+
+  function heatPaint(node, bin, score) {
+    if (!node) return;
+    node.setAttribute('data-heat-bin', String(bin));
+    if (bin >= 4) node.setAttribute('data-heat-label', String(score));
+    else node.removeAttribute('data-heat-label');
+  }
+
+  function heatClear() {
+    document.querySelectorAll('[data-heat-bin]').forEach(function (n) {
+      n.removeAttribute('data-heat-bin');
+      n.removeAttribute('data-heat-label');
+    });
+  }
+
+  function applyHeat() {
+    document.body.classList.toggle('heat-on', heat.on);
+    var toggle = document.getElementById('heat-toggle');
+    toggle.setAttribute('aria-pressed', heat.on ? 'true' : 'false');
+    toggle.querySelector('.heat-toggle-label').textContent = heat.on ? heatPeriod() : 'Changes';
+    if (!heat.on) { heatClear(); return; }
+
+    /* Atoms */
+    var atomStats = {};
+    ATOMS.forEach(function (a) { atomStats[a.id] = heatStatsOf(HEAT.atoms[a.id]); });
+    var atomBin = heatBinner(Object.keys(atomStats).map(function (k) { return atomStats[k].score; }));
+    Object.keys(atomStats).forEach(function (id) {
+      atomStats[id].bin = atomBin(atomStats[id].score);
+      heatPaint(nodes.atoms[id], atomStats[id].bin, atomStats[id].score);
+    });
+
+    /* Modules — topic tiles have no release history and are set aside rather than called cold */
+    var modStats = {};
+    MODULE_TILES.forEach(function (m) { modStats[m.id] = heatStatsOf(HEAT.modules[m.id]); });
+    var modBin = heatBinner(Object.keys(modStats).map(function (k) { return modStats[k].score; }));
+    Object.keys(modStats).forEach(function (id) {
+      modStats[id].bin = modBin(modStats[id].score);
+      heatPaint(nodes.molecules[id], modStats[id].bin, modStats[id].score);
+    });
+    TOPIC_TILES.forEach(function (t) { if (nodes.molecules[t.id]) nodes.molecules[t.id].setAttribute('data-heat-bin', 'na'); });
+
+    /* Packages: the sum of their modules, scaled against the hottest package */
+    var cellStats = {};
+    CELLS.forEach(function (c) {
+      var s = { score: 0, events: 0, features: 0, changed: 0, highlights: [] };
+      (c.modules || []).forEach(function (id) {
+        var m = modStats[id];
+        if (!m) return;
+        s.score += m.score; s.events += m.events; s.features += m.features;
+        if (m.score > 0) s.changed++;
+      });
+      cellStats[c.id] = s;
+    });
+    var maxCell = Math.max.apply(null, Object.keys(cellStats).map(function (k) { return cellStats[k].score; }).concat([0]));
+    Object.keys(cellStats).forEach(function (id) {
+      var s = cellStats[id];
+      s.bin = s.score > 0 ? Math.max(1, Math.ceil(5 * s.score / maxCell)) : 0;
+      heatPaint(nodes.cells[id], s.bin, s.score);
+    });
+    if (nodes.cells[CUSTOM_PBC.id]) nodes.cells[CUSTOM_PBC.id].setAttribute('data-heat-bin', 'na');
+
+    heat.stats = { atom: atomStats, molecule: modStats, cell: cellStats };
+    renderHeatPanelState();
+    if (state.open) heatDrawerBlock(state.open.kind, state.open.id);
+
+    var url = new URL(location.href);
+    url.searchParams.set('heat', HEAT.months[heat.from] + '..' + HEAT.months[heat.to]);
+    history.replaceState(null, '', url.pathname + url.search + location.hash);
+  }
+
+  function setHeatRange(from, to) {
+    var last = HEAT.months.length - 1;
+    heat.from = Math.max(0, Math.min(last, Math.min(from, to)));
+    heat.to = Math.max(0, Math.min(last, Math.max(from, to)));
+    applyHeat();
+  }
+
+  /* The toggle has three states for a presenter: off → colours with the panel → colours with the
+     panel folded away (the whole map on screen) → back to the panel. ✕ in the panel turns it off. */
+  function cycleHeat() {
+    if (!heat.on) { heat.panelOpen = true; setHeat(true); return; }
+    heat.panelOpen = !heat.panelOpen;
+    document.getElementById('heat-panel').hidden = !heat.panelOpen;
+    document.getElementById('heat-toggle').title = heat.panelOpen
+      ? 'Fold the panel away and keep the colours ( h )' : 'Show the heat map panel ( h )';
+  }
+
+  function setHeat(on) {
+    heat.on = on;
+    if (on) heat.panelOpen = true;
+    document.getElementById('heat-toggle').title = on
+      ? 'Fold the panel away and keep the colours ( h )' : 'Show the change heat map ( h )';
+    if (!on) {
+      stopHeatPlay();
+      var url = new URL(location.href);
+      url.searchParams.delete('heat');
+      history.replaceState(null, '', url.pathname + url.search + location.hash);
+      var block = document.querySelector('#drawer-body .heat-drawer');
+      if (block) block.remove();
+    }
+    document.getElementById('heat-panel').hidden = !on;
+    applyHeat();
+  }
+
+  /* ---------- the panel: period, totals, a month histogram you drag across, presets, play ---------- */
+  var heatEls = {};
+
+  function buildHeatPanel() {
+    var panel = document.getElementById('heat-panel');
+    panel.textContent = '';
+    var T = HEAT.timeline;
+    var monthly = HEAT.months.map(function (_, i) { return (T.moduleScore[i] || 0) + (T.platformScore[i] || 0); });
+    var max = Math.max.apply(null, monthly.concat([1]));
+    var last = HEAT.months.length - 1;
+
+    heatEls.period = el('span', { class: 'heat-period' });
+    heatEls.stats = el('div', { class: 'heat-stats' });
+
+    /* Presets: the windows a presenter actually reaches for. */
+    var presets = [
+      { label: '3 months', from: last - 2, to: last },
+      { label: '6 months', from: last - 5, to: last },
+      { label: '12 months', from: last - 11, to: last }
+    ];
+    var years = {};
+    HEAT.months.forEach(function (m, i) { var y = m.slice(0, 4); years[y] = years[y] || [i, i]; years[y][1] = i; });
+    Object.keys(years).forEach(function (y) { presets.push({ label: y, from: years[y][0], to: years[y][1] }); });
+    presets.push({ label: 'All', from: 0, to: last });
+    heatEls.presets = presets.map(function (p) {
+      var b = el('button', { type: 'button', class: 'chip', text: p.label, 'aria-pressed': 'false',
+        onclick: function () { stopHeatPlay(); setHeatRange(p.from, p.to); } });
+      b._range = [Math.max(0, p.from), p.to];
+      return b;
+    });
+    heatEls.play = el('button', { type: 'button', class: 'chip heat-play', text: '▶ Play',
+      title: 'Grow the period one month at a time', onclick: toggleHeatPlay });
+
+    var head = el('div', { class: 'heat-head' },
+      el('div', { class: 'heat-title' },
+        el('span', { class: 'heat-title-kicker', text: 'Change heat' }), heatEls.period),
+      heatEls.stats,
+      el('div', { class: 'heat-actions' }, heatEls.presets, heatEls.play,
+        el('button', { type: 'button', class: 'icon-btn', 'aria-label': 'Fold the panel away and keep the colours',
+          title: 'Fold the panel away, keep the colours ( h )', onclick: cycleHeat }, '⌃'),
+        el('button', { type: 'button', class: 'icon-btn', 'aria-label': 'Turn the heat map off', title: 'Turn the heat map off',
+          onclick: function () { setHeat(false); } }, '✕')));
+
+    /* The histogram is also the range picker: press on a month and drag to another. */
+    heatEls.bars = HEAT.months.map(function (m, i) {
+      return el('div', { class: 'heat-bar', dataset: { i: String(i) } },
+        el('div', { class: 'heat-bar-fill', style: 'height:' + Math.max(3, Math.round(100 * monthly[i] / max)) + '%' }));
+    });
+    var bars = el('div', { class: 'heat-bars', role: 'img',
+      'aria-label': 'Change score per month from ' + heatMonth(0) + ' to ' + heatMonth(last) + '. Drag across months to choose a period.' }, heatEls.bars);
+    var axis = el('div', { class: 'heat-axis', 'aria-hidden': 'true' }, HEAT.months.map(function (m, i) {
+      var month = +m.slice(5, 7);
+      return month === 1 || i === 0
+        ? el('span', { class: 'is-year', text: m.slice(0, 4) })
+        : el('span', { text: MONTH_SHORT[month - 1].charAt(0) });
+    }));
+
+    var dragFrom = null;
+    var indexAt = function (event) {
+      var r = bars.getBoundingClientRect();
+      return Math.max(0, Math.min(last, Math.floor((event.clientX - r.left) / r.width * HEAT.months.length)));
+    };
+    bars.addEventListener('pointerdown', function (event) {
+      stopHeatPlay();
+      dragFrom = indexAt(event);
+      bars.setPointerCapture(event.pointerId);
+      setHeatRange(dragFrom, dragFrom);
+    });
+    bars.addEventListener('pointermove', function (event) {
+      if (dragFrom !== null) {
+        var i = indexAt(event);
+        if (i !== heat.to || dragFrom !== heat.from) setHeatRange(dragFrom, i);
+      }
+      showMonthTip(indexAt(event), event);
+    });
+    bars.addEventListener('pointerup', function () { dragFrom = null; });
+    bars.addEventListener('pointerleave', hideHeatTip);
+
+    var legend = el('div', { class: 'heat-legend' },
+      el('span', { class: 'heat-swatch is-cold', title: 'No change in the period' }), 'no change',
+      el('span', { class: 'heat-swatches' }, [1, 2, 3, 4, 5].map(function (b) {
+        return el('span', { class: 'heat-swatch', style: 'background:var(--heat-' + b + ')' });
+      })),
+      'cooler → hotter, ranked within atoms, modules and packages · +5 new · +3 with features · +1 fixes and updates');
+
+    heatEls.top = el('div', { class: 'heat-top' });
+
+    append(panel, [
+      head,
+      el('div', { class: 'heat-chart' }, bars, axis,
+        el('div', { class: 'heat-hint', text: 'Drag across the months to choose a period. Hover a tile for what changed.' }), legend),
+      heatEls.top
+    ]);
+  }
+
+  function heatTotals() {
+    var T = HEAT.timeline;
+    var born = 0, features = 0;
+    Object.keys(HEAT.modules).forEach(function (id) {
+      var rec = HEAT.modules[id];
+      if (rec.b >= heat.from && rec.b <= heat.to) born++;
+      features += heatSum(rec.f);
+    });
+    return { moduleReleases: heatSum(T.moduleReleases), platformReleases: heatSum(T.platformReleases), features: features, born: born,
+             months: heat.to - heat.from + 1 };
+  }
+
+  function renderHeatPanelState() {
+    if (!heatEls.period) return;
+    heatEls.period.textContent = heatPeriod();
+    var t = heatTotals();
+    var fmt = function (n) { return n.toLocaleString('en-US'); };
+    heatEls.stats.textContent = '';
+    append(heatEls.stats, [
+      [fmt(t.moduleReleases), 'module releases'],
+      [fmt(t.features), 'with new features'],
+      [fmt(t.platformReleases), 'platform releases'],
+      [fmt(t.born), t.born === 1 ? 'new module' : 'new modules']
+    ].map(function (p) {
+      return el('div', { class: 'heat-stat' }, el('span', { class: 'heat-stat-n', text: p[0] }), el('span', { class: 'heat-stat-l', text: p[1] }));
+    }));
+
+    heatEls.bars.forEach(function (b, i) {
+      b.classList.toggle('is-in', i >= heat.from && i <= heat.to);
+      b.classList.toggle('is-edge', i === heat.from || i === heat.to);
+    });
+    heatEls.presets.forEach(function (b) {
+      b.setAttribute('aria-pressed', b._range[0] === heat.from && b._range[1] === heat.to ? 'true' : 'false');
+    });
+
+    /* Hottest: where the work went, named — the part a presenter points at. */
+    var rank = function (stats, kind, n) {
+      return Object.keys(stats).filter(function (id) { return stats[id].score > 0; })
+        .sort(function (a, b) { return stats[b].score - stats[a].score; }).slice(0, n)
+        .map(function (id) {
+          var name = kind === 'atom' ? (byId(ATOMS, id) || {}).name : (byId(MOLECULES, id) || {}).name;
+          return el('button', { type: 'button', class: 'heat-top-row', title: 'Open ' + name,
+            onclick: function () { openHash(kind, id, null); } },
+            el('span', { class: 'heat-top-dot', style: 'background:var(--heat-' + Math.max(1, stats[id].bin) + ')' }),
+            el('span', { class: 'heat-top-name', text: name || id }),
+            el('span', { class: 'heat-top-score', text: String(stats[id].score) }));
+        });
+    };
+    heatEls.top.textContent = '';
+    append(heatEls.top, [
+      el('div', {}, el('div', { class: 'heat-top-head', text: 'Hottest modules' }), rank(heat.stats.molecule, 'molecule', 5)),
+      el('div', {}, el('div', { class: 'heat-top-head', text: 'Hottest atoms' }), rank(heat.stats.atom, 'atom', 3))
+    ]);
+  }
+
+  /* Play grows the period from its first month to its last, one month at a time: the map heats up
+     in front of the room. */
+  function toggleHeatPlay() {
+    if (heat.timer) { stopHeatPlay(); return; }
+    var end = heat.to > heat.from ? heat.to : HEAT.months.length - 1;
+    var start = heat.to > heat.from ? heat.from : 0;
+    setHeatRange(start, start);
+    heatEls.play.textContent = '❚❚ Pause';
+    heat.timer = setInterval(function () {
+      if (heat.to >= end) { stopHeatPlay(); return; }
+      setHeatRange(start, heat.to + 1);
+    }, 700);
+  }
+  function stopHeatPlay() {
+    if (heat.timer) clearInterval(heat.timer);
+    heat.timer = null;
+    if (heatEls.play) heatEls.play.textContent = '▶ Play';
+  }
+
+  /* ---------- tooltip ---------- */
+  var heatTip = null;
+  function placeHeatTip(event) {
+    var w = heatTip.offsetWidth, h = heatTip.offsetHeight;
+    var x = event.clientX + 14, y = event.clientY + 16;
+    if (x + w > window.innerWidth - 8) x = event.clientX - w - 14;
+    if (y + h > window.innerHeight - 8) y = event.clientY - h - 12;
+    heatTip.style.left = Math.max(8, x) + 'px';
+    heatTip.style.top = Math.max(8, y) + 'px';
+  }
+  function hideHeatTip() { if (heatTip) heatTip.hidden = true; }
+
+  function showMonthTip(i, event) {
+    var T = HEAT.timeline;
+    heatTip.textContent = '';
+    append(heatTip, [
+      el('div', { class: 'heat-tip-name', text: heatMonth(i) }),
+      el('div', { class: 'heat-tip-nums' }, el('b', { text: String(T.moduleReleases[i]) }), ' module releases · ',
+        el('b', { text: String(T.platformReleases[i]) }), ' platform releases')
+    ]);
+    heatTip.hidden = false;
+    placeHeatTip(event);
+  }
+
+  function heatTipFor(target) {
+    var kind = target.classList.contains('tile') ? 'atom' : target.classList.contains('cell') ? 'cell' : 'molecule';
+    var id = kind === 'atom' ? Object.keys(nodes.atoms).find(function (k) { return nodes.atoms[k] === target; })
+      : kind === 'cell' ? target.dataset.id
+      : Object.keys(nodes.molecules).find(function (k) { return nodes.molecules[k] === target; });
+    var s = id && heat.stats[kind][id];
+    if (!s) return null;
+    var name = kind === 'atom' ? (byId(ATOMS, id) || {}).name : kind === 'cell' ? (byId(CELLS, id) || {}).name : (byId(MOLECULES, id) || {}).name;
+    var one = s.events === 1;
+    var unit = kind === 'molecule' ? (one ? 'release' : 'releases') : kind === 'cell' ? (one ? 'module release' : 'module releases') : (one ? 'change' : 'changes');
+    var nums = s.score
+      ? [el('b', { text: String(s.score) }), ' score · ', String(s.events), ' ', unit, ' · ', String(s.features), ' with features']
+      : ['No change in this period'];
+    if (kind === 'cell' && s.score) nums.push(' · ' + s.changed + ' modules changed');
+    return [
+      el('div', { class: 'heat-tip-name', text: name || id }),
+      el('div', { class: 'heat-tip-period', text: heatPeriod() }),
+      el('div', { class: 'heat-tip-nums' }, nums),
+      s.born ? el('span', { class: 'heat-tip-new', text: kind === 'atom' ? 'New in this period' : 'New module in this period' }) : null,
+      (s.highlights || []).length ? el('ul', {}, s.highlights.slice(0, 3).map(function (h) {
+        return el('li', {}, h[1] + ' ', el('span', { text: heatMonth(h[0]) }));
+      })) : null
+    ];
+  }
+
+  /* ---------- the drawer: what changed in this tile during the period ---------- */
+  function heatDrawerBlock(kind, id) {
+    var body = document.getElementById('drawer-body');
+    var old = body.querySelector('.heat-drawer');
+    if (old) old.remove();
+    if (!heat.on || (kind !== 'atom' && kind !== 'molecule')) return;
+    var s = heat.stats[kind] && heat.stats[kind][id];
+    if (!s) return;
+    var unit = kind === 'molecule' ? (s.events === 1 ? 'release' : 'releases') : (s.events === 1 ? 'change' : 'changes');
+    var node = el('div', { class: 'heat-drawer' },
+      el('div', { class: 'heat-drawer-head', text: 'Changes · ' + heatPeriod() }),
+      el('div', { class: 'heat-drawer-nums' }, s.score
+        ? rich('**' + s.score + '** score · ' + s.events + ' ' + unit + ', ' + s.features + ' with features' +
+               (s.born ? ' · **new in this period**' : ''))
+        : 'No change in this period.'),
+      s.highlights.length ? el('ul', {}, s.highlights.slice(0, 8).map(function (h) {
+        return el('li', {}, h[1] + ' ', el('span', { text: heatMonth(h[0]) }));
+      })) : null);
+    var lead = body.querySelector('.d-lead');
+    if (lead && lead.nextSibling) body.insertBefore(node, lead.nextSibling);
+    else body.insertBefore(node, body.firstChild);
+  }
+
+  function initHeat() {
+    var toggle = document.getElementById('heat-toggle');
+    if (!HEAT || !HEAT.months || !HEAT.months.length) return;
+    toggle.hidden = false;
+    heat.to = HEAT.months.length - 1;
+    heat.from = 0;
+    buildHeatPanel();
+    heatTip = document.getElementById('heat-tip');
+
+    toggle.addEventListener('click', cycleHeat);
+
+    document.addEventListener('mouseover', function (event) {
+      if (!heat.on) return;
+      var target = event.target.closest && event.target.closest('.tile, .molecule[data-heat-bin], .cell[data-heat-bin]');
+      if (!target || target.closest('#drawer-body')) return;
+      var content = heatTipFor(target);
+      if (!content) { hideHeatTip(); return; }
+      heatTip.textContent = '';
+      append(heatTip, content);
+      heatTip.hidden = false;
+      placeHeatTip(event);
+    });
+    document.addEventListener('mousemove', function (event) {
+      if (heat.on && heatTip && !heatTip.hidden && event.target.closest &&
+          event.target.closest('.tile, .molecule[data-heat-bin], .cell[data-heat-bin]')) placeHeatTip(event);
+    });
+    document.addEventListener('mouseout', function (event) {
+      if (event.target.closest && event.target.closest('.tile, .molecule, .cell') &&
+          !(event.relatedTarget && event.relatedTarget.closest && event.relatedTarget.closest('.tile, .molecule, .cell'))) hideHeatTip();
+    });
+
+    /* A shared link opens the map with the same period: ?heat=2025-01..2026-11 */
+    var param = new URL(location.href).searchParams.get('heat');
+    if (param) {
+      var parts = param.split('..');
+      var a = HEAT.months.indexOf(parts[0]), b = HEAT.months.indexOf(parts[1] || parts[0]);
+      heat.from = a >= 0 ? a : 0;
+      heat.to = b >= 0 ? b : HEAT.months.length - 1;
+      if (heat.to < heat.from) { var t = heat.to; heat.to = heat.from; heat.from = t; }
+      setHeat(true);
+    }
+  }
+
   function renderFilters() {
     var host = document.getElementById('filters');
     host.textContent = '';
@@ -2498,6 +2930,9 @@
     var top = navStack.length ? navStack[navStack.length - 1] : null;
     if (top && top.kind === kind && top.id === id) navStack.pop();
 
+    /* With the heat map on, the page opens with what changed in this tile during the period. */
+    if (heat.on) heatDrawerBlock(kind, id);
+
     state.open = { kind: kind, id: id };
     syncCloseButton();
     showDrawer();
@@ -2598,6 +3033,7 @@
 
     if (event.key === '/') { document.getElementById('search').focus(); event.preventDefault(); return; }
     if (event.key === '?') { toggleLegend(); event.preventDefault(); return; }
+    if ((event.key === 'h' || event.key === 'H') && HEAT) { cycleHeat(); event.preventDefault(); return; }
     if ((event.key === 'f' || event.key === 'F') && !drawer.hidden) {
       toggleExpanded(); event.preventDefault(); return;
     }
@@ -2651,6 +3087,7 @@
     renderBrand();
     renderFooter();
     applyFilter();
+    initHeat();
 
     document.getElementById('search').addEventListener('input', function (event) { setQuery(event.target.value); });
     document.getElementById('search-clear').addEventListener('click', function () {

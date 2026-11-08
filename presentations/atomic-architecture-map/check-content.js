@@ -508,6 +508,30 @@ const featuresIn = pbc => {
 const featureCoverage = FEATURES.map(f => ({ id: f.id, count: PBCS.filter(c => featuresIn(c).includes(f)).length }));
 const orphanFeatures = featureCoverage.filter(f => !f.count).map(f => f.id);
 
+/* ---------- change heat map ----------
+   content/heat.generated.js is optional, but when present every id in it must still be on the map:
+   a renamed atom or a retired module would otherwise keep a history no tile shows. */
+const HEAT = (function () {
+  const file = path.join(MAP, 'content/heat.generated.js');
+  if (!fs.existsSync(file)) return null;
+  const sandbox = {};
+  new Function('window', fs.readFileSync(file, 'utf8'))(sandbox);
+  return sandbox.VC_MAP_HEAT || null;
+})();
+if (HEAT) {
+  const atomIdSet = new Set(ATOMS.map(a => a.id));
+  const moduleIdSet = new Set(ACTIVE_MODULES.map(m => m.id));
+  const strayAtoms = Object.keys(HEAT.atoms || {}).filter(id => !atomIdSet.has(id));
+  const strayModules = Object.keys(HEAT.modules || {}).filter(id => !moduleIdSet.has(id));
+  if (strayAtoms.length) add('heat', 'heat.generated.js', `history for atoms no longer on the map: ${strayAtoms.join(', ')} — re-run tools/build-heat.js`);
+  if (strayModules.length) add('heat', 'heat.generated.js', `history for modules no longer in the catalogue: ${strayModules.join(', ')} — re-run tools/build-heat.js`);
+  for (const [kind, recs] of [['atom', HEAT.atoms], ['module', HEAT.modules]]) {
+    for (const [id, r] of Object.entries(recs || {})) {
+      if (!Array.isArray(r.s) || r.s.length !== HEAT.months.length) add('heat', id, `${kind} history does not cover the ${HEAT.months.length} months`);
+    }
+  }
+}
+
 /* Two kinds of molecule, two contracts. A module tile is verified identity plus a dependency
    graph read from the registry, so it needs no prose; a composite topic is prose that has not been
    written, so it must at least say what is coming. */
@@ -707,6 +731,12 @@ if (previews.length) console.log(`preview modules, not in the registry: ${previe
 if (registryGaps.length) console.log(`registry gaps (informational): ${registryGaps.join(', ')}`);
 if (EXCLUDED.length) {
   console.log(`excluded from the map (${EXCLUDED.length}): ` + EXCLUDED.map(x => `${x.id.replace('VirtoCommerce.', '')} — ${x.reason}`).join(' | '));
+}
+if (HEAT) {
+  const last = HEAT.months[HEAT.months.length - 1];
+  const thisMonth = new Date().toISOString().slice(0, 7);
+  console.log(`heat map → ${HEAT.months[0]} … ${last}, generated ${HEAT.generatedAt}` +
+              (last < thisMonth ? `  (behind: re-run node tools/build-heat.js to include ${thisMonth})` : ''));
 }
 console.log(`module profiles: ${profileFiles.length} (${profilesWithNotes} with authored notes) — ` +
             `${ACTIVE_MODULES.length - profileFiles.length} modules still facts-free`);

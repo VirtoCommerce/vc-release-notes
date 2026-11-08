@@ -31,10 +31,19 @@
     <div id="filters" class="filters" role="group" aria-label="Filter by adoption state"></div>
     <button id="legend-toggle" class="icon-btn" type="button" aria-expanded="false" aria-controls="legend"
             title="Legend ( ? )">Legend</button>
+    <!-- The change heat map: shows how much each tile changed in a chosen period. Hidden when the
+         generated history (content/heat.generated.js) is missing. -->
+    <button id="heat-toggle" class="icon-btn heat-toggle" type="button" aria-pressed="false"
+            aria-controls="heat-panel" title="Show the change heat map ( h )" hidden>
+      <span class="heat-toggle-glyph" aria-hidden="true">🔥</span><span class="heat-toggle-label">Changes</span>
+    </button>
     <button id="theme-toggle" class="icon-btn" type="button" title="Toggle light / dark theme"
             aria-label="Toggle light or dark theme">◐</button>
   </div>
+  <section id="heat-panel" class="heat-panel" aria-label="Change heat map" hidden></section>
 </header>
+
+<div id="heat-tip" class="heat-tip" role="tooltip" hidden></div>
 
 <div id="legend" class="legend" hidden></div>
 
@@ -169,6 +178,9 @@
 <script src="content/modules-active.js"></script>
 <script src="content/modules.generated.js"></script>
 <script src="content/cells.generated.js"></script>
+<!-- Change history for the heat map, built by tools/build-heat.js from module releases and
+     vc-platform commits. Optional: without it the heat button stays hidden. -->
+<script src="content/heat.generated.js"></script>
 <script src="app.js"></script>
 
 </body>
