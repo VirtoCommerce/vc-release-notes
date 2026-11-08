@@ -17,6 +17,10 @@ Build a self-contained interactive HTML slide deck in the "strategic / business"
 
 `presentations/release-strategy-for-business-users.html` — read it once at the start. Every design decision in this skill assumes that file as the pattern.
 
+## Copy rules
+
+Read [prompts/clear-business-writing.md](../../../prompts/clear-business-writing.md) before drafting any slide `title`, `problem`, `solution`, `desc`, body copy, section-divider blurb, cover subtitle or thanks copy. These rules override any copy guidance in the reference implementation or anywhere else where the two conflict. In particular: no mini-slogans, no artificial symmetry, no groups of three for effect, no `unlock / leverage / transform / empower / accelerate / drive / elevate / ecosystem / journey`, no `Why it matters` / `The bottom line` / `The ask` section labels, no em dashes used for drama.
+
 ## Prerequisites
 
 - Working directory is a checkout of `VirtoCommerce/vc-release-notes` (or the target repo has the same CSS shell).
@@ -206,11 +210,15 @@ Visual verification with the browser pane (if available), at four viewports:
 
 ## Copy style
 
-- **Titles**: statement, not question. "How Virto ships bundles" ✗ → "Virto ships in bundles" ✓.
+The full rules are in [prompts/clear-business-writing.md](../../../prompts/clear-business-writing.md). The list below is a short reminder, not a replacement.
+
+- **Titles**: statement, not question. "How Virto ships bundles" ✗ → "Virto ships in bundles" ✓. Prefer factual noun phrases over clever constructions. Avoid `— the X` suffixes used for drama.
 - **Problem**: concrete failure state before the change. Not "users had issues", but "customers had no way to compare two vendor bundles side-by-side".
-- **Solution**: lead with the verb or the new capability. Use `<strong>` for one key phrase per slide.
+- **Solution**: lead with the verb or the new capability. Use `<strong>` for one key phrase per slide. Do not use `<strong>` to stage dramatic reveals.
 - **Body prose**: 1–3 sentences per block. If it needs a bullet list, use `<ul><li>`.
 - **Numbers over adjectives**: "56 modules" beats "many modules"; "3× faster" beats "much faster".
+- **No mini-slogans**: no `Why it matters`, `The bottom line`, `The ask`, `Three tracks, one goal`, `From complexity to clarity`. A section divider's `desc` is a factual summary, not a tagline.
+- **No inflated verbs**: prefer `use` over `leverage`, `improve` over `drive improvement`, `allows` over `enables`, `because` over elaborate causality. Avoid `transform`, `empower`, `accelerate`, `elevate`, `unlock`, `ecosystem`, `journey`, `seamless`.
 
 ## What NOT to do
 
@@ -226,7 +234,7 @@ Visual verification with the browser pane (if available), at four viewports:
 - **Audience** if the draft doesn't imply one (executive-briefing tone ≠ engineering-adoption tone).
 - **Deck length** if the draft has fewer than 5 or more than 12 candidate sections.
 - **Custom SVG diagrams** — if the draft references a diagram, ask for a sketch/reference before authoring inline SVG.
-- **Tone** — "confident and factual" (default) vs. "punchy and marketing" — this deck style leans confident.
+- **Tone** — "confident and factual" (default) vs. "punchy and marketing". Default to confident-and-factual (the clear-business-writing rules govern this choice).
 
 Don't ask about anything the draft already specifies.
 

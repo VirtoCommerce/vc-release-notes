@@ -17,6 +17,7 @@ Build a self-contained interactive HTML slide deck for one Virto Commerce monthl
 
 - The repo is a checkout of `VirtoCommerce/vc-release-notes` with existing month folders `2026-01/` … `2026-NN/` and the reference file `2026-07/index.html` (or newer).
 - The full presentation spec lives at [prompts/release-notes-presentation-prompt.md](../../../prompts/release-notes-presentation-prompt.md). Read it once at the start of every deck generation.
+- The copy rules live at [prompts/clear-business-writing.md](../../../prompts/clear-business-writing.md). Read it before drafting any slide `title`, `problem`, `solution`, `integration`, `caption`, divider `desc`, cover subtitle or thanks copy. It overrides any copy guidance in the presentation spec where the two conflict.
 
 ## Workflow
 
@@ -24,6 +25,7 @@ Build a self-contained interactive HTML slide deck for one Virto Commerce monthl
 
 ```
 Read: prompts/release-notes-presentation-prompt.md    ← the design + behavior contract
+Read: prompts/clear-business-writing.md               ← the copy rules
 ```
 
 Fetch the source URL twice with WebFetch — once for content, once for image URLs — to keep the results focused:

@@ -200,10 +200,15 @@ When a screenshot fails to load, replace the `<img>` with a centered icon circle
 
 ## COPY STYLE
 
+Read the full copy rules at [prompts/clear-business-writing.md](./clear-business-writing.md) before drafting any slide text. These rules override the shorter guidance below where they conflict.
+
 - **Problem statements**: concrete, user-impacting. Not "users had issues with X" — instead "customers had no way to share a specific product variant, forcing recipients to re-select options."
-- **Solution statements**: lead with the verb or the new capability. Use `<strong>` for one key phrase per slide, not more.
+- **Solution statements**: lead with the verb or the new capability. Use `<strong>` for one key phrase per slide, not more. Do not use `<strong>` to stage dramatic reveals.
 - **Integration**: realistic and specific. Mention module versions and concrete setup steps. **Never include time estimates.** Let the T-shirt size communicate complexity; the reader will estimate time based on their own team.
-- **Titles**: 3–7 words. Put the newsworthy phrase inside `<span class="accent">...</span>` so the gradient draws the eye.
+- **Titles**: 3–7 words. Put the newsworthy phrase inside `<span class="accent">...</span>` so the gradient draws the eye. Prefer a factual noun phrase (e.g. `Passkey sign-in`) over a punchy construction (e.g. `Passwordless, phishing-proof: passkey sign-in`). Avoid `— the X` constructions.
+- **No slogans or mini-verdicts**: no `Why it matters`, `The bottom line`, `The ask`, `Three tracks, one goal`. A section divider's `desc` is a factual summary of what the section contains, not a tagline.
+- **No inflated verbs**: prefer `use` over `leverage`, `improve` over `drive improvement`, `allows` over `enables`, `because` over elaborate causality.
+- **No performative conversationality**: `the heavy lifting`, `move the needle`, `the big bet` are not naturally used by Virto customers reading these notes.
 
 ## WHAT TO AVOID
 
