@@ -34,8 +34,11 @@
     <!-- The change heat map: shows how much each tile changed in a chosen period. Hidden when the
          generated history (content/heat.generated.js) is missing. -->
     <button id="heat-toggle" class="icon-btn heat-toggle" type="button" aria-pressed="false"
-            aria-controls="heat-panel" title="Show the change heat map ( h )" hidden>
-      <span class="heat-toggle-glyph" aria-hidden="true">🔥</span><span class="heat-toggle-label">Changes</span>
+            aria-controls="heat-panel" aria-label="Show the change heat map" title="Change heat map ( h )" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+           stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3c.4 3.2-1.6 4.8-3.1 6.7C7.6 11.3 7 12.9 7 14.6A5 5 0 0 0 17 14.6c0-2.4-1.3-4-2.4-5.4-.3 1.6-1.1 2.6-2 3 .6-2.8.1-6.4-.6-9.2z"/>
+      </svg>
     </button>
     <button id="theme-toggle" class="icon-btn" type="button" title="Toggle light / dark theme"
             aria-label="Toggle light or dark theme">◐</button>

@@ -562,9 +562,12 @@ panel already fills the viewport.
 
 ## Change heat map
 
-The 🔥 **Changes** button next to the theme switch colours every tile by how much it changed in a
-period, so a presentation can show where the platform's work went. Dark orange (light theme) or bright
-orange (dark theme) is hot; a tile that did not change in the period is greyed out.
+The flame button next to the theme switch shows how much every tile changed in a period, so a
+presentation can show where the platform's work went. Tiles keep their own colours; the heat is a glow
+underneath them. A tile that did not change gets a faint light-blue glow, and changed tiles burn
+through five warm steps, wider and brighter as they get hotter, with the hottest breathing slowly.
+There is no outline, so the map stays recognisable under the heat. The glow colours are the same in
+both themes.
 
 - **Choosing the period.** Drag across the month histogram in the panel, or use a preset: the last 3,
   6 or 12 months, a calendar year, or everything since January 2025. **Play** grows the period one
@@ -572,9 +575,9 @@ orange (dark theme) is hot; a tile that did not change in the period is greyed o
 - **Reading a tile.** Hover for its score, the number of releases or changes, how many carried
   features, and the latest feature titles. Opening a tile adds a *Changes* block with up to eight of
   them. The two hottest steps print the score on the tile.
-- **Presenting.** The button cycles: off → colours with the panel → colours with the panel folded
-  away, so the whole map is on screen. `h` does the same. The period is in the address as
-  `?heat=2025-01..2026-11`, so a link reopens the same view.
+- **Turning it off.** The button, the ✕ in the panel and `h` all switch it off, and the map goes back
+  exactly as it was: colours, tooltip, the drawer block and the address parameter all go. While it is
+  on, the period is in the address as `?heat=2025-01..2026-11`, so a link reopens the same view.
 
 Where the numbers come from (`tools/build-heat.js`, written to `content/heat.generated.js`):
 
@@ -593,10 +596,11 @@ performance change) counts as an update even under *Development*. Files cited by
 — `Startup.cs` is cited by fourteen — count for an atom only when the commit subject names something
 that atom is about, so one refactor of `Startup.cs` does not heat half the table.
 
-Colour is **ranked within each tier**: the top 5% of atoms (or modules) are the hottest step, then 10%,
-20%, 25% and the rest. A value scale would let Catalog's 190 releases flatten everything else. Packages
-are scaled against the hottest package. The legend says so, because the same colour means "near the
-top of its tier", not "the same number of releases".
+Heat is **ranked within each tier**. Of the tiles that changed, the top 5% get the hottest glow, then
+10%, 20%, 25% and the rest; light blue is no change at all. A value scale would let Catalog's 190
+releases push everything else into the coolest step. Packages are scaled against the hottest package.
+The legend's tooltip says so, because the same glow means "near the top of its tier", not "the same
+number of releases".
 
 Refresh it before a presentation: `node tools/build-heat.js` (about 15 seconds; `--since 2024-01`
 widens the window). `check-content.js` fails if the history names an atom or module that is no longer

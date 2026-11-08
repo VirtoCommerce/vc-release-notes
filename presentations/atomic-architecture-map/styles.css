@@ -1947,204 +1947,167 @@ pre.is-foldable:focus-visible { outline: 2px solid var(--focus); outline-offset:
 @media print { #bubbles, #catEgg, #dogEgg { display: none !important; } }
 
 /* ================================================================ change heat map
-   One warm hue, five steps, binned by rank within each tier so a period always has a visible top.
-   Light mode darkens with heat; dark mode brightens with it (its own steps, not an inversion). Every
-   step's text colour was checked for contrast: WCAG 4.7:1 or better, APCA 52 or better. A tile with
-   no change in the period is greyed out, so the eye goes to where the work went. */
+   Tiles keep their own colours; heat glows underneath them. A tile that did not change gets a faint
+   light-blue glow, and steps 1–5 burn warmer, wider and brighter, ranked within each tier so every
+   period has a visible top. No outline: the glow alone carries the scale, and the map underneath
+   stays recognisable. The glow colours are the same in both themes. */
 :root {
-  --heat-1: #fde5d6; --heat-2: #fbc4a1; --heat-3: #f6955f; --heat-4: #c94a17; --heat-5: #a63a0d;
-  --heat-ink-1: #4a1d06; --heat-ink-2: #4a1d06; --heat-ink-3: #3a1503; --heat-ink-4: #ffffff; --heat-ink-5: #ffffff;
-  --heat-glow: rgba(214, 84, 24, .55);
-  --heat-bar: #f6955f; --heat-bar-on: #c94a17; --heat-bar-off: #d6dbe3;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --heat-1: #3b2216; --heat-2: #5f2f16; --heat-3: #9a4517; --heat-4: #f27d3a; --heat-5: #ffa468;
-    --heat-ink-1: #f6d2bd; --heat-ink-2: #fbdcc8; --heat-ink-3: #ffffff; --heat-ink-4: #1a0a02; --heat-ink-5: #1a0a02;
-    --heat-glow: rgba(255, 150, 80, .6);
-    --heat-bar: #9a4517; --heat-bar-on: #f27d3a; --heat-bar-off: #2c3442;
-  }
-}
-:root[data-theme="light"] {
-  --heat-1: #fde5d6; --heat-2: #fbc4a1; --heat-3: #f6955f; --heat-4: #c94a17; --heat-5: #a63a0d;
-  --heat-ink-1: #4a1d06; --heat-ink-2: #4a1d06; --heat-ink-3: #3a1503; --heat-ink-4: #ffffff; --heat-ink-5: #ffffff;
-  --heat-glow: rgba(214, 84, 24, .55);
-  --heat-bar: #f6955f; --heat-bar-on: #c94a17; --heat-bar-off: #d6dbe3;
-}
-:root[data-theme="dark"] {
-  --heat-1: #3b2216; --heat-2: #5f2f16; --heat-3: #9a4517; --heat-4: #f27d3a; --heat-5: #ffa468;
-  --heat-ink-1: #f6d2bd; --heat-ink-2: #fbdcc8; --heat-ink-3: #ffffff; --heat-ink-4: #1a0a02; --heat-ink-5: #1a0a02;
-  --heat-glow: rgba(255, 150, 80, .6);
-  --heat-bar: #9a4517; --heat-bar-on: #f27d3a; --heat-bar-off: #2c3442;
+  --heat-0: #8cc8ff;
+  --heat-1: #ffd3ad; --heat-2: #ffb276; --heat-3: #ff8c42; --heat-4: #f25c1f; --heat-5: #db3a10;
+  --heat-gradient: linear-gradient(90deg, var(--heat-0), var(--heat-1), var(--heat-2), var(--heat-3), var(--heat-4), var(--heat-5));
 }
 
-/* ---------- the toggle ---------- */
-.heat-toggle { display: inline-flex; align-items: center; gap: 6px; }
+/* ---------- the toggle: an icon like its neighbours, no colour of its own ---------- */
+.heat-toggle { display: inline-grid; place-items: center; padding: 0; width: 30px; }
 .heat-toggle[hidden] { display: none; }
-.heat-toggle-glyph { filter: grayscale(1) opacity(.75); transition: filter .2s; }
-.heat-toggle[aria-pressed="true"] {
-  border-color: var(--heat-4); color: var(--text);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--heat-3) 22%, var(--surface-2)), var(--surface-2));
-}
-.heat-toggle[aria-pressed="true"] .heat-toggle-glyph { filter: none; }
-.heat-toggle-label { font-size: 12px; font-weight: 600; white-space: nowrap; }
+.heat-toggle svg { width: 16px; height: 16px; }
+.heat-toggle[aria-pressed="true"] { border-color: var(--text); }
 
-/* ---------- tiles in heat mode ---------- */
-.tile, .molecule, .cell { transition: background-color .45s ease, color .45s ease, border-color .45s ease,
-                                     box-shadow .45s ease, opacity .45s ease, filter .45s ease; }
-
-body.heat-on [data-heat-bin="0"],
+/* ---------- tiles ---------- */
+.tile, .molecule, .cell { transition: box-shadow .45s ease, opacity .45s ease; }
 body.heat-on [data-heat-bin="na"] { opacity: .3; filter: grayscale(1); }
-body.heat-on [data-heat-bin="0"]:hover,
-body.heat-on [data-heat-bin="na"]:hover { opacity: .7; }
 
-body.heat-on .tile[data-heat-bin="1"], body.heat-on .molecule[data-heat-bin="1"], body.heat-on .cell[data-heat-bin="1"] { --hb: var(--heat-1); --hi: var(--heat-ink-1); }
-body.heat-on .tile[data-heat-bin="2"], body.heat-on .molecule[data-heat-bin="2"], body.heat-on .cell[data-heat-bin="2"] { --hb: var(--heat-2); --hi: var(--heat-ink-2); }
-body.heat-on .tile[data-heat-bin="3"], body.heat-on .molecule[data-heat-bin="3"], body.heat-on .cell[data-heat-bin="3"] { --hb: var(--heat-3); --hi: var(--heat-ink-3); }
-body.heat-on .tile[data-heat-bin="4"], body.heat-on .molecule[data-heat-bin="4"], body.heat-on .cell[data-heat-bin="4"] { --hb: var(--heat-4); --hi: var(--heat-ink-4); }
-body.heat-on .tile[data-heat-bin="5"], body.heat-on .molecule[data-heat-bin="5"], body.heat-on .cell[data-heat-bin="5"] { --hb: var(--heat-5); --hi: var(--heat-ink-5); }
+/* Per step: the glow colour, how far it reaches (blur) and how far it spreads. */
+body.heat-on [data-heat-bin="0"] { --hx: var(--heat-0); --hr: 7px;  --hs: 0px; --ho: 45%; }
+body.heat-on [data-heat-bin="1"] { --hx: var(--heat-1); --hr: 9px;  --hs: 0px; --ho: 70%; }
+body.heat-on [data-heat-bin="2"] { --hx: var(--heat-2); --hr: 13px; --hs: 1px; --ho: 80%; }
+body.heat-on [data-heat-bin="3"] { --hx: var(--heat-3); --hr: 17px; --hs: 2px; --ho: 85%; }
+body.heat-on [data-heat-bin="4"] { --hx: var(--heat-4); --hr: 23px; --hs: 4px; --ho: 90%; }
+body.heat-on [data-heat-bin="5"] { --hx: var(--heat-5); --hr: 30px; --hs: 6px; --ho: 95%; }
 
-body.heat-on .tile[data-heat-bin]:not([data-heat-bin="0"]):not([data-heat-bin="na"]),
-body.heat-on .molecule[data-heat-bin]:not([data-heat-bin="0"]):not([data-heat-bin="na"]),
-body.heat-on .cell[data-heat-bin]:not([data-heat-bin="0"]):not([data-heat-bin="na"]) {
-  background: var(--hb); color: var(--hi);
-  border-color: color-mix(in srgb, var(--hb) 70%, var(--hi));
+body.heat-on :is(.tile, .molecule, .cell)[data-heat-bin]:not([data-heat-bin="na"]) {
+  box-shadow: 0 0 var(--hr) var(--hs) color-mix(in srgb, var(--hx) var(--ho), transparent);
 }
-body.heat-on .molecule[data-heat-bin] .mol-name,
-body.heat-on .cell[data-heat-bin] .cell-name,
-body.heat-on .cell[data-heat-bin] .cell-audience,
-body.heat-on .cell[data-heat-bin] .cell-count { color: inherit; }
-body.heat-on .cell[data-heat-bin]:not([data-heat-bin="0"]) { border-style: solid; }
+/* A warmer tile sits above its neighbours, so its glow is not cut off by the next tile. */
+body.heat-on :is(.tile, .molecule, .cell)[data-heat-bin]:not([data-heat-bin="0"]):not([data-heat-bin="na"]) { position: relative; z-index: 1; }
+body.heat-on :is(.tile, .molecule, .cell)[data-heat-bin="5"] { z-index: 2; }
 
-/* The hottest step glows. A slow breath, off for anyone who asked for less motion. */
-body.heat-on [data-heat-bin="5"] {
-  box-shadow: 0 0 0 1px var(--heat-5), 0 0 18px -2px var(--heat-glow);
-  animation: heat-breathe 2.8s ease-in-out infinite;
-}
+/* The hottest step breathes; off for anyone who asked for less motion. */
+body.heat-on [data-heat-bin="5"] { animation: heat-breathe 2.8s ease-in-out infinite; }
 @keyframes heat-breathe {
-  0%, 100% { box-shadow: 0 0 0 1px var(--heat-5), 0 0 14px -4px var(--heat-glow); }
-  50%      { box-shadow: 0 0 0 1px var(--heat-5), 0 0 24px 0 var(--heat-glow); }
+  0%, 100% { box-shadow: 0 0 24px 4px color-mix(in srgb, var(--heat-5) 85%, transparent); }
+  50%      { box-shadow: 0 0 34px 8px color-mix(in srgb, var(--heat-5) 95%, transparent); }
 }
 @media (prefers-reduced-motion: reduce) {
   body.heat-on [data-heat-bin="5"] { animation: none; }
   .tile, .molecule, .cell { transition: none; }
 }
 
-/* The score, printed only on the two hottest steps: selective labels, not a number on every tile. */
-body.heat-on .tile[data-heat-label]::after,
-body.heat-on .molecule[data-heat-label]::after,
-body.heat-on .cell[data-heat-label]::after {
+/* The score, only on the two hottest steps: a bare number in the colour of its heat, no background.
+   The glow colours themselves are too light on light tiles and too dim on dark ones, so the digits use
+   their own shade per theme, checked against tile backgrounds of five families (worst case):
+     light  step 4 #b8410c 4.85:1 / APCA 68 · step 5 #9a2508 6.97:1 / APCA 77
+     dark   step 4 #ff9a5c 6.46:1 / APCA 57 · step 5 #ff7a45 5.23:1 / APCA 47 (hence 11.5px bold) */
+:root { --heat-num-4: #b8410c; --heat-num-5: #9a2508; }
+@media (prefers-color-scheme: dark) { :root { --heat-num-4: #ff9a5c; --heat-num-5: #ff7a45; } }
+:root[data-theme="light"] { --heat-num-4: #b8410c; --heat-num-5: #9a2508; }
+:root[data-theme="dark"]  { --heat-num-4: #ff9a5c; --heat-num-5: #ff7a45; }
+body.heat-on [data-heat-bin="4"] { --hn: var(--heat-num-4); }
+body.heat-on [data-heat-bin="5"] { --hn: var(--heat-num-5); }
+body.heat-on [data-heat-label]::after {
   content: attr(data-heat-label);
-  position: absolute; right: 5px; bottom: 4px;
-  font: 700 9.5px var(--mono); line-height: 1; letter-spacing: -.2px;
-  padding: 2px 4px 2px; border-radius: 4px;
-  background: color-mix(in srgb, var(--hi) 16%, transparent);
-  color: var(--hi); pointer-events: none;
+  position: absolute; right: 6px; bottom: 4px;
+  font: 700 11.5px var(--mono); line-height: 1; font-variant-numeric: tabular-nums;
+  color: var(--hn); pointer-events: none;
 }
 body.heat-on .molecule[data-heat-label], body.heat-on .cell[data-heat-label] { position: relative; }
-body.heat-on .molecule[data-heat-label] { padding-right: 34px; }
+body.heat-on .molecule[data-heat-label] { padding-right: 42px; }
 body.heat-on .molecule[data-heat-label]::after { top: 50%; bottom: auto; transform: translateY(-50%); }
-body.heat-on .cell[data-heat-label]::after { top: 7px; bottom: auto; right: 34px; }
+/* Packages: bottom-right like the atoms, clear of the module count in the top corner. */
+body.heat-on .cell[data-heat-label]::after { right: 8px; bottom: 6px; }
 
-/* ---------- the panel ---------- */
+/* ---------- the panel: one quiet strip ---------- */
 .heat-panel {
   flex-basis: 100%;
-  display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 10px 22px;
-  padding: 10px 2px 4px; margin-top: 2px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 4px 20px;
+  padding: 10px 0 6px; margin-top: 2px;
   border-top: 1px solid var(--border);
+  animation: heat-in .25s ease-out;
 }
 .heat-panel[hidden] { display: none; }
+@keyframes heat-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
-.heat-head { display: flex; align-items: center; gap: 10px 18px; flex-wrap: wrap; grid-column: 1 / -1; }
-.heat-title { display: flex; flex-direction: column; min-width: 190px; }
-.heat-title-kicker { font-size: 10px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; color: var(--muted); }
-.heat-period { font-size: 22px; font-weight: 750; letter-spacing: -.4px; line-height: 1.15; font-variant-numeric: tabular-nums; }
-
-.heat-stats { display: flex; gap: 6px 22px; flex-wrap: wrap; }
-.heat-stat { display: flex; flex-direction: column; }
-.heat-stat-n { font-size: 20px; font-weight: 750; line-height: 1.1; font-variant-numeric: tabular-nums; letter-spacing: -.3px; }
-.heat-stat-l { font-size: 10.5px; color: var(--muted); white-space: nowrap; }
-
-.heat-actions { display: flex; gap: 5px; flex-wrap: wrap; margin-left: auto; align-items: center; }
-.heat-actions .chip[aria-pressed="true"] { border-color: var(--heat-4); color: var(--text); background: color-mix(in srgb, var(--heat-3) 20%, var(--surface)); }
-.heat-play { min-width: 74px; }
+.heat-when { display: flex; flex-direction: column; min-width: 170px; }
+.heat-kicker { font-size: 10px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--muted); }
+.heat-period { font-size: 17px; font-weight: 700; letter-spacing: -.2px; line-height: 1.25; font-variant-numeric: tabular-nums; }
 
 .heat-chart { min-width: 0; }
 .heat-bars {
-  position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
-  align-items: end; gap: 2px; height: 66px; padding-top: 4px;
-  cursor: crosshair; touch-action: none; user-select: none;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-items: end; gap: 2px;
+  height: 34px; cursor: crosshair; touch-action: none; user-select: none;
 }
-.heat-bar { position: relative; height: 100%; display: flex; align-items: flex-end; }
-.heat-bar-fill {
-  width: 100%; min-height: 2px; border-radius: 4px 4px 0 0;
-  background: var(--heat-bar-off); transition: background-color .25s, height .25s;
-}
-.heat-bar.is-in .heat-bar-fill { background: var(--heat-bar-on); }
-.heat-bar.is-edge .heat-bar-fill { box-shadow: 0 0 0 1px var(--heat-bar-on); }
-.heat-bar:hover .heat-bar-fill { filter: brightness(1.1); }
+.heat-bar { height: 100%; display: flex; align-items: flex-end; }
+.heat-bar-fill { width: 100%; min-height: 2px; border-radius: 3px 3px 0 0; background: var(--border-strong); opacity: .55;
+                 transition: background-color .25s, opacity .25s; }
+.heat-bar.is-in .heat-bar-fill { background: var(--bar-c); opacity: 1; }
 .heat-axis { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; margin-top: 3px; }
-.heat-axis span { font-size: 9.5px; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: visible; }
-.heat-axis span.is-year { color: var(--text); font-weight: 700; text-align: left; }
-.heat-hint { font-size: 10.5px; color: var(--muted); margin-top: 4px; }
+.heat-axis span { font-size: 9px; color: var(--muted); text-align: center; white-space: nowrap; }
+.heat-axis span.is-year { color: var(--text); font-weight: 600; text-align: left; }
 
-.heat-legend { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 10.5px; color: var(--muted); flex-wrap: wrap; }
-.heat-swatches { display: inline-flex; gap: 2px; }
-.heat-swatch { width: 20px; height: 10px; border-radius: 2px; }
-.heat-swatch.is-cold { background: var(--surface-2); border: 1px dashed var(--border-strong); }
-
-.heat-top { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.heat-top-head { font-size: 10px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
-.heat-top-row {
-  display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; align-items: center; gap: 7px;
-  width: 100%; text-align: left; font: inherit; cursor: pointer;
-  padding: 2px 4px; border-radius: 5px; border: 0; background: none; color: var(--text);
+.heat-controls { display: flex; align-items: center; gap: 8px; }
+.heat-seg { display: inline-flex; padding: 2px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); }
+.heat-seg button {
+  font: inherit; font-size: 11.5px; font-weight: 600; color: var(--muted); cursor: pointer;
+  padding: 3px 8px; border: 0; border-radius: 6px; background: none;
 }
-.heat-top-row:hover { background: var(--surface-2); }
-.heat-top-dot { width: 10px; height: 10px; border-radius: 3px; }
-.heat-top-name { font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.heat-top-score { font: 700 11px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.heat-seg button:hover { color: var(--text); }
+.heat-seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(0, 0, 0, .15); }
+.heat-icon-btn {
+  display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; cursor: pointer;
+  border-radius: 7px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
+}
+.heat-icon-btn:hover { border-color: var(--border-strong); }
+.heat-icon-btn svg { width: 14px; height: 14px; }
+
+.heat-foot {
+  grid-column: 2 / 4; display: flex; align-items: center; gap: 6px 18px; flex-wrap: wrap;
+  font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+.heat-foot b { color: var(--text); font-weight: 650; }
+.heat-scale { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; }
+.heat-scale-bar { width: 120px; height: 6px; border-radius: 3px; background: var(--heat-gradient); }
 
 /* ---------- tooltip ---------- */
 .heat-tip {
-  position: fixed; z-index: 70; max-width: 340px; pointer-events: none;
+  position: fixed; z-index: 70; max-width: 320px; pointer-events: none;
   padding: 9px 11px 10px; border-radius: 9px;
   background: var(--surface); color: var(--text);
   border: 1px solid var(--border-strong); box-shadow: var(--shadow);
   font-size: 12px; line-height: 1.4;
 }
 .heat-tip[hidden] { display: none; }
-.heat-tip-name { font-weight: 700; font-size: 13px; }
+.heat-tip-name { font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+.heat-tip-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
 .heat-tip-period { color: var(--muted); font-size: 11px; }
 .heat-tip-nums { margin-top: 4px; font-variant-numeric: tabular-nums; }
 .heat-tip-nums b { font-size: 15px; }
 .heat-tip-new { display: inline-block; margin-top: 4px; padding: 1px 6px; border-radius: 999px; font-size: 10.5px; font-weight: 700;
-                background: var(--heat-4); color: var(--heat-ink-4); }
+                background: var(--heat-5); color: #fff; }
 .heat-tip ul { margin: 5px 0 0; padding-left: 16px; }
-.heat-tip li { margin: 1px 0; }
 .heat-tip li span { color: var(--muted); font-size: 10.5px; }
 
 /* ---------- the drawer block ---------- */
 .heat-drawer { border-left: 3px solid var(--heat-4); padding: 8px 12px 10px; margin: 6px 0 14px; border-radius: 0 8px 8px 0;
-               background: color-mix(in srgb, var(--heat-3) 10%, var(--surface)); }
+               background: var(--surface-2); }
 .heat-drawer-head { font-size: 10px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; color: var(--muted); }
 .heat-drawer-nums { font-size: 13px; margin-top: 2px; font-variant-numeric: tabular-nums; }
 .heat-drawer ul { margin: 6px 0 0; padding-left: 18px; font-size: 12.5px; }
 .heat-drawer li span { color: var(--muted); font-size: 11px; }
 
 @media (max-width: 900px) {
-  .heat-panel { grid-template-columns: minmax(0, 1fr); }
-  .heat-actions { margin-left: 0; }
-  /* A tall panel in a sticky header would cover the screen on a phone: the header scrolls away instead. */
+  .heat-panel { grid-template-columns: minmax(0, 1fr) auto; }
+  .heat-chart { grid-column: 1 / -1; grid-row: 2; }
+  .heat-foot { grid-column: 1 / -1; }
+  /* A tall panel in a sticky header would cover a phone screen: the header scrolls away instead. */
   .topbar:has(.heat-panel:not([hidden])) { position: static; }
 }
 @media (max-width: 560px) {
-  .heat-period { font-size: 18px; }
-  .heat-stat-n { font-size: 16px; }
-  .heat-toggle-label { display: none; }
+  .heat-panel { grid-template-columns: minmax(0, 1fr); }
+  .heat-controls { flex-wrap: wrap; }
   .heat-axis span:not(.is-year) { visibility: hidden; }
+  .heat-scale { margin-left: 0; }
 }
 @media print {
   .heat-panel, .heat-tip { display: none !important; }
-  body.heat-on [data-heat-bin="5"] { animation: none; }
+  body.heat-on [data-heat-bin="7"] { animation: none; }
 }
