@@ -91,7 +91,7 @@ window.VC_MAP_CELLS = [
     optional: [],
     planned: [
       'Order pricing as a snapshot: no dependency on Pricing, and a totals calculator that only sums stored values',
-      'Requiring xCart and xCatalog means this cell never deploys alone — what that costs and what it buys',
+      'Requiring xCart and xCatalog means this cell never deploys alone, with the deployment implications that follow',
       'The order database on its own server, and the retention rules that usually motivate it'
     ],
     docs: [

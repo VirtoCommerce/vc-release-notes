@@ -8,7 +8,7 @@ window.VC_MAP_ARCHITECTURE = [
     id: 'solution',
     name: 'Your solution',
     hue: 90,
-    sub: 'What a custom Virto project actually consists of: a little code you own, a lot of vendor artifacts you consume, and one file that pins the two together. You never fork the platform — that is the whole upgrade story.',
+    sub: 'What a custom Virto project actually consists of: a little code you own, a lot of vendor artifacts you consume, and one file that pins the two together. You never fork the platform.',
     tags: ['custom modules', 'vc-package.json', 'environments'],
     /* Three ordered views of the same solution: what it is made of, how it is built and
        shipped, and where it runs. Generalised from a real customer solution — structure
@@ -118,7 +118,7 @@ window.VC_MAP_ARCHITECTURE = [
       {
         kind: 'pipeline',
         title: 'DevOps',
-        note: '**The challenge** — for a solution architect, what is the real CI/CD path from source to a running environment? **In plain terms** — Git holds your custom source. CI builds your custom modules and publishes them to your Custom Modules artifact storage; the Virto modules already live in the Virto Commerce artifact storage. Your `vc-package.json` picks modules and versions from both. CD assembles them into one container image, which then deploys to each environment. **What this means for you** — `vc-package.json` is the control point: it chooses which artifacts, Virto and custom, go into the image, and one image then promotes across Dev → Stage → Prod.',
+        note: 'For a solution architect: what is the real CI/CD path from source to a running environment? Git holds your custom source. CI builds your custom modules and publishes them to your Custom Modules artifact storage; the Virto modules already live in the Virto Commerce artifact storage. Your `vc-package.json` picks modules and versions from both. CD assembles them into one container image, which then deploys to each environment. `vc-package.json` is the control point: it chooses which artifacts, Virto and custom, go into the image, and one image then promotes across Dev → Stage → Prod.',
         /* The compact CI/CD view: two artifact sources built and published in parallel,
            converging on vc-package.json, which is the control point — it decides which
            artifacts go into the image that is then promoted across environments. */
@@ -170,10 +170,10 @@ window.VC_MAP_ARCHITECTURE = [
       {
         kind: 'section',
         title: 'Update process',
-        note: 'Virto is **100+ independent modules plus the platform**, each shipping continuously — so there is no annual big-bang upgrade to schedule. **Stable** publishes roughly every three months with full regression, E2E and load testing, and is the CLI default; **Edge** publishes daily with automated testing only, carries the newest features, and may include breaking changes. Run Stable in production and reach for Edge selectively, when one feature genuinely cannot wait.\n\n**The default update is a manifest edit, not a code change.** Most of the time you bump a version — or add a module — in `vc-package.json`, run `vc-build update`, rebuild your own modules, run your tests and deploy. The Virto layers swap in; your work stays on your own modules. That only holds because you **extend rather than modify**: a module is open for extension and closed for modification, so an update flows around your code instead of through it.',
+        note: 'Virto is **100+ independent modules plus the platform**, each shipping continuously — so there is no annual monolithic upgrade to schedule. **Stable** publishes roughly every three months with full regression, E2E and load testing, and is the CLI default; **Edge** publishes daily with automated testing only, carries the newest features, and may include breaking changes. Run Stable in production and reach for Edge selectively, when one feature genuinely cannot wait.\n\n**The default update is a manifest edit, not a code change.** Most of the time you bump a version — or add a module — in `vc-package.json`, run `vc-build update`, rebuild your own modules, run your tests and deploy. The Virto layers swap in; your work stays on your own modules. That only holds because you **extend rather than modify**: a module is open for extension and closed for modification, so an update flows around your code instead of through it.',
         items: [
           '**When custom code is affected, the size is known up front.** **S** — add a class or an extension point because your customization needs a new feature. **M** — resolve obsolete APIs and apply the documented breaking-change fixes. **L** — follow the published update path when the change comes from Microsoft and .NET.',
-          '**Three things make a step genuinely bigger**, and all three are flagged in advance: a **.NET LTS move** roughly every two years, which means a new target framework and refreshed dependencies across the solution; a **yearly refresh** of the third-party libraries Virto builds on; and a **security finding** that occasionally forces a breaking fix. Every breaking change ships with migration notes.',
+          'A step can be genuinely bigger for three reasons, all flagged in advance: a **.NET LTS move** roughly every two years, which means a new target framework and refreshed dependencies across the solution; a **yearly refresh** of the third-party libraries Virto builds on; and a **security finding** that occasionally forces a breaking fix. Every breaking change ships with migration notes.',
           '**Cadence is your choice, within limits.** Keep inside the latest two Stable releases — those are the two that receive hotfixes. Updating on every Stable release is the recommendation; every sprint, every month or once a year are all workable, but the longer the gap the more change arrives at once.',
           '**A hotfix is a patch, not a version jump.** Virto issues hotfixes for the two most recent Stable releases: bump the patch version in the manifest and update. No new features, no migration.',
           '**A feature you need before it is Stable can be adopted onto Stable now.** New features land on Edge, harden, then roll into the next Stable bundle — and when they do, your next update folds in the version you were already running, tested.',
@@ -238,7 +238,7 @@ window.VC_MAP_ARCHITECTURE = [
       {
         kind: 'topology',
         title: 'Deployment — production',
-        note: 'The **production** configuration — Extra Large in the sizing guide: the backend is split by workload, so background jobs, content managers and system traffic cannot degrade shoppers. Each environment runs **at least two instances** behind the load balancer, all of them run the **same image**, and all four use the whole shared pool — one line each is drawn to keep the picture readable. The documented topology names three environments; the **integration** instance is the common fourth split, worth making once a system pushes bulk traffic through the API.\n\n**Big is not the same as expensive.** Nothing here is a large machine: the unit is a **small container — roughly 1 vCPU and 512 MB** — and the topology gets its capacity from having several of them rather than from any one being big. .NET reads its container limits and sizes the GC heap to them, so an instance behaves predictably at that size, and the platform is designed so the request path holds no state worth protecting: cache coherence, the SignalR backplane and locks all live in Redis, so an instance can be added, removed or replaced without ceremony. What that buys is cost that tracks load — scale the four environments on their own curves, and the ones that are quiet stay small. What it costs is discipline: work that needs memory in bursts (a reindex, a bulk import) belongs on the jobs environment, sized for it, and not on a 512 MB request host.',
+        note: 'The **production** configuration — Extra Large in the sizing guide: the backend is split by workload, so background jobs, content managers and system traffic cannot degrade shoppers. Each environment runs **at least two instances** behind the load balancer, all of them run the **same image**, and all four use the whole shared pool — one line each is drawn to keep the picture readable. The documented topology names three environments; the **integration** instance is the common fourth split, worth making once a system pushes bulk traffic through the API.\n\n**Big is not the same as expensive.** Nothing here is a large machine: the unit is a **small container — roughly 1 vCPU and 512 MB** — and the topology gets its capacity from having several of them rather than from any one being big. .NET reads its container limits and sizes the GC heap to them, so an instance behaves predictably at that size, and the platform is designed so the request path holds no state worth protecting: cache coherence, the SignalR backplane and locks all live in Redis, so an instance can be added, removed or replaced without ceremony. Cost tracks load: the four environments scale on their own curves, and the quiet ones stay small. The discipline this requires is matching workload to environment — a reindex or a bulk import needs memory in bursts and belongs on the jobs environment, sized for it, not on a 512 MB request host.',
         cols: 5,
         legend: [
           { kind: 'custom', label: 'Your code' },
@@ -631,7 +631,7 @@ window.VC_MAP_ARCHITECTURE = [
       '`Platform.Web` — the host: startup wiring, platform REST controllers, the Admin SPA, health checks at `/health`.'
     ],
     gotchas: [
-      'Do not modify platform source in a solution. Customisation belongs in modules — that is the whole seamless-upgrade story.',
+      'Do not modify platform source in a solution. Customisation belongs in modules; this is what keeps updates clean.',
       'A DI registration made later wins. That is the extension mechanism for services, and also the way you accidentally replace something you did not mean to.'
     ],
     docs: [
@@ -654,7 +654,7 @@ window.VC_MAP_ARCHITECTURE = [
       {
         kind: 'topology',
         title: 'Buyers — doors on the demand side',
-        note: 'Three kinds of buyer, three doors, one set of rules behind them. Whichever door a request arrives through, the platform resolves **who the buyer is, which organization they belong to and what they have negotiated** before it answers — so the price is the same story everywhere.',
+        note: 'Three kinds of buyer, three doors, one set of rules behind them. Whichever door a request arrives through, the platform resolves **who the buyer is, which organization they belong to and what they have negotiated** before it answers, so the price resolves the same way everywhere.',
         cols: 3,
         legend: [
           { kind: 'custom', label: 'Your code' },
@@ -757,7 +757,7 @@ window.VC_MAP_ARCHITECTURE = [
         ]
       }
     ],
-    matrixTitle: 'Which door — match it to whoever is knocking',
+    matrixTitle: 'Which door to open',
     matrix: [
       { name: 'Admin UI · configuration',
         desc: '**Check this door first, every time.** A large share of what looks like integration work is configuration: catalogs and content, price lists and contracts, promotions, organizations and roles, stores, currencies, languages — and the settings of the integrations themselves. If a business person can describe the change in business terms, it is usually a setting rather than a project.' },
@@ -781,7 +781,7 @@ window.VC_MAP_ARCHITECTURE = [
         desc: 'Not a door in, but the way the platform tells other systems something happened. EventBus bridges domain events onto Azure Service Bus, RabbitMQ or Kafka; WebHooks does configurable outbound HTTP per event type. Both are installable modules, not platform core.' }
     ],
     bullets: [
-      'Integration is a different problem for each audience — buyers, your own team, your suppliers — and handing all three the same generic API is how budgets disappear. **Match the door to whoever is knocking**; the matrix above is that decision.',
+      'Integration is a different problem for each audience — buyers, your own team, your suppliers — and handing all three the same generic API is how projects over-run. **Match the door to the audience**; the matrix above is that decision.',
       'The doors are not mutually exclusive. Most projects run several in parallel, and every door reads and writes the same data under the same rules, so nothing drifts apart.',
       'Integration middleware — a translation layer between the platform and ERP / WMS / CRM / PIM. Keeps foreign models out of your domain and lets each side change independently.',
       'Master vs reference data — decide per entity which system owns the truth. This single decision determines the direction of every sync you will build.',

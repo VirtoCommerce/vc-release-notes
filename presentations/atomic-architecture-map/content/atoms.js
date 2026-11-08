@@ -2193,7 +2193,7 @@ window.VC_MAP_ATOMS = [
     },
     gotchas: [
       'The Order module has **no** backend dependency on Pricing — the only mention of pricing in the whole repository is in the Admin UI JavaScript. An order never re-prices itself.',
-      'A copied value can go stale by design. That is the point: a product renamed today must not rename itself on last year\'s invoice.',
+      'A copied value can go stale by design. That is intentional: a product renamed today must not rename itself on last year\'s invoice.',
       'Without a foreign key nothing stops a dangling id. Deleting a product does not clean up orders that reference it, and should not.',
       'You cannot join across modules in SQL. Cross-module reporting belongs in the search index or a warehouse, not in a query.'
     ],
@@ -3106,7 +3106,7 @@ window.VC_MAP_ATOMS = [
     layer: 'platform',
     tags: ['redlock', 'redis', 'mutex', 'cluster', 'exclusive', 'scale-out'],
     oneLiner: 'Cluster-wide mutual exclusion via Redis — with a no-op fallback so development needs no Redis.',
-    pattern: 'Distributed lock over RedLock, wrapped in an execute-with-lock helper. `IDistributedLockService.ExecuteAsync(resourceKey, resolver, …)` acquires, runs and releases; when no Redis is configured a `NoLockService` satisfies the same interface so single-instance development just works.',
+    pattern: 'Distributed lock over RedLock, wrapped in an execute-with-lock helper. `IDistributedLockService.ExecuteAsync(resourceKey, resolver, …)` acquires, runs and releases; when no Redis is configured a `NoLockService` satisfies the same interface so single-instance development works without it.',
     whenToUse: [
       'Work that must happen once cluster-wide: module install, schema migration, a singleton scheduled task',
       'Guarding a resource two instances could otherwise corrupt',
