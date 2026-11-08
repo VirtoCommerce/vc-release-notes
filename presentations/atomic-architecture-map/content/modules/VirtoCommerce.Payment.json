@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-payment",
  "name": "Payment",
  "tagline": "Provides management and integration of various payment methods.",
- "latestVersion": "3.1006.0",
+ "latestVersion": "3.1012.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#FFC24D",
  "icon": "assets/module-icons/VirtoCommerce.Payment.svg",
  "facts": {
-  "manifestVersion": "3.1007.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1012.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.PaymentModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -22,12 +22,12 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
@@ -72,15 +72,20 @@
   "hasAdminUi": true,
   "adminUiFiles": 8,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
+   "fi",
    "fr",
+   "he",
    "it",
    "ja",
+   "no",
    "pl",
    "pt",
    "ru",
+   "sv",
    "zh"
   ],
   "entities": [
@@ -89,9 +94,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "9436a9f",
-   "lastCommitDate": "2026-07-28",
-   "lastCommit": "9436a9f 2026-07-28 3.1007.0",
+   "sha": "d63591e",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "d63591e 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#82)",
    "readFrom": "git ref"
   }
  },
@@ -177,7 +182,7 @@
    "The requirement is a wallet or stored card — that is the gateway's concern, and PCI scope with it"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-payment",
@@ -188,6 +193,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

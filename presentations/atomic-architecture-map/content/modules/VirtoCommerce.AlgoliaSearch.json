@@ -10,7 +10,7 @@
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.AlgoliaSearch.svg",
  "facts": {
-  "manifestVersion": "3.1002.0",
+  "manifestVersion": "3.1003.0",
   "platformVersion": "3.1002.0",
   "assembly": "VirtoCommerce.AlgoliaSearchModule.Web.dll",
   "authors": [
@@ -51,11 +51,13 @@
   "hasAdminUi": false,
   "adminUiFiles": 0,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -68,9 +70,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "5303f0b",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "5303f0b 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "570953c",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "570953c 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -143,7 +145,7 @@
    "The problem is stale results: that is indexation, not the engine"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-algolia-search",
@@ -164,6 +166,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

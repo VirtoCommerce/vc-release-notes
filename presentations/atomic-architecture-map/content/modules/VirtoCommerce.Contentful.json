@@ -96,9 +96,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "0daf938",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "0daf938 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "efef785",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "efef785 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -154,11 +154,11 @@
    "Offline or air-gapped deployments"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-contentful",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

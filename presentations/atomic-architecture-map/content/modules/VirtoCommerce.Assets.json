@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-assets",
  "name": "Assets Management",
  "tagline": "Common abstractions for asset search, retrieval, and manipulation, making it easy for developers to work with assets regardless of their underlying storage location.",
- "latestVersion": "3.1006.0",
+ "latestVersion": "3.1012.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.Assets.svg",
  "facts": {
-  "manifestVersion": "3.1007.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1012.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.AssetsModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -66,11 +66,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 8,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -85,9 +87,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "1d1ab11",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "1d1ab11 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "eeb02e7",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "eeb02e7 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#43)",
    "readFrom": "git ref"
   }
  },
@@ -167,7 +169,7 @@
    "You expect files to travel with a database backup — they do not"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-assets",
@@ -183,6 +185,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

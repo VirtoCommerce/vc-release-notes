@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-bulk-actions",
  "name": "Bulk Actions",
  "tagline": "Bulk actions module",
- "latestVersion": "3.1003.0",
+ "latestVersion": "3.1006.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.BulkActionsModule.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.BulkActionsModule.Web.dll",
   "authors": [
    "Burashov T.S."
@@ -22,7 +22,7 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    }
   ],
@@ -57,23 +57,28 @@
   "hasAdminUi": true,
   "adminUiFiles": 2,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
+   "fi",
    "fr",
+   "he",
    "it",
    "ja",
+   "no",
    "pl",
    "pt",
    "ru",
+   "sv",
    "zh"
   ],
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "8dcea62",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "8dcea62 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "72fd84b",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "72fd84b 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#50)",
    "readFrom": "git ref"
   }
  },
@@ -151,7 +156,7 @@
    "There is no background worker to run the job"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-bulk-actions",
@@ -167,6 +172,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

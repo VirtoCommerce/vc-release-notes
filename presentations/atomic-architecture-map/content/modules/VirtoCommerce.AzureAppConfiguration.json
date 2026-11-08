@@ -42,9 +42,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "73df922",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "73df922 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "0342c4c",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "0342c4c 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -146,11 +146,11 @@
    "Per-store business settings: those are platform settings, not app configuration"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-azure-app-configuration",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

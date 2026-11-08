@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-Import",
  "name": "Import",
  "tagline": "Provides flexible functionality for writing Importers",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1004.0",
  "active": true,
  "groups": [],
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.Import.svg",
  "facts": {
-  "manifestVersion": "3.1002.0",
-  "platformVersion": "3.1002.0",
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1007.27",
   "assembly": "VirtoCommerce.ImportModule.Web.dll",
   "authors": [
    "Eugeney Tatarincev",
@@ -21,22 +21,22 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1000.0",
+    "version": "3.1001.3",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1000.0",
+    "version": "3.1002.10",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1000.0",
+    "version": "3.1000.7",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Notifications",
-    "version": "3.1000.0",
+    "version": "3.1001.8",
     "optional": false
    }
   ],
@@ -103,29 +103,77 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "a7b4069",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "a7b4069 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "0520692",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "0520692 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
  "readme": {
-  "overview": "Provides flexible functionality for writing your own Importers",
-  "keyFeatures": [],
-  "docs": [],
+  "overview": "The Import module is a framework for building data importers for the Virto Commerce platform. Other modules register *importers* that read records from a data source (CSV files, external systems) and write them into the platform. Users manage reusable *import profiles*, start and monitor imports, and review run history in the embedded **Import App**. Imports run as background jobs with live progress reporting, error collection, downloadable reports, and the ability to resume an interrupted run from a saved checkpoint.",
+  "keyFeatures": [
+   "**Pluggable importers** — modules register `IDataImporter` implementations with their own reader, writer, validation, settings, and authorization requirement",
+   "**Import profiles** — named, reusable configurations that bind an importer to a source file and importer-specific settings",
+   "**Built-in CSV support** — `CsvDataReader` based on CsvHelper class maps, with configurable delimiter and page size, plus a CSV error reporter",
+   "**Background processing** — imports run as Hangfire jobs, with at most one concurrent run per profile",
+   "**Live progress** — push notifications with processed, total, and error counts plus an estimated remaining time",
+   "**Resumable runs** — readers that implement `IImportDataReader<TCursor>` save a cursor every N pages, so an interrupted run continues from the last checkpoint",
+   "**Error handling and reports** — errors are collected per record up to a configurable threshold and can be written to a downloadable report",
+   "**Run history and notifications** — every run is recorded with its statistics, and the user who started it receives an email when it completes",
+   "**Organization scoping** — for users who belong to an organization, profile and history searches, runs, and resumes are limited to that organization",
+   "**Multi-database support** — SQL Server, MySQL, and PostgreSQL via dedicated EF Core provider assemblies"
+  ],
+  "docs": [
+   {
+    "label": "Data import developer guide",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Data-Import/01-main-concept/"
+   },
+   {
+    "label": "Import App",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Data-Import/import-app/"
+   },
+   {
+    "label": "REST API",
+    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Import"
+   },
+   {
+    "label": "View on GitHub",
+    "href": "https://github.com/VirtoCommerce/vc-module-import/"
+   }
+  ],
   "references": [
    {
-    "label": "Download Latest Release",
-    "href": "https://github.com/VirtoCommerce/vc-module-import/releases/"
+    "label": "Deployment",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+   },
+   {
+    "label": "Installation",
+    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+   },
+   {
+    "label": "Home",
+    "href": "https://virtocommerce.com"
+   },
+   {
+    "label": "Community",
+    "href": "https://www.virtocommerce.org"
+   },
+   {
+    "label": "Download latest release",
+    "href": "https://github.com/VirtoCommerce/vc-module-import/releases/latest"
    }
   ],
   "sections": [
+   "Overview",
    "Key Features",
+   "Configuration",
+   "Architecture",
+   "Components",
    "Documentation",
    "References",
    "License"
   ],
-  "quality": "overview only"
+  "quality": "full"
  },
  "notes": {
   "forAnalyst": "Getting data in from files: an import profile describes the mapping once, and every run is recorded with its errors, so a failed load can be explained rather than guessed at.",
@@ -146,11 +194,22 @@
    "The source is a queue or a stream — that is EventBus, in the other direction"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-Import",
-  "links": [],
-  "checkedOnline": false
+  "links": [
+   {
+    "label": "Data import developer guide",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Data-Import/01-main-concept/",
+    "source": "readme"
+   },
+   {
+    "label": "Import App",
+    "href": "https://docs.virtocommerce.org/platform/developer-guide/Fundamentals/Data-Import/import-app/",
+    "source": "readme"
+   }
+  ],
+  "checkedOnline": true
  }
 }

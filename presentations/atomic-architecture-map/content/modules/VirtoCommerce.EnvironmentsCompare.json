@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-environments-compare",
  "name": "Environments Compare",
  "tagline": "Enables backend administrators to compare platform settings, environment configurations, and system information across multiple Virto Commerce environments",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1003.0",
  "active": true,
  "groups": [],
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.EnvironmentsCompare.svg",
  "facts": {
-  "manifestVersion": "3.1002.0",
-  "platformVersion": "3.1007.10",
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.EnvironmentsCompare.Web.dll",
   "authors": [
    "Kirill Iusupov"
@@ -68,11 +68,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 10,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -85,9 +87,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "acd0b1f",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "acd0b1f 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "6aecfa5",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "6aecfa5 2026-11-07 3.1004.0",
    "readFrom": "git ref"
   }
  },
@@ -162,11 +164,11 @@
    "You expect it to fix the difference: it reports"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-environments-compare",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

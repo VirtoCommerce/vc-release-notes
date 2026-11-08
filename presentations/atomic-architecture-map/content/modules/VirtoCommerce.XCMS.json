@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-cms",
  "name": "CMS Experience API",
  "tagline": "Integrates with content management systems, facilitating seamless content delivery and management.",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1009.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#B79DFB",
  "icon": "assets/module-icons/VirtoCommerce.XCMS.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1010.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.XCMS.Web.dll",
   "authors": [
    "Eugeny Tatarincev",
@@ -32,29 +32,29 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Content",
-    "version": "3.1003.0",
+    "version": "3.1006.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1011.0",
+    "version": "3.1028.0",
     "optional": false
    }
   ],
   "optionalDependencies": [
    {
     "id": "VirtoCommerce.Pages",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": true
    },
    {
     "id": "VirtoCommerce.PageBuilderModule",
-    "version": "3.1012.0",
+    "version": "3.1031.0",
     "optional": true
    }
   ],
@@ -96,9 +96,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "2466acd",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "2466acd 2026-07-27 3.1005.0",
+   "sha": "2a80c44",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "2a80c44 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -191,7 +191,7 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-x-cms",
@@ -232,6 +232,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

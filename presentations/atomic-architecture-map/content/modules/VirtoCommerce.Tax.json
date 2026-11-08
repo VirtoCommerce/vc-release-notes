@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-tax",
  "name": "Tax Core",
  "tagline": "Defines Core Abstractions for taxes evaluation by using different tax providers and FixedRateTaxProvider.",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1011.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#FFC24D",
  "icon": "assets/module-icons/VirtoCommerce.Tax.svg",
  "facts": {
-  "manifestVersion": "3.1006.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1011.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.TaxModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -22,12 +22,12 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
@@ -50,10 +50,13 @@
     "file": "src/VirtoCommerce.TaxModule.Web/Controllers/Api/TaxModuleController.cs",
     "route": "api/taxes",
     "actions": 4,
-    "authorizedActions": 0
+    "authorizedActions": 4
    }
   ],
-  "permissions": [],
+  "permissions": [
+   "tax:read",
+   "tax:update"
+  ],
   "settings": [
    "VirtoCommerce.Core.FixedTaxRateProvider.Rate",
    "VirtoCommerce.Core.General.TaxTypes"
@@ -72,11 +75,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 8,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -91,9 +96,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "1389fbd",
-   "lastCommitDate": "2026-07-28",
-   "lastCommit": "1389fbd 2026-07-28 3.1006.0",
+   "sha": "cd5f81b",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "cd5f81b 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#64)",
    "readFrom": "git ref"
   }
  },
@@ -178,7 +183,7 @@
    "You are building a Cell that never quotes a total — then this module need not be installed"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-tax",
@@ -199,6 +204,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

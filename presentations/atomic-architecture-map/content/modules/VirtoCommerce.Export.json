@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-export",
  "name": "Generic Export",
  "tagline": "Generic export functionality",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1007.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.Export.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.ExportModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -22,7 +22,7 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -61,11 +61,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 16,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -80,9 +82,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "9a7b0f0",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "9a7b0f0 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "87199d6",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "87199d6 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#116)",
    "readFrom": "git ref"
   }
  },
@@ -164,7 +166,7 @@
    "The volume is a full catalogue migration — that is bulk import/export tooling, not an ad-hoc file"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-export",
@@ -175,6 +177,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

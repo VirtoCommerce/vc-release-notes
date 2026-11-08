@@ -10,8 +10,8 @@
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.GoogleSSO.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.GoogleSSO.Web.dll",
   "authors": [
    "Vasily Kotov"
@@ -42,9 +42,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "c2fcf31",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "c2fcf31 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "7141c54",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "7141c54 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -122,7 +122,7 @@
    "You expect roles to arrive automatically: mapping is configuration you must do"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-google-sso",
@@ -143,6 +143,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

@@ -1,186 +1,252 @@
 {
- "id": "VirtoCommerce.Return",
- "repo": "vc-module-return",
- "repoUrl": "https://github.com/VirtoCommerce/vc-module-return",
- "name": "Returns",
- "tagline": "Return management module",
- "latestVersion": "3.1002.0",
- "active": true,
- "groups": [],
- "accent": "#9D86F5",
- "icon": "assets/module-icons/VirtoCommerce.Return.svg",
- "facts": {
-  "manifestVersion": "3.1002.0",
-  "platformVersion": "3.1039.0",
-  "assembly": "VirtoCommerce.ReturnModule.Web.dll",
-  "authors": [
-   "Leysan Nigmatullina",
-   "Mikhail Getmansky"
-  ],
-  "tags": "extension module",
-  "dependsOn": [
-   {
-    "id": "VirtoCommerce.Orders",
-    "version": "3.1009.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
-    "optional": false
-   }
-  ],
-  "optionalDependencies": [],
-  "projects": [
-   "VirtoCommerce.ReturnModule.Core",
-   "VirtoCommerce.ReturnModule.Data",
-   "VirtoCommerce.ReturnModule.Data.MySql",
-   "VirtoCommerce.ReturnModule.Data.PostgreSql",
-   "VirtoCommerce.ReturnModule.Data.SqlServer",
-   "VirtoCommerce.ReturnModule.Web"
-  ],
-  "databaseProviders": [
-   "SqlServer",
-   "MySql",
-   "PostgreSql"
-  ],
-  "restControllers": [
-   {
-    "file": "src/VirtoCommerce.ReturnModule.Web/Controllers/Api/ReturnController.cs",
-    "route": "api/return",
-    "actions": 5,
-    "authorizedActions": 5
-   }
-  ],
-  "permissions": [
-   "return:access",
-   "return:create",
-   "return:delete",
-   "return:read",
-   "return:update"
-  ],
-  "settings": [
-   "Return.ReturnEnabled",
-   "Return.ReturnNewNumberTemplate",
-   "Return.ReturnPassword",
-   "Return.Status"
-  ],
-  "domainEventsPublished": [],
-  "declaredEvents": [
-   "ReturnChangedEvent",
-   "ReturnChangingEvent"
-  ],
-  "eventHandlers": [],
-  "handledEvents": [],
-  "subscribesDynamically": false,
-  "graphqlBuilders": [],
-  "indexDocumentBuilders": [],
-  "migrationCount": 8,
-  "hasAdminUi": true,
-  "adminUiFiles": 14,
-  "localizations": [
-   "de",
-   "en",
-   "es",
-   "fi",
-   "fr",
-   "it",
-   "ja",
-   "no",
-   "pl",
-   "pt",
-   "ru",
-   "sv",
-   "zh"
-  ],
-  "entities": [
-   "ReturnEntity",
-   "ReturnLineItemEntity"
-  ],
-  "git": {
-   "ref": "origin/dev",
-   "sha": "a5de803",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "a5de803 2026-07-15 ci: Auto update Github Action workflows",
-   "readFrom": "git ref"
+  "id": "VirtoCommerce.Return",
+  "repo": "vc-module-return",
+  "repoUrl": "https://github.com/VirtoCommerce/vc-module-return",
+  "name": "Returns",
+  "tagline": "Return management module",
+  "latestVersion": "3.1007.0",
+  "active": true,
+  "groups": [],
+  "accent": "#9D86F5",
+  "icon": "assets/module-icons/VirtoCommerce.Return.svg",
+  "facts": {
+    "manifestVersion": "3.1007.0",
+    "platformVersion": "3.1095.0",
+    "assembly": "VirtoCommerce.ReturnModule.Web.dll",
+    "authors": [
+      "Leysan Nigmatullina",
+      "Mikhail Getmansky"
+    ],
+    "tags": "extension module",
+    "dependsOn": [
+      {
+        "id": "VirtoCommerce.Assets",
+        "version": "3.1010.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Customer",
+        "version": "3.1028.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.FileExperienceApi",
+        "version": "3.1006.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Notifications",
+        "version": "3.1018.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Orders",
+        "version": "3.1018.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Store",
+        "version": "3.1009.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Xapi",
+        "version": "3.1026.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.XOrder",
+        "version": "3.1014.0",
+        "optional": false
+      }
+    ],
+    "optionalDependencies": [
+      {
+        "id": "VirtoCommerce.PushMessages",
+        "version": "3.1007.0",
+        "optional": true
+      }
+    ],
+    "projects": [
+      "VirtoCommerce.ReturnModule.Core",
+      "VirtoCommerce.ReturnModule.Data",
+      "VirtoCommerce.ReturnModule.Data.MySql",
+      "VirtoCommerce.ReturnModule.Data.PostgreSql",
+      "VirtoCommerce.ReturnModule.Data.SqlServer",
+      "VirtoCommerce.ReturnModule.ExperienceApi",
+      "VirtoCommerce.ReturnModule.Web"
+    ],
+    "databaseProviders": [
+      "SqlServer",
+      "MySql",
+      "PostgreSql"
+    ],
+    "restControllers": [
+      {
+        "file": "src/VirtoCommerce.ReturnModule.Web/Controllers/Api/ReturnController.cs",
+        "route": "api/return",
+        "actions": 7,
+        "authorizedActions": 7
+      }
+    ],
+    "permissions": [
+      "return:access",
+      "return:authorize",
+      "return:create",
+      "return:delete",
+      "return:read",
+      "return:update",
+      "xapi:my_organization:return:submit",
+      "xapi:my_organization:return:view"
+    ],
+    "settings": [
+      "Return.AllowedOrderStatuses",
+      "Return.AllowedShipmentStatuses",
+      "Return.AttachmentsRequired",
+      "Return.NotifyOrganizationEmail",
+      "Return.Reasons",
+      "Return.ReasonsRequiringComment",
+      "Return.ReturnEnabled",
+      "Return.ReturnNewNumberTemplate",
+      "Return.ReturnPassword",
+      "Return.SendNotifications",
+      "Return.SendPushNotifications",
+      "Return.Status",
+      "Return.WindowDays"
+    ],
+    "domainEventsPublished": [
+      "ReturnStatusChangedEvent"
+    ],
+    "declaredEvents": [
+      "ReturnChangedEvent",
+      "ReturnChangingEvent",
+      "ReturnStatusChangedEvent"
+    ],
+    "eventHandlers": [
+      "src/VirtoCommerce.ReturnModule.Data/Handlers/ReturnStatusChangedEventPublisher.cs",
+      "src/VirtoCommerce.ReturnModule.Data/Handlers/ReturnStatusNotificationHandlerBase.cs"
+    ],
+    "handledEvents": [
+      "ReturnChangedEvent",
+      "ReturnStatusChangedEvent"
+    ],
+    "subscribesDynamically": false,
+    "graphqlBuilders": [
+      "src/VirtoCommerce.ReturnModule.ExperienceApi/Queries/ReturnQueryBuilderBase.cs",
+      "src/VirtoCommerce.ReturnModule.ExperienceApi/Queries/ReturnSearchQueryBuilderBase.cs",
+      "src/VirtoCommerce.ReturnModule.ExperienceApi/Queries/ReturnStatusesQueryBuilder.cs",
+      "tests/VirtoCommerce.ReturnModule.Tests/ReturnSchemaBuilderTests.cs"
+    ],
+    "indexDocumentBuilders": [],
+    "migrationCount": 20,
+    "hasAdminUi": true,
+    "adminUiFiles": 15,
+    "localizations": [
+      "ar",
+      "de",
+      "en",
+      "es",
+      "fi",
+      "fr",
+      "he",
+      "it",
+      "ja",
+      "no",
+      "pl",
+      "pt",
+      "ru",
+      "sv",
+      "zh"
+    ],
+    "entities": [
+      "ReturnAttachmentEntity",
+      "ReturnEntity",
+      "ReturnLineItemEntity"
+    ],
+    "git": {
+      "ref": "origin/dev",
+      "sha": "f9a5619",
+      "lastCommitDate": "2026-11-07",
+      "lastCommit": "f9a5619 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#32)",
+      "readFrom": "git ref"
+    }
+  },
+  "readme": {
+    "overview": "The Returns module by Virto Commerce gives you an opportunity to view and manage all return operations. Once a customer returns an item to your store, this information will appear on the Return screen, where you can view and sort the return list.",
+    "keyFeatures": [],
+    "docs": [
+      {
+        "label": "Returns module user documentation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/return/overview/"
+      },
+      {
+        "label": "REST API",
+        "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Return"
+      },
+      {
+        "label": "View on GitHub",
+        "href": "https://github.com/VirtoCommerce/vc-module-return"
+      }
+    ],
+    "references": [
+      {
+        "label": "Deployment",
+        "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+      },
+      {
+        "label": "Installation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+      },
+      {
+        "label": "Home",
+        "href": "https://virtocommerce.com"
+      },
+      {
+        "label": "Community",
+        "href": "https://www.virtocommerce.org"
+      },
+      {
+        "label": "Download latest release",
+        "href": "https://github.com/VirtoCommerce/vc-module-return/releases/latest"
+      }
+    ],
+    "sections": [
+      "Functional requirements",
+      "Documentation",
+      "References",
+      "License"
+    ],
+    "quality": "overview only"
+  },
+  "notes": {
+    "forAnalyst": "Returns and refunds after the sale: what came back, why, and what the customer gets.",
+    "forArchitect": "Three entities (the return, its lines and its attachments) and eight dependencies: no longer the light add-on it was, but a full part of the order lifecycle. Thirteen settings carry the policy — which order and shipment statuses allow a return, the return window, reasons, attachments and notifications — so a change of policy is not a release.",
+    "forDeveloper": "It raises three events (`ReturnChangingEvent`, `ReturnChangedEvent`, `ReturnStatusChangedEvent`) for downstream systems; the money movement itself belongs to the order's refund document. Model the physical return and the financial refund as separate steps, because they fail independently.",
+    "owns": [
+      "ReturnEntity"
+    ],
+    "reachForItWhen": [
+      "Customers send goods back and expect money or credit",
+      "Return reasons and windows are business policy that changes",
+      "Warehouse and finance need separate signals"
+    ],
+    "doNotReachForItWhen": [
+      "You only need to cancel an unshipped order — that is an order status change",
+      "The refund is the whole requirement: Orders owns the payment document",
+      "Exchange logistics: that is a new order plus a return, not one document"
+    ]
+  },
+  "extractedAt": "2026-11-08",
+  "extractedBy": "tools/module-profile.js",
+  "documentation": {
+    "repository": "https://github.com/VirtoCommerce/vc-module-return",
+    "links": [
+      {
+        "label": "Returns module user documentation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/return/overview/",
+        "source": "readme"
+      }
+    ],
+    "checkedOnline": true
   }
- },
- "readme": {
-  "overview": "The Returns module by Virto Commerce gives you an opportunity to view and manage all return operations. Once a customer returns an item to your store, this information will appear on the Return screen, where you can view and sort the return list.",
-  "keyFeatures": [],
-  "docs": [
-   {
-    "label": "Returns module user documentation",
-    "href": "https://docs.virtocommerce.org/platform/user-guide/return/overview/"
-   },
-   {
-    "label": "REST API",
-    "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Return"
-   },
-   {
-    "label": "View on GitHub",
-    "href": "https://github.com/VirtoCommerce/vc-module-return"
-   }
-  ],
-  "references": [
-   {
-    "label": "Deployment",
-    "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
-   },
-   {
-    "label": "Installation",
-    "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
-   },
-   {
-    "label": "Home",
-    "href": "https://virtocommerce.com"
-   },
-   {
-    "label": "Community",
-    "href": "https://www.virtocommerce.org"
-   },
-   {
-    "label": "Download latest release",
-    "href": "https://github.com/VirtoCommerce/vc-module-return/releases/latest"
-   }
-  ],
-  "sections": [
-   "Functional requirements",
-   "Documentation",
-   "References",
-   "License"
-  ],
-  "quality": "overview only"
- },
- "notes": {
-  "forAnalyst": "Returns and refunds after the sale: what came back, why, and what the customer gets.",
-  "forArchitect": "Two entities and eight migrations over just two dependencies, which makes it lighter than its place in the order lifecycle suggests. Four settings carry the policy — windows and reasons — so a change of policy is not a release.",
-  "forDeveloper": "It raises two events for downstream systems; the money movement itself belongs to the order's refund document. Model the physical return and the financial refund as separate steps, because they fail independently.",
-  "owns": [
-   "ReturnEntity"
-  ],
-  "reachForItWhen": [
-   "Customers send goods back and expect money or credit",
-   "Return reasons and windows are business policy that changes",
-   "Warehouse and finance need separate signals"
-  ],
-  "doNotReachForItWhen": [
-   "You only need to cancel an unshipped order — that is an order status change",
-   "The refund is the whole requirement: Orders owns the payment document",
-   "Exchange logistics: that is a new order plus a return, not one document"
-  ]
- },
- "extractedAt": "2026-08-14",
- "extractedBy": "tools/module-profile.js",
- "documentation": {
-  "repository": "https://github.com/VirtoCommerce/vc-module-return",
-  "links": [
-   {
-    "label": "Returns module user documentation",
-    "href": "https://docs.virtocommerce.org/platform/user-guide/return/overview/",
-    "source": "readme"
-   }
-  ],
-  "checkedOnline": false
- }
 }

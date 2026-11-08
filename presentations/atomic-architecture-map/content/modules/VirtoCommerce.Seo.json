@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-seo",
  "name": "SEO",
  "tagline": "Infrastructure for managing SEO metadata across the platform",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1009.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#B79DFB",
  "icon": "assets/module-icons/VirtoCommerce.Seo.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1009.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.Seo.Web.dll",
   "authors": [
    "Basil Kotov"
@@ -84,13 +84,15 @@
   "indexDocumentBuilders": [],
   "migrationCount": 12,
   "hasAdminUi": true,
-  "adminUiFiles": 34,
+  "adminUiFiles": 36,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -106,9 +108,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "9de340b",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "9de340b 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "4dd7647",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "4dd7647 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#27)",
    "readFrom": "git ref"
   }
  },
@@ -120,7 +122,7 @@
    "**Redirect Rules** — Static or regex-based URL rewrite rules with priority ordering and capture group substitution (`$1`, `$2`, etc.), validated via FluentValidation.",
    "**Broken Link Detection** — Event-driven tracking of unresolved permalinks. When no SEO info is found, a `SeoInfoNotFoundEvent` triggers a Hangfire background job that records or updates the broken link with hit count and timestamp.",
    "**SEO Duplicates Detection** — Extensible `ISeoDuplicatesDetector` interface for identifying conflicting SEO entries within an object's relationships (default implementation is a no-op).",
-   "**Explain / Debug Tool** — REST API endpoint and Admin UI widget that traces the full permalink resolution pipeline stage by stage for diagnostics.",
+   "**Explain / Debug Tool** — REST API endpoint and Admin UI widget that traces the full permalink resolution pipeline stage by stage for diagnostics, including the SEO records a resolver rejected and why.",
    "**Export / Import** — Streaming JSON-based export and import of redirect rules and broken links with batch processing (100 items per batch) and progress reporting.",
    "**Multi-Database Support** — EF Core providers for SQL Server, MySQL, and PostgreSQL with version-controlled migrations."
   ],
@@ -195,7 +197,7 @@
    "You want analytics on traffic: this module records broken links, not visits"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-seo",
@@ -211,6 +213,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

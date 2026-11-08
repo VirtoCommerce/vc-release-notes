@@ -142,8 +142,14 @@ function codeSignals(repoDir, files) {
     const src = read(f) || '';
     /* A permission has a segment on either side of the colon. Catalog's
        `OperationLogVariationMarker = "MainProductId:"` is a const with a trailing colon, not a permission. */
-    permissions = permissions.concat(grab(/public const string \w+ = "([^"]+)"/g, src)
-      .filter(v => /^[a-z][\w.-]*(:[\w.*-]+)+$/i.test(v)));
+    /* Configuration and cache keys share the colon shape (`AdminShell:ThemesPath`,
+       `xcatalog:search:certain-date`), so a constant named …Key, …Section or …Path is skipped. Across
+       every module checkout that rule removes exactly those two and no real permission. */
+    permissions = permissions.concat(
+      [...src.matchAll(/public const string (\w+) = "([^"]+)"/g)]
+        .filter(m => !/(Key|Section|Path)$/.test(m[1]))
+        .map(m => m[2])
+        .filter(v => /^[a-z][\w.-]*(:[\w.*-]+)+$/i.test(v)));
     /* A SettingDescriptor name is dotted (Webhooks.General.SendRetryCount). The `Name = "Webhooks|General"`
        lines in the same file are setting-GROUP labels, and counting them as settings inflates the number. */
     settings = settings.concat(grab(/Name = "([^"]+)"/g, src).filter(v => v.includes('.') && !v.includes('|')));

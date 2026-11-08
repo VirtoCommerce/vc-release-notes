@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-background-jobs",
  "name": "Background Jobs",
  "tagline": "Handles asynchronous processing, allowing applications to offload time-consuming, repetitive, or resource-heavy tasks outside the platform",
- "latestVersion": "3.1050.0",
+ "latestVersion": "3.1055.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.BackgroundJobs.svg",
  "facts": {
-  "manifestVersion": "3.1051.0",
-  "platformVersion": "3.1050.0",
+  "manifestVersion": "3.1055.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.BackgroundJobs.Web.dll",
   "authors": [
    "Oleg Zhuk"
@@ -59,7 +59,7 @@
    {
     "file": "src/VirtoCommerce.BackgroundJobs.Web/Controllers/Api/JobsController.cs",
     "route": "api/platform/jobs",
-    "actions": 1,
+    "actions": 2,
     "authorizedActions": 1
    }
   ],
@@ -109,9 +109,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "85296e3",
-   "lastCommitDate": "2026-07-29",
-   "lastCommit": "85296e3 2026-07-29 fix: Update with Migrating from VirtoCommerce.Platform.Hangfire",
+   "sha": "974cc77",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "974cc77 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#9)",
    "readFrom": "git ref"
   }
  },
@@ -198,7 +198,7 @@
    "The job needs a database table of its own — this module keeps none, so bring your own store"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-background-jobs",
@@ -209,6 +209,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

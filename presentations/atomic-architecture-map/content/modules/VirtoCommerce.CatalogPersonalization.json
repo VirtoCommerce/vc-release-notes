@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-catalog-personalization",
  "name": "Catalog Personalization",
  "tagline": "Help businesses personalize their categories and products to specific User Groups",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1010.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.CatalogPersonalization.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1010.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.CatalogPersonalizationModule.Web.dll",
   "authors": [
    "Eugeney Tarincev",
@@ -24,17 +24,17 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -57,7 +57,7 @@
     "file": "src/VirtoCommerce.CatalogPersonalizationModule.Web/Controllers/Api/PersonalizationModuleController.cs",
     "route": "api/personalization",
     "actions": 6,
-    "authorizedActions": 0
+    "authorizedActions": 6
    }
   ],
   "permissions": [
@@ -65,6 +65,7 @@
   ],
   "settings": [
    "CatalogPersonalization.CronExpression",
+   "CatalogPersonalization.EnableOutlinesSynchronizationJob",
    "CatalogPersonalization.EventBasedIndexation",
    "CatalogPersonalization.LogTaggedItemsChanges",
    "CatalogPersonalization.TagsInheritancePolicy"
@@ -94,15 +95,20 @@
   "hasAdminUi": true,
   "adminUiFiles": 10,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
+   "fi",
    "fr",
+   "he",
    "it",
    "ja",
+   "no",
    "pl",
    "pt",
    "ru",
+   "sv",
    "zh"
   ],
   "entities": [
@@ -112,9 +118,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "781d62f",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "781d62f 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "05db974",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "05db974 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#96)",
    "readFrom": "git ref"
   }
  },
@@ -187,7 +193,7 @@
    "Segments are not defined: this module applies them, it does not invent them"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-catalog-personalization",
@@ -198,6 +204,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

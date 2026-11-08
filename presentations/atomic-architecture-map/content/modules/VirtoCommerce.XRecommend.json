@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-recommend",
  "name": "Product Recommendations",
  "tagline": "Recommendations encourage users to expand their search and browse more broadly. Users can jump to similar or complementary items if they don’t find a precise match.",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1003.0",
  "active": true,
  "groups": [],
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.XRecommend.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1007.10",
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.XRecommend.Web.dll",
   "authors": [
    "Konstantin Savosteev"
@@ -90,9 +90,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "9490443",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "9490443 2026-07-27 3.1003.0",
+   "sha": "10fae42",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "10fae42 2026-11-07 3.1004.0",
    "readFrom": "git ref"
   }
  },
@@ -190,7 +190,7 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-x-recommend",
@@ -236,6 +236,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

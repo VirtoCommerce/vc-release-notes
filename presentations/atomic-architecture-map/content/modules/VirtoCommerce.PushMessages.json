@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-push-messages",
  "name": "Push Messages",
  "tagline": "Enables back-end admins to send custom notifications to selected organizations within the Virto Commerce platform.",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1009.0",
  "active": true,
  "groups": [],
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.PushMessages.svg",
  "facts": {
-  "manifestVersion": "3.1006.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1009.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.PushMessages.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -20,12 +20,12 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1011.0",
+    "version": "3.1028.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    }
   ],
@@ -48,8 +48,8 @@
    {
     "file": "src/VirtoCommerce.PushMessages.Web/Controllers/Api/PushMessageController.cs",
     "route": "api/push-message",
-    "actions": 7,
-    "authorizedActions": 7
+    "actions": 8,
+    "authorizedActions": 8
    }
   ],
   "permissions": [
@@ -121,9 +121,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "dd25ca0",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "dd25ca0 2026-07-27 3.1006.0",
+   "sha": "8884689",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "8884689 2026-11-07 VCST-6733: Bump platform to 3.1095.0 (#32)",
    "readFrom": "git ref"
   }
  },
@@ -212,7 +212,7 @@
    "Transient UI feedback: that is the front end's own concern"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-push-messages",
@@ -233,6 +233,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

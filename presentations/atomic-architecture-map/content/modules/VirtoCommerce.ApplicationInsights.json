@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.ApplicationInsights.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.ApplicationInsights.Web.dll",
   "authors": [
    "Konstantin Savosteev"
@@ -71,9 +71,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "ab090fc",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "ab090fc 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "e9dbbed",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "e9dbbed 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -158,7 +158,7 @@
    "Adding several collectors for the same signal, which doubles cost for one answer"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-app-insights",
@@ -179,6 +179,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

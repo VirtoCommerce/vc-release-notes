@@ -4,13 +4,13 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-elastic-app-search",
  "name": "Elastic App Search",
  "tagline": "Search functionality with Elastic App Search service",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1003.0",
  "active": true,
  "groups": [],
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.ElasticAppSearch.svg",
  "facts": {
-  "manifestVersion": "3.1002.0",
+  "manifestVersion": "3.1004.0",
   "platformVersion": "3.1002.0",
   "assembly": "VirtoCommerce.ElasticAppSearch.Web.dll",
   "authors": [
@@ -69,9 +69,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "c959938",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "c959938 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "805ad1f",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "805ad1f 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -154,7 +154,7 @@
    "The problem is stale results: that is indexation, not the engine"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-elastic-app-search",
@@ -175,6 +175,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

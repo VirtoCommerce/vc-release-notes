@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-order",
  "name": "Order Experience API",
  "tagline": "Focuses on order processing, providing robust support for order lifecycle management.",
- "latestVersion": "3.1008.0",
+ "latestVersion": "3.1017.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#9D86F5",
  "icon": "assets/module-icons/VirtoCommerce.XOrder.svg",
  "facts": {
-  "manifestVersion": "3.1009.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1018.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.XOrder.Web.dll",
   "authors": [
    "Eugeny Tatarincev",
@@ -31,33 +31,38 @@
   "tags": "extension module",
   "dependsOn": [
    {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1028.0",
+    "optional": false
+   },
+   {
     "id": "VirtoCommerce.FileExperienceApi",
-    "version": "3.1003.0",
+    "version": "3.1008.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Orders",
-    "version": "3.1011.0",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Payment",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.XCart",
-    "version": "3.1025.0",
+    "version": "3.1042.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.XCatalog",
-    "version": "3.1007.0",
+    "version": "3.1023.0",
     "optional": false
    }
   ],
@@ -109,9 +114,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "cecf533",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "cecf533 2026-07-27 3.1009.0",
+   "sha": "8f0e195",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "8f0e195 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -198,7 +203,7 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-x-order",
@@ -239,6 +244,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

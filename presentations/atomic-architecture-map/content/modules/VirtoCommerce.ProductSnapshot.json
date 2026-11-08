@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-product-snapshot",
  "name": "Product Snapshot",
  "tagline": "The Product Snapshot module captures and stores product information at the moment an order is created.\n  This ensures that customers and store operators always have access to the exact product details (prices, properties, images, descriptions)\n  that were valid at the time of purchase, even if the product catalog is later modified or products are deleted.",
- "latestVersion": "3.1003.0",
+ "latestVersion": "3.1005.0",
  "active": true,
  "groups": [],
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.ProductSnapshot.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
-  "platformVersion": "3.1016.0",
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.ProductSnapshot.Web.dll",
   "authors": [
    "Konstantin Savosteev"
@@ -85,11 +85,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 5,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -104,9 +106,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "a69cd5d",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "a69cd5d 2026-07-27 3.1004.0",
+   "sha": "155f9e0",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "155f9e0 2026-11-07 3.1006.0",
    "readFrom": "git ref"
   }
  },
@@ -176,11 +178,11 @@
    "Storage growth is unbudgeted"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-product-snapshot",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

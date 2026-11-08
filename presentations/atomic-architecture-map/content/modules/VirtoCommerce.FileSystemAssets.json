@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-filesystem-assets",
  "name": "File Systems Assets Provider",
  "tagline": "Provide integration with File Systems for Assets Management",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1006.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.FileSystemAssets.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.FileSystemAssetsModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -22,7 +22,7 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -49,9 +49,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "548efc8",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "548efc8 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "89dd5c0",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "89dd5c0 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -125,7 +125,7 @@
    "You need a CDN in front of assets"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-filesystem-assets",
@@ -141,6 +141,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

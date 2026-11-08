@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-order-management",
  "name": "Order Management (Business Rules)",
  "tagline": "Consolidates order management business rules.",
- "latestVersion": "3.1003.0",
+ "latestVersion": "3.1004.0",
  "active": true,
  "groups": [],
  "accent": "#9D86F5",
  "icon": "assets/module-icons/VirtoCommerce.OrderManagement.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1002.0",
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.OrderManagement.Web.dll",
   "authors": [
    "Evgenii Kolosov"
@@ -75,11 +75,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 5,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -92,9 +94,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "bf8d19e",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "bf8d19e 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "ffc22b1",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "ffc22b1 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#9)",
    "readFrom": "git ref"
   }
  },
@@ -167,11 +169,11 @@
    "You expect it to hold state: it holds none"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-order-management",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

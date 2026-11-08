@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-pricing",
  "name": "Pricing",
  "tagline": "Robust pricing management functionality based on price list and dynamic evaluation",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1011.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.Pricing.svg",
  "facts": {
-  "manifestVersion": "3.1006.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1011.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.PricingModule.Web.dll",
   "authors": [
    "Eugeney Tatarincev"
@@ -22,29 +22,29 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
   "optionalDependencies": [
    {
     "id": "VirtoCommerce.Export",
-    "version": "3.1003.0",
+    "version": "3.1005.0",
     "optional": true
    }
   ],
@@ -119,11 +119,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 37,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -143,9 +145,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "1368ce0",
-   "lastCommitDate": "2026-08-03",
-   "lastCommit": "1368ce0 2026-08-03 3.1006.0",
+   "sha": "8abfcac",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "8abfcac 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#243)",
    "readFrom": "git ref"
   }
  },
@@ -228,7 +230,7 @@
    "You are importing thousands of price lists with events live — that fans out into one index job per SKU per list"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-pricing",
@@ -239,6 +241,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

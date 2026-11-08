@@ -1,0 +1,168 @@
+{
+  "id": "VirtoCommerce.MFA",
+  "repo": "vc-module-mfa",
+  "repoUrl": "https://github.com/VirtoCommerce/vc-module-mfa",
+  "name": "Multi-Factor Authentication",
+  "tagline": "Protects password sign-ins to the Backoffice and the storefront with a second factor: a one-time code sent by email. Enabled globally or per store.",
+  "latestVersion": "3.1003.0",
+  "active": true,
+  "groups": [],
+  "accent": "#6E7E97",
+  "icon": "assets/module-icons/VirtoCommerce.MFA.svg",
+  "facts": {
+    "manifestVersion": "3.1003.0",
+    "platformVersion": "3.1093.0",
+    "assembly": "VirtoCommerce.MFA.Web.dll",
+    "authors": [
+      "Virto Commerce"
+    ],
+    "tags": "extension module",
+    "dependsOn": [
+      {
+        "id": "VirtoCommerce.Customer",
+        "version": "3.1030.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Notifications",
+        "version": "3.1009.3",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Store",
+        "version": "3.1005.1",
+        "optional": false
+      }
+    ],
+    "optionalDependencies": [
+      {
+        "id": "VirtoCommerce.Xapi",
+        "version": "3.1027.0",
+        "optional": true
+      }
+    ],
+    "projects": [
+      "VirtoCommerce.MFA.Core",
+      "VirtoCommerce.MFA.Data",
+      "VirtoCommerce.MFA.Web",
+      "VirtoCommerce.MFA.Xapi"
+    ],
+    "databaseProviders": [],
+    "restControllers": [
+      {
+        "file": "src/VirtoCommerce.MFA.Web/Controllers/Api/MfaController.cs",
+        "route": "api/mfa",
+        "actions": 3,
+        "authorizedActions": 0
+      },
+      {
+        "file": "src/VirtoCommerce.MFA.Web/Controllers/Api/MfaModesController.cs",
+        "route": "api/mfa/modes",
+        "actions": 6,
+        "authorizedActions": 6
+      }
+    ],
+    "permissions": [
+      "mfa:manage",
+      "mfa:read",
+      "xapi:my_organization:mfa:manage"
+    ],
+    "settings": [
+      "MultiFactorAuthentication.Enabled",
+      "MultiFactorAuthentication.OrganizationMode",
+      "MultiFactorAuthentication.StoreMode",
+      "MultiFactorAuthentication.UserMode"
+    ],
+    "domainEventsPublished": [],
+    "declaredEvents": [],
+    "eventHandlers": [],
+    "handledEvents": [],
+    "subscribesDynamically": false,
+    "graphqlBuilders": [
+      "src/VirtoCommerce.MFA.Xapi/Queries/MfaSettingsQueryBuilder.cs"
+    ],
+    "indexDocumentBuilders": [],
+    "migrationCount": 0,
+    "hasAdminUi": true,
+    "adminUiFiles": 8,
+    "localizations": [
+      "de",
+      "en",
+      "es",
+      "fi",
+      "fr",
+      "it",
+      "ja",
+      "no",
+      "pl",
+      "pt",
+      "ru",
+      "sv",
+      "zh"
+    ],
+    "entities": [],
+    "git": {
+      "ref": "origin/dev",
+      "sha": "e2c36a9",
+      "lastCommitDate": "2026-11-07",
+      "lastCommit": "e2c36a9 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#5)",
+      "readFrom": "git ref"
+    }
+  },
+  "readme": {
+    "overview": "The module adds multi-factor authentication (MFA) to password sign-ins: after the password, the user enters a one-time code sent by email. It covers the Backoffice and any other password sign-in without a store, and the storefront password sign-in of each store. A store can require the code from everyone, from no one, or leave it to the users and organizations: an administrator sets their mode in the Backoffice, and in a store with `CustomerChoice` customers and organization maintainers turn it on and off themselves in the storefront. The module is built on the ASP.NET Core Identity two-factor mechanism. It tells Identity which sign-ins require a second factor through the platform `ITwoFactorPolicy`, which the platform `SignInManager.IsTwoFactorEnabledAsync` consults for every password sign-in. The policy takes the `storeId` of the token request, if there is one, and the user's own store, and requires the second factor according to the platform and store settings. Identity then answers `RequiresTwoFactor` to password sign-ins and keeps the failed access count until the second factor is passed.",
+    "keyFeatures": [],
+    "docs": [],
+    "references": [
+      {
+        "label": "Deployment",
+        "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+      },
+      {
+        "label": "Installation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+      },
+      {
+        "label": "Home",
+        "href": "https://virtocommerce.com"
+      },
+      {
+        "label": "Community",
+        "href": "https://www.virtocommerce.org"
+      }
+    ],
+    "sections": [
+      "Overview",
+      "Configuration",
+      "How it works",
+      "Rules",
+      "Extending",
+      "References",
+      "License"
+    ],
+    "quality": "overview only"
+  },
+  "notes": {
+    "forAnalyst": "Adds a second step to password sign-in: after the password, the user enters a code sent by email. It can be required for everyone, per store, or left to customers and their organizations, and an organization can require it for all its members.",
+    "forArchitect": "Built on the platform's two-factor extension points (3.1090) and the ASP.NET Core Identity email token provider, so it keeps no tables of its own. The back office follows only the global setting; a password sign-in on the token endpoint follows the store named in the request, or the global setting when it names none. Basic authentication follows the global rule and, for users who need a code, is refused by the platform. It depends on Customer, Notifications and Store; with xAPI installed, an organization maintainer can also manage the organization's mode from the storefront.",
+    "forDeveloper": "Before switching it on, confirm the email of every user it applies to and enable lockout for them: codes go to a confirmed address only. If an administrator is locked out by MFA, set `MultiFactorAuthentication:DisableEnforcement` to `true` as a recovery switch. The storefront calls `POST /api/mfa/resend` on its own host, so an ingress that forwards only listed paths needs `/api/mfa` added. Modes are `Off`, `Enabled` and `Required` per user and organization, and stores are `AdminManaged` or `CustomerChoice`.",
+    "owns": [],
+    "reachForItWhen": [
+      "A security or compliance requirement for a second factor on back-office accounts",
+      "B2B customers whose organizations want to require a second factor for their buyers",
+      "Stores that should require a code while others on the same platform do not"
+    ],
+    "doNotReachForItWhen": [
+      "A second factor by authenticator app or SMS: this module sends codes by email only",
+      "Integrations that sign in with a user's password. Move them to API keys first, or they stop working when the user needs a code",
+      "Users whose email addresses are not confirmed"
+    ]
+  },
+  "extractedAt": "2026-11-08",
+  "extractedBy": "tools/module-profile.js",
+  "documentation": {
+    "repository": "https://github.com/VirtoCommerce/vc-module-mfa",
+    "links": [],
+    "checkedOnline": true
+  }
+}

@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-customer-export-import",
  "name": "Customer Export Import",
  "tagline": "This module adds customers export and import functionality. Use it for customer management.",
- "latestVersion": "3.1003.0",
+ "latestVersion": "3.1004.0",
  "active": true,
  "groups": [],
  "accent": "#F87FAC",
  "icon": "assets/module-icons/VirtoCommerce.CustomerExportImport.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.CustomerExportImportModule.Web.dll",
   "authors": [
    "Alexey Shibanov"
@@ -20,17 +20,17 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1011.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1013.0",
+    "version": "3.1033.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1013.0",
     "optional": false
    }
   ],
@@ -76,11 +76,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 15,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -93,9 +95,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "611d020",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "611d020 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "f833c2b",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "f833c2b 2026-11-07 3.1005.0",
    "readFrom": "git ref"
   }
  },
@@ -167,7 +169,7 @@
    "Personal data may not leave the system: an export file is a data-protection decision"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-customer-export-import",
@@ -178,6 +180,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

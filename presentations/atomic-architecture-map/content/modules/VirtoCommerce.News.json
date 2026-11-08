@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-news",
  "name": "News",
  "tagline": "Module allowing content managers to publish news articles",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1006.0",
  "active": true,
  "groups": [],
  "accent": "#B79DFB",
  "icon": "assets/module-icons/VirtoCommerce.News.svg",
  "facts": {
-  "manifestVersion": "3.1006.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.News.Web.dll",
   "authors": [
    "Iusupov Kirill"
@@ -102,9 +102,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "1424e31",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "1424e31 2026-07-27 3.1006.0",
+   "sha": "6e4d22e",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "6e4d22e 2026-11-07 3.1007.0",
    "readFrom": "git ref"
   }
  },
@@ -148,11 +148,11 @@
    "Articles come from an external system that owns them"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-news",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

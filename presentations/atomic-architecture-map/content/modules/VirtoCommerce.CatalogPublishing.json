@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-catalog-publishing",
  "name": "Catalog Publishing",
  "tagline": "Allow you to see progress on filling in information about products and marks missed info.",
- "latestVersion": "3.1006.0",
+ "latestVersion": "3.1010.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.CatalogPublishing.svg",
  "facts": {
-  "manifestVersion": "3.1006.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1010.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.CatalogPublishingModule.Web.dll",
   "authors": [
    "Alexey Antonov",
@@ -25,12 +25,12 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Pricing",
-    "version": "3.1003.0",
+    "version": "3.1008.0",
     "optional": false
    }
   ],
@@ -53,7 +53,7 @@
     "file": "src/VirtoCommerce.CatalogPublishingModule.Web/Controllers/Api/CompletenessController.cs",
     "route": "api/completeness",
     "actions": 9,
-    "authorizedActions": 7
+    "authorizedActions": 9
    }
   ],
   "permissions": [
@@ -78,11 +78,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 16,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -101,9 +103,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "8518099",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "8518099 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "0031aad",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "0031aad 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#87)",
    "readFrom": "git ref"
   }
  },
@@ -175,7 +177,7 @@
    "You expect it to fix data: it measures"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-catalog-publishing",
@@ -186,6 +188,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

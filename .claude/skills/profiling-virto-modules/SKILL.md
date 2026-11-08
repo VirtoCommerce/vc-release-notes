@@ -19,13 +19,15 @@ A module page has two halves, and keeping them apart is the whole point:
 ## The loop
 
 ```bash
-node tools/build-active-modules.js --online          # registry → the catalogue (96 modules)
-node tools/sync-module-icons.js --online             # icons + accents + families
+node tools/build-active-modules.js --online          # registry → the catalogue (103 modules)
+node tools/sync-module-icons.js --online             # icons + accents + families, for the catalogue's modules
 node tools/module-profile.js vc-module-webhooks --ref origin/dev --online
 # ... author the notes block by hand ...
 node tools/build-modules.js                          # JSON → content/modules.generated.js
-node check-content.js --online                       # gate
+VC_PLATFORM_ROOT=<platform release tree> node check-content.js --online   # gate
 ```
+
+Point `VC_PLATFORM_ROOT` at the platform **release** being documented, not at whatever branch the local vc-platform checkout is on. A feature branch is older or newer than the release, so source paths fail or pass for the wrong reason. Export the tag to a temp folder with `git archive --format=tar --output=<tmp>/p.tar <tag>` and `tar -xf` it there; nothing in the checkout is touched.
 
 Then open the page and look at it. The checker proves the data resolves; it cannot tell you the page reads badly.
 
@@ -35,7 +37,9 @@ Then open the page and look at it. The checker proves the data resolves; it cann
 
 ## Which modules
 
-Active = the registry's newest published version is **≥ 3.1000.0** — 96 of 109 entries on master. The other 13 are archived, pre-3.1, or test artifacts and must not appear. The generator enforces this; never hand-add a module below the floor.
+Active = the registry's newest published version is **≥ 3.1000.0** *and* the module's repository has a published release. On master at platform 3.1096.0 that is 103 of 117 entries. The rest are archived or pre-3.1, plus four above the floor that are excluded: three with no published release (Punchout, VirtoOZManagement, and OneShell, whose repository does not resolve) and the CI test module (CITest), which is released but is not a product.
+
+A registry entry is not a release. The generator checks releases with one GitHub GraphQL call and writes every exclusion, with its reason, to `VC_EXCLUDED_MODULES` in `content/modules-active.js`; the checker prints them and fails on an exclusion without a reason. Offline runs reuse the previous online run's exclusions. Never hand-add a module below the floor or without a release.
 
 ## The page, block by block
 
@@ -114,4 +118,4 @@ A module without a local checkout cannot be profiled; its tile still opens a reg
 - A genuinely new capability gets its own record: business name, category, one-sentence blurb with no module id in it, and the minimum module set.
 - The module's own `notes.forAnalyst` line is usually the raw material for the blurb — but the blurb is about the outcome, not the module.
 
-The checker prints `features → N in C categories, covering M/96 active modules` so coverage is visible on every run.
+The checker prints `features → N in C categories, covering M/103 active modules` so coverage is visible on every run.

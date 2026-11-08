@@ -1,0 +1,175 @@
+{
+  "id": "VirtoCommerce.PowerBiReports",
+  "repo": "vc-module-power-bi-reports",
+  "repoUrl": "https://github.com/VirtoCommerce/vc-module-power-bi-reports",
+  "name": "Power BI Commerce Reports",
+  "tagline": "Power BI Commerce Reports for Virto Commerce",
+  "latestVersion": "3.1002.0",
+  "active": true,
+  "groups": [],
+  "accent": "#5FD080",
+  "icon": "assets/module-icons/VirtoCommerce.PowerBiReports.svg",
+  "facts": {
+    "manifestVersion": "3.1002.0",
+    "platformVersion": "3.1002.0",
+    "assembly": "VirtoCommerce.PowerBiReports.Web.dll",
+    "authors": [
+      "Oleg Zhuk"
+    ],
+    "tags": "extension module",
+    "dependsOn": [
+      {
+        "id": "VirtoCommerce.Orders",
+        "version": "3.1000.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Customer",
+        "version": "3.1000.0",
+        "optional": false
+      }
+    ],
+    "optionalDependencies": [],
+    "projects": [
+      "Power-BI-Files",
+      "Sql-Scripts",
+      "VirtoCommerce.PowerBiReports.Core",
+      "VirtoCommerce.PowerBiReports.Data",
+      "VirtoCommerce.PowerBiReports.Web"
+    ],
+    "databaseProviders": [],
+    "restControllers": [
+      {
+        "file": "src/VirtoCommerce.PowerBiReports.Web/Controllers/Api/PowerBiReportsController.cs",
+        "route": "api/power-bi-reports",
+        "actions": 1,
+        "authorizedActions": 1
+      }
+    ],
+    "permissions": [
+      "PowerBiReports:access",
+      "PowerBiReports:create",
+      "PowerBiReports:delete",
+      "PowerBiReports:read",
+      "PowerBiReports:update"
+    ],
+    "settings": [
+      "PowerBiReports.PowerBiReportsUrl"
+    ],
+    "domainEventsPublished": [],
+    "declaredEvents": [],
+    "eventHandlers": [],
+    "handledEvents": [],
+    "subscribesDynamically": false,
+    "graphqlBuilders": [],
+    "indexDocumentBuilders": [],
+    "migrationCount": 0,
+    "hasAdminUi": true,
+    "adminUiFiles": 1,
+    "localizations": [
+      "ar",
+      "de",
+      "en",
+      "es",
+      "fi",
+      "fr",
+      "he",
+      "it",
+      "ja",
+      "no",
+      "pl",
+      "pt",
+      "ru",
+      "sv",
+      "zh"
+    ],
+    "entities": [],
+    "git": {
+      "ref": "origin/dev",
+      "sha": "414bd5b",
+      "lastCommitDate": "2026-11-07",
+      "lastCommit": "414bd5b 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#10)",
+      "readFrom": "git ref"
+    }
+  },
+  "readme": {
+    "overview": "The Power BI Reports module is a powerful analytics tool that allows users to gain valuable insights into their e-commerce operations. With this module, users can connect their Virto Commerce platform data to Microsoft Power BI, which enables them to create interactive and customizable reports and dashboards.",
+    "keyFeatures": [
+      "Connect Virto Commerce Data to Microsoft Power BI: The Reports module enables users to connect their e-commerce data from Virto Commerce to Microsoft Power BI, allowing them to create interactive and customizable reports and dashboards.",
+      "Explore Your Data Using Natural Language Capabilities: The Reports module allows users to explore their data using natural language capabilities, making it easier to extract insights and make data-driven decisions.",
+      "Sales Dashboard: The Reports module provides a pre-built sales dashboard template, allowing users to easily visualize and track their sales performance.",
+      "Sales Analysis: The Reports module provides a pre-built sales analysis report template, allowing users to extract and analyze critical data on their sales performance, including revenue, order volume, and more."
+    ],
+    "docs": [
+      {
+        "label": "Power Bi Reports module user documentation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/integrations/power-bi/overview/"
+      },
+      {
+        "label": "REST API",
+        "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.PowerBiReports"
+      },
+      {
+        "label": "View on GitHub",
+        "href": "https://github.com/VirtoCommerce/vc-module-power-bi-reports"
+      }
+    ],
+    "references": [
+      {
+        "label": "Deployment",
+        "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+      },
+      {
+        "label": "Installation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+      },
+      {
+        "label": "Home",
+        "href": "https://virtocommerce.com"
+      },
+      {
+        "label": "Community",
+        "href": "https://www.virtocommerce.org"
+      },
+      {
+        "label": "Download latest release",
+        "href": "https://github.com/VirtoCommerce/vc-module-power-bi-reports/releases/latest"
+      }
+    ],
+    "sections": [
+      "Key Features",
+      "Getting Started",
+      "Documentation",
+      "References",
+      "License"
+    ],
+    "quality": "full"
+  },
+  "notes": {
+    "forAnalyst": "Gives the back office a Reports entry that opens a Power BI sales dashboard and sales analysis report. The reports themselves are built and published in Power BI from a template the module provides.",
+    "forArchitect": "A thin launcher, not a reporting engine. The module ships SQL views (`bi-Orders-view.sql`) to apply to the commerce database and a Power BI report file (`ECommerce-Sales-Report.pbix`) to publish to the Power BI Service; its only endpoint redirects the back-office user to the report URL in `PowerBiReports.PowerBiReportsUrl`. Power BI therefore reads the Orders data straight from the database through those views, not through any platform API, which means it needs network access to the database and can break when the Orders schema changes.",
+    "forDeveloper": "Setup is mostly outside the platform: apply the SQL script, open the .pbix in Power BI Desktop, check the data loads, publish it, schedule refresh, and paste the published URL into the setting. The module declares create, read, update, delete and access permissions; the redirect endpoint checks read.",
+    "owns": [],
+    "reachForItWhen": [
+      "A sales dashboard in Power BI quickly, for a business that already uses Power BI",
+      "A starting template for order and revenue reporting that a BI team will extend"
+    ],
+    "doNotReachForItWhen": [
+      "Environments where a reporting tool may not connect to the transactional database. Point Power BI at a replica or a warehouse instead",
+      "Reporting inside the platform: everything here runs in Power BI"
+    ]
+  },
+  "extractedAt": "2026-11-08",
+  "extractedBy": "tools/module-profile.js",
+  "documentation": {
+    "repository": "https://github.com/VirtoCommerce/vc-module-power-bi-reports",
+    "links": [
+      {
+        "label": "Power Bi Reports module user documentation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/integrations/power-bi/overview/",
+        "source": "readme"
+      }
+    ],
+    "checkedOnline": true
+  }
+}

@@ -4,13 +4,13 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-skyflow",
  "name": "Skyflow",
  "tagline": "Skyflow Integration as payment provider enables a unified user experience for Credit Card transactions across diverse payment providers.",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1005.0",
  "active": true,
  "groups": [],
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.Skyflow.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
+  "manifestVersion": "3.1006.0",
   "platformVersion": "3.1002.0",
   "assembly": "VirtoCommerce.Skyflow.Web.dll",
   "authors": [
@@ -75,9 +75,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "4f6efc7",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "4f6efc7 2026-07-27 3.1005.0",
+   "sha": "0771f7a",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "0771f7a 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -165,7 +165,7 @@
    "Non-payment secrets: use configuration and a key vault"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-skyflow",
@@ -186,6 +186,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

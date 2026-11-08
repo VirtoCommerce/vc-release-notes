@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-NativePaymentMethods",
  "name": "Native Payment Methods",
  "tagline": "Non-integrative payment methods support",
- "latestVersion": "3.1003.0",
+ "latestVersion": "3.1004.0",
  "active": true,
  "groups": [],
  "accent": "#FFC24D",
  "icon": "assets/module-icons/VirtoCommerce.NativePaymentMethods.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1017.0",
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.NativePaymentMethods.Web.dll",
   "authors": [
    "Mikhail Getmanskiy"
@@ -74,15 +74,20 @@
   "hasAdminUi": true,
   "adminUiFiles": 10,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
+   "fi",
    "fr",
+   "he",
    "it",
    "ja",
+   "no",
    "pl",
    "pt",
    "ru",
+   "sv",
    "zh"
   ],
   "entities": [
@@ -90,9 +95,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "d362291",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "d362291 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "ec1132d",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "ec1132d 2026-11-07 3.1005.0",
    "readFrom": "git ref"
   }
  },
@@ -159,7 +164,7 @@
    "The business expects instant authorisation"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-NativePaymentMethods",
@@ -170,6 +175,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

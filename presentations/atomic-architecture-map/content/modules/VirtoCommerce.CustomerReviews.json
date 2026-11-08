@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-customer-review",
  "name": "Rating and Reviews",
  "tagline": "Enables customers to share their feedback on products and vendors after making a purchase, helping others make informed decisions.",
- "latestVersion": "3.1006.0",
+ "latestVersion": "3.1011.0",
  "active": true,
  "groups": [],
  "accent": "#F87FAC",
  "icon": "assets/module-icons/VirtoCommerce.CustomerReviews.svg",
  "facts": {
-  "manifestVersion": "3.1007.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1011.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.CustomerReviews.Web.dll",
   "authors": [
    "Egidijus Mazeika",
@@ -23,52 +23,52 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1011.0",
+    "version": "3.1028.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.FileExperienceApi",
-    "version": "3.1003.0",
+    "version": "3.1006.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Notifications",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Orders",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.ProfileExperienceApiModule",
-    "version": "3.1009.0",
+    "version": "3.1020.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.XCatalog",
-    "version": "3.1007.0",
+    "version": "3.1023.0",
     "optional": false
    }
   ],
@@ -146,11 +146,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 12,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -168,9 +170,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "4977d66",
-   "lastCommitDate": "2026-08-05",
-   "lastCommit": "4977d66 2026-08-05 3.1007.0",
+   "sha": "11d4552",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "11d4552 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#89)",
    "readFrom": "git ref"
   }
  },
@@ -264,7 +266,7 @@
    "The host must stay small: ten dependencies say otherwise"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-customer-review",
@@ -285,6 +287,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

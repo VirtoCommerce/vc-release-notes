@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-order",
  "name": "Order Management",
  "tagline": "Document based flexible order management system.",
- "latestVersion": "3.1013.0",
+ "latestVersion": "3.1020.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#9D86F5",
  "icon": "assets/module-icons/VirtoCommerce.Orders.svg",
  "facts": {
-  "manifestVersion": "3.1014.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1020.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.OrdersModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -22,57 +22,57 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Cart",
-    "version": "3.1007.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Customer",
     "version": "3.1011.0",
     "optional": false
    },
    {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1048.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1012.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1028.0",
+    "optional": false
+   },
+   {
     "id": "VirtoCommerce.Inventory",
-    "version": "3.1003.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Notifications",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Payment",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Shipping",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
@@ -95,7 +95,7 @@
     "file": "src/VirtoCommerce.OrdersModule.Web/Controllers/Api/OrderModuleController.cs",
     "route": "api/order/customerOrders",
     "actions": 24,
-    "authorizedActions": 7
+    "authorizedActions": 8
    },
    {
     "file": "src/VirtoCommerce.OrdersModule.Web/Controllers/Api/OrderModulePaymentsController.cs",
@@ -116,12 +116,15 @@
    "order:create",
    "order:dashboardstatistics:view",
    "order:delete",
+   "order:invoice:download",
    "order:payment:execute_callback",
    "order:read",
    "order:read_prices",
    "order:refund",
    "order:update",
-   "order:update_shipments"
+   "order:update_shipments",
+   "order_samples:read_prices_direct",
+   "order_samples:read_prices_indirect"
   ],
   "settings": [
    "Invoice.Status",
@@ -190,15 +193,20 @@
   "hasAdminUi": true,
   "adminUiFiles": 102,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
+   "fi",
    "fr",
+   "he",
    "it",
    "ja",
+   "no",
    "pl",
    "pt",
    "ru",
+   "sv",
    "zh"
   ],
   "entities": [
@@ -227,9 +235,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "341b3875",
-   "lastCommitDate": "2026-07-29",
-   "lastCommit": "341b3875 2026-07-29 fix: Update sample - added PendingModelChangesWarning, updated packages",
+   "sha": "e53a7386",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "e53a7386 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#510)",
    "readFrom": "git ref"
   }
  },
@@ -379,7 +387,7 @@
    "You are deploying a small host — eleven required dependencies mean this is not the module to isolate first"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-order",
@@ -395,6 +403,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

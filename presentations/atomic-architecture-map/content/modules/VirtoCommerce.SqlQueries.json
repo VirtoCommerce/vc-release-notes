@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-sql-queries",
  "name": "Sql Queries",
  "tagline": "Adds SQL query/report capabilities to the VirtoCommerce platform, enabling advanced data access directly through SQL.",
- "latestVersion": "3.1006.0",
+ "latestVersion": "3.1008.0",
  "active": true,
  "groups": [],
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.SqlQueries.svg",
  "facts": {
-  "manifestVersion": "3.1006.0",
-  "platformVersion": "3.1007.10",
+  "manifestVersion": "3.1009.0",
+  "platformVersion": "3.1007.28",
   "assembly": "VirtoCommerce.SqlQueries.Web.dll",
   "authors": [
    "VirtoCommerce"
@@ -47,7 +47,9 @@
    "sql-queries:read",
    "sql-queries:update"
   ],
-  "settings": [],
+  "settings": [
+   "SqlQueries.General.CommandTimeout"
+  ],
   "domainEventsPublished": [],
   "declaredEvents": [
    "SqlQueryChangedEvent",
@@ -58,15 +60,17 @@
   "subscribesDynamically": false,
   "graphqlBuilders": [],
   "indexDocumentBuilders": [],
-  "migrationCount": 6,
+  "migrationCount": 9,
   "hasAdminUi": true,
-  "adminUiFiles": 11,
+  "adminUiFiles": 13,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -82,9 +86,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "5359716",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "5359716 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "dc9533e",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "dc9533e 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -93,7 +97,8 @@
   "keyFeatures": [
    "Execute custom SQL queries against the VirtoCommerce databases.",
    "Integrate with the platform’s security and permissions system to control query access.",
-   "Return results in user-friendly formats for reporting and analysis: HTML, PDF, CSV, XLSX.",
+   "Return results in user-friendly formats for reporting and analysis: HTML, CSV, XLSX.",
+   "Save reports as PDF from the admin UI: the HTML report opens in the browser's print dialog, where you choose **Save as PDF**.",
    "Supports query parameters: Short Text, Date Time, Boolean, Integer, Decimal.",
    "Supports multiple database providers: SQL Server (default), MySQL, and PostgreSQL.",
    "Supports multiple connection strings.",
@@ -159,11 +164,11 @@
    "The data lives across modules that own their own schemas: joins here couple you to them"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-sql-queries",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

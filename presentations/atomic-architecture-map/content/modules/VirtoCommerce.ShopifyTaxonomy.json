@@ -1,0 +1,139 @@
+{
+  "id": "VirtoCommerce.ShopifyTaxonomy",
+  "repo": "vc-module-shopify-taxonomy",
+  "repoUrl": "https://github.com/VirtoCommerce/vc-module-shopify-taxonomy",
+  "name": "Shopify Taxonomy Importer",
+  "tagline": "Importing Shopify's Standard Product Taxonomy into Virto Commerce catalog",
+  "latestVersion": "3.1002.0",
+  "active": true,
+  "groups": [],
+  "accent": "#5FD080",
+  "icon": "assets/module-icons/VirtoCommerce.ShopifyTaxonomy.svg",
+  "facts": {
+    "manifestVersion": "3.1003.0",
+    "platformVersion": "3.1095.0",
+    "assembly": "VirtoCommerce.ShopifyTaxonomy.Web.dll",
+    "authors": [
+      "Konstantin Savosteev"
+    ],
+    "tags": "extension module",
+    "dependsOn": [
+      {
+        "id": "VirtoCommerce.Catalog",
+        "version": "3.1051.0",
+        "optional": false
+      }
+    ],
+    "optionalDependencies": [],
+    "projects": [
+      "VirtoCommerce.ShopifyTaxonomy.Core",
+      "VirtoCommerce.ShopifyTaxonomy.Data",
+      "VirtoCommerce.ShopifyTaxonomy.Web"
+    ],
+    "databaseProviders": [],
+    "restControllers": [
+      {
+        "file": "src/VirtoCommerce.ShopifyTaxonomy.Web/Controllers/Api/ShopifyTaxonomyController.cs",
+        "route": "api/shopify-taxonomy",
+        "actions": 1,
+        "authorizedActions": 0
+      }
+    ],
+    "permissions": [],
+    "settings": [
+      "ShopifyTaxonomy.ShopifyTaxonomyFileUrl",
+      "ShopifyTaxonomy.ShopifyTaxonomyLanguagesCodes"
+    ],
+    "domainEventsPublished": [],
+    "declaredEvents": [],
+    "eventHandlers": [],
+    "handledEvents": [],
+    "subscribesDynamically": false,
+    "graphqlBuilders": [],
+    "indexDocumentBuilders": [],
+    "migrationCount": 0,
+    "hasAdminUi": true,
+    "adminUiFiles": 6,
+    "localizations": [
+      "ar",
+      "de",
+      "en",
+      "es",
+      "fi",
+      "fr",
+      "he",
+      "it",
+      "ja",
+      "no",
+      "pl",
+      "pt",
+      "ru",
+      "sv",
+      "zh"
+    ],
+    "entities": [],
+    "git": {
+      "ref": "origin/dev",
+      "sha": "7535f7a",
+      "lastCommitDate": "2026-11-07",
+      "lastCommit": "7535f7a 2026-11-07 3.1003.0",
+      "readFrom": "git ref"
+    }
+  },
+  "readme": {
+    "overview": "Shopify Taxonomy module introduces functionality for importing Shopify's Standard Product Taxonomy into Virto Commerce Catalog. It enhances the performance and quality of new catalogue configurations with open-source taxonomy and attributes.",
+    "keyFeatures": [],
+    "docs": [],
+    "references": [
+      {
+        "label": "Deployment",
+        "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+      },
+      {
+        "label": "Installation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+      },
+      {
+        "label": "Home",
+        "href": "https://virtocommerce.com"
+      },
+      {
+        "label": "Community",
+        "href": "https://www.virtocommerce.org"
+      },
+      {
+        "label": "Download latest release",
+        "href": "https://github.com/VirtoCommerce/vc-module-shopify-taxonomy/releases"
+      }
+    ],
+    "sections": [
+      "Key features",
+      "Screenshots",
+      "Attributes",
+      "References",
+      "License"
+    ],
+    "quality": "overview only"
+  },
+  "notes": {
+    "forAnalyst": "Fills a new catalog with Shopify's Standard Product Taxonomy: its categories, product attributes, the allowed values for them and their translations. A catalog starts from a widely used classification instead of an empty tree.",
+    "forArchitect": "A one-time import into Catalog, its only dependency. It reads the taxonomy from the file at `ShopifyTaxonomy.ShopifyTaxonomyFileUrl`, Shopify's published distribution by default, in the languages listed in `ShopifyTaxonomy.ShopifyTaxonomyLanguagesCodes`. It keeps no tables; what it creates are ordinary catalog categories, properties and dictionary values, owned by Catalog from then on.",
+    "forDeveloper": "It is started from the catalog's Import menu in the back office. Shopify attributes become catalog properties and their values become dictionary values, which products then use like any other property.",
+    "owns": [],
+    "reachForItWhen": [
+      "Setting up a new catalog with no existing classification",
+      "Products that will also be listed on channels that use Shopify's taxonomy"
+    ],
+    "doNotReachForItWhen": [
+      "A catalog that already has its own category tree and properties. The import adds Shopify's structure; it does not map yours onto it",
+      "A specialist B2B assortment that a general retail taxonomy does not describe well"
+    ]
+  },
+  "extractedAt": "2026-11-08",
+  "extractedBy": "tools/module-profile.js",
+  "documentation": {
+    "repository": "https://github.com/VirtoCommerce/vc-module-shopify-taxonomy",
+    "links": [],
+    "checkedOnline": true
+  }
+}

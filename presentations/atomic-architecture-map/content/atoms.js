@@ -84,8 +84,9 @@ window.VC_MAP_ATOMS = [
     },
     note: 'Hangfire is no longer a platform dependency. `VirtoCommerce.Platform.Hangfire` has been removed from `VirtoCommerce.Platform.sln`, and the platform now depends only on the contracts in `Platform.Core/Jobs`. Execution comes from the installable **`VirtoCommerce.BackgroundJobs`** module, which picks one engine — Hangfire (default), RabbitMQ, or in-memory for development — from `VirtoCommerce:BackgroundJobs:Provider`. Your code never names the engine.',
     gotchas: [
-      'With no engine module installed, `IBackgroundJob` throws `BackgroundJobEngineNotInstalledException` — with installation instructions in the message. The platform still boots.',
-      'The payload is validated against the handler at enqueue time: if `THandler` does not implement `IBackgroundJobHandler<>` for the payload\'s runtime type, `Enqueue` throws immediately rather than failing later on a worker.',
+      'Without the `VirtoCommerce.BackgroundJobs` module nothing registers `IBackgroundJob`: a class that injects it fails to resolve, and the static `BackgroundJob` facade throws an `InvalidOperationException` that names the module to install. The platform itself still boots. With the module installed but no engine available, `Enqueue` throws `BackgroundJobEngineNotInstalledException` with installation instructions.',
+      'The engine module validates the payload against the handler at enqueue time: if `THandler` does not implement `IBackgroundJobHandler<>` for the payload\'s runtime type, `Enqueue` throws immediately rather than failing later on a worker.',
+      'Since 3.1065 a job can be cancelled by id with `Cancel(jobId)`. Not every engine supports it, and both "not supported" and "nothing to cancel" return `false`, so check `SupportsCancellation` first.',
       'There is a shorter registration overload, `AddBackgroundJob<THandler>()`, which infers the payload type from the handler\'s interface. It requires the handler to implement exactly one `IBackgroundJobHandler<>`; name both types when it implements several.',
       '`UniqueKey` is how you stop a user double-clicking their way into two concurrent imports.',
       'Handlers get a fresh DI scope per job — not the enqueuing request\'s scope.'
@@ -97,7 +98,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['recurring-jobs', 'map-reduce-jobs', 'job-progress', 'fire-and-forget', 'hangfire', 'push-notifications', 'distributed-lock'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -148,8 +149,9 @@ window.VC_MAP_ATOMS = [
     },
     note: 'Same extraction as background jobs: `Platform.Core/Jobs/IRecurringJobService` is the new engine-free contract, and scheduling is executed by the `VirtoCommerce.BackgroundJobs` module. The older `VirtoCommerce.Platform.Hangfire.IRecurringJobService` is a *distinct type* kept for binary compatibility — check which one you are injecting, because both compile.',
     gotchas: [
-      'With no engine installed, recurring registration is a logged no-op rather than an exception: the platform boots and the job simply never runs. Silence here is the failure mode to watch for.',
+      'With no engine installed, `AddRecurringJob` only records a registration that nothing reads: the platform boots and the job never runs, with no exception and no warning. Silence is the failure mode to watch for. The source comments on `IRecurringJobScheduler` and `IRecurringJobService` describe a no-op fallback that logs a warning, but none is registered, so do not count on the log either.',
       '`WithCron` and `FromSettings` are mutually exclusive — supply exactly one.',
+      '`WithMaxRetryAttempts(0)` stops a failed occurrence being retried. For most schedules that is what you want: the next occurrence supersedes the failed one, and a retry only repeats the work.',
       'The payload instance passed to the non-factory overload is serialized identically on every occurrence. Use the `Func<TPayload>` overload when a run needs a fresh value such as a timestamp.',
       'Cron is evaluated in UTC unless you pass `WithTimeZone` — a nightly job can fire at the wrong local hour after a DST change.'
     ],
@@ -159,7 +161,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['background-jobs', 'hangfire', 'settings', 'distributed-lock', 'hosted-service'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -209,7 +211,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['background-jobs', 'hangfire', 'job-progress', 'backup-restore'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -271,7 +273,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['background-jobs', 'hangfire', 'push-notifications', 'backup-restore'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -334,7 +336,7 @@ window.VC_MAP_ATOMS = [
     docs: [],
     seeAlso: ['background-jobs', 'hangfire', 'hosted-service', 'push-notifications'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -397,7 +399,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['background-jobs', 'recurring-jobs', 'fire-and-forget', 'map-reduce-jobs'],
     molecule: 'background-processing-hub',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -458,7 +460,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['background-jobs', 'cancellation', 'distributed-lock', 'push-notifications'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -505,7 +507,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['background-jobs', 'hosted-service', 'backup-restore'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -549,7 +551,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['distributed-lock', 'platform-memory-cache', 'hosted-service'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -557,11 +559,11 @@ window.VC_MAP_ATOMS = [
     symbol: 'Ch',
     name: 'Channels',
     family: 'execution',
-    adoption: 'available',
+    adoption: 'platform',
     layer: 'platform',
-    tags: ['system.threading.channels', 'producer', 'consumer', 'queue', 'dotnet'],
-    oneLiner: 'In-memory producer/consumer queues from .NET — available, but nothing in the platform uses them.',
-    pattern: 'Bounded or unbounded in-memory channel with async readers and writers, usually drained by a hosted service. A good fit for in-process pipelines; no persistence and no cross-instance delivery.',
+    tags: ['system.threading.channels', 'producer', 'consumer', 'queue', 'dotnet', 'buffer', 'backpressure'],
+    oneLiner: 'In-memory producer/consumer queues from .NET. The platform uses one to buffer the sign-in log.',
+    pattern: 'Bounded or unbounded in-memory channel with async readers and writers, usually drained by a hosted service. A good fit for in-process pipelines; no persistence and no cross-instance delivery. The platform\'s use is the example to copy: the sign-in log writer puts each row into a bounded channel with `TryWrite` from the request path, and a background loop writes them to the database in batches.',
     whenToUse: [
       'Smoothing bursts of in-process work where losing the backlog on restart is genuinely acceptable',
       'Decoupling a fast producer from a slower consumer inside one instance',
@@ -569,21 +571,23 @@ window.VC_MAP_ATOMS = [
     ],
     avoid: [
       'Anything that must survive a restart or reach another instance — use background jobs',
-      'Reaching for it before you have a measured in-process bottleneck; the platform has no precedent to copy',
+      'Reaching for it before you have a measured in-process bottleneck',
       'Unbounded channels in request paths: they turn a load spike into an out-of-memory failure'
     ],
     api: [
-      { name: 'System.Threading.Channels.Channel<T>', file: '(.NET base class library — no platform usage)' }
+      { name: 'System.Threading.Channels.Channel<T>', file: '(.NET base class library)' },
+      { name: 'BufferedUserSignInLogWriter (the platform\'s use)', file: 'src/VirtoCommerce.Platform.Security/SignInLog/BufferedUserSignInLogWriter.cs' }
     ],
     useInstead: 'For durable or cross-instance work use `IBackgroundJob`. For a continuous in-process loop use a `BackgroundService`.',
-    note: 'A grep across `src/` finds no `System.Threading.Channels` usage. Nothing stops you using it, but you will be establishing the pattern rather than following one — and there is no platform code to copy conventions from.',
+    note: 'Since 3.1071 the sign-in log is written through a bounded channel, which keeps the database off the sign-in path. Before that release the platform had no `System.Threading.Channels` usage.',
     gotchas: [
       'A channel is not a queue in the durability sense. Process exit discards everything buffered.',
-      'You still need something to drain it — normally a hosted service, with all of that atom\'s caveats.'
+      'You still need something to drain it — normally a hosted service, with all of that atom\'s caveats.',
+      '`TryWrite` only reports a full channel when `FullMode` is `Wait`; every `Drop*` mode returns `true` and discards silently. The sign-in writer uses `Wait` with `TryWrite` for that reason: a full buffer never blocks a sign-in, and each dropped row is counted and logged.'
     ],
     docs: [],
-    seeAlso: ['background-jobs', 'hosted-service'],
-    verifiedAgainst: '3.1058.0'
+    seeAlso: ['background-jobs', 'hosted-service', 'sign-in-extensions'],
+    verifiedAgainst: '3.1096.0'
   },
 
   // ================================================================ CACHING
@@ -642,13 +646,14 @@ window.VC_MAP_ATOMS = [
       '`GetOrCreateExclusiveAsync` locks per key, so a slow loader blocks only its own key — but it does block. Keep loaders free of unrelated work.',
       'Null results are cached by default (`cacheNullValue: true`) to avoid a hammering miss — which also means "not found" sticks around.',
       'Cache keys are normalized, so do not rely on exact string identity when debugging a key.',
-      'For batches of entities by id, `GetOrLoadByIdsAsync` loads only the misses instead of all-or-nothing.'
+      'For batches of entities by id, `GetOrLoadByIdsAsync` loads only the misses instead of all-or-nothing.',
+      'Since 3.1082 cache lookups are counted on the `VirtoCommerce.Platform.Caching` meter (`virtocommerce.cache.requests` and `virtocommerce.cache.request.groups`, tagged with `cache.name` and the hit or miss outcome). `CrudService` and `SearchService` register their own cache names; a service that owns cache keys of its own should call `CacheKey.RegisterCacheName(ownerType, modelType)`, or its lookups are reported unclassified. The registration changes telemetry only, never keys or invalidation.'
     ],
     docs: [
       { label: 'Essential caching', page: 'Fundamentals/Caching/01-overview' }
     ],
-    seeAlso: ['cache-regions', 'redis-cache-bus', 'request-scoped-cache', 'cache-disabler', 'hybrid-cache'],
-    verifiedAgainst: '3.1058.0'
+    seeAlso: ['cache-regions', 'redis-cache-bus', 'request-scoped-cache', 'cache-disabler', 'hybrid-cache', 'logging'],
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -701,7 +706,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Essential caching', page: 'Fundamentals/Caching/01-overview' }
     ],
     seeAlso: ['platform-memory-cache', 'redis-cache-bus', 'domain-events'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -755,7 +760,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['cache-regions', 'platform-memory-cache', 'distributed-lock', 'push-notifications'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -808,7 +813,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Essential caching', page: 'Fundamentals/Caching/01-overview' }
     ],
     seeAlso: ['platform-memory-cache', 'current-user'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -857,7 +862,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Debugging without source code', page: 'Tutorials-and-How-tos/How-tos/debugging' }
     ],
     seeAlso: ['platform-memory-cache', 'cache-regions', 'developer-tools'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -892,7 +897,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Essential caching', page: 'Fundamentals/Caching/01-overview' }
     ],
     seeAlso: ['platform-memory-cache', 'redis-cache-bus', 'cache-regions'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   // ================================================================ CONFIG & METADATA
@@ -958,14 +963,16 @@ window.VC_MAP_ATOMS = [
       '`RestartRequired = true` tells the Admin UI to warn the operator; it does not restart anything for you.',
       'A setting declared but never registered simply does not exist at runtime: no error, no editor, and the default is all you ever read.',
       'Settings can also be declared in `module.manifest`; both paths converge on the same registry, so pick one per setting and stay consistent.',
-      '`IsPublic = true` exposes the value to the storefront — check this before putting anything sensitive in a setting.'
+      '`IsPublic = true` exposes the value to the storefront — check this before putting anything sensitive in a setting.',
+      'Since 3.1077 a typed read (`GetValue<T>`) with no stored value returns a `DefaultValue` override from configuration. Before that it returned the descriptor default, so the code and the Admin UI could disagree about the same setting. A dictionary setting\'s override is an array and does not convert, so typed reads of those still fall back to the descriptor default.',
+      'The settings API at `api/platform/settings/v2` reads and writes by scope: `global`, `tenant/{tenantType}/{tenantId}` (a store, for example) and `me`, each with a schema and values. Dictionary settings and tenant scope were added to it in 3.1063.'
     ],
     docs: [
       { label: 'Settings V2', page: 'Fundamentals/Modularity/06-module-manifest-file' },
       { label: 'Manifest settings', page: 'Fundamentals/Modularity/06-module-manifest-file' }
     ],
     seeAlso: ['dynamic-properties', 'options-pattern', 'recurring-jobs', 'localizations'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1041,7 +1048,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['abstract-type-factory', 'settings', 'ef-core'],
     molecule: 'extensibility-decision-tree',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1095,7 +1102,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['settings', 'dependency-injection', 'platform-startup'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1144,7 +1151,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Generate a PDF file', page: 'Tutorials-and-How-tos/How-tos/generating-pdfs' }
     ],
     seeAlso: ['options-pattern', 'file-operations', 'background-jobs'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1201,7 +1208,7 @@ window.VC_MAP_ATOMS = [
     docs: [],
     seeAlso: ['settings', 'module-lifecycle'],
     molecule: 'multi-store',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   // ================================================================ MESSAGING & EVENTS
@@ -1270,7 +1277,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['inprocess-bus', 'cache-regions', 'eventbus-webhooks', 'generic-crud', 'change-log'],
     molecule: 'extensibility-decision-tree',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1316,7 +1323,7 @@ window.VC_MAP_ATOMS = [
       { label: 'AsyncLocal<T> \u2014 why the flag follows the flow', href: 'https://learn.microsoft.com/dotnet/api/system.threading.asynclocal-1' }
     ],
     seeAlso: ['domain-events', 'inprocess-bus', 'search', 'change-log', 'background-jobs'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1367,7 +1374,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Extending using events', page: 'Fundamentals/Event-Driven-Development/using-domain-events' }
     ],
     seeAlso: ['domain-events', 'commands', 'dependency-injection'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1413,7 +1420,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['domain-events', 'inprocess-bus'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1455,15 +1462,16 @@ window.VC_MAP_ATOMS = [
       'It is a module suite, not the platform: `VirtoCommerce.Xapi` is the core, and `XCatalog`, `XCart`, `XOrder`, `XCMS`, `XPickup`, `XRecommend`, `XFrontend` and the Profile / Marketing / File experience APIs each add their own slice of schema.',
       'The manifest declares an **incompatibility** with the deprecated `VirtoCommerce.ExperienceApi` (3.800.0). The old repository is archived; the current one is `vc-module-x-api`.',
       'Every installed X-API module shares one schema and one endpoint, so a field name collision between modules is a startup problem, not a request-time one.',
-      'A mutation runs in the caller\u2019s async flow like any other request \u2014 domain events, indexation and webhooks fire from it exactly as they would from REST.'
+      'A mutation runs in the caller\u2019s async flow like any other request \u2014 domain events, indexation and webhooks fire from it exactly as they would from REST.',
+      '`AddSchema` has overloads that take an `Action<MediatRServiceConfiguration>`. Use them to add MediatR pipeline behaviours for your module\'s handlers instead of registering MediatR a second time.'
     ],
     docs: [
       { label: 'vc-module-x-api', href: 'https://github.com/VirtoCommerce/vc-module-x-api' },
       { label: 'GraphQL.NET \u2014 the server library (8.x)', href: 'https://graphql-dotnet.github.io/docs/getting-started/introduction/' }
     ],
     seeAlso: ['commands', 'rest-api', 'abstract-type-factory', 'request-scoped-cache', 'dependency-injection'],
-    note: 'Verified against the vc-module-x-api checkout on `dev` at module version 3.1017.0 (GraphQL.NET 8.8.3, MediatR 12.4.1).',
-    verifiedAgainst: '3.1058.0'
+    note: 'Verified against the vc-module-x-api checkout on `dev` at 3.1031.0, after the 3.1030.0 release (GraphQL.NET 8.8.3, MediatR 12.4.1). Since 3.1017 the module dropped AutoMapper from `Xapi.Core` and removed its expired obsolete APIs; none of the patterns on this page relied on either.',
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1516,7 +1524,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['job-progress', 'redis-cache-bus', 'current-user', 'hosted-service'],
     molecule: 'observability',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1563,7 +1571,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Extending using events', page: 'Fundamentals/Event-Driven-Development/using-domain-events' }
     ],
     seeAlso: ['domain-events', 'module-catalog'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   // ================================================================ DATA & DOMAIN
@@ -1626,7 +1634,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['dynamic-properties', 'ef-core', 'dependency-injection', 'module-lifecycle', 'json-serialization'],
     molecule: 'extensibility-decision-tree',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1708,7 +1716,8 @@ window.VC_MAP_ATOMS = [
       'Saves publish a **changing** event before and a **changed** event after. The changing one can be cancelled, which means a save can be refused by a handler in another module — read the event, not just the return value.',
       '`clone: true` is the default on reads, and it is what stops a caller mutating the cached instance. Passing `false` is a performance choice with a correctness price; know which one you are making.',
       'Cache invalidation is by region, so a save evicts more than the one entity. That is the trade the base class makes for you — see [[cache-regions]].',
-      'The `vc-crud` template takes an `EntityName` symbol and generates against it, so pick the entity name before you run it; renaming afterwards means touching every generated file.'
+      'The `vc-crud` template takes an `EntityName` symbol and generates against it, so pick the entity name before you run it; renaming afterwards means touching every generated file.',
+      'Since 3.1061 `DeleteAsync` loads the entities from the database before removing them. Before that it deleted entities built from the models, which carry no concurrency token, so the DELETE matched no row and threw `DbUpdateConcurrencyException`.'
     ],
     docs: [
       { label: 'Creating a custom module (DB-agnostic)', page: 'Fundamentals/Persistence/DB-Agnostic/creating-custom-module' },
@@ -1718,7 +1727,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['repository-uow', 'ef-core', 'domain-events', 'cache-regions', 'dependency-injection', 'specifications'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
   {
     id: 'repository-uow',
@@ -1780,7 +1789,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Database agnostic', page: 'Fundamentals/Persistence/DB-Agnostic/overview' }
     ],
     seeAlso: ['ef-core', 'generic-crud', 'abstract-type-factory', 'change-log'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1826,7 +1835,8 @@ window.VC_MAP_ATOMS = [
       'Three providers means three migration sets. Forgetting one turns into a runtime failure on a customer\'s database, not a build error.',
       'The platform pins EF Core 10 and builds with `TreatWarningsAsErrors` — an EF analyzer warning will fail your build.',
       'Entity configuration lives with the entity, not the context, so a module can extend the schema without touching platform code.',
-      '`EntityFrameworkCore.Triggers` is in use, so some behaviour happens at save time that is not visible in your service code.'
+      '`EntityFrameworkCore.Triggers` is in use, so some behaviour happens at save time that is not visible in your service code.',
+      'The platform\'s design-time MySQL factory, used when generating migrations, targets server version 8.4 since 3.1078; it was 5.7. A module\'s own factory sets its own version, so check it before generating MySQL migrations.'
     ],
     docs: [
       { label: 'Database agnostic', page: 'Fundamentals/Persistence/DB-Agnostic/overview' },
@@ -1834,7 +1844,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['repository-uow', 'abstract-type-factory', 'dynamic-properties', 'change-log'],
     molecule: 'dev-process',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1881,11 +1891,12 @@ window.VC_MAP_ATOMS = [
     gotchas: [
       'The operation log table is one of the fastest-growing in a busy deployment. Retention is an operational decision somebody has to make.',
       '`AuditableEntity` fields tell you the last change; the change log tells you all of them. Reaching for the wrong one gives a confidently wrong answer.',
-      'Audit fields are populated from the resolved current user, so work in a background job records whoever the job thinks it is running as.'
+      'Audit fields are populated from the resolved current user, so work in a background job records whoever the job thinks it is running as.',
+      'Since 3.1064 last-modified changes are recorded as entities are saved, one per saved row. `LastChanges:IgnoredEntityTypes` silences noisy types; the match covers the whole inheritance chain, so listing a type also stops its base types being announced for the rows it produces.'
     ],
     docs: [],
     seeAlso: ['repository-uow', 'current-user', 'domain-events'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1938,7 +1949,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['validation', 'dependency-injection', 'ef-core'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -1990,7 +2001,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['specifications', 'generic-crud', 'localizations'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2042,7 +2053,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Polymorphic types in Swagger', page: 'Tutorials-and-How-tos/How-tos/type-inheritance-support-in-swagger' }
     ],
     seeAlso: ['abstract-type-factory', 'swagger', 'backup-restore'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2100,7 +2111,8 @@ window.VC_MAP_ATOMS = [
       'There is a consistency window between a write and the index reflecting it. Every "the change is saved but the list still shows the old value" report starts here.',
       'A document is assembled from every registered builder for its type, so one slow builder slows indexing for everyone contributing to that document.',
       'Engine versions are separate modules (`ElasticSearch8` vs `ElasticSearch9`) — check which matches your server before installing.',
-      '`IIndexingManager.IndexDocumentsAsync` has `[Obsolete]` overloads without a `CancellationToken` (VC0014); use the cancellation-aware ones.'
+      '`IIndexingManager.IndexDocumentsAsync` has `[Obsolete]` overloads without a `CancellationToken` (VC0014); use the cancellation-aware ones.',
+      'The synchronous members of `IIndexingJobService` are `[Obsolete]` (VC0015) and now throw `NotImplementedException`; call `EnqueueAsync`, `EnqueueIndexAndDeleteDocumentsAsync` and `CancelIndexationAsync`. `StartStopRecurringJobs` does nothing any more: recurring indexing is declared when the module initializes.'
     ],
     docs: [
       { label: 'Indexed search overview', page: 'Fundamentals/Indexed-Search/overview' },
@@ -2111,7 +2123,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['assets', 'ef-core', 'background-jobs', 'domain-events'],
     molecule: 'search-and-indexing',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2147,7 +2159,7 @@ window.VC_MAP_ATOMS = [
     gotchas: [
       'The key is the **module id** from `module.manifest` — `VirtoCommerce.Pricing`, not `Pricing` and not the assembly name.',
       'It works only because modules never hold a foreign key across the boundary. Read [[cross-module-references]] before you split anything.',
-      'Each module migrates its own context at startup, inside the platform\'s startup distributed lock. Without Redis that lock degrades to a no-op, so two instances starting at once can both migrate.',
+      'Each module migrates its own context at startup, inside the platform\'s startup distributed lock. Without Redis that lock is in-process only, so two instances starting at once can both migrate.',
       'A per-module database is invisible in the shipped `appsettings.json`, which is the main reason teams believe it does not exist.',
       'Backup and restore become per-module: a point-in-time restore of one database leaves the others ahead of it.'
     ],
@@ -2158,7 +2170,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['cross-module-references', 'ef-core', 'module-manifest', 'host-composition', 'distributed-lock'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2203,7 +2215,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-database', 'ef-core', 'repository-uow', 'domain-events', 'search'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   // ================================================================ MODULARITY
@@ -2280,7 +2292,8 @@ window.VC_MAP_ATOMS = [
       '`platform` is a reserved app id: it belongs to the legacy AngularJS admin shell. Do not use it for your own app.',
       'The descriptor `Version` is the running **platform** version for the `platform` app, and the version of the module that declares `<app>` for everything else. Two different meanings behind one field name.',
       'The hash covers the permission-filtered plugin subset, so two users can legitimately receive two different manifests for the same app — do not cache it at a CDN or shared proxy keyed on the URL alone.',
-      'Two registry modules carry the same title, **Frontend Modules Registry** — `VirtoCommerce.ModuleFederation` and `VirtoCommerce.FrontendModules`, both from the `frontend-modules` repository, both described as replacing the static `apps.json`. Check which one your solution actually installs before pinning a version.'
+      'Two registry modules carry the same title, **Frontend Modules Registry** — `VirtoCommerce.ModuleFederation` and `VirtoCommerce.FrontendModules`, both from the `frontend-modules` repository, both described as replacing the static `apps.json`. Check which one your solution actually installs before pinning a version.',
+      'Since 3.1078 a `plugin.json` can carry a `contributions` object. The platform passes it to the host app unchanged and never interprets it; Admin Shell, for example, builds part of its menu from it.'
     ],
     docs: [
       { label: 'Back-office app modularity', page: 'Fundamentals/Modularity/07-backoffice-app-modularity' },
@@ -2290,7 +2303,66 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-manifest', 'module-lifecycle', 'permissions', 'platform-memory-cache', 'cache-regions'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
+  },
+
+  {
+    id: 'admin-ui',
+    symbol: 'Ad',
+    name: 'Back office module',
+    family: 'modularity',
+    adoption: 'module',
+    layer: 'channels',
+    tags: ['admin ui', 'back office', 'commerce manager', 'angularjs', 'vc-shell', 'admin shell', 'headless', 'root app'],
+    oneLiner: 'The back office is an installable module. Without one, the platform serves APIs only.',
+    pattern: 'An admin UI is a module that declares an `<app>` with an `<adminUI>` element in its `module.manifest`. Two ship today: **Admin AngularJS** (the Commerce Manager, app id `platform`, priority 100) and **Admin Shell** (the Vue/VC-Shell back office, app id `admin-shell`, priority 50). The platform picks the one that owns the site root from `VirtoCommerce:PlatformUI:RootApp`, or by highest priority when that is not set. An `App`-hosted UI is a static single-page app under `/apps/{appId}/`; an `Endpoint`-hosted UI maps its own page and is also mounted at `/apps/{appId}/`.',
+    whenToUse: [
+      'Every installation with people working in the back office: install one of the two admin UI modules',
+      'API-only hosts, such as a scaled-out storefront tier, which should not serve a back office at all',
+      'Running both UIs side by side during a move from the AngularJS Commerce Manager to Admin Shell, with `RootApp` choosing which opens at `/`'
+    ],
+    avoid: [
+      'Expecting the AngularJS Commerce Manager to be there after a platform upgrade. Since 3.1092 it comes from a module and has to be in the package',
+      'Building a new back-office screen for the AngularJS UI when the target is Admin Shell. New work belongs in a VC-Shell app',
+      'Using `platform` as an app id for your own app. It belongs to the AngularJS Commerce Manager'
+    ],
+    api: [
+      { name: 'ManifestAppAdminUI (<adminUI priority hosting>)', file: 'src/VirtoCommerce.Platform.Core/Modularity/ManifestAppAdminUI.cs' },
+      { name: 'AdminUIHosting (App / Endpoint)', file: 'src/VirtoCommerce.Platform.Core/Modularity/AdminUIHosting.cs' },
+      { name: 'PlatformUIOptions (VirtoCommerce:PlatformUI)', file: 'src/VirtoCommerce.Platform.Core/PlatformUIOptions.cs' },
+      { name: 'IAdminUIAppService', file: 'src/VirtoCommerce.Platform.Core/IAdminUIAppService.cs' },
+      { name: 'AdminUIMiddleware', file: 'src/VirtoCommerce.Platform.Web/Infrastructure/AdminUI/AdminUIMiddleware.cs' }
+    ],
+    snippet: {
+      lang: 'xml',
+      code:
+'<!-- module.manifest of an admin UI module. Admin Shell declares this; -->\n' +
+'<!-- Admin AngularJS declares app id "platform" with priority 100 and hosting="Endpoint". -->\n' +
+'<apps>\n' +
+'  <app id="admin-shell">\n' +
+'    <title>Admin Shell</title>\n' +
+'    <adminUI priority="50" />   <!-- hosting defaults to App -->\n' +
+'  </app>\n' +
+'</apps>\n' +
+'\n' +
+'<!-- appsettings.json: which installed admin UI opens at the site root.     -->\n' +
+'<!-- Unset: highest priority wins. "none": no admin UI at /.                 -->\n' +
+'<!-- "VirtoCommerce": { "PlatformUI": { "RootApp": "admin-shell" } }          -->'
+    },
+    gotchas: [
+      'A platform with no admin UI module still starts and serves its APIs. The site root shows a small platform landing page instead of a back office, and it answers both GET and HEAD, so load-balancer probes on `/` keep passing and will not tell you the back office is missing.',
+      '`RootApp` set to `none`, or `VirtoCommerce:PlatformUI:Enable` set to `false`, leaves the root without an admin UI even when one is installed.',
+      'An `App`-hosted UI must load its files by absolute URLs under `/apps/{appId}/`, because the platform serves its index page at `/` without changing the address.',
+      'Admin UI module versions move with the platform: Admin AngularJS is versioned in step with platform releases. Upgrade them together.'
+    ],
+    note: 'Until 3.1092 the AngularJS Commerce Manager was built into `Platform.Web/wwwroot`. It now lives in `vc-module-admin-angular-js`, and the platform keeps only the hosting: choosing the root UI, serving it, mounting it under `/apps/{appId}/`, and the landing page shown when no admin UI owns the root.',
+    docs: [
+      { label: 'Back-office app modularity', page: 'Fundamentals/Modularity/07-backoffice-app-modularity' },
+      { label: 'Restrict admin UI access', page: 'Fundamentals/Security/authorization/restrict-admin-ui-access' }
+    ],
+    seeAlso: ['module-federation', 'module-manifest', 'host-composition', 'rest-api'],
+    molecule: 'deployment',
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2365,7 +2437,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-catalog', 'platform-startup', 'dependency-injection', 'abstract-type-factory', 'settings'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2405,7 +2477,7 @@ window.VC_MAP_ATOMS = [
 '<module>\n' +
 '  <id>MyCompany.MyModule</id>\n' +
 '  <version>1.0.0</version>\n' +
-'  <platformVersion>3.1053.0</platformVersion>\n' +
+'  <platformVersion>3.1096.0</platformVersion>\n' +
 '  <dependencies>\n' +
 '    <dependency id="VirtoCommerce.Core" version="3.800.0" />\n' +
 '  </dependencies>\n' +
@@ -2423,7 +2495,7 @@ window.VC_MAP_ATOMS = [
 '<module>\n' +
 '  <id>MyCompany.MyPortal</id>\n' +
 '  <version>1.0.0</version>\n' +
-'  <platformVersion>3.1053.0</platformVersion>\n' +
+'  <platformVersion>3.1096.0</platformVersion>\n' +
 '\n' +
 '  <apps>\n' +
 '    <app id="my-portal">\n' +
@@ -2450,7 +2522,8 @@ window.VC_MAP_ATOMS = [
       'Naming an `assemblyFile` whose assembly has *no* `IModule` implementation fails initialization with "No IModule implementation found in assembly …". A module with code must have a module class.',
       'The module class is created with `Activator.CreateInstance`, so it needs a public parameterless constructor. There is no constructor injection — that is precisely why the marker interfaces (`IHasConfiguration`, `IHasLogger`, `IHasHostEnvironment`) exist.',
       'Omitting `assemblyFile` is a supported shape, not an oversight: the catalog comments say "modules without assembly file don\'t need initialization" and set state to `Initialized` without loading anything.',
-      '`<app>` takes `id` as an XML *attribute* while everything inside it is an element — an easy thing to get wrong by symmetry.'
+      '`<app>` takes `id` as an XML *attribute* while everything inside it is an element — an easy thing to get wrong by symmetry.',
+      'Since 3.1092 an `<app>` can carry `<adminUI priority="…" hosting="…"/>` to declare itself a back office that can own the site root. Platforms older than that ignore the element. See [[admin-ui]].'
     ],
     docs: [
       { label: 'module.manifest file', page: 'Fundamentals/Modularity/06-module-manifest-file' },
@@ -2458,7 +2531,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Modularity overview', page: 'Fundamentals/Modularity/01-overview' }
     ],
     seeAlso: ['module-lifecycle', 'module-catalog', 'platform-startup', 'settings', 'vc-build'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2497,7 +2570,7 @@ window.VC_MAP_ATOMS = [
 '{\n' +
 '  "id": "MyCompany.MyModule",\n' +
 '  "version": "1.0.0",\n' +
-'  "platformVersion": "3.1053.0",\n' +
+'  "platformVersion": "3.1096.0",\n' +
 '  "dependencies": [\n' +
 '    { "id": "VirtoCommerce.Core", "version": "3.800.0" }\n' +
 '  ]\n' +
@@ -2509,7 +2582,8 @@ window.VC_MAP_ATOMS = [
       'Which means "my module loaded but none of my code ran" has a boring likely cause: no `assemblyFile` in the manifest, so there was no code to run.',
       'Multi-instance installs coordinate through a Redis distributed lock. Without Redis, concurrent installs can race over the probing folder.',
       'The platform\'s own module management has historically run as a background job, which is why job engine availability and module install are entangled.',
-      '`platformVersion` is a compatibility gate, not documentation: get it wrong and the module is skipped.'
+      '`platformVersion` is a compatibility gate, not documentation: get it wrong and the module is skipped.',
+      'Since 3.1091 dependencies are resolved for the version being installed rather than the one already installed, so upgrading a module shows and installs what its new version requires.'
     ],
     docs: [
       { label: 'Modularity', page: 'Fundamentals/Modularity/01-overview' },
@@ -2517,7 +2591,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-lifecycle', 'distributed-lock', 'platform-startup', 'background-jobs'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2529,14 +2603,15 @@ window.VC_MAP_ATOMS = [
     layer: 'modules',
     tags: ['iplatformstartup', 'middleware', 'pipeline', 'configure', 'bootstrap'],
     oneLiner: 'How a module participates in application startup beyond its own DI registrations.',
-    pattern: 'Startup contributor. A module can implement `IPlatformStartup` to take part in host configuration, and marker interfaces (`IHasConfiguration`, `IHasLogger`, `IHasHostEnvironment`, `IHasModuleCatalog`) declare what the platform should inject into the module class itself.',
+    pattern: 'Startup contributor. A module can implement `IPlatformStartup` to take part in host configuration, and marker interfaces (`IHasConfiguration`, `IHasLogger`, `IHasHostEnvironment`, `IHasModuleCatalog`) declare what the platform should inject into the module class itself. Every `IPlatformStartup` method has an empty default, so a module implements only the stages it needs. Two of them place middleware at fixed points: `ConfigureAfterRouting` runs after the endpoint is matched and before authentication; `ConfigureAfterAuthentication` runs once the user is known and before authorization, so it still sees the requests authorization is about to reject.',
     whenToUse: [
       'Adding middleware to the request pipeline from a module',
+      'Middleware that needs the matched endpoint, or the signed-in user, at a known point in the pipeline',
       'Needing `IConfiguration`, `ILogger` or `IHostEnvironment` inside `Module.cs`',
       'Startup work that must happen outside `Initialize` / `PostInitialize`'
     ],
     avoid: [
-      'Adding middleware whose order matters without checking where you land in the pipeline',
+      'Adding middleware in `Configure` when its position matters. `ConfigureAfterRouting` and `ConfigureAfterAuthentication` have defined places; `Configure` does not',
       'Doing in a startup hook what a plain DI registration would do',
       'Assuming your hook runs before another module\'s — order follows the dependency graph'
     ],
@@ -2568,14 +2643,16 @@ window.VC_MAP_ATOMS = [
     },
     gotchas: [
       'These marker interfaces are the supported way to reach configuration and logging in `Module.cs` — reaching for a static or a service locator instead is the usual mistake.',
-      'Middleware added from a module lands relative to the platform\'s own pipeline. Verify the position rather than assuming.',
-      '`IPlatformRestarter` exists because some changes genuinely require a restart. Triggering one is an operational act, not a code path to take lightly.'
+      'Requests for static files never reach `ConfigureAfterRouting` or `ConfigureAfterAuthentication`: the platform serves the file and ends the request before either runs. Middleware registered there sees API and page requests, not scripts, styles or images.',
+      'The two pipeline hooks arrived in 3.1067, and the empty defaults with them. A module that implements them needs that platform version as its minimum.',
+      '`IPlatformRestarter` exists because some changes genuinely require a restart. Triggering one is an operational act, not a code path to take lightly.',
+      'Since 3.1067 a module the platform will not initialize, because it failed validation, runs no startup hooks either. Before that its middleware still ran and resolved services that were never registered.'
     ],
     docs: [
       { label: 'Create a new module (advanced)', page: 'Fundamentals/Modularity/02-folder-structure' }
     ],
-    seeAlso: ['module-lifecycle', 'options-pattern', 'logging', 'module-catalog'],
-    verifiedAgainst: '3.1058.0'
+    seeAlso: ['module-lifecycle', 'options-pattern', 'logging', 'module-catalog', 'authentication'],
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2669,7 +2746,7 @@ window.VC_MAP_ATOMS = [
       'Captive dependencies (scoped inside singleton) are the most common lifetime bug and often surface as stale data rather than an exception.',
       '**Scope validation only runs in Development.** The host verifies that no scoped service is resolved from the root provider or injected into a singleton — and that check is off in production, which is exactly where the same mistake becomes stale data instead of a startup exception.',
       'The container disposes what it creates, and **when** depends on the lifetime: transient and scoped at the end of their scope, singleton at shutdown. A disposable transient resolved from the root provider is therefore held until shutdown — a leak wearing a lifetime label.',
-      'This platform leans singleton: on `dev` the mix is roughly **76 singleton, 26 transient, 13 scoped**. Almost all of those singletons are caches, buses, registrars and factories — read the ratio as infrastructure, not as a licence for your own services.',
+      'This platform leans singleton: on `dev` the mix is roughly **91 singleton, 25 transient, 17 scoped**. Almost all of those singletons are caches, buses, registrars and factories — read the ratio as infrastructure, not as a licence for your own services.',
       '`IPlatformMemoryCache` and `InProcessBus` are singletons, so anything handed to them lives as long as the process. Pass values, not scoped services.',
       'The platform registers `IPlatformRepository` as **transient** and puts a `Func<IPlatformRepository>` next to it that opens its own scope. Injecting the repository into something longer-lived than a request is what that factory exists to prevent.'
     ],
@@ -2682,7 +2759,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-lifecycle', 'keyed-services', 'abstract-type-factory', 'options-pattern', 'repository-uow', 'platform-memory-cache'],
     molecule: 'extensibility-decision-tree',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2690,11 +2767,11 @@ window.VC_MAP_ATOMS = [
     symbol: 'Kd',
     name: 'Keyed services',
     family: 'modularity',
-    adoption: 'available',
+    adoption: 'platform',
     layer: 'platform',
     tags: ['dotnet', 'addkeyedscoped', 'fromkeyedservices', 'named', 'provider'],
-    oneLiner: '.NET keyed DI registrations — available in the framework, but the platform resolves variants its own way.',
-    pattern: 'Register several implementations of one interface under distinct keys and resolve by key. The Virto equivalent for provider selection is a registry or a factory chosen by configuration, as search providers and job engines do.',
+    oneLiner: '.NET keyed DI registrations. The platform uses one internally; modules select providers by registry instead.',
+    pattern: 'Register several implementations of one interface under distinct keys and resolve by key. The platform does this in one place: the startup lock is a second `IDistributedLock` registered under a key, with a longer Redis lease for migrations, while everything else resolves the unkeyed one. For provider selection the Virto convention is still a registry or a factory chosen by configuration, as search providers and job engines do.',
     whenToUse: [
       'Rarely, inside a single module that genuinely needs several implementations of one interface side by side',
       'Only after checking how the surrounding code selects providers, so you stay consistent with it'
@@ -2705,18 +2782,20 @@ window.VC_MAP_ATOMS = [
       'Introducing it into a shared contract; consumers then need to know your keys'
     ],
     api: [
-      { name: 'AddKeyedScoped / AddKeyedSingleton', file: '(.NET — no platform usage)' },
-      { name: '[FromKeyedServices]', file: '(.NET — no platform usage)' }
+      { name: 'AddKeyedScoped / AddKeyedSingleton', file: '(.NET)' },
+      { name: '[FromKeyedServices]', file: '(.NET)' },
+      { name: 'Keyed startup lock (the platform\'s use)', file: 'src/VirtoCommerce.Platform.Web/Redis/ServiceCollectionExtensions.cs' }
     ],
-    useInstead: 'Follow the provider-registry pattern: one active implementation selected by configuration, exactly as search providers and background-job engines are chosen.',
-    note: 'Verified by grep across `src/`: no `AddKeyedScoped`, `AddKeyedSingleton` or `FromKeyedServices` usage anywhere in the platform. Using it is legal but unidiomatic here, and it interacts badly with the override convention modules rely on.',
+    useInstead: 'For choosing between providers, follow the provider-registry pattern: one active implementation selected by configuration, exactly as search providers and background-job engines are chosen.',
+    note: 'Until 3.1073 the platform had no keyed registrations. It now registers the startup lock under the key `VirtoCommerce.Platform.Startup`, an internal detail: module code resolves the unkeyed `IDistributedLock`. Keyed services remain unusual here, and they interact badly with the override convention modules rely on.',
     gotchas: [
       'A keyed registration is not replaced by a later unkeyed one, so a module trying to override your service will appear to succeed and change nothing.',
-      'Keys are strings or objects with no compile-time relationship to the consumer — the failure mode is a resolution exception at runtime.'
+      'Keys are strings or objects with no compile-time relationship to the consumer — the failure mode is a resolution exception at runtime.',
+      'The platform\'s own keyed service is a variant of a service that also has an unkeyed registration. That shape is safe for consumers who never ask for the key; keying the only registration of a service is not.'
     ],
     docs: [],
-    seeAlso: ['dependency-injection', 'module-lifecycle'],
-    verifiedAgainst: '3.1058.0'
+    seeAlso: ['dependency-injection', 'module-lifecycle', 'distributed-lock'],
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2776,7 +2855,7 @@ window.VC_MAP_ATOMS = [
       { label: 'vc-module-backup-restore (GitHub)', href: 'https://github.com/VirtoCommerce/vc-module-backup-restore' }
     ],
     seeAlso: ['cancellation', 'job-progress', 'json-serialization', 'background-jobs'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2844,7 +2923,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-catalog', 'module-lifecycle', 'ef-core'],
     molecule: 'dev-process',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   // ================================================================ SECURITY
@@ -2913,7 +2992,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['authorization', 'authentication', 'current-user', 'module-lifecycle'],
     molecule: 'security-compliance',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -2925,11 +3004,12 @@ window.VC_MAP_ATOMS = [
     layer: 'platform',
     tags: ['openiddict', 'jwt', 'api key', 'sso', 'identity', 'oauth'],
     oneLiner: 'Who the caller is: OpenIddict-issued tokens, API keys, basic auth, and external identity providers.',
-    pattern: 'ASP.NET Core Identity plus OpenIddict as the authorization server, with additional handlers for machine callers. The platform ships password login, bearer tokens, API key and basic authentication handlers, and external sign-in for SSO providers.',
+    pattern: 'ASP.NET Core Identity plus OpenIddict as the authorization server, with additional handlers for machine callers. The platform ships password login, bearer tokens, API key and basic authentication handlers, and external sign-in for SSO providers. Other ways to sign in, a second factor and passkeys are added by modules through [[sign-in-extensions]]; clients such as AI agents are registered as [[oauth-applications]].',
     whenToUse: [
       'Storefront and Admin UI sign-in — bearer tokens from OpenIddict',
       'Machine-to-machine and integration callers — API keys',
-      'Corporate SSO — an external provider such as Azure AD, via the external sign-in pipeline'
+      'Corporate SSO — an external provider such as Azure AD, via the external sign-in pipeline',
+      'AI agents and third-party applications acting for a user — an OAuth application with consent, not a shared key'
     ],
     avoid: [
       'Rolling your own token validation. The handlers already exist and are wired',
@@ -2937,7 +3017,7 @@ window.VC_MAP_ATOMS = [
       'Long-lived API keys with broad permissions; scope them and rotate them'
     ],
     api: [
-      { name: 'OpenIddict 7.5 configuration', file: 'src/VirtoCommerce.Platform.Web/Startup.cs' },
+      { name: 'OpenIddict 7.7 configuration', file: 'src/VirtoCommerce.Platform.Web/Startup.cs' },
       { name: 'ApiKeyAuthenticationHandler', file: 'src/VirtoCommerce.Platform.Web/Security/Authentication/ApiKeyAuthenticationHandler.cs' },
       { name: 'BasicAuthenticationHandler', file: 'src/VirtoCommerce.Platform.Web/Security/Authentication/BasicAuthenticationHandler.cs' },
       { name: 'IUserApiKeyService', file: 'src/VirtoCommerce.Platform.Core/Security/IUserApiKeyService.cs' },
@@ -2962,17 +3042,18 @@ window.VC_MAP_ATOMS = [
       'Scaled out, bearer tokens must be validated by every instance — that needs shared data-protection keys, or tokens issued by one instance are rejected by another.',
       'External sign-in maps an external identity onto an `ApplicationUser`. Getting that mapping wrong silently creates duplicate users.',
       'API keys authenticate as a user, so they carry that user\'s permissions. A key for a highly privileged account is a highly privileged key.',
-      'OpenIddict 7.x differs substantially from older majors; do not follow tutorials written for earlier versions.'
+      'OpenIddict 7.x differs substantially from older majors; do not follow tutorials written for earlier versions.',
+      'Since 3.1090 basic authentication refuses a user who needs a second factor and tells the caller to use an API key. An integration that signs in with a password stops working when MFA is switched on for its user.'
     ],
     docs: [
+      { label: 'Authentication overview', page: 'Fundamentals/Security/authentication/overview' },
       { label: 'Secure Web API', page: 'Fundamentals/Security/authorization/overview' },
-      { label: 'Add an SSO provider', page: 'Fundamentals/Security/extensions/adding-azure-as-sso-provider' },
       { label: 'Authentication with Azure AD', page: 'Fundamentals/Security/extensions/adding-azure-as-sso-provider' },
       { label: 'Sharing bearer tokens across instances', page: 'Tutorials-and-How-tos/How-tos/sharing-bearer-tokens' }
     ],
-    seeAlso: ['authorization', 'permissions', 'current-user'],
+    seeAlso: ['authorization', 'permissions', 'current-user', 'sign-in-extensions', 'oauth-applications'],
     molecule: 'security-compliance',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3035,7 +3116,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['permissions', 'authentication', 'current-user'],
     molecule: 'security-compliance',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3092,7 +3173,153 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['authentication', 'permissions', 'change-log', 'push-notifications'],
     molecule: 'security-compliance',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
+  },
+
+  {
+    id: 'sign-in-extensions',
+    symbol: 'Si',
+    name: 'Sign-in extensions',
+    family: 'security',
+    adoption: 'platform',
+    layer: 'platform',
+    tags: ['two-factor', '2fa', 'mfa', 'passkeys', 'webauthn', 'otp', 'grant type', 'sign-in log', 'openiddict'],
+    oneLiner: 'Extension points a module uses to add a way of signing in, a second factor, or a sign-in method a user manages.',
+    pattern: 'The platform owns the sign-in flow and exposes extension points; modules plug into them. A custom token grant is an `IGrantTypeHandler`, usually derived from `GrantTypeHandlerBase`, which already applies lockout, the second-factor check and the sign-in log. A second factor is an `ITwoFactorPolicy` (who needs one) and an `ITwoFactorSignInHandler` (how the challenge is sent). A sign-in method a user can see and manage, such as a passkey, is an `ISignInMethodProvider`. Every sign-in is written to the sign-in log with a `SignInType` string, which modules may extend.',
+    whenToUse: [
+      'Adding a way to sign in: a code sent by email, a token issued by another system, a device key',
+      'Requiring a second factor for some users, stores or roles',
+      'Showing users the keys they can rename or revoke, alongside their password and external logins',
+      'Auditing sign-ins, including the failures and their reasons'
+    ],
+    avoid: [
+      'Writing a token endpoint of your own. Register a grant type and the OpenIddict server issues the token',
+      'Implementing `IGrantTypeHandler` from scratch when `GrantTypeHandlerBase` fits. The base class is where lockout, two-factor and logging already happen',
+      'Treating basic authentication as an integration path for users who need a second factor. It refuses them by design'
+    ],
+    api: [
+      { name: 'IGrantTypeHandler', file: 'src/VirtoCommerce.Platform.Security/OpenIddict/IGrantTypeHandler.cs' },
+      { name: 'GrantTypeHandlerBase', file: 'src/VirtoCommerce.Platform.Security/OpenIddict/GrantTypeHandlerBase.cs' },
+      { name: 'AddGrantTypeHandler<THandler>(grantType)', file: 'src/VirtoCommerce.Platform.Security/OpenIddict/ServiceCollectionExtensions.cs' },
+      { name: 'ITwoFactorPolicy', file: 'src/VirtoCommerce.Platform.Core/Security/ITwoFactorPolicy.cs' },
+      { name: 'ITwoFactorSignInHandler', file: 'src/VirtoCommerce.Platform.Security/OpenIddict/ITwoFactorSignInHandler.cs' },
+      { name: 'ISignInMethodProvider', file: 'src/VirtoCommerce.Platform.Core/Security/SignInMethods/ISignInMethodProvider.cs' },
+      { name: 'IUserSignInLogService', file: 'src/VirtoCommerce.Platform.Core/Security/SignInLog/IUserSignInLogService.cs' },
+      { name: 'SignInType', file: 'src/VirtoCommerce.Platform.Core/Security/SignInLog/SignInType.cs' }
+    ],
+    snippet: {
+      lang: 'csharp',
+      code:
+'// A custom grant: the client posts grant_type=email_code to /connect/token.\n' +
+'// The base class runs lockout, the second-factor check and the sign-in log around ValidateGrantAsync.\n' +
+'public class EmailCodeGrantHandler(/* base dependencies */) : GrantTypeHandlerBase(/* … */)\n' +
+'{\n' +
+'    public override string GrantType => "email_code";\n' +
+'    protected override string SignInType => "EmailCode";   // at most 32 characters\n' +
+'\n' +
+'    protected override async Task<GrantValidationResult> ValidateGrantAsync(TokenRequestContext context)\n' +
+'    {\n' +
+'        var user = await FindUserByValidCodeAsync(context.Request);\n' +
+'        return user is null\n' +
+'            ? GrantValidationResult.Fail(new TokenResponse\n' +
+'              {\n' +
+'                  Error = OpenIddictConstants.Errors.InvalidGrant,\n' +
+'                  ErrorDescription = "The code is invalid or has expired.",\n' +
+'              })\n' +
+'            : GrantValidationResult.Succeed(user);\n' +
+'    }\n' +
+'}\n' +
+'\n' +
+'// Module.Initialize: registers the handler and allows the grant in OpenIddict.\n' +
+'services.AddGrantTypeHandler<EmailCodeGrantHandler>("email_code");'
+    },
+    gotchas: [
+      'A second factor is required when the user has turned it on, or when any registered `ITwoFactorPolicy` says so. It can only be challenged if an `ITwoFactorSignInHandler` is installed: the platform ships the policy hooks, the MFA module ships the challenge.',
+      'Basic authentication fails for a user who needs a second factor, with a message pointing to API keys. Integrations that sign in as such a user break when MFA is switched on.',
+      'The platform registers sign-in method providers for passwords and external logins. A module adds its own, such as passkeys, and the back office lists them together with the keys the user can manage.',
+      '`SignInType` is a set of string constants rather than an enum so modules can add their own. Keep custom values short; the sign-in log column takes 32 characters.',
+      'A cleanup job keeps the sign-in log to `VirtoCommerce.Platform.Security.SignInLogRetentionDays`, 30 days by default; 0 keeps it forever.',
+      'Sign-ins are written through an in-memory buffer (`SignInLog` section: 10,000 records, written in batches of 200 every 5 s). When the buffer is full the writer drops records rather than slow down sign-in, so a flood of attempts can leave gaps in the log. Each dropped row is counted and logged as a warning.'
+    ],
+    note: 'These extension points arrived over several releases: the sign-in log in 3.1071, custom grant types in 3.1075, two-factor sign-in in 3.1090 and sign-in methods with passkey support in 3.1091. The OTP Sign-In, Multi-Factor Authentication and Passkeys modules are built on them.',
+    docs: [
+      { label: 'Adding a custom grant type', page: 'Fundamentals/Security/extensions/adding-custom-grant-type' },
+      { label: 'Authentication overview', page: 'Fundamentals/Security/authentication/overview' }
+    ],
+    seeAlso: ['authentication', 'oauth-applications', 'permissions', 'change-log'],
+    molecule: 'security-compliance',
+    verifiedAgainst: '3.1096.0'
+  },
+
+  {
+    id: 'oauth-applications',
+    symbol: 'Oa',
+    name: 'OAuth applications',
+    family: 'security',
+    adoption: 'platform',
+    layer: 'api-edge',
+    tags: ['oauth', 'openiddict', 'client', 'ai agent', 'mcp', 'rfc 8707', 'resource', 'consent', 'authorization code'],
+    oneLiner: 'Clients registered in the back office, AI agents among them, with the resources each one may request tokens for.',
+    pattern: 'Each OAuth client is an OpenIddict application, created and edited in the back office and saved through `api/platform/oauthapps`. Before saving, `IOAuthAppRules` fills in defaults and validates it. Modules publish the resources they serve, such as MCP endpoints, through `IOAuthResourceProvider`; an administrator allows an application to request tokens for specific resources (RFC 8707 resource indicators). Interactive clients go through a consent page that lists what the application will get, and the sign-in page can differ per host.',
+    whenToUse: [
+      'Letting an AI agent or MCP client call the platform under a user\'s identity rather than a shared key',
+      'Registering a third-party application that signs users in with the platform as the identity provider',
+      'Exposing a module\'s API or MCP endpoint as a resource that OAuth applications can be granted',
+      'Serving several front-ends from one platform, each with its own sign-in page'
+    ],
+    avoid: [
+      'Handing an agent an API key for an administrator account. An OAuth application can be limited to named resources and is subject to consent',
+      'Accepting any resource URI. Only URIs listed in `Authorization:Resources` are accepted, and the application also needs a matching permission',
+      'Changing validation rules by editing controllers. Replace or derive from `OAuthAppRules`'
+    ],
+    api: [
+      { name: 'OAuthAppsController (api/platform/oauthapps)', file: 'src/VirtoCommerce.Platform.Web/Controllers/Api/OAuthAppsController.cs' },
+      { name: 'IOAuthAppRules / OAuthAppRules', file: 'src/VirtoCommerce.Platform.Security/OpenIddict/IOAuthAppRules.cs' },
+      { name: 'IOAuthResourceProvider', file: 'src/VirtoCommerce.Platform.Core/Security/IOAuthResourceProvider.cs' },
+      { name: 'OAuthResource', file: 'src/VirtoCommerce.Platform.Core/Security/OAuthResource.cs' },
+      { name: 'OAuthHostLoginPath', file: 'src/VirtoCommerce.Platform.Core/Security/OAuthHostLoginPath.cs' },
+      { name: 'Consent page (Authorize.cshtml)', file: 'src/VirtoCommerce.Platform.Web/Views/Shared/Authorize.cshtml' }
+    ],
+    snippet: {
+      lang: 'csharp',
+      code:
+'// A module lists the resources it serves, so the back office can offer them\n' +
+'// when an administrator sets up an OAuth application.\n' +
+'public class McpResourceProvider : IOAuthResourceProvider\n' +
+'{\n' +
+'    public Task<IList<OAuthResource>> GetResourcesAsync(OAuthResourceContext context,\n' +
+'        CancellationToken cancellationToken)\n' +
+'    {\n' +
+'        IList<OAuthResource> resources =\n' +
+'        [\n' +
+'            new OAuthResource\n' +
+'            {\n' +
+'                Uri = "https://platform.example.com/mcp",   // exactly as clients send it\n' +
+'                Kind = "mcp",\n' +
+'                Title = "Commerce MCP server",\n' +
+'            },\n' +
+'        ];\n' +
+'        return Task.FromResult(resources);\n' +
+'    }\n' +
+'}\n' +
+'\n' +
+'// Module.Initialize\n' +
+'services.AddTransient<IOAuthResourceProvider, McpResourceProvider>();'
+    },
+    gotchas: [
+      'A resource has to be allowed twice: its URI must be listed in `Authorization:Resources`, and the application must have the matching resource permission. Either one alone is not enough.',
+      'The URI is compared exactly as the client sends it in the `resource` parameter. A trailing slash or a different host is a different resource.',
+      'A provider that throws is skipped, so a broken module removes its own resources from the list rather than breaking the screen. Check the list after deploying.',
+      '`Authorization:OAuthLoginPath` points authorization requests at a storefront sign-in page; `Authorization:OAuthLoginPaths` sets one per host. A host that is not listed uses the single path, and an empty path means the platform\'s own login page.'
+    ],
+    note: 'Since 3.1072 the platform accepts OAuth resources and storefront sign-in for authorization requests. Since 3.1095 OAuth applications, including AI agent clients, are set up in the back office, and since 3.1096 the consent page describes what the client receives and the sign-in page can be set per host.',
+    docs: [
+      { label: 'Virto Commerce as an identity provider', page: 'Fundamentals/Security/authentication/virto-as-identity-provider' },
+      { label: 'Issuing and using access tokens', page: 'Fundamentals/Security/authentication/issuing-and-using-access-token' }
+    ],
+    seeAlso: ['authentication', 'sign-in-extensions', 'permissions', 'rest-api'],
+    molecule: 'security-compliance',
+    verifiedAgainst: '3.1096.0'
   },
 
   // ================================================================ INFRA & OPS
@@ -3105,52 +3332,58 @@ window.VC_MAP_ATOMS = [
     adoption: 'platform',
     layer: 'platform',
     tags: ['redlock', 'redis', 'mutex', 'cluster', 'exclusive', 'scale-out'],
-    oneLiner: 'Cluster-wide mutual exclusion via Redis — with a no-op fallback so development needs no Redis.',
-    pattern: 'Distributed lock over RedLock, wrapped in an execute-with-lock helper. `IDistributedLockService.ExecuteAsync(resourceKey, resolver, …)` acquires, runs and releases; when no Redis is configured a `NoLockService` satisfies the same interface so single-instance development works without it.',
+    oneLiner: 'Cluster-wide mutual exclusion on Redis, and an in-process lock on a single instance — the same interface either way.',
+    pattern: 'Acquire a handle, hold it, dispose it. `IDistributedLock.AcquireAsync(resource)` returns an `IDistributedLockHandle`; `await using` releases it. With `ConnectionStrings:RedisConnectionString` set the lock is `RedisDistributedLock` (RedLock.net), renewed automatically while the handle is held; without it, `InProcessDistributedLock` serializes callers within the one instance. `ExecuteAsync` and `TryExecuteAsync` extensions wrap acquire, run and release, and hand your delegate a token that is cancelled if the lock is lost.',
     whenToUse: [
-      'Work that must happen once cluster-wide: module install, schema migration, a singleton scheduled task',
-      'Guarding a resource two instances could otherwise corrupt',
-      'Making a recurring job exclusive across instances'
+      'Work that must happen once cluster-wide: a scheduled task, a reindex, a migration step',
+      'Guarding a resource that two instances could otherwise corrupt',
+      '`TryExecuteAsync` when the right answer to "someone else is already doing it" is to skip, not to wait'
     ],
     avoid: [
-      'Long critical sections. Lock expiry versus work duration is where distributed locks go wrong',
-      'Assuming the lock is a transaction. It orders access; it does not roll anything back',
-      'Relying on it in development without Redis — the fallback grants everything, so the code path is untested'
+      'Treating the lock as a transaction. It orders access; it does not roll anything back',
+      'Ignoring the token passed to your delegate. If the lock is lost, another instance may already be running the same work',
+      'New code on `IDistributedLockService`. It is deprecated and kept for existing callers'
     ],
     api: [
-      { name: 'IDistributedLockService', file: 'src/VirtoCommerce.Platform.Core/DistributedLock/IDistributedLockService.cs' },
-      { name: 'DistributedLockService (Redis / RedLock)', file: 'src/VirtoCommerce.Platform.DistributedLock/Redis/DistributedLockService.cs' },
-      { name: 'NoLockService (fallback)', file: 'src/VirtoCommerce.Platform.DistributedLock/NoLock/NoLockService.cs' },
+      { name: 'IDistributedLock', file: 'src/VirtoCommerce.Platform.Core/DistributedLock/IDistributedLock.cs' },
+      { name: 'IDistributedLockHandle', file: 'src/VirtoCommerce.Platform.Core/DistributedLock/IDistributedLockHandle.cs' },
+      { name: 'ExecuteAsync / TryExecuteAsync', file: 'src/VirtoCommerce.Platform.Core/DistributedLock/DistributedLockExtensions.cs' },
+      { name: 'RedisDistributedLock (RedLock.net)', file: 'src/VirtoCommerce.Platform.DistributedLock/Redis/RedisDistributedLock.cs' },
+      { name: 'InProcessDistributedLock (no Redis)', file: 'src/VirtoCommerce.Platform.DistributedLock/InProcess/InProcessDistributedLock.cs' },
       { name: 'DistributedLockOptions', file: 'src/VirtoCommerce.Platform.DistributedLock/DistributedLockOptions.cs' },
-      { name: 'DistributedLockCondition', file: 'src/VirtoCommerce.Platform.DistributedLock/DistributedLockCondition.cs' }
+      { name: 'IDistributedLockService (deprecated)', file: 'src/VirtoCommerce.Platform.Core/DistributedLock/IDistributedLockService.cs' }
     ],
     snippet: {
       lang: 'csharp',
       code:
-'// Acquire, run, release — with explicit timeouts rather than defaults you did not choose.\n' +
-'var result = await _distributedLockService.ExecuteAsync(\n' +
-'    resourceKey: $"reindex:{storeId}",\n' +
-'    resolver: async () =>\n' +
-'    {\n' +
-'        await Reindex(storeId);\n' +
-'        return true;\n' +
-'    },\n' +
-'    lockTimeout: TimeSpan.FromMinutes(5),    // must exceed the work, or the lock expires mid-flight\n' +
-'    tryLockTimeout: TimeSpan.FromSeconds(10),\n' +
-'    retryInterval: TimeSpan.FromSeconds(1));'
+'// Skip if another instance is already reindexing this store; otherwise run under the lock.\n' +
+'// The token passed to the delegate is cancelled if the lock is lost mid-run.\n' +
+'var ran = await _distributedLock.TryExecuteAsync(\n' +
+'    $"reindex:{storeId}",\n' +
+'    async token => await _indexing.IndexAsync(storeId, token),\n' +
+'    cancellationToken: cancellationToken);\n' +
+'\n' +
+'// Or hold the handle yourself and wait up to the configured DefaultTimeout (30 s).\n' +
+'await using var handle = await _distributedLock.AcquireAsync($"cart:recalc:{cartId}",\n' +
+'    cancellationToken: cancellationToken);\n' +
+'await RecalculateAsync(cartId, handle.HandleLostToken);'
     },
     gotchas: [
-      'Without a Redis connection string the no-op implementation is registered and every acquisition succeeds. Code that looks locked in development is unlocked in production if Redis is missing there too.',
-      'If `lockTimeout` is shorter than the work, the lock expires while you are still running and a second instance joins you. Size it against worst-case duration, not typical.',
+      'Without Redis the lock is in-process: it serializes callers on one instance and nothing more. That is correct for a single instance and wrong the moment you scale out without Redis. The old no-op `NoLockService` is obsolete (`VC0015`) and no longer registered.',
+      'Redis locks are renewed every `Expiry / 2` (15 s by default) while the handle is held, so you no longer size a lock timeout against the work. What bounds you now is `Expiry`: a crashed holder blocks others for up to 30 s, and if renewal fails for that long the lock is lost.',
+      'Loss is signalled, not prevented. `HandleLostToken` fires after the fact, and another instance may already hold the lock by then. Stop the protected work when it fires.',
+      '`AcquireAsync` throws `DistributedLockTimeoutException` when the wait runs out and `DistributedLockUnavailableException` when Redis cannot be reached. `TryAcquireAsync` returns `null` only for the first case; an unreachable Redis still throws, so nothing is skipped silently.',
+      'Locks are not reentrant. Acquiring the same resource twice from the same flow waits on yourself.',
       '`AsyncLock` and this are different tools: in-process versus cluster-wide. Choosing the wrong one produces a bug that only appears when you scale out.'
     ],
+    note: 'Since 3.1073, `IDistributedLock` replaces `IDistributedLockService`. The old interface still works and runs on the new lock, but its `lockTimeout` and `retryInterval` arguments are ignored. Configuration moved to the `DistributedLock` section: `DefaultTimeout` (30 s), `Expiry` (30 s), `RetryInterval` (100 ms, backing off ×1.8 with jitter up to `MaxRetryInterval`, 2 s) and `WaitTime` for the startup lock (180 s). Platform startup takes its own keyed lock with a longer expiry, so a Redis brownout during a long migration does not let a second instance start migrating. The `DistributedLock` section is validated when the platform starts, so an invalid value stops startup instead of failing at the first lock.',
     docs: [
       { label: 'Scale out on Azure', page: 'Fundamentals/Scalability/scaling-configuration-on-azure-cloud' },
       { label: 'Scalability', page: 'Fundamentals/Scalability/scalability-options' }
     ],
     seeAlso: ['async-lock', 'redis-cache-bus', 'module-catalog', 'recurring-jobs'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3200,7 +3433,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['health-checks', 'developer-tools', 'platform-startup'],
     molecule: 'observability',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3252,7 +3485,7 @@ window.VC_MAP_ATOMS = [
       
     ],
     seeAlso: ['json-serialization', 'abstract-type-factory', 'developer-tools'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3304,7 +3537,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['resilience', 'options-pattern', 'eventbus-webhooks', 'logging'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3339,7 +3572,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['http-client', 'health-checks', 'background-jobs'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3365,7 +3598,8 @@ window.VC_MAP_ATOMS = [
     api: [
       { name: 'IDeveloperToolRegistrar', file: 'src/VirtoCommerce.Platform.Core/DeveloperTools/IDeveloperToolsRegistrar.cs' },
       { name: 'DeveloperToolDescriptor', file: 'src/VirtoCommerce.Platform.Core/DeveloperTools/DeveloperToolDescriptor.cs' },
-      { name: 'Admin UI blade', file: 'src/VirtoCommerce.Platform.Web/wwwroot/js/app/developer-tools/blades/developer-tools-main.html' }
+      { name: 'DeveloperToolsController (the list the UI reads)', file: 'src/VirtoCommerce.Platform.Web/Controllers/Api/DeveloperToolsController.cs' },
+      { name: 'Commerce Manager blade', file: '(vc-module-admin-angular-js: src/VirtoCommerce.AdminAngularJs.Web/Content/wwwroot/js/app/developer-tools/)' }
     ],
     snippet: {
       lang: 'csharp',
@@ -3384,14 +3618,15 @@ window.VC_MAP_ATOMS = [
     gotchas: [
       'Hiding a link is not access control. The tool\'s own endpoint must enforce authorization independently.',
       'This is where the job engine dashboard has historically been registered, which is why it disappears when no engine module is installed.',
-      'Tool pages tend to accumulate privileged capability over time. Review what yours exposes as it grows.'
+      'Tool pages tend to accumulate privileged capability over time. Review what yours exposes as it grows.',
+      'The registry and its REST endpoint are in the platform; the screen that lists the tools is not. Since 3.1092 it ships with the Admin AngularJS module, so a platform without that module has the registry but no page showing it.'
     ],
     docs: [
       { label: 'Debugging without source code', page: 'Tutorials-and-How-tos/How-tos/debugging' }
     ],
-    seeAlso: ['health-checks', 'logging', 'permissions', 'cache-disabler'],
+    seeAlso: ['health-checks', 'logging', 'permissions', 'cache-disabler', 'admin-ui'],
     molecule: 'observability',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3442,7 +3677,7 @@ window.VC_MAP_ATOMS = [
     ],
     docs: [],
     seeAlso: ['backup-restore', 'module-catalog', 'external-processes'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3497,7 +3732,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['logging', 'developer-tools', 'redis-cache-bus', 'ef-core'],
     molecule: 'observability',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3525,14 +3760,14 @@ window.VC_MAP_ATOMS = [
     api: [
       { name: 'TimeProvider', file: '(Microsoft.Bcl.TimeProvider — referenced by Platform.Web, no call sites)' }
     ],
-    note: 'Verified by grep: `Microsoft.Bcl.TimeProvider 10.0.10` appears as a `PackageReference` in `VirtoCommerce.Platform.Web.csproj`, but there are no `TimeProvider` usages in platform source. It is available to your module; there is no platform pattern to follow.',
+    note: 'Verified by grep: `Microsoft.Bcl.TimeProvider 10.0.13` appears as a `PackageReference` in `VirtoCommerce.Platform.Web.csproj`, but there are no `TimeProvider` usages in platform source. It is available to your module; there is no platform pattern to follow.',
     gotchas: [
       'Because nothing uses it, adopting it is a local decision within your own module rather than following a convention.',
       'The value shows up in tests, not production. If your time logic is not tested, this buys you nothing.'
     ],
     docs: [],
     seeAlso: ['recurring-jobs', 'change-log'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3582,7 +3817,7 @@ window.VC_MAP_ATOMS = [
       { label: 'Swagger / OpenAPI in a module', page: 'Tutorials-and-How-tos/How-tos/swagger-api' }
     ],
     seeAlso: ['swagger', 'permissions', 'json-serialization', 'abstract-type-factory', 'xapi'],
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3646,7 +3881,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['file-operations', 'search', 'backup-restore', 'background-jobs'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3688,7 +3923,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['logging', 'health-checks', 'developer-tools'],
     molecule: 'observability',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3736,7 +3971,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-manifest', 'module-catalog', 'dependency-injection', 'host-composition', 'module-lifecycle'],
     molecule: 'ecommerce-modules',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3764,7 +3999,7 @@ window.VC_MAP_ATOMS = [
     api: [
       { name: 'VirtoCommerce:BackgroundJobs:Mode — Producer | Worker | Both', file: 'src/VirtoCommerce.Platform.Web/appsettings.json' },
       { name: 'PushNotifications:ScalabilityMode — RedisBackplane | AzureSignalRService | None', file: 'src/VirtoCommerce.Platform.Core/PushNotifications/PushNotificationOptions.cs' },
-      { name: 'ExecuteSynchronized — module migrations run one host at a time', file: 'src/VirtoCommerce.Platform.Web/Extensions/ApplicationBuilderExtensions.cs' },
+      { name: 'Startup lock — migrations run one host at a time', file: 'src/VirtoCommerce.Platform.Web/Startup.cs' },
       { name: 'ModuleBootstrapper — discovery, probing and the resolved module set', file: 'src/VirtoCommerce.Platform.Modules/ModuleBootstrapper.cs' },
       { name: 'vc-build install -PackageManifestPath — a different module set per image', file: '(vc-build CLI; manifest is vc-package.json)' }
     ],
@@ -3787,7 +4022,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['module-catalog', 'optional-dependency', 'module-database', 'background-jobs', 'distributed-lock', 'vc-build'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   },
 
   {
@@ -3821,7 +4056,7 @@ window.VC_MAP_ATOMS = [
       { name: 'PushNotifications:ScalabilityMode — RedisBackplane | AzureSignalRService | None', file: 'src/VirtoCommerce.Platform.Core/PushNotifications/PushNotificationOptions.cs' },
       { name: 'SqlServer:CompatibilityLevel / ParameterTranslationMode — EF Core 10 query translation', file: 'src/VirtoCommerce.Platform.Data.SqlServer/Extensions/DbContextOptionsBuilderExtensions.cs' },
       { name: 'DbContextRepositoryBase — command timeout inherited from the connection string', file: 'src/VirtoCommerce.Platform.Data/Infrastructure/DbContextRepositoryBase.cs' },
-      { name: 'ExecuteSynchronized — migrations serialised across instances', file: 'src/VirtoCommerce.Platform.Web/Extensions/ApplicationBuilderExtensions.cs' },
+      { name: 'Startup lock — migrations serialised across instances', file: 'src/VirtoCommerce.Platform.Web/Startup.cs' },
       { name: 'RedisPlatformMemoryCache — per-instance cache, shared invalidation', file: 'src/VirtoCommerce.Platform.Caching/Redis/RedisPlatformMemoryCache.cs' }
     ],
     snippet: {
@@ -3829,8 +4064,8 @@ window.VC_MAP_ATOMS = [
       code: '// The scale-out floor. Without the first two lines, a second instance is a second truth.\n{\n  // Each module can own its database: the key is the module id from module.manifest, and the\n  // fallback is the shared string — so this is additive, per module, and needs no code.\n  "ConnectionStrings": {\n    "VirtoCommerce": "Data Source=sql;Initial Catalog=VirtoCommerce3;Connect Timeout=30;...",\n    "RedisConnectionString": "redis:6380,ssl=True,abortConnect=False",\n    "VirtoCommerce.Pricing": "Data Source=sql-pricing;Initial Catalog=Pricing;...",\n    "VirtoCommerce.Orders":  "Data Source=sql-orders;Initial Catalog=Orders;..."\n  },\n\n  // Horizontal split by role. Same image on every host, one key apart.\n  //   request hosts  Producer  — enqueue, never drain\n  //   worker hosts   Worker    — drain, serve nothing\n  // Under the VirtoCommerce section since 3.1057.0 — at the root it is read as nothing.\n  "VirtoCommerce": {\n    "BackgroundJobs": { "Mode": "Producer" }\n  },\n\n  // Back office only: push notifications need the backplane and sticky sessions.\n  // Stateless request hosts set None and turn ARR affinity off.\n  "PushNotifications": { "ScalabilityMode": "RedisBackplane" },\n\n  // Cheaper than either kind of scaling: how EF Core 10 translates against SQL Server.\n  // Below level 120 it reaches for OPENJSON, which performs badly.\n  "SqlServer": {\n    "CompatibilityLevel": 120,\n    "ParameterTranslationMode": "Constant"\n  },\n}\n\n// runtimeconfig.json — the runtime side, and only if a measurement asked for it.\n// Defaults are already right for most hosts: Server GC for multi-core, Workstation on\n// 1 vCPU, DATAS sizing the heap to the app since .NET 9.\n{\n  "runtimeOptions": {\n    "configProperties": {\n      "System.GC.HeapHardLimitPercent": 75,   // the container-aware default\n      "System.GC.HighMemoryPercent": 90       // raise it for a small process, per Microsoft\n    }\n  }\n}'
     },
     gotchas: [
-      '`Connect Timeout` in the connection string becomes the **command** timeout: `DbContextRepositoryBase` reads it off the connection and calls `SetCommandTimeout` with it. Raise it there and every query gets it, which is rarely what you want.',
-      'The migration lock is a scale-out dependency, not a nicety. Module migrations run inside `ExecuteSynchronized`, which degrades to a no-op without Redis — so two instances starting together can both migrate.',
+      '`Connect Timeout` in the connection string becomes the **command** timeout: `DbContextRepositoryBase` reads it off the connection and calls `SetCommandTimeout` with it — since 3.1064 only when no command timeout was configured through the DbContext options, so a module that sets one keeps it. Raise it there and every query gets it, which is rarely what you want.',
+      'The migration lock is a scale-out dependency, not a nicety. Platform and module migrations run under the keyed startup lock (`VirtoCommerce.Platform.Startup`). Without Redis that lock is in-process, so two instances starting together can both migrate. With Redis, an instance that waits longer than `DistributedLock:WaitTime` (180 s) for another instance\'s migrations fails to start rather than migrating alongside it.',
       '.NET reads its container limits and sizes the GC heap to them — in a container the GC treats the **container limit** as total physical memory, with a default heap hard limit of **75%** of it. Work that needs memory in bursts still does not fit: put a reindex or a bulk import on the jobs host and size that one for it.',
       '**Server GC is the ASP.NET Core default, and it is not available on a single-core machine** — a 1-vCPU container silently runs Workstation GC. That is usually what you want there: Microsoft\'s guidance is that Server GC suits a machine the process dominates, while for **small containers and high-density hosting Workstation GC can be more performant**, and their own sample shows the working set dropping from ~500 MB to ~70 MB on the switch. Decide it per host role rather than once for the solution.',
       '**DATAS is on by default from .NET 9**, which changes the shape of the question. It sizes the heap to the application rather than to the machine, starting at one heap and adding heaps under load — so the same image behaves similarly on a small container and a large one. Microsoft measures ~80% working-set improvement against a 2–3% throughput cost; if you are chasing that last 2%, `System.GC.DynamicAdaptationMode: 0` turns it off, and you own the consequences.',
@@ -3851,7 +4086,7 @@ window.VC_MAP_ATOMS = [
     ],
     seeAlso: ['host-composition', 'module-database', 'cross-module-references', 'redis-cache-bus', 'distributed-lock', 'background-jobs', 'search'],
     molecule: 'deployment',
-    verifiedAgainst: '3.1058.0'
+    verifiedAgainst: '3.1096.0'
   }
 
 ];

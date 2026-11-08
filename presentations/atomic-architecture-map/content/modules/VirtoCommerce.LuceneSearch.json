@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-lucene-search",
  "name": "Lucene Search",
  "tagline": "Indexed search functionality with Lucene engine",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1006.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.LuceneSearch.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.LuceneSearchModule.Web.dll",
   "authors": [
    "Artem Dudarev"
@@ -22,7 +22,7 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -49,9 +49,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "32fd1b8",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "32fd1b8 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "17c472f",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "17c472f 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -125,7 +125,7 @@
    "Production, in general"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-lucene-search",
@@ -146,6 +146,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

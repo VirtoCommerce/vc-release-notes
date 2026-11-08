@@ -48,9 +48,18 @@ const registry = (function () {
   }
   return JSON.parse(fs.readFileSync(REGISTRY, 'utf8'));
 })();
+/* The catalogue decides which modules are on the map — the version floor AND the release rule live in
+   tools/build-active-modules.js — so this tool reads its output rather than re-deriving a second,
+   looser list from the registry. Before this, an entry with no release (Punchout) still got an icon
+   and a family count, and the legend total disagreed with the shelf by one. */
+const catalogue = (function () {
+  const sandbox = {};
+  new Function('window', fs.readFileSync(path.join(ROOT, 'content/modules-active.js'), 'utf8'))(sandbox);
+  return new Set((sandbox.VC_ACTIVE_MODULES || []).map(m => m.id));
+})();
 const active = registry
   .map(m => ({ id: m.Id, title: m.Title, description: m.Description, groups: m.Groups || [], tags: m.Tags || '', version: latestOf(m) }))
-  .filter(m => m.version && cmp(m.version, ACTIVE_FLOOR) >= 0);
+  .filter(m => m.version && cmp(m.version, ACTIVE_FLOOR) >= 0 && catalogue.has(m.id));
 
 /* The icon set is not 94 arbitrary colours — it is a palette of eleven, and modules that share a
    colour share a domain. So the family a module belongs to is READ from its icon rather than
@@ -66,6 +75,8 @@ const FAMILIES = [
   { hex: '#4FD2EE', id: 'customer',     name: 'Customer' },              // Profile experience API
   { hex: '#F88A8D', id: 'marketing',    name: 'Marketing & loyalty' },
   { hex: '#5FC8F5', id: 'platform',     name: 'Platform services' },
+  /* After the canonical entry, not before: the legend takes the first hex it finds for a family. */
+  { hex: '#52A8CF', id: 'platform',     name: 'Platform services' },     // Admin AngularJS — the back office, like Admin Shell
   { hex: '#5FD080', id: 'integrations', name: 'Integrations & providers' },
   { hex: '#6E7E97', id: 'security',     name: 'Security & compliance' },
   { hex: '#A66BFF', id: 'ai',           name: 'AI' }

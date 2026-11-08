@@ -481,9 +481,10 @@ if (featurelessModules.length) {
 }
 
 /* Capability is measured against what a package installs, not what its manifest lists — the same
-   rule the pages use (app.js closes the graph before computing features). Purchase names 31 modules
-   but five of them require Catalog, XCatalog, Seo, Export and the file API, and an install brings
-   those too; counting the manifest alone understated it by nine features. */
+   rule the pages use (app.js closes the graph before computing features). In the 3.1039 manifests
+   Purchase named 31 modules while five of them required Catalog, XCatalog, Seo, Export and the file
+   API; counting the manifest alone understated it by nine features. The 3.1076 manifests are
+   complete, so the closure adds nothing today, and it stays for the next time one falls behind. */
 const shortToId = new Map(ACTIVE_MODULES.map(m => [m.id.replace('VirtoCommerce.', ''), m.id]));
 const requiredDeps = new Map(ACTIVE_MODULES.map(m =>
   [m.id, (m.dependsOn || []).map(d => shortToId.get(d)).filter(Boolean)]));
@@ -652,11 +653,19 @@ for (const m of ACTIVE_MODULES) {
   if (!m.repoUrl) add('catalogue', where, 'no repository link could be formed at all');
 }
 
-/* Every module the registry still publishes should be on the map. A missing one is not a typo — it
-   means the generator ran against an older registry. */
+/* Every module the registry still publishes should be on the map, unless the generator excluded it
+   with a reason: a registry entry whose repository has no published release, or one named as not a
+   product. A module missing for any other reason means the generator ran against an older registry.
+   An exclusion without a reason, or a module that is both excluded and listed, is a generator bug. */
+const EXCLUDED = global.window.VC_EXCLUDED_MODULES || [];
+for (const x of EXCLUDED) {
+  if (!x.reason) add('catalogue', x.id || '(no id)', 'excluded without a reason');
+  if (ACTIVE_MODULES.some(m => m.id === x.id)) add('catalogue', x.id, 'both excluded and listed in the catalogue');
+}
+const excludedIds = new Set(EXCLUDED.map(x => x.id));
 const missingFromCatalogue = MODULE_REGISTRY.filter(e => {
   const newest = (e.Versions || []).map(v => v.Version).sort(verCompare).pop();
-  return newest && verCompare(newest, activeFloor) >= 0 && !ACTIVE_MODULES.some(m => m.id === e.Id);
+  return newest && verCompare(newest, activeFloor) >= 0 && !ACTIVE_MODULES.some(m => m.id === e.Id) && !excludedIds.has(e.Id);
 }).map(e => e.Id);
 if (missingFromCatalogue.length) {
   add('catalogue', 'modules-active.js', `${missingFromCatalogue.length} active module(s) absent: ${missingFromCatalogue.join(', ')}`);
@@ -696,6 +705,9 @@ if (staleClone.length) {
 }
 if (previews.length) console.log(`preview modules, not in the registry: ${previews.join(', ')}`);
 if (registryGaps.length) console.log(`registry gaps (informational): ${registryGaps.join(', ')}`);
+if (EXCLUDED.length) {
+  console.log(`excluded from the map (${EXCLUDED.length}): ` + EXCLUDED.map(x => `${x.id.replace('VirtoCommerce.', '')} — ${x.reason}`).join(' | '));
+}
 console.log(`module profiles: ${profileFiles.length} (${profilesWithNotes} with authored notes) — ` +
             `${ACTIVE_MODULES.length - profileFiles.length} modules still facts-free`);
 console.log('PBCs → ' + PBCS.map(c => `${c.name} (${c.moduleCount} modules: ` +

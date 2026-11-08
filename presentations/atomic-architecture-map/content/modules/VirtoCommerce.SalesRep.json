@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-sales-rep",
  "name": "Sales Rep",
  "tagline": "Virto Commerce Sales Rep",
- "latestVersion": "3.1003.0",
+ "latestVersion": "3.1018.0",
  "active": true,
  "groups": [],
  "accent": "#F87FAC",
  "icon": "assets/module-icons/VirtoCommerce.SalesRep.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
-  "platformVersion": "3.1048.0",
+  "manifestVersion": "3.1019.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.SalesRep.Web.dll",
   "authors": [
    "Alla Volkova"
@@ -19,38 +19,13 @@
   "tags": "extension module",
   "dependsOn": [
    {
-    "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Customer",
-    "version": "3.1014.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Orders",
+    "id": "VirtoCommerce.Assets",
     "version": "3.1010.0",
     "optional": false
    },
    {
-    "id": "VirtoCommerce.Store",
-    "version": "3.1006.0",
-    "optional": false
-   },
-   {
     "id": "VirtoCommerce.Cart",
-    "version": "3.1008.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.XCart",
-    "version": "3.1029.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
@@ -59,84 +34,211 @@
     "optional": false
    },
    {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1012.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1028.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.FileExperienceApi",
+    "version": "3.1004.0",
+    "optional": false
+   },
+   {
     "id": "VirtoCommerce.Notifications",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Orders",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.PushMessages",
     "version": "3.1004.0",
     "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Store",
+    "version": "3.1009.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1027.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XCart",
+    "version": "3.1039.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XFrontend",
+    "version": "3.1005.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XOrder",
+    "version": "3.1011.0",
+    "optional": false
    }
   ],
-  "optionalDependencies": [],
+  "optionalDependencies": [
+   {
+    "id": "VirtoCommerce.GoogleEcommerceAnalytics",
+    "version": "4.1006.0",
+    "optional": true
+   },
+   {
+    "id": "VirtoCommerce.Marketing",
+    "version": "3.1009.0",
+    "optional": true
+   },
+   {
+    "id": "VirtoCommerce.TaskManagement",
+    "version": "3.1005.0",
+    "optional": true
+   }
+  ],
   "projects": [
    "VirtoCommerce.SalesRep.Core",
    "VirtoCommerce.SalesRep.Data",
+   "VirtoCommerce.SalesRep.Data.MySql",
+   "VirtoCommerce.SalesRep.Data.PostgreSql",
+   "VirtoCommerce.SalesRep.Data.SqlServer",
    "VirtoCommerce.SalesRep.ExperienceApi",
    "VirtoCommerce.SalesRep.Web"
   ],
-  "databaseProviders": [],
+  "databaseProviders": [
+   "SqlServer",
+   "MySql",
+   "PostgreSql"
+  ],
   "restControllers": [
+   {
+    "file": "src/VirtoCommerce.SalesRep.Web/Controllers/Api/SalesRepAnalyticsDiagnosticsController.cs",
+    "route": "api/sales-rep",
+    "actions": 1,
+    "authorizedActions": 1
+   },
    {
     "file": "src/VirtoCommerce.SalesRep.Web/Controllers/Api/SalesRepController.cs",
     "route": "api/sales-rep",
     "actions": 10,
     "authorizedActions": 13
+   },
+   {
+    "file": "src/VirtoCommerce.SalesRep.Web/Controllers/Api/SalesRepDocumentsController.cs",
+    "route": "api/sales-rep/documents",
+    "actions": 7,
+    "authorizedActions": 7
    }
   ],
   "permissions": [
-   "sales-rep:access"
+   "sales-rep-documents:read",
+   "sales-rep-documents:write",
+   "sales-rep:access",
+   "sales-rep:diagnostics"
   ],
   "settings": [
    "SalesRep.Enabled",
    "SalesRep.Statistics.CartCacheExpirationMinutes",
+   "SalesRep.Statistics.CartInvalidateOnChange",
    "SalesRep.Statistics.CustomerCountsCacheExpirationMinutes",
+   "SalesRep.Statistics.CustomerCountsInvalidateOnChange",
    "SalesRep.Statistics.OrderCacheExpirationMinutes",
-   "SalesRep.Statistics.TopSellerCacheExpirationMinutes"
+   "SalesRep.Statistics.OrderInvalidateOnChange",
+   "SalesRep.Statistics.TopSellerCacheExpirationMinutes",
+   "SalesRep.Statistics.TopSellerInvalidateOnChange"
   ],
   "domainEventsPublished": [],
-  "declaredEvents": [],
-  "eventHandlers": [],
-  "handledEvents": [],
+  "declaredEvents": [
+   "DocumentMetadataChangedEvent",
+   "DocumentMetadataChangingEvent"
+  ],
+  "eventHandlers": [
+   "src/VirtoCommerce.SalesRep.Data/Handlers/DeleteDocumentMetadataAssetEntryChangedEventHandler.cs",
+   "src/VirtoCommerce.SalesRep.Data/Handlers/SalesRepStatisticsCartChangedEventHandler.cs",
+   "src/VirtoCommerce.SalesRep.Data/Handlers/SalesRepStatisticsOrderChangedEventHandler.cs"
+  ],
+  "handledEvents": [
+   "AssetEntryChangedEvent",
+   "CartChangedEvent",
+   "OrderChangedEvent"
+  ],
   "subscribesDynamically": false,
   "graphqlBuilders": [
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/CustomerSalesRepsQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepActivitiesQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCartFilterRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCouponsQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerActivitySummaryQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerFilterRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerInsightsQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerOrderQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerOrdersQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomerSortRulesQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepCustomersQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepDocumentCategoriesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepDocumentQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepDocumentsQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepLayoutQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepOrderFilterRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepOrderQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepOrderSortRulesQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepOrdersQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepSearchQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTaskFilterRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTaskQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTaskSortRulesQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTasksQueryBuilder.cs",
+   "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTaskTypesQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTopSellerFilterRulesQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTopSellerSortRulesQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/SalesRepTopSellersQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/Statistics/SalesRepCustomerCartStatisticsQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/Statistics/SalesRepCustomerCountsQueryBuilder.cs",
    "src/VirtoCommerce.SalesRep.ExperienceApi/Queries/Statistics/SalesRepCustomerOrderStatisticsQueryBuilder.cs",
-   "tests/VirtoCommerce.SalesRep.Tests/ComponentTests/Infrastructure/TestGraphQlConfiguration.cs"
+   "tests/VirtoCommerce.SalesRep.Tests/ComponentTests/Infrastructure/TestGraphQlConfiguration.cs",
+   "tests/VirtoCommerce.SalesRep.Tests/ComponentTests/SalesRepEndpointGateTests.cs",
+   "tests/VirtoCommerce.SalesRep.Tests/StorefrontE2E/Infrastructure/StorefrontServices.cs",
+   "tests/VirtoCommerce.SalesRep.Tests/StorefrontE2E/Infrastructure/StorefrontShellSchemaBuilder.cs"
   ],
   "indexDocumentBuilders": [
    "tests/VirtoCommerce.SalesRep.Tests/ComponentTests/Infrastructure/SalesRepTestContext.cs"
   ],
-  "migrationCount": 0,
+  "migrationCount": 6,
   "hasAdminUi": false,
   "adminUiFiles": 0,
   "localizations": [
-   "en"
+   "de",
+   "en",
+   "es",
+   "fr",
+   "it",
+   "ja",
+   "pl",
+   "pt",
+   "ru",
+   "zh"
   ],
-  "entities": [],
+  "entities": [
+   "DocumentMetadataEntity"
+  ],
   "git": {
    "ref": "origin/dev",
-   "readFrom": "shallow clone",
-   "branch": "dev",
-   "lastCommit": "86e3989 2026-08-12 3.1004.0",
-   "lastCommitDate": "2026-08-12"
+   "sha": "5fb9ff2",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "5fb9ff2 2026-11-06 ci: Auto update Github Action workflows",
+   "readFrom": "git ref"
   }
  },
  "readme": {
@@ -158,6 +260,10 @@
    "Scope the orders list to an optional created-date **period**",
    "Send a push notification and/or email to the members of a customer organization",
    "Publish a shopping list (wishlist) to a customer organization the rep serves — its members open it read-only (\"Recommended by your Sales Rep\") and add items to their cart, with an optional email/push notification",
+   "Share a curated **documents library** with sales reps — a back-office manager uploads categorized sales materials (price lists, catalogs, guides), optionally pinning one and annotating summary / page count / preview; reps browse, search and download them from the storefront",
+   "Show a rep an **activity feed** of their customers — orders placed, customers assigned, and (from Google Analytics 4) searches, product views and sign-ins — merged newest-first with per-category counters",
+   "Show **customer insights** per customer or across all of them: top/recent search phrases, browsed products, last sign-in and visit count, sourced from tracked storefront activity",
+   "Diagnose the Google Analytics connection from the back office — a staged checklist ending in a probe that runs the real feature query",
    "Toggle the storefront Sales Rep UI per store"
   ],
   "docs": [
@@ -186,6 +292,10 @@
     "href": "https://virtocommerce.atlassian.net/browse/VCST-5332"
    },
    {
+    "label": "#12 — VCST-5730: Sales Rep documents library",
+    "href": "https://github.com/VirtoCommerce/vc-module-sales-rep/pull/12"
+   },
+   {
     "label": "Sales Rep Hub epic",
     "href": "https://virtocommerce.atlassian.net/browse/VCST-5142"
    }
@@ -208,11 +318,13 @@
    "Key features",
    "Screenshots",
    "XAPI Specification",
+   "Google Analytics-based metrics",
    "How it works",
    "Administration",
    "Permissions",
    "Settings",
    "Dependencies",
+   "Tests",
    "Documentation",
    "References",
    "License"
@@ -235,11 +347,11 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-sales-rep",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

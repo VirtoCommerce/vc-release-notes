@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-notification",
  "name": "Notifications",
  "tagline": "Provides a comprehensive infrastructure for managing and delivering notifications within the Virto Commerce platform.",
- "latestVersion": "3.1013.0",
+ "latestVersion": "3.1020.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.Notifications.svg",
  "facts": {
-  "manifestVersion": "3.1014.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1020.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.NotificationsModule.Web.dll",
   "authors": [
    "Eugeny Tatarincev",
@@ -23,7 +23,7 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -100,11 +100,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 45,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -131,9 +133,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "c62ac66",
-   "lastCommitDate": "2026-07-30",
-   "lastCommit": "c62ac66 2026-07-30 3.1014.0",
+   "sha": "82dc608",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "82dc608 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#210)",
    "readFrom": "git ref"
   }
  },
@@ -238,7 +240,7 @@
    "The template belongs to a storefront page — that is Content"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-notification",
@@ -259,6 +261,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-api",
  "name": "Core Experience API",
  "tagline": "Module represents a core functionality for GraphQL and other XAPI modules",
- "latestVersion": "3.1017.0",
+ "latestVersion": "3.1030.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.Xapi.svg",
  "facts": {
-  "manifestVersion": "3.1018.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1031.0",
+  "platformVersion": "3.1078.0",
   "assembly": "VirtoCommerce.Xapi.Web.dll",
   "authors": [
    "Eugeny Tatarincev",
@@ -32,34 +32,34 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1010.0",
+    "version": "3.1028.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Seo",
-    "version": "3.1004.0",
+    "version": "3.1005.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1006.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
   "optionalDependencies": [
    {
     "id": "VirtoCommerce.ApplicationInsights",
-    "version": "3.1004.0",
+    "version": "3.1005.0",
     "optional": true
    },
    {
     "id": "VirtoCommerce.Tax",
-    "version": "3.1003.0",
+    "version": "3.1007.0",
     "optional": true
    }
   ],
@@ -73,6 +73,7 @@
   "permissions": [
    "VirtoCommerce:GraphQL",
    "VirtoCommerce:GraphQLComplexityValidation",
+   "VirtoCommerce:GraphQLDistributedLock",
    "VirtoCommerce:GraphQLPlayground",
    "VirtoCommerce:GraphQLWebSocket",
    "VirtoCommerce:Stores"
@@ -108,7 +109,9 @@
    "src/VirtoCommerce.Xapi.Data/Schemas/DynamicPropertySchema.cs",
    "src/VirtoCommerce.Xapi.Data/Schemas/SubscriptionSchema.cs",
    "tests/VirtoCommerce.Xapi.Tests/BaseQueries/RequestBuilderTests.cs",
-   "tests/VirtoCommerce.Xapi.Tests/GraphQLSingletonMediatorInjectionTests.cs"
+   "tests/VirtoCommerce.Xapi.Tests/GraphQLSingletonMediatorInjectionTests.cs",
+   "tests/VirtoCommerce.Xapi.Tests/Infrastructure/ScopedSchemaFactoryTests.cs",
+   "tests/VirtoCommerce.Xapi.Tests/RequestScopedCacheInjectionTests.cs"
   ],
   "indexDocumentBuilders": [],
   "migrationCount": 0,
@@ -128,9 +131,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "f5883a1",
-   "lastCommitDate": "2026-08-13",
-   "lastCommit": "f5883a1 2026-08-13 3.1018.0",
+   "sha": "2cba507",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "2cba507 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -217,7 +220,7 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-x-api",
@@ -253,6 +256,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

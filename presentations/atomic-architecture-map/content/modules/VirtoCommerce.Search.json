@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-search",
  "name": "Search Core",
  "tagline": "Defines Core Abstractions for indexed search functionality above different search providers, like: Elasticsearch, Azure Search, etc.",
- "latestVersion": "3.1007.0",
+ "latestVersion": "3.1015.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.Search.svg",
  "facts": {
-  "manifestVersion": "3.1007.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1015.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.SearchModule.Web.dll",
   "authors": [
    "Eugeny Tatarincev"
@@ -51,17 +51,14 @@
    "VirtoCommerce.Search.IndexPartitionSize",
    "VirtoCommerce.Search.IndexSettings",
    "VirtoCommerce.Search.IndexingJobs.CronExpression",
+   "VirtoCommerce.Search.IndexingJobs.CurrentJobId",
    "VirtoCommerce.Search.IndexingJobs.Enable",
    "VirtoCommerce.Search.PartialDocumentUpdate.Enable"
   ],
   "domainEventsPublished": [],
   "declaredEvents": [],
-  "eventHandlers": [
-   "src/VirtoCommerce.SearchModule.Data/Handlers/ObjectSettingEntryChangedEventHandler.cs"
-  ],
-  "handledEvents": [
-   "ObjectSettingChangedEvent"
-  ],
+  "eventHandlers": [],
+  "handledEvents": [],
   "subscribesDynamically": false,
   "graphqlBuilders": [],
   "indexDocumentBuilders": [
@@ -76,17 +73,20 @@
    "src/VirtoCommerce.SearchModule.Data/Services/DummyIndexDocumentBuilder.cs",
    "src/VirtoCommerce.SearchModule.Data/Services/IndexDocumentChangeFeedFactoryAdapter.cs",
    "src/VirtoCommerce.SearchModule.Data/Services/IndexingManager.cs",
-   "tests/VirtoCommerce.SearchModule.Tests/DocumentSource.cs"
+   "tests/VirtoCommerce.SearchModule.Tests/DocumentSource.cs",
+   "tests/VirtoCommerce.SearchModule.Tests/IndexingJobServiceContractTests.cs"
   ],
   "migrationCount": 0,
   "hasAdminUi": true,
   "adminUiFiles": 22,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -99,9 +99,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "0596bce",
-   "lastCommitDate": "2026-08-06",
-   "lastCommit": "0596bce 2026-08-06 fix: Bump postcss from 8.5.13 to 8.5.24 in /src/VirtoCommerce.SearchModule.Web (#144)",
+   "sha": "f8c7e2b",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "f8c7e2b 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#163)",
    "readFrom": "git ref"
   }
  },
@@ -189,7 +189,7 @@
    "A single record must be correct the instant it is written — read the owning module, not the index"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-search",
@@ -210,6 +210,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

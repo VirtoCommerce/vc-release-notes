@@ -53,6 +53,7 @@ window.VC_MODULE_ACCENTS = {
  "VirtoCommerce.TaskManagement": "#5FC8F5",
  "VirtoCommerce.MarketingExperienceApi": "#F88A8D",
  "VirtoCommerce.AzureAD": "#5FD080",
+ "VirtoCommerce.PowerBiReports": "#5FD080",
  "VirtoCommerce.ApplicationInsights": "#5FC8F5",
  "VirtoCommerce.SeqLog": "#5FC8F5",
  "VirtoCommerce.Hotjar": "#5FD080",
@@ -83,6 +84,7 @@ window.VC_MODULE_ACCENTS = {
  "VirtoCommerce.News": "#B79DFB",
  "VirtoCommerce.ElasticSearch9": "#5FD080",
  "VirtoCommerce.SqlQueries": "#5FC8F5",
+ "VirtoCommerce.ShopifyTaxonomy": "#5FD080",
  "VirtoCommerce.Loyalty": "#F88A8D",
  "VirtoCommerce.XPickup": "#9D86F5",
  "VirtoCommerce.StateMachine": "#5FC8F5",
@@ -99,7 +101,12 @@ window.VC_MODULE_ACCENTS = {
  "VirtoCommerce.BackupRestore": "#5FC8F5",
  "VirtoCommerce.BackgroundJobs": "#5FC8F5",
  "VirtoCommerce.SalesRep": "#F87FAC",
- "VirtoCommerce.UCP": "#A66BFF"
+ "VirtoCommerce.UCP": "#A66BFF",
+ "VirtoCommerce.OTP": "#6E7E97",
+ "VirtoCommerce.MFA": "#6E7E97",
+ "VirtoCommerce.AdminShell": "#5FC8F5",
+ "VirtoCommerce.Passkeys": "#6E7E97",
+ "VirtoCommerce.AdminAngularJs": "#52A8CF"
 };
 window.VC_MODULE_FAMILY = {
  "VirtoCommerce.Core": "platform",
@@ -151,6 +158,7 @@ window.VC_MODULE_FAMILY = {
  "VirtoCommerce.TaskManagement": "platform",
  "VirtoCommerce.MarketingExperienceApi": "marketing",
  "VirtoCommerce.AzureAD": "integrations",
+ "VirtoCommerce.PowerBiReports": "integrations",
  "VirtoCommerce.ApplicationInsights": "platform",
  "VirtoCommerce.SeqLog": "platform",
  "VirtoCommerce.Hotjar": "integrations",
@@ -181,6 +189,7 @@ window.VC_MODULE_FAMILY = {
  "VirtoCommerce.News": "content",
  "VirtoCommerce.ElasticSearch9": "integrations",
  "VirtoCommerce.SqlQueries": "platform",
+ "VirtoCommerce.ShopifyTaxonomy": "integrations",
  "VirtoCommerce.Loyalty": "marketing",
  "VirtoCommerce.XPickup": "orders",
  "VirtoCommerce.StateMachine": "platform",
@@ -197,7 +206,12 @@ window.VC_MODULE_FAMILY = {
  "VirtoCommerce.BackupRestore": "platform",
  "VirtoCommerce.BackgroundJobs": "platform",
  "VirtoCommerce.SalesRep": "customer",
- "VirtoCommerce.UCP": "ai"
+ "VirtoCommerce.UCP": "ai",
+ "VirtoCommerce.OTP": "security",
+ "VirtoCommerce.MFA": "security",
+ "VirtoCommerce.AdminShell": "platform",
+ "VirtoCommerce.Passkeys": "security",
+ "VirtoCommerce.AdminAngularJs": "platform"
 };
 window.VC_MODULE_FAMILY_ORDER = [
  {
@@ -234,7 +248,7 @@ window.VC_MODULE_FAMILY_ORDER = [
   "id": "integrations",
   "name": "Integrations & providers",
   "hex": "#5FD080",
-  "count": 25
+  "count": 27
  },
  {
   "id": "marketing",
@@ -252,12 +266,12 @@ window.VC_MODULE_FAMILY_ORDER = [
   "id": "platform",
   "name": "Platform services",
   "hex": "#5FC8F5",
-  "count": 22
+  "count": 24
  },
  {
   "id": "security",
   "name": "Security & compliance",
   "hex": "#6E7E97",
-  "count": 2
+  "count": 5
  }
 ];

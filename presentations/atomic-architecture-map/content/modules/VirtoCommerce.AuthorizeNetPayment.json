@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-authorize-net",
  "name": "Authorize.Net Payment Method",
  "tagline": "Provides the integration with Authorize.Net payment provider",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1005.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.AuthorizeNetPayment.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1006.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.AuthorizeNetPayment.Web.dll",
   "authors": [
    "Konstantin Savosteev"
@@ -22,12 +22,12 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Orders",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Payment",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -75,9 +75,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "6403de7",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "6403de7 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "c857871",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "c857871 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -149,7 +149,7 @@
    "Two gateways for the same method on one store: choose per store, not per request"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-authorize-net",
@@ -170,6 +170,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

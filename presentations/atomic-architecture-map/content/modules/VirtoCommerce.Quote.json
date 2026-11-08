@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-quote",
  "name": "Quotes",
  "tagline": "Quoter enables business users to execute quote requests online. Once initiated, an online conversation takes place with internal users who interact with the business user's request. The internal user can set prices for quantity breaks or discounts. The quote is then made available to the business user online. The business user can accept the quote and place the order, continue the conversation, or reject the quote.",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1007.0",
  "active": true,
  "groups": [],
  "accent": "#FFC24D",
  "icon": "assets/module-icons/VirtoCommerce.Quote.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1008.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.QuoteModule.Web.dll",
   "authors": [
    "Artem Dudarev",
@@ -42,12 +42,12 @@
    },
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1010.0",
+    "version": "3.1028.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.FileExperienceApi",
-    "version": "3.1000.0",
+    "version": "3.1008.0",
     "optional": false
    },
    {
@@ -72,17 +72,17 @@
    },
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.XCart",
-    "version": "3.1000.0",
+    "version": "3.1042.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.XCatalog",
-    "version": "3.1011.0",
+    "version": "3.1023.0",
     "optional": false
    }
   ],
@@ -141,15 +141,17 @@
    "src/VirtoCommerce.QuoteModule.ExperienceApi/Queries/QuotesQueryBuilder.cs"
   ],
   "indexDocumentBuilders": [],
-  "migrationCount": 34,
+  "migrationCount": 37,
   "hasAdminUi": true,
   "adminUiFiles": 35,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -171,9 +173,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "1326067",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "1326067 2026-07-27 3.1003.0",
+   "sha": "b54c1d3",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "b54c1d3 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#175)",
    "readFrom": "git ref"
   }
  },
@@ -252,7 +254,7 @@
    "The host must stay small: thirteen dependencies make this a full commerce install"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-quote",
@@ -268,6 +270,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

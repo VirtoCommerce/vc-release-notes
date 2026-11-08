@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-azure-search",
  "name": "Azure Search",
  "tagline": "Search functionality with Elastic Azure Search service",
- "latestVersion": "3.1007.0",
+ "latestVersion": "3.1009.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.AzureSearch.svg",
  "facts": {
-  "manifestVersion": "3.1006.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1010.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.AzureSearchModule.Web.dll",
   "authors": [
    "Artem Dudarev"
@@ -22,7 +22,7 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -67,9 +67,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "75e64e2",
-   "lastCommitDate": "2026-07-24",
-   "lastCommit": "75e64e2 2026-07-24 3.1006.0",
+   "sha": "43867b9",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "43867b9 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -148,7 +148,7 @@
    "The problem is stale results: that is indexation, not the engine"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-azure-search",
@@ -169,6 +169,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

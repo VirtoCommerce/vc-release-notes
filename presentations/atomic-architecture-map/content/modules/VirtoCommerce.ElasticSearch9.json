@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-elastic-search-9",
  "name": "Elastic Search 9",
  "tagline": "Indexed search functionality with Elastic 9 engines.",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1006.0",
  "active": true,
  "groups": [],
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.ElasticSearch9.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1002.0",
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1073.0",
   "assembly": "VirtoCommerce.ElasticSearch9.Web.dll",
   "authors": [
    "Konstantin Savosteev"
@@ -75,9 +75,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "9bb15d7",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "9bb15d7 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "c4164c2",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "c4164c2 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -166,7 +166,7 @@
    "The problem is stale results: that is indexation, not the engine"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-elastic-search-9",
@@ -187,6 +187,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

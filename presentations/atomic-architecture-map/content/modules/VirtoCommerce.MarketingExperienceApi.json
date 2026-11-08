@@ -66,9 +66,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "f5a188f",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "f5a188f 2026-07-27 3.1005.0",
+   "sha": "9789c07",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "9789c07 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -158,7 +158,7 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-marketing-experience-api",
@@ -199,6 +199,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

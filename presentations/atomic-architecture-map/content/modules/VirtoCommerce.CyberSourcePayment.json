@@ -81,9 +81,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "565d54c",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "565d54c 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "4c3b26d",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "4c3b26d 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -162,7 +162,7 @@
    "Two gateways for the same method on one store: choose per store, not per request"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-cyber-source",
@@ -183,6 +183,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-store",
  "name": "Store",
  "tagline": "Multi store management with individual store settings",
- "latestVersion": "3.1006.0",
+ "latestVersion": "3.1014.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.Store.svg",
  "facts": {
-  "manifestVersion": "3.1007.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1014.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.StoreModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -22,17 +22,17 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Notifications",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Seo",
-    "version": "3.1004.0",
+    "version": "3.1005.0",
     "optional": false
    }
   ],
@@ -101,11 +101,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 31,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -127,9 +129,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "28f6463",
-   "lastCommitDate": "2026-07-21",
-   "lastCommit": "28f6463 2026-07-21 3.1007.0",
+   "sha": "82512e9",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "82512e9 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#194)",
    "readFrom": "git ref"
   }
  },
@@ -226,7 +228,7 @@
    "You want to authorise a write: this module publishes one read permission, by design"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-store",
@@ -242,6 +244,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

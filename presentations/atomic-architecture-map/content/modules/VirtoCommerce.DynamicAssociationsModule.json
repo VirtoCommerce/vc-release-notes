@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-dynamic-associations",
  "name": "Dynamic Associations",
  "tagline": "Dynamic rule based product associations module",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1005.0",
  "active": true,
  "groups": [],
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.DynamicAssociationsModule.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.DynamicAssociationsModule.Web.dll",
   "authors": [
    "Andrey Kozlov",
@@ -22,22 +22,22 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Marketing",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
@@ -92,11 +92,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 14,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -111,9 +113,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "11b3c69",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "11b3c69 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "0228735",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "0228735 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#60)",
    "readFrom": "git ref"
   }
  },
@@ -183,7 +185,7 @@
    "You need results the instant a product changes"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-dynamic-associations",
@@ -194,6 +196,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

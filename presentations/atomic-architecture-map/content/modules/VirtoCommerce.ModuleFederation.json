@@ -103,11 +103,11 @@
    "Shell and remote cannot be kept version-compatible"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/frontend-modules",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

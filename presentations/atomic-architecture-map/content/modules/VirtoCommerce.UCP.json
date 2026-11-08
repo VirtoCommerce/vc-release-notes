@@ -1,17 +1,19 @@
 {
  "id": "VirtoCommerce.UCP",
- "repo": "vc-module-u-c-p",
- "repoUrl": "https://github.com/VirtoCommerce/vc-module-u-c-p",
+ "repo": "vc-module-ucp",
+ "repoUrl": "https://github.com/VirtoCommerce/vc-module-ucp",
  "name": "Universal Commerce Protocol",
  "tagline": "Universal Commerce Protocol facade for Virto Commerce capabilities.",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1010.0",
  "active": true,
- "groups": [],
+ "groups": [
+  "commerce"
+ ],
  "accent": "#A66BFF",
  "icon": "assets/module-icons/VirtoCommerce.UCP.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1034.0",
+  "manifestVersion": "3.1011.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.UCP.Web.dll",
   "authors": [
    "VirtoCommerce"
@@ -20,36 +22,52 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.XCatalog",
-    "version": "3.1000.0",
+    "version": "3.1023.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.XCart",
-    "version": "3.1016.0",
+    "version": "3.1038.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.XOrder",
+    "version": "3.1014.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1004.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Orders",
-    "version": "3.1000.0",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Marketing",
-    "version": "3.1000.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
-  "optionalDependencies": [],
+  "optionalDependencies": [
+   {
+    "id": "VirtoCommerce.ApplicationInsights",
+    "version": "3.1005.0",
+    "optional": true
+   },
+   {
+    "id": "VirtoCommerce.OpenTelemetry",
+    "version": "3.1002.0",
+    "optional": true
+   }
+  ],
   "projects": [
    "VirtoCommerce.UCP.Core",
    "VirtoCommerce.UCP.Data",
@@ -85,6 +103,12 @@
    {
     "file": "src/VirtoCommerce.UCP.Web/Controllers/Api/UcpHandoffController.cs",
     "route": "ucp/v1/internal/handoff",
+    "actions": 1,
+    "authorizedActions": 0
+   },
+   {
+    "file": "src/VirtoCommerce.UCP.Web/Controllers/Api/UcpOAuthMetadataController.cs",
+    "route": null,
     "actions": 1,
     "authorizedActions": 0
    },
@@ -127,9 +151,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "6049602",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "6049602 2026-07-27 3.1005.0",
+   "sha": "a90b811",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "a90b811 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -139,11 +163,12 @@
    "**UCP discovery profile** — `/.well-known/ucp` publishes supported capabilities, default store metadata, endpoint metadata, headers, auth shape, integration guidance, payment handlers, and structured error codes",
    "**Catalog search and product details** — catalog search and product detail lookup through in-process XCatalog GraphQL",
    "**Cart assembly** — create, buyer-scoped list, get, and full-state update through XCart GraphQL with UCP replacement semantics",
-   "**Checkout handoff** — checkout snapshot and hosted handoff with address prefill; temporary handoff sessions stored through `IDistributedCache` with TTL (Redis is recommended for production; an in-memory fallback is registered for local and single-node deployments)",
+   "**Checkout handoff** — checkout snapshot and hosted handoff with address prefill; temporary handoff sessions stored in Redis with TTL when the Platform Redis connection is configured. Without Redis, sessions are kept in process memory, which is only suitable for a single instance.",
    "**Order tracking** — order status, totals, line items, and shipment tracking by order id, order number, or cart id after handoff",
    "**Geography lookup** — country and region resolution through the platform `ICountriesService` for checkout address normalization",
    "**Streamable HTTP MCP server** — `/ucp/mcp` with typed UCP commerce tools for the installed storefront/platform, built on the official C# MCP SDK",
-   "**Buyer context propagation** — header-based B2B buyer delegation through `X-Buyer-User-Id` and `X-Buyer-Organization-Id`",
+   "**Unified anonymous and authenticated buyer flows** — the same `/ucp/mcp` endpoint and the same tools support anonymous shopping or buyer identity from Virto Commerce Platform OAuth claims",
+   "**Safe cart upgrade** — `update_cart` can verify an anonymous buyer capability and delegate anonymous-to-authenticated cart merging to XCart",
    "**Structured UCP errors** — machine-readable error codes with correlation id support"
   ],
   "docs": [
@@ -184,8 +209,10 @@
   ],
   "sections": [
    "Overview",
+   "How signed-in buyers shop through an AI assistant",
    "Key Features",
    "Quickstart: Connect Virto Start Cloud to Claude Desktop",
+   "Enable signed-in buyers in Virto Cloud",
    "Configuration",
    "Architecture",
    "Module Structure",
@@ -193,6 +220,7 @@
    "Web API",
    "MCP Server",
    "Error Model",
+   "Observability and Logging",
    "Build and Test",
    "Installation Notes",
    "Roadmap",
@@ -218,10 +246,10 @@
    "Production certainty: it is a preview module"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
-  "repository": "https://github.com/VirtoCommerce/vc-module-u-c-p",
+  "repository": "https://github.com/VirtoCommerce/vc-module-ucp",
   "links": [
    {
     "label": "Virto Commerce Documentation",
@@ -234,6 +262,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

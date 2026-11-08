@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-pages",
  "name": "Virto Pages",
  "tagline": "Provides a robust and flexible solution for managing content in digital commerce scenarios. Decoupling the CMS post-publishing ensures long-term efficiency, adaptability, and performance.",
- "latestVersion": "3.1008.0",
+ "latestVersion": "3.1013.0",
  "active": true,
  "groups": [],
  "accent": "#B79DFB",
  "icon": "assets/module-icons/VirtoCommerce.Pages.svg",
  "facts": {
-  "manifestVersion": "3.1009.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1013.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.Pages.Web.dll",
   "authors": [
    "Basil Kotov"
@@ -20,22 +20,22 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1010.0",
+    "version": "3.1028.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Seo",
-    "version": "3.1004.0",
+    "version": "3.1005.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
@@ -62,6 +62,7 @@
   ],
   "settings": [
    "VirtoPages.Enable",
+   "VirtoPages.MissingTranslationBehavior",
    "VirtoPages.ScheduledSync.Enable"
   ],
   "domainEventsPublished": [],
@@ -85,11 +86,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 6,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -102,9 +105,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "d7519f6",
-   "lastCommitDate": "2026-07-30",
-   "lastCommit": "d7519f6 2026-07-30 3.1009.0",
+   "sha": "47ace1a",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "47ace1a 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#25)",
    "readFrom": "git ref"
   }
  },
@@ -195,7 +198,7 @@
    "There is nothing to index yet"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-pages",
@@ -211,6 +214,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

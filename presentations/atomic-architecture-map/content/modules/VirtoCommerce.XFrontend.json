@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-frontend",
  "name": "Frontend Experience API",
  "tagline": "Built on top of the Virto Commerce XAPI platform, the Frontend Experience API exposes optimized queries specifically for rendering and user experience scenarios.",
- "latestVersion": "3.1006.0",
+ "latestVersion": "3.1009.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.XFrontend.svg",
  "facts": {
-  "manifestVersion": "3.1007.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1010.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.XFrontend.Web.dll",
   "authors": [
    "Konstantin Savosteev"
@@ -22,19 +22,19 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.ProfileExperienceApiModule",
-    "version": "3.1009.0",
+    "version": "3.1020.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    }
   ],
   "optionalDependencies": [
    {
     "id": "VirtoCommerce.WhiteLabeling",
-    "version": "3.1000.0",
+    "version": "3.1005.0",
     "optional": true
    }
   ],
@@ -61,7 +61,9 @@
   "handledEvents": [],
   "subscribesDynamically": false,
   "graphqlBuilders": [
-   "src/VirtoCommerce.XFrontend.Data/Queries/PageContextQueryBuilder.cs"
+   "src/VirtoCommerce.XFrontend.Data/Queries/PageContextQueryBuilder.cs",
+   "src/VirtoCommerce.XFrontend.Data/Queries/SignInMethodsQueryBuilder.cs",
+   "src/VirtoCommerce.XFrontend.Data/Queries/SignInQueryBuilder.cs"
   ],
   "indexDocumentBuilders": [],
   "migrationCount": 0,
@@ -85,9 +87,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "aefd7ec",
-   "lastCommitDate": "2026-08-07",
-   "lastCommit": "aefd7ec 2026-08-07 3.1007.0",
+   "sha": "f53167d",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "f53167d 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -130,11 +132,11 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-x-frontend",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

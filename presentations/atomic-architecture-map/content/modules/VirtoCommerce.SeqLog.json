@@ -41,9 +41,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "fe5d9b3",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "fe5d9b3 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "51a15e6",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "51a15e6 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -89,11 +89,11 @@
    "Adding several collectors for the same signal, which doubles cost for one answer"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-seq-log",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

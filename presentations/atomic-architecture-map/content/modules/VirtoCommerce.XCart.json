@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-cart",
  "name": "Cart Experience API",
  "tagline": "Dedicated to cart-related functionalities, ensuring efficient handling of shopping cart and checkout operations.",
- "latestVersion": "3.1029.0",
+ "latestVersion": "3.1046.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#FFC24D",
  "icon": "assets/module-icons/VirtoCommerce.XCart.svg",
  "facts": {
-  "manifestVersion": "3.1030.0",
-  "platformVersion": "3.1048.0",
+  "manifestVersion": "3.1047.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.XCart.Web.dll",
   "authors": [
    "Eugeny Tatarincev",
@@ -32,52 +32,52 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Cart",
-    "version": "3.1008.0",
+    "version": "3.1014.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.FileExperienceApi",
-    "version": "3.1003.0",
+    "version": "3.1008.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Inventory",
-    "version": "3.1003.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Marketing",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Payment",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Pricing",
-    "version": "3.1003.0",
+    "version": "3.1008.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Shipping",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.XCatalog",
-    "version": "3.1007.0",
+    "version": "3.1023.0",
     "optional": false
    }
   ],
@@ -132,9 +132,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "2377912",
-   "lastCommitDate": "2026-08-10",
-   "lastCommit": "2377912 2026-08-10 3.1030.0",
+   "sha": "0a5f1b2",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "0a5f1b2 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -198,6 +198,7 @@
    }
   ],
   "sections": [
+   "Extensibility: adding a wishlist sharing scope",
    "Documentation",
    "References",
    "License"
@@ -220,7 +221,7 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-x-cart",
@@ -261,6 +262,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

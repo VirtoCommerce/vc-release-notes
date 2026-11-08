@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-image-tools",
  "name": "Image Tools",
  "tagline": "Image tools helps to automate thumbnail generation procedures with resizing and cropping",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1010.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#B79DFB",
  "icon": "assets/module-icons/VirtoCommerce.ImageTools.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1010.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.ImageToolsModule.Web.dll",
   "authors": [
    "Konstantin Savosteev",
@@ -24,7 +24,7 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -86,11 +86,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 16,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -107,16 +109,16 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "5cfbe82",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "5cfbe82 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "c639051",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "c639051 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#134)",
    "readFrom": "git ref"
   }
  },
  "readme": {
-  "overview": "The Image Tools Module provides comprehensive image processing capabilities for the Virto Commerce platform. It enables automatic thumbnail generation for product images, category banners, and other visual assets stored in blob storage. The module features a **format-agnostic architecture** that supports both raster formats (JPEG, PNG, WebP) via [SixLabors.ImageSharp](https://docs.sixlabors.com/articles/imagesharp/index.html) and vector formats (SVG) with native XML manipulation, ensuring scalability without quality loss.",
+  "overview": "The Image Tools Module provides comprehensive image processing capabilities for the Virto Commerce platform. It enables automatic thumbnail generation for product images, category banners, and other visual assets stored in blob storage. The module features a **format-agnostic architecture** that supports both raster formats (JPEG, PNG, WebP, BMP) and vector formats (SVG) with native XML manipulation, ensuring scalability without quality loss. Resize geometry and the public interfaces are owned by the module; decoding, scaling and encoding of raster images use [SkiaSharp](https://github.com/mono/SkiaSharp) (MIT).",
   "keyFeatures": [
-   "**Multi-Format Support**: Process raster images (JPEG, PNG, WebP, GIF, BMP, TIFF) and vector graphics (SVG)",
+   "**Multi-Format Support**: Process raster images (JPEG, PNG, WebP, BMP) and vector graphics (SVG)",
    "**Flexible Resize Methods**:",
    "`FixedSize` - Proportional fit within specified dimensions with optional padding",
    "`FixedWidth` - Maintain aspect ratio, resize to target width",
@@ -169,6 +171,8 @@
    "Configuration",
    "Architecture",
    "Components",
+   "Upgrading from ImageSharp-Based Versions",
+   "Testing",
    "Documentation",
    "References",
    "License"
@@ -193,7 +197,7 @@
    "No background worker is deployed"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-image-tools",
@@ -204,6 +208,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

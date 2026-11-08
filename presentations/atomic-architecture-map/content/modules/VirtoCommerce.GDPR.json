@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-gdpr",
  "name": "GDPR",
  "tagline": "Apply General Data Protection Regulation policies with review or remove their personal details, by anonymizing them, from your online store.",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1005.0",
  "active": true,
  "groups": [],
  "accent": "#6E7E97",
  "icon": "assets/module-icons/VirtoCommerce.GDPR.svg",
  "facts": {
-  "manifestVersion": "3.1002.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.GDPR.Web.dll",
   "authors": [
    "Leysan Nigmatullina"
@@ -20,12 +20,12 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1011.0",
+    "version": "3.1028.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Orders",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
     "optional": false
    }
   ],
@@ -61,11 +61,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 8,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -78,9 +80,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "31f11d9",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "31f11d9 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "8a1426a",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "8a1426a 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#29)",
    "readFrom": "git ref"
   }
  },
@@ -147,7 +149,7 @@
    "Retention rules are undecided: erasure and record-keeping conflict without them"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-gdpr",
@@ -158,6 +160,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

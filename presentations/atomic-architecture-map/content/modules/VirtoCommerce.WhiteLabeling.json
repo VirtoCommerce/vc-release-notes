@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-white-labeling",
  "name": "White Labeling",
  "tagline": "Provides White labeling functionality for organizations",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1007.0",
  "active": true,
  "groups": [],
  "accent": "#B79DFB",
  "icon": "assets/module-icons/VirtoCommerce.WhiteLabeling.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.WhiteLabeling.Web.dll",
   "authors": [
    "Konstantin Savosteev"
@@ -20,27 +20,27 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.FileExperienceApi",
-    "version": "3.1000.0",
+    "version": "3.1006.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.XCMS",
-    "version": "3.1000.0",
+    "version": "3.1008.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1010.0",
+    "version": "3.1028.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.ImageTools",
-    "version": "3.1000.0",
+    "version": "3.1006.0",
     "optional": false
    }
   ],
@@ -93,11 +93,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 15,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -112,9 +114,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "4a9c989",
-   "lastCommitDate": "2026-08-13",
-   "lastCommit": "4a9c989 2026-08-13 3.1005.0",
+   "sha": "5d0a772",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "5d0a772 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#30)",
    "readFrom": "git ref"
   }
  },
@@ -201,7 +203,7 @@
    "Brands need separate data: that is a separate store, or a separate installation"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-white-labeling",
@@ -222,6 +224,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-pickup",
  "name": "Buy online pickup in store (BOPIS) Experience API",
  "tagline": "Handles buy online pickup in store (BOPIS) operations",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1008.0",
  "active": true,
  "groups": [],
  "accent": "#9D86F5",
  "icon": "assets/module-icons/VirtoCommerce.XPickup.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1002.0",
+  "manifestVersion": "3.1009.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.XPickup.Web.dll",
   "authors": [
    "Kirill Iusupov"
@@ -20,27 +20,27 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1000.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Inventory",
-    "version": "3.1000.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Shipping",
-    "version": "3.1000.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Cart",
-    "version": "3.1000.0",
+    "version": "3.1011.0",
     "optional": false
    }
   ],
@@ -88,9 +88,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "f9b581a",
-   "lastCommitDate": "2026-08-13",
-   "lastCommit": "f9b581a 2026-08-13 3.1005.0",
+   "sha": "31f7076",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "31f7076 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -150,11 +150,11 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-x-pickup",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

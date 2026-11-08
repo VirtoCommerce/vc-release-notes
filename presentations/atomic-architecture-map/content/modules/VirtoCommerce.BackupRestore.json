@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-backup-restore",
  "name": "Backup & Restore",
  "tagline": "The Backup & Restore module provides full platform backup and restore (export/import) for Virto Commerce. It packages platform data (users, roles, permissions, settings and dynamic properties) together with the data of all installed modules into a single, optionally AES-256 encrypted ZIP archive, and restores it on demand with real-time progress tracking and sample data installation.",
- "latestVersion": "3.1003.0",
+ "latestVersion": "3.1009.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.BackupRestore.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1009.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.BackupRestore.Web.dll",
   "authors": [
    "Oleg Zhuk"
@@ -22,7 +22,7 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -67,11 +67,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 15,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -84,9 +86,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "1072dd5",
-   "lastCommitDate": "2026-07-23",
-   "lastCommit": "1072dd5 2026-07-23 3.1004.0",
+   "sha": "e33b039",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "e33b039 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#10)",
    "readFrom": "git ref"
   }
  },
@@ -165,7 +167,7 @@
    "The data is files in blob storage — those are not in the database archive"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-backup-restore",
@@ -176,6 +178,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

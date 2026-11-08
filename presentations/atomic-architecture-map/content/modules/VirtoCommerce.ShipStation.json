@@ -72,9 +72,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "f9a703e",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "f9a703e 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "f41c628",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "f41c628 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -147,7 +147,7 @@
    "Tracking history: the carrier owns it"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-ShipStation",
@@ -158,6 +158,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

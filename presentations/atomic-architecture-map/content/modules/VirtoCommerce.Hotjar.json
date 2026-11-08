@@ -4,13 +4,13 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-hotjar",
  "name": "Hotjar",
  "tagline": "Allows to assign Hotjar Site Id for a Store and get insights about the shopping behaviour of your users with Heatmaps, Recordings, Feedback and etc.",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1003.0",
  "active": true,
  "groups": [],
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.Hotjar.svg",
  "facts": {
-  "manifestVersion": "3.1002.0",
+  "manifestVersion": "3.1004.0",
   "platformVersion": "3.1007.10",
   "assembly": "VirtoCommerce.Hotjar.Web.dll",
   "authors": [
@@ -58,14 +58,28 @@
   "hasAdminUi": true,
   "adminUiFiles": 1,
   "localizations": [
-   "en"
+   "ar",
+   "de",
+   "en",
+   "es",
+   "fi",
+   "fr",
+   "he",
+   "it",
+   "ja",
+   "no",
+   "pl",
+   "pt",
+   "ru",
+   "sv",
+   "zh"
   ],
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "d3d6e42",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "d3d6e42 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "5cebad9",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "5cebad9 2026-11-07 3.1004.0",
    "readFrom": "git ref"
   }
  },
@@ -116,7 +130,7 @@
    "The question is server-side: this sees only the browser"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-hotjar",
@@ -127,6 +141,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

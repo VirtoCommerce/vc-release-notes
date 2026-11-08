@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-marketing",
  "name": "Marketing",
  "tagline": "Marketing system with dynamic contents and promotions management",
- "latestVersion": "3.1007.0",
+ "latestVersion": "3.1011.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#F88A8D",
  "icon": "assets/module-icons/VirtoCommerce.Marketing.svg",
  "facts": {
-  "manifestVersion": "3.1007.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1011.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.MarketingModule.Web.dll",
   "authors": [
    "Virto Commerce",
@@ -23,44 +23,44 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Payment",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Shipping",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
   "optionalDependencies": [
    {
     "id": "VirtoCommerce.Customer",
-    "version": "3.1011.0",
+    "version": "3.1028.0",
     "optional": true
    },
    {
     "id": "VirtoCommerce.Orders",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
     "optional": true
    }
   ],
@@ -135,11 +135,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 58,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -167,9 +169,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "3a04612",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "3a04612 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "4d8d363",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "4d8d363 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#290)",
    "readFrom": "git ref"
   }
  },
@@ -268,7 +270,7 @@
    "You are building general CMS pages — that is Content, not dynamic content placement"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-marketing",
@@ -284,6 +286,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

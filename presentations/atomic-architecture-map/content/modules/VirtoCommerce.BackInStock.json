@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-back-in-stock",
  "name": "Back In Stock",
  "tagline": "Provides customer ability to subscribe for notification, when product is back in stock.",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1005.0",
  "active": true,
  "groups": [],
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.BackInStock.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1007.10",
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.BackInStock.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -108,11 +108,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 6,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -127,9 +129,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "b1f3c66",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "b1f3c66 2026-07-27 3.1003.0",
+   "sha": "f21ca22",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "f21ca22 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#14)",
    "readFrom": "git ref"
   }
  },
@@ -220,7 +222,7 @@
    "There is no background worker in the deployment"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-back-in-stock",
@@ -241,6 +243,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-webhooks",
  "name": "Webhooks",
  "tagline": "Manage user defined webhooks",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1007.0",
  "active": true,
  "groups": [],
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.WebHooks.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.WebhooksModule.Web.dll",
   "authors": [
    "Eugeny Tatarincev",
@@ -64,11 +64,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 10,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -86,9 +88,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "74fdecb",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "74fdecb 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "19f2fd1",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "19f2fd1 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#91)",
    "readFrom": "git ref"
   }
  },
@@ -174,7 +176,7 @@
    "The events come from a bulk import: suppress events or turn event-based indexation off first, or one import fans out into thousands of callbacks"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-webhooks",
@@ -185,6 +187,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

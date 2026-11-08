@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-sitemaps",
  "name": "Sitemap Generator",
  "tagline": "Simplifies the process of generating sitemaps for online stores",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1008.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#B79DFB",
  "icon": "assets/module-icons/VirtoCommerce.Sitemaps.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1008.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.SitemapsModule.Web.dll",
   "authors": [
    "Andrey Orlov"
@@ -22,32 +22,32 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Content",
-    "version": "3.1003.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Customer",
     "version": "3.1010.0",
     "optional": false
    },
    {
+    "id": "VirtoCommerce.Catalog",
+    "version": "3.1048.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Content",
+    "version": "3.1006.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1012.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1028.0",
+    "optional": false
+   },
+   {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
@@ -109,11 +109,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 22,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -129,9 +131,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "da22c68",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "da22c68 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "76dc406",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "76dc406 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#96)",
    "readFrom": "git ref"
   }
  },
@@ -205,7 +207,7 @@
    "No worker is deployed to run the generation"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-sitemaps",
@@ -216,6 +218,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

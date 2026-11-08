@@ -496,7 +496,7 @@ builder, where every feature carries a live status and ticking one ticks its mod
   that list is exactly what the custom builder is for (10 of them today).
 
 > The **Molecules** and **Cells** sections above still describe the earlier authored tiers. Both were
-> rebuilt as projections — molecules are the 96 active registry modules, cells are the six published
+> rebuilt as projections — molecules are the 103 active registry modules, cells are the six published
 > PBCs from `vc-modules/pbc/*.json` — and that prose has not caught up yet.
 
 ### One screen

@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-catalog-csv-export-import",
  "name": "CSV Catalog Export and Import",
  "tagline": "Enables seamless export and import of catalog data in CSV format, simplifying data management and integration with external systems.",
- "latestVersion": "3.1003.0",
+ "latestVersion": "3.1010.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.CatalogCsvImportModule.svg",
  "facts": {
-  "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1010.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.CatalogCsvImportModule.Web.dll",
   "authors": [
    "Konstantin Savosteev",
@@ -23,32 +23,32 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1029.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Inventory",
-    "version": "3.1003.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Pricing",
-    "version": "3.1003.0",
+    "version": "3.1008.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
@@ -83,11 +83,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 16,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -100,9 +102,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "19f933f",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "19f933f 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "9b9321e",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "9b9321e 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#162)",
    "readFrom": "git ref"
   }
  },
@@ -180,7 +182,7 @@
    "You are loading a whole catalogue for the first time without planning the indexation cost"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-catalog-csv-export-import",
@@ -191,6 +193,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

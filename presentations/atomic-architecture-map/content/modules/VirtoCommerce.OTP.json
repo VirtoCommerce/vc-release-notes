@@ -1,0 +1,143 @@
+{
+  "id": "VirtoCommerce.OTP",
+  "repo": "vc-module-otp",
+  "repoUrl": "https://github.com/VirtoCommerce/vc-module-otp",
+  "name": "OTP Sign-In",
+  "tagline": "Enables customers to sign in to the storefront with a one-time code emailed to them, instead of a password.",
+  "latestVersion": "3.1001.0",
+  "active": true,
+  "groups": [],
+  "accent": "#6E7E97",
+  "icon": "assets/module-icons/VirtoCommerce.OTP.svg",
+  "facts": {
+    "manifestVersion": "3.1002.0",
+    "platformVersion": "3.1090.0",
+    "assembly": "VirtoCommerce.Otp.Web.dll",
+    "authors": [
+      "Virto Commerce"
+    ],
+    "tags": "extension module",
+    "dependsOn": [
+      {
+        "id": "VirtoCommerce.Customer",
+        "version": "3.1011.1",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Notifications",
+        "version": "3.1009.3",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.Store",
+        "version": "3.1005.1",
+        "optional": false
+      }
+    ],
+    "optionalDependencies": [],
+    "projects": [
+      "VirtoCommerce.Otp.Core",
+      "VirtoCommerce.Otp.Data",
+      "VirtoCommerce.Otp.Web"
+    ],
+    "databaseProviders": [],
+    "restControllers": [
+      {
+        "file": "src/VirtoCommerce.Otp.Web/Controllers/Api/OtpController.cs",
+        "route": "api/otp",
+        "actions": 1,
+        "authorizedActions": 0
+      }
+    ],
+    "permissions": [],
+    "settings": [
+      "OtpSignIn.Enabled"
+    ],
+    "domainEventsPublished": [],
+    "declaredEvents": [],
+    "eventHandlers": [],
+    "handledEvents": [],
+    "subscribesDynamically": false,
+    "graphqlBuilders": [],
+    "indexDocumentBuilders": [],
+    "migrationCount": 0,
+    "hasAdminUi": false,
+    "adminUiFiles": 0,
+    "localizations": [
+      "de",
+      "en",
+      "es",
+      "fi",
+      "fr",
+      "it",
+      "ja",
+      "no",
+      "pl",
+      "pt",
+      "ru",
+      "sv",
+      "zh"
+    ],
+    "entities": [],
+    "git": {
+      "ref": "origin/dev",
+      "readFrom": "shallow clone",
+      "branch": "dev",
+      "lastCommit": "b5cf123 2026-11-06 ci: Auto update Github Action workflows",
+      "lastCommitDate": "2026-11-06"
+    }
+  },
+  "readme": {
+    "overview": "The module lets storefront customers sign in with a one-time code sent to their email instead of a password. It signs in existing users only and does not create accounts.",
+    "keyFeatures": [],
+    "docs": [],
+    "references": [
+      {
+        "label": "Deployment",
+        "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+      },
+      {
+        "label": "Installation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+      },
+      {
+        "label": "Home",
+        "href": "https://virtocommerce.com"
+      },
+      {
+        "label": "Community",
+        "href": "https://www.virtocommerce.org"
+      }
+    ],
+    "sections": [
+      "Overview",
+      "How it works",
+      "Rules",
+      "Configuration",
+      "References",
+      "License"
+    ],
+    "quality": "overview only"
+  },
+  "notes": {
+    "forAnalyst": "Lets storefront customers sign in with a one-time code sent to their email instead of a password. It signs in existing customers only and does not create accounts.",
+    "forArchitect": "A custom grant type, `otp_email`, on the platform token endpoint, using the extension point added in 3.1075. Codes are generated and checked by the ASP.NET Core Identity email token provider, so the module stores nothing. It is switched on per store with `OtpSignIn.Enabled` (off by default) and depends on Customer, Notifications and Store.",
+    "forDeveloper": "The storefront calls `POST /api/otp/request` with `storeId` and `email`, then exchanges the code at `POST /connect/token` with `grant_type=otp_email`, `storeId`, `email` and `code`. Wrong codes count toward account lockout, and accounts with lockout disabled cannot use it. Any change to the user's security stamp, such as signing out in another session, invalidates codes already sent. The email is the `OtpSignInEmailNotification` notification.",
+    "owns": [],
+    "reachForItWhen": [
+      "Shoppers who forget passwords, or a storefront that does not want to manage them",
+      "Occasional B2B buyers who sign in rarely"
+    ],
+    "doNotReachForItWhen": [
+      "Self-registration by code: it signs in existing accounts only",
+      "A storefront with no rate limiting in front of it. Code requests are not rate-limited by the module, so limit `/api/otp/request` at the edge"
+    ]
+  },
+  "extractedAt": "2026-11-08",
+  "extractedBy": "tools/module-profile.js",
+  "documentation": {
+    "repository": "https://github.com/VirtoCommerce/vc-module-otp",
+    "links": [],
+    "checkedOnline": true
+  }
+}

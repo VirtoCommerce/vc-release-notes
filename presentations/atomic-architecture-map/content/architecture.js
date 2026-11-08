@@ -400,7 +400,7 @@ window.VC_MAP_ARCHITECTURE = [
       'A module is not a service. Splitting by role gives you separate processes over the same modules and the same data; splitting by module set gives you a smaller host. Neither turns one module into an independently deployable unit.',
       'Every dependency a module declares as **required** has to be installed in the package with it — there is no partial install, and a missing one does not degrade the module, it takes the module and everything depending on it out of the host. So when you write a module, **split its dependencies into required and optional**: mark `optional="true"` on everything it can start without, and it becomes installable in several PBCs instead of only in the one that happens to carry the whole list. `VirtoCommerce.Orders`, with 11 required and none optional, is the counter-example.',
       'There is no distributed transaction. The moment two modules are on two databases, a write that spans them is two writes, and you own the reconciliation.',
-      'Every host sharing a database runs migrations at startup, serialised by the platform distributed lock — which falls back to a no-op when Redis is not configured. Split hosts without Redis and two of them can migrate at once.',
+      'Every host sharing a database runs migrations at startup, serialised by the platform distributed lock — which falls back to an in-process lock when Redis is not configured and so does not coordinate between hosts. Split hosts without Redis and two of them can migrate at once.',
       'Never edit vendor module source, even locally to "just test something". The moment you do, you own that module forever and upgrades become merges.',
       'Manifest dependencies are caret SemVer ranges, so an unpinned range can resolve differently on two machines. `vc-package.json` is what makes the result repeatable — commit it.',
       'Prefix anything you add to a vendor type with your own abbreviation (`AbcStatus`). A future vendor property with the same name is a collision you cannot rename your way out of.',
@@ -442,7 +442,7 @@ window.VC_MAP_ARCHITECTURE = [
             { name: 'Custom storefront', sub: 'Your own SPA or native app against the same schema', via: 'GraphQL', viaKind: 'graphql' },
             { name: 'Mobile app · kiosk · chatbot', sub: 'First-class API clients, not special cases', via: 'GraphQL', viaKind: 'graphql' },
             { name: 'Marketplaces & partner feeds', sub: 'Catalogue and inventory pushed outward', via: 'REST', viaKind: 'rest' },
-            { name: 'AI agents', sub: 'Emerging — capabilities as `MCP` tools, `UCP` as the commerce layer above', via: 'MCP → UCP', viaKind: 'trend', trend: true }
+            { name: 'AI agents', sub: 'MCP and UCP through the UCP module; the agent signs in as an OAuth application', via: 'MCP · UCP', viaKind: 'plain' }
           ]
         },
         {
@@ -457,7 +457,8 @@ window.VC_MAP_ARCHITECTURE = [
           title: 'Admin UI & back office',
           hint: 'internal · full CRUD',
           nodes: [
-            { name: 'Admin UI', sub: 'Commerce Manager — AngularJS 1.8 blades, ships inside the platform', via: 'REST', viaKind: 'rest' },
+            { name: 'Admin UI', sub: 'Commerce Manager — AngularJS 1.8 blades, installed as the Admin AngularJS module', via: 'REST', viaKind: 'rest' },
+            { name: 'Admin Shell', sub: 'The new back office — VC-Shell (Vue 3), installed as the Admin Shell module', via: 'REST', viaKind: 'rest' },
             { name: 'Vendor Portal', sub: 'VC-Shell — Vue 3 + Module Federation, used by Marketplace and vertical apps', via: 'REST', viaKind: 'rest' },
             { name: 'Custom UI', sub: 'Standalone SPA served through the platform `<apps>` mechanism', via: 'REST', viaKind: 'rest' }
           ]
@@ -476,16 +477,17 @@ window.VC_MAP_ARCHITECTURE = [
     }],
     bullets: [
       '`vc-frontend` — Vue 3 · TypeScript · Vite · TailwindCSS · Yarn 4. Storefront-less: it talks straight to XAPI over GraphQL, with no ASP.NET middleware in between. Follows Atomic Design, which is where the atom/molecule vocabulary on this poster comes from.',
-      'Admin UI ("Commerce Manager") — AngularJS 1.8.3 + Webpack 5 + SASS, using the blades navigation pattern. Ships inside `Platform.Web/wwwroot`; each module contributes its own scripts, templates and localizations.',
+      'Admin UI ("Commerce Manager") — AngularJS 1.8.3 + Webpack 5 + SASS, using the blades navigation pattern. Since platform 3.1092 it is the Admin AngularJS module rather than part of `Platform.Web/wwwroot`; each module still contributes its own scripts, templates and localizations.',
+      'Admin Shell — the Vue 3 back office on VC-Shell, also a module. Module screens arrive as plugins, and while the AngularJS UI is installed too, its screens open inside Admin Shell in an embedded frame. Which back office owns the site root is set by `VirtoCommerce:PlatformUI:RootApp`; with neither installed the platform serves APIs only.',
       'VC-Shell — Vue 3 + Module Federation, the host behind the Vendor Portal and other vertical apps. Loads plugin remotes from the canonical `GET /api/apps/{appId}/manifest`.',
-      'Custom standalone SPAs — served via the platform `<apps>` mechanism, and now extensible through the same manifest contract as the other two hosts.',
-      'AI agents are a trend worth designing for, not a shipped feature. `MCP` exposes capabilities as tools an agent can call; `UCP` (Universal Commerce Protocol — Google with Shopify, announced January 2026) defines the commerce conversation above it, and UCP capabilities map 1:1 to MCP tools. So an MCP server wrapping your commerce capabilities is the practical first step.'
+      'Custom standalone SPAs — served via the platform `<apps>` mechanism, and extensible through the same manifest contract as the other hosts.',
+      'AI agents — the UCP module (`VirtoCommerce.UCP`) publishes a Universal Commerce Protocol profile at `/.well-known/ucp` and an MCP server at `/ucp/mcp`, so an agent can discover the store, search the catalogue, build a cart and hand off to checkout. `UCP` (Google with Shopify, announced January 2026) defines the commerce conversation; `MCP` carries it as tools. Since platform 3.1095 an agent is registered as an OAuth application and granted tokens for named resources such as that MCP endpoint.'
     ],
     gotchas: [
       'The Admin UI is back-office only. It is never the customer-facing surface, and its AngularJS age says nothing about the storefront stack.',
-      'Admin UI assets are built into the source `wwwroot/dist`, but a running platform serves them from its publish folder — a webpack build alone does not update a running instance.',
-      'All three back-office hosts converge on one contract: `GET /api/apps/{appId}/manifest`, driven by the same `module.manifest` dependency graph as .NET install order. `POST /api/frontend-modules` survives only as a deprecated alias.',
-      'Nothing in the platform implements MCP or UCP today — the AI-agent node is dashed for that reason. Treat any agent as an untrusted client and put authorization in front of every capability you expose.'
+      'Admin UI assets are built into the source `wwwroot/dist`, but a running platform serves the installed module\'s copy — a webpack build alone does not update a running instance.',
+      'Every back-office host converges on one contract: `GET /api/apps/{appId}/manifest`, driven by the same `module.manifest` dependency graph as .NET install order. `POST /api/frontend-modules` survives only as a deprecated alias.',
+      'The platform core does not implement MCP or UCP; the UCP module does. Treat any agent as an untrusted client: give it its own OAuth application limited to the resources it needs, not an API key for a privileged account.'
     ],
     docs: [
       { label: 'Architecture reference', page: 'Back-End-Architecture/02-conceptual-overview' },
@@ -627,8 +629,8 @@ window.VC_MAP_ARCHITECTURE = [
       '`Platform.Caching` — `PlatformMemoryCache`, cache regions, and the Redis-backed variant that keeps per-instance memory caches coherent.',
       '`Platform.Security` — ASP.NET Core Identity, OpenIddict, permissions, API keys, external sign-in, admin-UI access policy.',
       '`Platform.Modules` — discovery, probing folder, dependency resolution, install/uninstall.',
-      '`Platform.DistributedLock` — Redis (RedLock) or a no-op fallback, so single-instance development needs no Redis.',
-      '`Platform.Web` — the host: startup wiring, platform REST controllers, the Admin SPA, health checks at `/health`.'
+      '`Platform.DistributedLock` — Redis (RedLock.net), or an in-process lock when Redis is not configured, so single-instance development needs no Redis.',
+      '`Platform.Web` — the host: startup wiring, platform REST controllers, hosting for whichever admin UI module is installed, health checks at `/health`.'
     ],
     gotchas: [
       'Do not modify platform source in a solution. Customisation belongs in modules; this is what keeps updates clean.',

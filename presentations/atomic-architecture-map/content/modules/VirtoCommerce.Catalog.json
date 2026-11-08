@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-catalog",
  "name": "Catalog",
  "tagline": "Easily manage your products, categories, variations, and properties",
- "latestVersion": "3.1040.0",
+ "latestVersion": "3.1052.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.Catalog.svg",
  "facts": {
-  "manifestVersion": "3.1041.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1052.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.CatalogModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -22,39 +22,44 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
-    "id": "VirtoCommerce.Core",
+    "id": "VirtoCommerce.BackupRestore",
     "version": "3.1007.0",
     "optional": false
    },
    {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1012.0",
+    "optional": false
+   },
+   {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Seo",
-    "version": "3.1004.0",
+    "version": "3.1006.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
   "optionalDependencies": [
    {
     "id": "VirtoCommerce.BulkActionsModule",
-    "version": "3.1002.0",
+    "version": "3.1004.0",
     "optional": true
    },
    {
     "id": "VirtoCommerce.Export",
-    "version": "3.1002.0",
+    "version": "3.1005.0",
     "optional": true
    }
   ],
@@ -92,6 +97,12 @@
     "route": "api/catalog/products/associations",
     "actions": 6,
     "authorizedActions": 6
+   },
+   {
+    "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleBarcodeSearchController.cs",
+    "route": "api/catalog/barcode-search",
+    "actions": 3,
+    "authorizedActions": 3
    },
    {
     "file": "src/VirtoCommerce.CatalogModule.Web/Controllers/Api/CatalogModuleBrandSettingController.cs",
@@ -220,6 +231,8 @@
    "Catalog.EditorialReviewTypes",
    "Catalog.ImageCategories",
    "Catalog.ProductConfigurationMaximumFiles",
+   "Catalog.Search.BarcodeScannerEnabled",
+   "Catalog.Search.BarcodeSearchFields",
    "Catalog.Search.DefaultAggregationSize",
    "Catalog.Search.EventBasedIndexation.Enable",
    "Catalog.Search.IndexLinkPriorityFields",
@@ -284,13 +297,15 @@
   ],
   "migrationCount": 94,
   "hasAdminUi": true,
-  "adminUiFiles": 242,
+  "adminUiFiles": 245,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -337,9 +352,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "33b1847f",
-   "lastCommitDate": "2026-08-04",
-   "lastCommit": "33b1847f 2026-08-04 3.1041.0",
+   "sha": "10e28683",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "10e28683 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#917)",
    "readFrom": "git ref"
   }
  },
@@ -402,6 +417,7 @@
    "Key features",
    "Configuration",
    "Configurable product sorting",
+   "Barcode scanner search",
    "Documentation",
    "References",
    "License"
@@ -432,7 +448,7 @@
    "You want a product's stock: that is Inventory, and it is deliberately a separate module"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-catalog",
@@ -448,6 +464,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

@@ -1,0 +1,165 @@
+{
+  "id": "VirtoCommerce.Passkeys",
+  "repo": "vc-module-passkeys",
+  "repoUrl": "https://github.com/VirtoCommerce/vc-module-passkeys",
+  "name": "Passkeys",
+  "tagline": "Sign-in with passkeys (WebAuthn) for the Commerce Manager and the storefront, with creating, renaming and deleting passkeys.",
+  "latestVersion": "3.1001.0",
+  "active": true,
+  "groups": [],
+  "accent": "#6E7E97",
+  "icon": "assets/module-icons/VirtoCommerce.Passkeys.svg",
+  "facts": {
+    "manifestVersion": "3.1001.0",
+    "platformVersion": "3.1091.0",
+    "assembly": "VirtoCommerce.Passkeys.Web.dll",
+    "authors": [
+      "Virto Commerce"
+    ],
+    "tags": "passkey webauthn authentication security",
+    "dependsOn": [
+      {
+        "id": "VirtoCommerce.Xapi",
+        "version": "3.1027.0",
+        "optional": false
+      },
+      {
+        "id": "VirtoCommerce.XFrontend",
+        "version": "3.1009.0",
+        "optional": false
+      }
+    ],
+    "optionalDependencies": [],
+    "projects": [
+      "VirtoCommerce.Passkeys.Core",
+      "VirtoCommerce.Passkeys.Data",
+      "VirtoCommerce.Passkeys.Web",
+      "VirtoCommerce.Passkeys.Xapi"
+    ],
+    "databaseProviders": [],
+    "restControllers": [
+      {
+        "file": "src/VirtoCommerce.Passkeys.Web/Controllers/Api/PasskeysController.cs",
+        "route": "api/passkeys",
+        "actions": 3,
+        "authorizedActions": 0
+      }
+    ],
+    "permissions": [],
+    "settings": [],
+    "domainEventsPublished": [],
+    "declaredEvents": [],
+    "eventHandlers": [],
+    "handledEvents": [],
+    "subscribesDynamically": false,
+    "graphqlBuilders": [
+      "src/VirtoCommerce.Passkeys.Xapi/Queries/PasskeyCreationOptionsQueryBuilder.cs",
+      "src/VirtoCommerce.Passkeys.Xapi/Queries/PasskeyRequestOptionsQueryBuilder.cs"
+    ],
+    "indexDocumentBuilders": [],
+    "migrationCount": 0,
+    "hasAdminUi": true,
+    "adminUiFiles": 4,
+    "localizations": [
+      "de",
+      "en",
+      "es",
+      "fi",
+      "fr",
+      "it",
+      "ja",
+      "no",
+      "pl",
+      "pt",
+      "ru",
+      "sv",
+      "zh"
+    ],
+    "entities": [],
+    "git": {
+      "ref": "origin/dev",
+      "sha": "68cf445",
+      "lastCommitDate": "2026-11-07",
+      "lastCommit": "68cf445 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#2)",
+      "readFrom": "git ref"
+    }
+  },
+  "readme": {
+    "overview": "The Passkeys module lets users sign in with passkeys (WebAuthn) instead of a password, in both the Commerce Manager and the storefront. A user adds a passkey from their profile; the browser or the device (Windows Hello, Touch ID, Android, a security key, a password manager) keeps the private key, and the platform keeps only the public key. Users can rename and delete their passkeys from the list of their sign-in keys. The module has no database of its own: passkeys are stored in the platform's Identity store (`AspNetUserPasskeys`).",
+    "keyFeatures": [
+      "**Passwordless sign-in** — sign in with a passkey in the Commerce Manager and in the storefront",
+      "**Passkey management** — create passkeys from the user profile; rename and delete them through the platform's sign-in method API",
+      "**`passkey` grant type** — exchanges a WebAuthn assertion for a token on the token endpoint and on the platform's cookie sign-in endpoint; lockout and the platform's sign-in rules apply",
+      "**Readable key names** — a passkey without a name shows the authenticator's name, derived from its AAGUID",
+      "**Backup state** — each passkey shows whether it is `DeviceOnly`, `BackedUp` or `NotBackedUp`",
+      "**Storefront plugin** — adds the passkey sign-in button and passkey creation to the storefront through the XFrontend plugin system",
+      "**Admin Shell plugin** — adds \"Sign in with a passkey\" to the Admin Shell sign-in page and \"Add a passkey\" to its profile's sign-in methods, where passkeys are renamed and deleted (`AdminShellApp`, built into `plugins/admin-shell/`; `-p:SkipAdminShellPlugin=true` leaves it out)",
+      "**Browser detection** — the passkey button and passkey creation appear only when the browser supports WebAuthn",
+      "**Impersonation-safe** — passkeys cannot be created in an impersonated session"
+    ],
+    "docs": [
+      {
+        "label": "REST API",
+        "href": "https://virtostart-demo-admin.govirto.com/docs/index.html?urls.primaryName=VirtoCommerce.Passkeys"
+      },
+      {
+        "label": "View on GitHub",
+        "href": "https://github.com/VirtoCommerce/vc-module-passkeys/"
+      }
+    ],
+    "references": [
+      {
+        "label": "Deployment",
+        "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+      },
+      {
+        "label": "Installation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+      },
+      {
+        "label": "Home",
+        "href": "https://virtocommerce.com"
+      },
+      {
+        "label": "Community",
+        "href": "https://www.virtocommerce.org"
+      },
+      {
+        "label": "Download latest release",
+        "href": "https://github.com/VirtoCommerce/vc-module-passkeys/releases/latest"
+      }
+    ],
+    "sections": [
+      "Overview",
+      "Key Features",
+      "Configuration",
+      "Architecture",
+      "Components",
+      "Documentation",
+      "References",
+      "License"
+    ],
+    "quality": "full"
+  },
+  "notes": {
+    "forAnalyst": "Lets people sign in with a passkey, using a fingerprint, face or device PIN, instead of a password, both in the back office and in the storefront. Users create, rename and delete their passkeys from their profile.",
+    "forArchitect": "WebAuthn on top of the platform's sign-in methods (3.1091): the module adds a `passkey` grant type on the token endpoint and registers passkeys as a sign-in method, so they appear next to passwords and external logins. The keys are stored in the platform's security database, which gained the passkey tables in 3.1091; the module has none of its own. It depends on xAPI and XFrontend because its storefront part is delivered as an XFrontend plugin; an Admin Shell plugin adds passkey sign-in to the new back office.",
+    "forDeveloper": "The passkey button and passkey creation appear only in browsers that support WebAuthn. A passkey is bound to the domain it was created on, so a passkey made for one host does not sign in on another. Each key shows its backup state (`DeviceOnly`, `BackedUp` or `NotBackedUp`), and a key without a name shows the authenticator's name from its AAGUID.",
+    "owns": [],
+    "reachForItWhen": [
+      "Removing passwords for back-office users, or offering a faster sign-in to returning customers",
+      "Phishing-resistant sign-in for privileged accounts"
+    ],
+    "doNotReachForItWhen": [
+      "Storefronts on several domains that expect one passkey to work on all of them",
+      "Storefronts that do not use XFrontend: the storefront part is delivered through it"
+    ]
+  },
+  "extractedAt": "2026-11-08",
+  "extractedBy": "tools/module-profile.js",
+  "documentation": {
+    "repository": "https://github.com/VirtoCommerce/vc-module-passkeys",
+    "links": [],
+    "checkedOnline": true
+  }
+}

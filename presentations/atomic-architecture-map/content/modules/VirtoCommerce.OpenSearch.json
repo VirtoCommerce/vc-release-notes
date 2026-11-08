@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-open-search",
  "name": "Open Search",
  "tagline": "Indexed search functionality with OpenSearch",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1004.0",
  "active": true,
  "groups": [],
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.OpenSearch.svg",
  "facts": {
-  "manifestVersion": "3.1002.0",
-  "platformVersion": "3.1002.0",
+  "manifestVersion": "3.1005.0",
+  "platformVersion": "3.1073.0",
   "assembly": "VirtoCommerce.OpenSearch.Web.dll",
   "authors": [
    "Okhrimenko Evgeny"
@@ -64,9 +64,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "27e9ed6",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "27e9ed6 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "0313ac8",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "0313ac8 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -130,11 +130,11 @@
    "The problem is stale results: that is indexation, not the engine"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-open-search",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

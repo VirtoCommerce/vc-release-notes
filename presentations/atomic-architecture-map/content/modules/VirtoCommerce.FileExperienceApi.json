@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-file-experience-api",
  "name": "File Experience API",
  "tagline": "Manages all file-related operations, from file upload to file content download for different client applications.",
- "latestVersion": "3.1004.0",
+ "latestVersion": "3.1008.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.FileExperienceApi.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1009.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.FileExperienceApi.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -21,13 +21,13 @@
   "tags": "extension module",
   "dependsOn": [
    {
-    "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "id": "VirtoCommerce.Assets",
+    "version": "3.1010.0",
     "optional": false
    },
    {
-    "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
+    "id": "VirtoCommerce.Xapi",
+    "version": "3.1026.0",
     "optional": false
    }
   ],
@@ -81,9 +81,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "2f79076",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "2f79076 2026-07-27 3.1005.0",
+   "sha": "10d4388",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "10d4388 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -179,7 +179,7 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-file-experience-api",
@@ -220,6 +220,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

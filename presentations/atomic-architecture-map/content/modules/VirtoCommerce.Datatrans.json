@@ -78,9 +78,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "cec58f3",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "cec58f3 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "421022c",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "421022c 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -142,11 +142,11 @@
    "Two gateways for the same method on one store: choose per store, not per request"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-datatrans",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

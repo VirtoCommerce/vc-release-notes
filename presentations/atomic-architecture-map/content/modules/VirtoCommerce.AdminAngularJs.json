@@ -1,0 +1,150 @@
+{
+  "id": "VirtoCommerce.AdminAngularJs",
+  "repo": "vc-module-admin-angular-js",
+  "repoUrl": "https://github.com/VirtoCommerce/vc-module-admin-angular-js",
+  "name": "Admin Angular JS",
+  "tagline": "The AngularJS back office (Commerce Manager) for the Virto Commerce Platform. Without an admin UI module the platform runs API only.",
+  "latestVersion": "3.1096.0",
+  "active": true,
+  "groups": [
+    "commerce"
+  ],
+  "accent": "#52A8CF",
+  "icon": "assets/module-icons/VirtoCommerce.AdminAngularJs.svg",
+  "facts": {
+    "manifestVersion": "3.1097.0",
+    "platformVersion": "3.1095.0",
+    "assembly": "VirtoCommerce.AdminAngularJs.Web.dll",
+    "authors": [
+      "Oleg Zhuk"
+    ],
+    "tags": "admin ui angularjs back-office",
+    "dependsOn": [],
+    "optionalDependencies": [],
+    "projects": [
+      "VirtoCommerce.AdminAngularJs.Web"
+    ],
+    "databaseProviders": [],
+    "restControllers": [],
+    "permissions": [],
+    "settings": [],
+    "domainEventsPublished": [],
+    "declaredEvents": [],
+    "eventHandlers": [],
+    "handledEvents": [],
+    "subscribesDynamically": false,
+    "graphqlBuilders": [],
+    "indexDocumentBuilders": [],
+    "migrationCount": 0,
+    "hasAdminUi": false,
+    "adminUiFiles": 0,
+    "localizations": [
+      "de",
+      "en",
+      "es",
+      "fi",
+      "fr",
+      "it",
+      "ja",
+      "no",
+      "pl",
+      "pt",
+      "ru",
+      "sv",
+      "zh"
+    ],
+    "entities": [],
+    "git": {
+      "ref": "origin/dev",
+      "sha": "566ab8b",
+      "lastCommitDate": "2026-11-06",
+      "lastCommit": "566ab8b 2026-11-06 3.1097.0",
+      "readFrom": "git ref"
+    }
+  },
+  "readme": {
+    "overview": "The AngularJS back office of Virto Commerce — Commerce Manager. It used to be part of the platform; from platform 3.1093.0 the platform is API only and this module brings the AngularJS admin back. Install it to keep the admin you have today; every module's AngularJS screens load into it unchanged. It works alone, or next to [Admin Shell](https://github.com/VirtoCommerce/vc-module-admin-shell), the Vue admin: either one can own the site root, and Admin Shell embeds the AngularJS screens that have no Vue version yet.",
+    "keyFeatures": [
+      "**The AngularJS admin as it was:** the same page, scripts, styles, images, templates and translations, at the same URLs (`/dist/app.js`, `/images/...`, `/$(Platform)/Scripts/...`).",
+      "**Module screens unchanged:** each module's AngularJS bundle (`dist/app.js`, `dist/style.css`) is listed by `GET /api/apps/platform/manifest` and loaded by the admin, as before.",
+      "**Site root or app path:** served at `/` when it owns the site root, and always at `/apps/platform/`, where Admin Shell embeds it when the shell owns the root.",
+      "**Turn off without uninstalling:** `VirtoCommerce:PlatformUI:Enable = false` keeps the page closed; the API is not affected.",
+      "**No database, no settings, no permissions** of its own. Who may sign in is the platform's admin UI access policy (`VirtoCommerce:PlatformUI:Access`)."
+    ],
+    "docs": [
+      {
+        "label": "Admin UI in the platform",
+        "href": "https://github.com/VirtoCommerce/vc-platform/blob/dev/docs/developer-guide/admin-ui.md"
+      },
+      {
+        "label": "Backoffice modularity",
+        "href": "https://github.com/VirtoCommerce/vc-platform/blob/dev/docs/developer-guide/backoffice-modularity.md"
+      },
+      {
+        "label": "Admin Shell",
+        "href": "https://github.com/VirtoCommerce/vc-module-admin-shell"
+      },
+      {
+        "label": "vc-platform",
+        "href": "https://github.com/VirtoCommerce/vc-platform"
+      }
+    ],
+    "references": [
+      {
+        "label": "Deployment",
+        "href": "https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/"
+      },
+      {
+        "label": "Installation",
+        "href": "https://docs.virtocommerce.org/platform/user-guide/modules-installation/"
+      },
+      {
+        "label": "Home",
+        "href": "https://virtocommerce.com"
+      },
+      {
+        "label": "Community",
+        "href": "https://www.virtocommerce.org"
+      },
+      {
+        "label": "Download latest release",
+        "href": "https://github.com/VirtoCommerce/vc-module-admin-angular-js/releases/latest"
+      }
+    ],
+    "sections": [
+      "Overview",
+      "Key Features",
+      "Screenshots",
+      "Configuration",
+      "Architecture",
+      "Components",
+      "Build",
+      "Testing",
+      "Documentation",
+      "References",
+      "License"
+    ],
+    "quality": "full"
+  },
+  "notes": {
+    "forAnalyst": "The back office most teams use today, the Commerce Manager, delivered as a module. A platform without it or Admin Shell has no back office screen at all; the APIs still run.",
+    "forArchitect": "Until platform 3.1092 the AngularJS admin was built into the platform. This module now carries the same page, scripts, styles and translations and maps the page itself (`hosting=\"Endpoint\"`, app id `platform`, priority 100). With Admin Shell installed too, it owns the site root unless `VirtoCommerce:PlatformUI:RootApp` says otherwise, and it stays reachable at `/apps/platform/`. It has no database, settings or permissions of its own: who may sign in is decided by the platform's admin UI access policy.",
+    "forDeveloper": "Module screens written for AngularJS keep working: each module's `dist/app.js` and `dist/style.css` bundles are loaded by this module as before. To close the page without uninstalling, set `VirtoCommerce:PlatformUI:Enable` to `false`; the API keeps running. Its version follows the platform's, so upgrade the two together.",
+    "owns": [],
+    "reachForItWhen": [
+      "Every installation that uses the Commerce Manager today. After upgrading the platform past 3.1092, add this module to the package or the back office disappears",
+      "Running it beside Admin Shell while screens move to Vue, with `RootApp` choosing which one opens at `/`"
+    ],
+    "doNotReachForItWhen": [
+      "API-only hosts, such as a scaled-out storefront tier. Leave it out and the host serves no back office",
+      "New back-office screens. Build them as Admin Shell plugins; the AngularJS UI is maintained, not extended"
+    ]
+  },
+  "extractedAt": "2026-11-08",
+  "extractedBy": "tools/module-profile.js",
+  "documentation": {
+    "repository": "https://github.com/VirtoCommerce/vc-module-admin-angular-js",
+    "links": [],
+    "checkedOnline": true
+  }
+}

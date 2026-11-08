@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-core",
  "name": "Commerce core",
  "tagline": "Common e-commerce domain functionality",
- "latestVersion": "3.1008.0",
+ "latestVersion": "3.1014.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.Core.svg",
  "facts": {
-  "manifestVersion": "3.1008.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1014.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.CoreModule.Web.dll",
   "authors": [
    "Eugeny Tatarincev",
@@ -67,17 +67,22 @@
   "indexDocumentBuilders": [],
   "migrationCount": 14,
   "hasAdminUi": true,
-  "adminUiFiles": 36,
+  "adminUiFiles": 37,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
+   "fi",
    "fr",
+   "he",
    "it",
    "ja",
+   "no",
    "pl",
    "pt",
    "ru",
+   "sv",
    "zh"
   ],
   "entities": [
@@ -87,9 +92,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "37bf433",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "37bf433 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "6c18a70",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "6c18a70 2026-11-07 VCST-6733: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#272)",
    "readFrom": "git ref"
   }
  },
@@ -137,11 +142,11 @@
    "You expect events on change: this module raises none"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-core",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

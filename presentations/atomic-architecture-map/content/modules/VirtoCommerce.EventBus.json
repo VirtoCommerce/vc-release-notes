@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-event-bus",
  "name": "Event Bus",
  "tagline": "The module enables you to be notified of new messages or changes via a Message Queue of your choice",
- "latestVersion": "3.1010.0",
+ "latestVersion": "3.1011.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.EventBus.svg",
  "facts": {
-  "manifestVersion": "3.1011.0",
-  "platformVersion": "3.1007.10",
+  "manifestVersion": "3.1012.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.EventBusModule.Web.dll",
   "authors": [
    "Andrei Kostyrin",
@@ -103,9 +103,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "aae7149",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "aae7149 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "e158bcd",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "e158bcd 2026-11-07 3.1012.0",
    "readFrom": "git ref"
   }
  },
@@ -204,7 +204,7 @@
    "You are exporting a bulk snapshot — that is Export, not an event per row"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-event-bus",
@@ -215,6 +215,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

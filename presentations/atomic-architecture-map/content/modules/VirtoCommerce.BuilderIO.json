@@ -4,13 +4,13 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-builder-io",
  "name": "Builder.io",
  "tagline": "Integration module for Builder.io",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1006.0",
  "active": true,
  "groups": [],
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.BuilderIO.svg",
  "facts": {
-  "manifestVersion": "3.1005.0",
+  "manifestVersion": "3.1007.0",
   "platformVersion": "3.1002.0",
   "assembly": "VirtoCommerce.BuilderIO.Web.dll",
   "authors": [
@@ -91,9 +91,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "1fac711",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "1fac711 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "e648506",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "e648506 2026-11-07 3.1007.0",
    "readFrom": "git ref"
   }
  },
@@ -181,7 +181,7 @@
    "You need offline authoring"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-builder-io",
@@ -192,6 +192,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-system-operations",
  "name": "System Operations",
  "tagline": "Developer tools page with centralized platform maintenance operations.",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1003.0",
  "active": true,
  "groups": [],
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.SystemOperations.svg",
  "facts": {
   "manifestVersion": "3.1003.0",
-  "platformVersion": "3.1007.22",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.SystemOperations.Web.dll",
   "authors": [
    "Oleg Zhuk"
@@ -65,9 +65,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "c14cfb0",
-   "lastCommitDate": "2026-07-29",
-   "lastCommit": "c14cfb0 2026-07-29 Replace screenshots in README.md",
+   "sha": "0685ea3",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "0685ea3 2026-11-07 fix: Bump platform to 3.1095.0 and fix vulnerable npm dependencies (#4)",
    "readFrom": "git ref"
   }
  },
@@ -116,11 +116,11 @@
    "You need an approval flow around it"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-system-operations",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

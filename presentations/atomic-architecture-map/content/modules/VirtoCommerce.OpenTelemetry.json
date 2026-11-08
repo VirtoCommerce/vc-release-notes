@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-opentelemetry",
  "name": "Open Telemetry",
  "tagline": "Provides Open Telemetry metrics, tracing, and logging via OTLP exporter",
- "latestVersion": "3.1001.0",
+ "latestVersion": "3.1002.0",
  "active": true,
  "groups": [],
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.OpenTelemetry.svg",
  "facts": {
-  "manifestVersion": "3.1001.0",
-  "platformVersion": "3.1002.0",
+  "manifestVersion": "3.1003.0",
+  "platformVersion": "3.1076.0",
   "assembly": "VirtoCommerce.OpenTelemetry.Web.dll",
   "authors": [
    "Anton Zorya"
@@ -40,9 +40,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "60a18f6",
-   "lastCommitDate": "2026-03-20",
-   "lastCommit": "60a18f6 2026-03-20 3.1001.0",
+   "sha": "c62f2a3",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "c62f2a3 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -84,11 +84,11 @@
    "Adding several collectors for the same signal, which doubles cost for one answer"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-opentelemetry",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

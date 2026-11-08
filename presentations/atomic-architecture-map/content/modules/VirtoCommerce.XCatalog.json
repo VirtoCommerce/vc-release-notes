@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-x-catalog",
  "name": "Catalog Experience API",
  "tagline": "Manages all catalog-related operations, from product listings to detailed item information.",
- "latestVersion": "3.1016.0",
+ "latestVersion": "3.1024.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.XCatalog.svg",
  "facts": {
-  "manifestVersion": "3.1017.0",
-  "platformVersion": "3.1057.0",
+  "manifestVersion": "3.1025.0",
+  "platformVersion": "3.1083.0",
   "assembly": "VirtoCommerce.XCatalog.Web.dll",
   "authors": [
    "Eugeny Tatarincev",
@@ -32,29 +32,29 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1032.0",
+    "version": "3.1048.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Xapi",
-    "version": "3.1015.0",
+    "version": "3.1026.0",
     "optional": false
    }
   ],
   "optionalDependencies": [
    {
     "id": "VirtoCommerce.Inventory",
-    "version": "3.1003.0",
+    "version": "3.1010.0",
     "optional": true
    },
    {
     "id": "VirtoCommerce.Marketing",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": true
    },
    {
     "id": "VirtoCommerce.Pricing",
-    "version": "3.1003.0",
+    "version": "3.1008.0",
     "optional": true
    }
   ],
@@ -65,9 +65,7 @@
   ],
   "databaseProviders": [],
   "restControllers": [],
-  "permissions": [
-   "xcatalog:search:certain-date"
-  ],
+  "permissions": [],
   "settings": [],
   "domainEventsPublished": [],
   "declaredEvents": [],
@@ -106,9 +104,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "b0f6dce",
-   "lastCommitDate": "2026-08-07",
-   "lastCommit": "b0f6dce 2026-08-07 3.1017.0",
+   "sha": "d893433",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "d893433 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -172,6 +170,7 @@
    }
   ],
   "sections": [
+   "Filter syntax extensions",
    "Documentation",
    "References",
    "License"
@@ -194,7 +193,7 @@
    "Bulk writes: a mutation per row is slower than the owning module's import path"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-x-catalog",
@@ -235,6 +234,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

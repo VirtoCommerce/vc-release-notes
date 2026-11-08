@@ -10,7 +10,7 @@
  "accent": "#5FD080",
  "icon": "assets/module-icons/VirtoCommerce.Sanity.svg",
  "facts": {
-  "manifestVersion": "3.1004.0",
+  "manifestVersion": "3.1005.0",
   "platformVersion": "3.1002.0",
   "assembly": "VirtoCommerce.Sanity.Web.dll",
   "authors": [
@@ -69,9 +69,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "2a3b425",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "2a3b425 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "cbfe4a4",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "cbfe4a4 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -97,7 +97,9 @@
    "Overview",
    "Sanity Schema",
    "Pages Module Integration",
+   "Configuration",
    "Webhook Configuration",
+   "Upgrading from the API key webhook",
    "License"
   ],
   "quality": "overview only"
@@ -118,11 +120,11 @@
    "Commerce data would end up duplicated in the CMS"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-sanity",
   "links": [],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-task-management",
  "name": "Task Management",
  "tagline": "Headquarters personas can use task management to create task lists for retail stores, and to track status by store or worker.",
- "latestVersion": "3.1005.0",
+ "latestVersion": "3.1007.0",
  "active": true,
  "groups": [],
  "accent": "#5FC8F5",
  "icon": "assets/module-icons/VirtoCommerce.TaskManagement.svg",
  "facts": {
-  "manifestVersion": "3.1006.0",
-  "platformVersion": "3.1025.0",
+  "manifestVersion": "3.1007.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.TaskManagement.Web.dll",
   "authors": [
    "Artem Dudarev",
@@ -32,7 +32,7 @@
    },
    {
     "id": "VirtoCommerce.Notifications",
-    "version": "3.1000.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
@@ -96,11 +96,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 1,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -116,9 +118,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "9008a21",
-   "lastCommitDate": "2026-07-27",
-   "lastCommit": "9008a21 2026-07-27 3.1006.0",
+   "sha": "44cda39",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "44cda39 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#35)",
    "readFrom": "git ref"
   }
  },
@@ -196,7 +198,7 @@
    "Tasks would duplicate a system the team already uses"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-task-management",
@@ -207,6 +209,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

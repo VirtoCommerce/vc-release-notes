@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-customer",
  "name": "Companies and Contacts",
  "tagline": "Managing customers contacts and organizations",
- "latestVersion": "3.1022.0",
+ "latestVersion": "3.1034.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#F87FAC",
  "icon": "assets/module-icons/VirtoCommerce.Customer.svg",
  "facts": {
-  "manifestVersion": "3.1023.0",
-  "platformVersion": "3.1052.0",
+  "manifestVersion": "3.1034.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.CustomerModule.Web.dll",
   "authors": [
    "Artem Dudarev",
@@ -23,27 +23,27 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
+    "version": "3.1012.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Notifications",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Seo",
-    "version": "3.1004.0",
+    "version": "3.1005.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1013.0",
     "optional": false
    }
   ],
@@ -147,15 +147,17 @@
    "tests/VirtoCommerce.CustomerModule.Tests/Handlers/IndexOrganizationMembersChangedEventHandlerTests.cs",
    "tests/VirtoCommerce.CustomerModule.Tests/Handlers/IndexOrganizationMembershipChangedEventHandlerTests.cs"
   ],
-  "migrationCount": 65,
+  "migrationCount": 71,
   "hasAdminUi": true,
   "adminUiFiles": 64,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -189,9 +191,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "908c08c",
-   "lastCommitDate": "2026-08-07",
-   "lastCommit": "908c08c 2026-08-07 3.1023.0",
+   "sha": "7dd7133",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "7dd7133 2026-11-07 VCST-6733: Fix vulnerable npm dependencies (#326)",
    "readFrom": "git ref"
   }
  },
@@ -285,7 +287,7 @@
    "The data belongs to an order — an order keeps its own copy of the addresses it shipped to"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-customer",
@@ -301,6 +303,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

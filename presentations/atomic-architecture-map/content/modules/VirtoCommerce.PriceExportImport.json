@@ -4,14 +4,14 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-price-export-import",
  "name": "Price Export Import",
  "tagline": "This module adds prices export and import functionality using it for price management.",
- "latestVersion": "3.1002.0",
+ "latestVersion": "3.1003.0",
  "active": true,
  "groups": [],
  "accent": "#3FD8B4",
  "icon": "assets/module-icons/VirtoCommerce.PriceExportImport.svg",
  "facts": {
-  "manifestVersion": "3.1002.0",
-  "platformVersion": "3.1002.0",
+  "manifestVersion": "3.1004.0",
+  "platformVersion": "3.1095.0",
   "assembly": "VirtoCommerce.PriceExportImportModule.Web.dll",
   "authors": [
    "Solution team"
@@ -20,22 +20,22 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1000.0",
+    "version": "3.1011.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Catalog",
-    "version": "3.1000.0",
+    "version": "3.1051.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Export",
-    "version": "3.1000.0",
+    "version": "3.1006.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Pricing",
-    "version": "3.1000.0",
+    "version": "3.1010.0",
     "optional": false
    }
   ],
@@ -73,11 +73,13 @@
   "hasAdminUi": true,
   "adminUiFiles": 9,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -90,9 +92,9 @@
   "entities": [],
   "git": {
    "ref": "origin/dev",
-   "sha": "db44ca4",
-   "lastCommitDate": "2026-07-15",
-   "lastCommit": "db44ca4 2026-07-15 ci: Auto update Github Action workflows",
+   "sha": "7954f0d",
+   "lastCommitDate": "2026-11-07",
+   "lastCommit": "7954f0d 2026-11-07 fix: Bump vite (#98)",
    "readFrom": "git ref"
   }
  },
@@ -160,7 +162,7 @@
    "The requirement is a rule, not a file: use pricing assignments"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-price-export-import",
@@ -171,6 +173,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

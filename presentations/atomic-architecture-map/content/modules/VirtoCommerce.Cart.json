@@ -4,7 +4,7 @@
  "repoUrl": "https://github.com/VirtoCommerce/vc-module-cart",
  "name": "Shopping Cart",
  "tagline": "Shopping cart / checkout functionality",
- "latestVersion": "3.1009.0",
+ "latestVersion": "3.1014.0",
  "active": true,
  "groups": [
   "commerce"
@@ -12,8 +12,8 @@
  "accent": "#FFC24D",
  "icon": "assets/module-icons/VirtoCommerce.Cart.svg",
  "facts": {
-  "manifestVersion": "3.1010.0",
-  "platformVersion": "3.1039.0",
+  "manifestVersion": "3.1015.0",
+  "platformVersion": "3.1091.0",
   "assembly": "VirtoCommerce.CartModule.Web.dll",
   "authors": [
    "Virto Commerce"
@@ -22,44 +22,44 @@
   "dependsOn": [
    {
     "id": "VirtoCommerce.Assets",
-    "version": "3.1005.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Core",
-    "version": "3.1007.0",
-    "optional": false
-   },
-   {
-    "id": "VirtoCommerce.Customer",
     "version": "3.1010.0",
     "optional": false
    },
    {
+    "id": "VirtoCommerce.Core",
+    "version": "3.1012.0",
+    "optional": false
+   },
+   {
+    "id": "VirtoCommerce.Customer",
+    "version": "3.1028.0",
+    "optional": false
+   },
+   {
     "id": "VirtoCommerce.Notifications",
-    "version": "3.1009.0",
+    "version": "3.1018.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Payment",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Shipping",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    },
    {
     "id": "VirtoCommerce.Store",
-    "version": "3.1005.0",
+    "version": "3.1009.0",
     "optional": false
    }
   ],
   "optionalDependencies": [
    {
     "id": "VirtoCommerce.Search",
-    "version": "3.1004.0",
+    "version": "3.1010.0",
     "optional": true
    }
   ],
@@ -116,15 +116,17 @@
   "subscribesDynamically": false,
   "graphqlBuilders": [],
   "indexDocumentBuilders": [],
-  "migrationCount": 105,
+  "migrationCount": 108,
   "hasAdminUi": false,
   "adminUiFiles": 0,
   "localizations": [
+   "ar",
    "de",
    "en",
    "es",
    "fi",
    "fr",
+   "he",
    "it",
    "ja",
    "no",
@@ -138,6 +140,7 @@
    "AddressEntity",
    "CartDynamicPropertyObjectValueEntity",
    "CartSharingSettingEntity",
+   "CartSharingSettingTargetEntity",
    "ConfigurationItemEntity",
    "ConfigurationItemFileEntity",
    "CouponEntity",
@@ -152,9 +155,9 @@
   ],
   "git": {
    "ref": "origin/dev",
-   "sha": "fb8f6e0",
-   "lastCommitDate": "2026-08-11",
-   "lastCommit": "fb8f6e0 2026-08-11 3.1010.0",
+   "sha": "b5209a3",
+   "lastCommitDate": "2026-11-06",
+   "lastCommit": "b5209a3 2026-11-06 ci: Auto update Github Action workflows",
    "readFrom": "git ref"
   }
  },
@@ -240,7 +243,7 @@
    "You are on a storefront: talk to xCart, which is built for one round trip per page"
   ]
  },
- "extractedAt": "2026-08-14",
+ "extractedAt": "2026-11-08",
  "extractedBy": "tools/module-profile.js",
  "documentation": {
   "repository": "https://github.com/VirtoCommerce/vc-module-cart",
@@ -256,6 +259,6 @@
     "source": "readme"
    }
   ],
-  "checkedOnline": false
+  "checkedOnline": true
  }
 }

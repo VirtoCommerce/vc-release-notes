@@ -1936,12 +1936,13 @@
        of 23–46 things to add was advice the reader could not act on here. The builder carries it, with
        every feature and a live status, and one button below hands this package over to it. */
     var cellFeatures = (function () {
-      /* Against what actually gets installed, not against what the manifest lists. Purchase names 31
-         modules but five of them require Catalog, XCatalog, Seo, Export and the file API, so a
-         Purchase install has a catalogue whether the file mentions one or not. Counting the manifest
-         alone understated it by nine features — and made this page disagree with the builder, which
-         has always closed dependencies. The schema, the module count and the evidence list still
-         follow the manifest: that is composition, and this is capability. */
+      /* Against what actually gets installed, not against what the manifest lists. The 3.1039
+         manifests left dependencies implicit — Purchase named 31 modules while five of them required
+         Catalog, XCatalog, Seo, Export and the file API — and counting the manifest alone understated
+         it by nine features. The 3.1076 manifests list every dependency, so today the closure adds
+         nothing; it stays because a manifest can fall behind its modules again, and this page must
+         agree with the builder, which has always closed dependencies. The schema, the module count
+         and the evidence list follow the manifest: that is composition, and this is capability. */
       var closed = pbcDependencyClosure(cell.modules || []);
       var has = moduleSet(closed.ids);
       var included = [], partial = [];
@@ -1992,7 +1993,8 @@
         ? block('Business features included', el('div', {},
             el('p', { class: 'dg-cap' }, rich('**' + cellFeatures.included.length + ' of ' + FEATURES.length +
               '** catalogued business features work with this package as it installs' +
-              (cellFeatures.partial.length ? ', and ' + cellFeatures.partial.length + ' more are partly there' : '') + '. ' +
+              (cellFeatures.partial.length ? ', and ' + cellFeatures.partial.length +
+                (cellFeatures.partial.length === 1 ? ' more is' : ' more are') + ' partly there' : '') + '. ' +
               (cellFeatures.pulled.length
                 ? 'That counts ' + cellFeatures.pulled.length + ' module(s) the manifest does not name but its ' +
                   'modules require, so an install brings them anyway: ' +
