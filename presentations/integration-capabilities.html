@@ -1182,23 +1182,23 @@ const slides = [
   /* ===== SECTION 01 ===== */
   {
     type: 'divider',
-    num: 'Section 01  ·  Why It Matters',
+    num: 'Section 01  ·  Context',
     title: 'Commerce That',
-    titleAccent: 'Keeps Evolving',
-    desc: 'Commerce keeps changing alongside your ERP, PIM, CMS, payments, search and fulfilment — with less risk and without another replatforming. Cost is evidence, not the story.',
+    titleAccent: 'Keeps Changing',
+    desc: 'Commerce keeps changing alongside your ERP, PIM, CMS, payments, search and fulfilment, with less risk and without another replatforming.',
   },
   {
-    category: 'Why It Matters',
+    category: 'Context',
     title: 'Where <span class="accent">commerce actually meets your business</span>',
     visualHTML: DG.stakes,
     blocks: [
       { kind: 'q', html: 'Ask any team that has replatformed where the time actually went. It rarely went into product pages. It went into how you actually sell — through distributors and dealers, through procurement-mandated accounts, through marketplace vendors — and into the systems behind them: ERP, CRM, PIM, warehouses, payments. <strong>Replatforming lives or dies at the integration layer.</strong>' },
-      { kind: 'a', html: 'Integration is not one problem. It is <strong>a different problem for every audience</strong>: the people buying from you, your own commercial and IT teams, and the vendors supplying you. Each has a completely different appetite for technology — and handing every one of them the same generic API is how budgets disappear.' },
-      { kind: 't', html: '<strong>Match the door to whoever is knocking</strong>, and integration stops being the risk line in your business case.' }
+      { kind: 'a', html: 'Integration is not one problem. It is <strong>a different problem for every audience</strong>: the people buying from you, your own commercial and IT teams, and the vendors supplying you. Each has a different appetite for technology, and handing every one of them the same generic API is how projects over-run.' },
+      { kind: 't', html: 'Give each audience the integration path that fits, and integration stops being the dominant risk in the business case.' }
     ]
   },
   {
-    category: 'Why It Matters',
+    category: 'Context',
     title: 'One platform, <span class="accent">ready-made doors</span>',
     visualHTML: DG.overview,
     blocks: [
@@ -1225,7 +1225,7 @@ const slides = [
       { kind: 'q', html: 'A web store, a mobile app, a sales-rep tool and a customer portal all show the same products at different prices to different people. Built separately, they drift apart — and every one of them gets slower to change.' },
       { kind: 'a', html: 'xAPI is the Virto Commerce <strong>Experience API</strong>. A screen asks for exactly the data it needs in a single request, and the platform works out <strong>who the buyer is, which organization they belong to and what they have negotiated</strong> before it answers. The commercial logic stays in one place, server-side.' },
       { kind: 'w', html: 'Choose xAPI whenever <strong>a person is looking at a screen</strong> — your storefront, a mobile app, a partner-branded portal, or a rep selling on a customer’s behalf.' },
-      { kind: 't', html: 'A new surface is a <strong>new front end, not a new back end</strong> — and every channel quotes the same price.' }
+      { kind: 't', html: 'A new surface is a <strong>new front end</strong>. The back end does not change, and every channel quotes the same price.' }
     ]
   },
   {
@@ -1264,7 +1264,7 @@ const slides = [
     title: 'Everything the admin can do, <span class="accent">your systems can do</span>',
     visualHTML: DG.restSeller,
     blocks: [
-      { kind: 'q', html: 'Sooner or later a system you already own needs commerce data. The ERP owns stock and credit, the CRM owns the relationship, finance owns the invoice. Nightly spreadsheet drops and screen-scraping are where data quality goes to die.' },
+      { kind: 'q', html: 'Sooner or later a system you already own needs commerce data. The ERP owns stock and credit, the CRM owns the relationship, finance owns the invoice. Nightly spreadsheet drops and screen-scraping degrade data quality over time.' },
       { kind: 'a', html: 'Every Virto Commerce module publishes an <strong>open REST API with an OpenAPI schema</strong> — <strong>the same API the admin screens use</strong>. Your developers generate a client straight from the schema and work against documented, versioned endpoints.' },
       { kind: 'w', html: 'Choose the REST API for <strong>logic your business is genuinely built on</strong>, for high-volume data movement, or for an internal tool that needs complete control.' },
       { kind: 't', html: 'No capability is trapped in a screen, and no roadmap of yours waits on a vendor deciding what to expose next.' }
@@ -1275,7 +1275,7 @@ const slides = [
     title: 'Connect ERP and CRM <span class="accent">without writing code</span>',
     visualHTML: DG.middleware,
     blocks: [
-      { kind: 'q', html: 'Hand-written integration code has an unpleasant habit: every field the ERP team renames becomes a ticket, a release and a deployment window. Keeping the connection alive quietly costs more than building it did.' },
+      { kind: 'q', html: 'Hand-written integration code is fragile. Every field the ERP team renames becomes a ticket, a release and a deployment window. Keeping the connection alive costs more over time than building it did.' },
       { kind: 'a', html: 'Put <strong>your integration middleware</strong> in between — <strong>Azure Function Apps, Logic Apps, Boomi, MuleSoft — or your own</strong>. Middleware is where the enterprise-specific work belongs: orchestration, transformation, routing, retries and client-owned business logic. It imports the Virto Commerce OpenAPI schema, so connecting SAP means mapping IDoc or OData messages — prices and stock in, orders out, invoices back — and the mapping keeps evolving as the ERP does.' },
       { kind: 'w', html: 'For <strong>multi-system, multi-entity landscapes middleware is the normal architecture, not the fallback</strong> — standard back-office traffic (orders out to the ERP, customers to the CRM, price and stock in, invoices back) belongs here, especially when the integration team is not the commerce team.' },
       { kind: 't', html: 'Business change stops queuing behind a release train, and the integration stays readable by someone other than the person who built it.' }
@@ -1289,7 +1289,7 @@ const slides = [
       { kind: 'q', html: 'The most expensive integration is the one that never needed to exist — a ticket raised because a price list, a promotion or an approval limit could only be changed by a developer.' },
       { kind: 'a', html: 'A large share of what looks like integration work is simply <strong>configuration in the Admin UI</strong>: catalogs and content, price lists and contracts, promotions, customer organizations and roles, stores, currencies, languages — and the settings of the integrations themselves. All of it <strong>self-service, permission-controlled and live immediately</strong>.' },
       { kind: 'w', html: 'Check this door first, every time. If a business person can describe the change in business terms, it is usually <strong>a setting rather than a project</strong>.' },
-      { kind: 't', html: 'Your commercial team moves at its own speed, and your developers spend their time on the things only developers can do.' }
+      { kind: 't', html: 'Your commercial team moves at its own speed, and your developers spend their time on work that only they can do.' }
     ]
   },
 
@@ -1314,13 +1314,13 @@ const slides = [
   },
   {
     category: 'Suppliers &amp; Vendors',
-    title: 'The next supplier is <span class="accent">a mapping, not a project</span>',
+    title: 'Onboarding each new supplier is <span class="accent">a mapping</span>',
     visualHTML: DG.vendorMiddleware,
     blocks: [
       { kind: 'q', html: 'Most suppliers cannot meet you at your API. They have a spreadsheet, an SFTP drop, or an API built for something else entirely — and every single one of them is different.' },
       { kind: 'a', html: 'Your integration middleware absorbs that difference. One flow <strong>collects whatever the supplier can produce</strong> — file, feed or API — validates and normalizes it, and calls the vendor APIs on their behalf. Onboarding the next supplier means <strong>cloning the flow and changing the mapping</strong>, not starting again.' },
       { kind: 'w', html: 'Choose this for the <strong>long tail of suppliers</strong>: many sources, many formats, none of them worth a bespoke project on its own.' },
-      { kind: 't', html: 'The cost of adding a supplier falls with every supplier you add — which is exactly what turns a catalog into a marketplace.' }
+      { kind: 't', html: 'The cost of adding a supplier falls with every supplier you add, which is how a catalog becomes a marketplace.' }
     ]
   },
   {
@@ -1341,7 +1341,7 @@ const slides = [
     num: 'Section 05  ·  Choosing',
     title: 'Which Door',
     titleAccent: 'Do I Open?',
-    desc: 'A playbook per audience — the need, the path that serves it, why it wins and who does the work. Plus what to do when none of them fit.',
+    desc: 'A playbook per audience: the need, the path that serves it, what it gives you, and who does the work. Plus what to do when none of them fit.',
   },
   {
     type: 'playbook',
@@ -1391,7 +1391,7 @@ const slides = [
   },
   {
     category: 'Choosing',
-    title: 'In practice — <span class="accent">at enterprise scale</span>',
+    title: 'In practice, at <span class="accent">enterprise scale</span>',
     visualHTML: `
       <div class="ax">
         <div class="ax-cap">Live at enterprise scale</div>
@@ -1417,8 +1417,8 @@ const slides = [
   {
     type: 'glossary',
     category: 'Reference',
-    title: 'Glossary — words <span class="accent">we just used</span>',
-    intro: 'A shared vocabulary, so “API”, “middleware” and “agent” mean the same thing to everyone in the room.',
+    title: '<span class="accent">Glossary</span>',
+    intro: 'A shared vocabulary, so "API", "middleware" and "agent" mean the same thing in this guide.',
     terms: [
       { t: 'API', d: 'A defined way for two systems to talk. If it is in the API, another system can do it <strong>without a human</strong>.' },
       { t: 'REST API', d: 'The classic, universally supported API style. Virto Commerce publishes one for <strong>every module</strong>.' },

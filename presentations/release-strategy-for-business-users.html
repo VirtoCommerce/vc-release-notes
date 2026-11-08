@@ -2228,13 +2228,13 @@ const slides = [
     blocks: [
       { kind: 'q', html: 'Coming from a single, monolithic platform, teams expect one big version number and one annual “upgrade project”. Virto works differently — and bridging that expectation gap is exactly what this guide is for.' },
       { kind: 'a', html: 'Virto Commerce is built from <strong>100+ independent modules</strong> plus the Platform. Instead of one giant release once a year, each part evolves and ships continuously. The Release Strategy is the simple set of rules that keeps all those moving parts <strong>predictable and safe to combine</strong>.' },
-      { kind: 't', html: 'You get new capabilities <em>faster</em>, with far <em>less risk</em> than a once-a-year “big bang” upgrade.' }
+      { kind: 't', html: 'You get new capabilities <em>faster</em>, with far <em>less risk</em> than a once-a-year monolithic upgrade.' }
     ]
   },
   {
     type: 'compare',
     category: 'Foundations',
-    title: 'Edge vs Stable — <span class="accent">which, and when</span>',
+    title: 'Edge vs Stable: <span class="accent">which, and when</span>',
     stable: {
       cls: 'stable',
       name: 'Stable',
@@ -2250,7 +2250,7 @@ const slides = [
         'Newest features arrive <strong>later</strong> — after hardening',
         'Moves in quarterly steps, not continuously'
       ],
-      best: 'Production, new builds &amp; maintenance. <strong>Use each release as a moment to sit together — review what’s new and plan both roadmaps, yours and ours.</strong>'
+      best: 'Production, new builds &amp; maintenance. <strong>Use each release as a moment to review what is new and align both roadmaps, yours and Virto\'s.</strong>'
     },
     edge: {
       cls: 'edge',
@@ -2278,7 +2278,7 @@ const slides = [
     blocks: [
       { kind: 'q', html: 'This is the real fear coming from other systems: on many platforms, <strong>every vendor upgrade means re-applying — or rebuilding — your custom work by hand</strong>. It’s exactly why teams postpone upgrades for years and drift dangerously out of date.' },
       { kind: 'a', html: 'Not here — and the easiest way to see why is your <strong>house</strong>. Virto maintains the <strong>building, plumbing and wiring</strong> (the Platform &amp; modules); the <strong>room you added and its furniture</strong> are yours (your custom code). When the city upgrades the water mains, you don’t rebuild your room. Because you <strong>extend</strong> Virto instead of editing it, each update flows in <em>around</em> your room — so it’s a <strong>recompile + re-test</strong>, not a rewrite.' },
-      { kind: 't', html: 'The pain you’re bracing for doesn’t exist when you extend. Customization and staying current stop being a trade-off.' }
+      { kind: 't', html: 'With the extension model, customization and staying current stop being a trade-off.' }
     ]
   },
   {
@@ -2286,7 +2286,7 @@ const slides = [
     title: 'When <span class="accent">can</span> an update be more involved?',
     visualHTML: ANIM.bigUpdates,
     blocks: [
-      { kind: 'q', html: 'We said most updates are just a recompile + re-test. So when is an update genuinely bigger — and how honest are you about it?' },
+      { kind: 'q', html: 'Most updates are a recompile + re-test. When is an update genuinely bigger, and how is that flagged?' },
       { kind: 'a', html: 'A few times the step is larger, and we flag it up front:<ul><li><strong>.NET LTS, ~every 2 years.</strong> Virto follows Microsoft’s Long-Term-Support cadence; moving to a new LTS means a new target framework and refreshed dependencies across the whole solution.</li><li><strong>Yearly 3rd-party bumps.</strong> Once a year we refresh the libraries Virto builds on.</li><li><strong>Security-driven fixes.</strong> A security finding can occasionally force a fix that is breaking.</li></ul>' },
       { kind: 't', html: 'Even then, every breaking change ships with <strong>migration notes</strong> — and we actively design to keep them <em>rare and small</em>.' }
     ]
@@ -2329,7 +2329,7 @@ const slides = [
     blocks: [
       { kind: 'q', html: 'How do we add our own behavior to a standard Virto module?' },
       { kind: 'a', html: 'Follow the <strong>Open-Closed Principle</strong>: modules are <strong>open for extension, closed for modification</strong>. You create a custom module that plugs into the existing one — adding a field, an API, business logic, even database columns — without touching the original source.' },
-      { kind: 't', html: 'This one habit is what makes <em>seamless delivery</em> possible. Modify vendor code, and you inherit a merge conflict on every update.' }
+      { kind: 't', html: 'This habit is what makes clean updates possible. Modify vendor code and you inherit a merge conflict on every update.' }
     ]
   },
 
@@ -2388,7 +2388,7 @@ const slides = [
   },
   {
     category: 'QA',
-    title: '<span class="accent">QA</span> — keep updating safely',
+    title: '<span class="accent">QA</span> for updates',
     visualHTML: ANIM.ytests,
     blocks: [
       { kind: 'q', html: 'How do we keep updating regularly without fear of breaking something?' },
@@ -2466,8 +2466,8 @@ const slides = [
   {
     type: 'glossary',
     category: 'Reference',
-    title: 'Glossary — words <span class="accent">we use</span>',
-    intro: 'A shared vocabulary so “Stable”, “module”, and “bundle” mean the same thing across the room.',
+    title: '<span class="accent">Glossary</span>',
+    intro: 'A shared vocabulary so "Stable", "module" and "bundle" mean the same thing in this guide.',
     terms: [
       { t: 'Platform', d: 'The core runtime everything plugs into. Maintained and tested by Virto.' },
       { t: 'Module', d: 'A self-contained unit of functionality (Catalog, Cart, Orders…). Virto ships <strong>100+</strong>.' },
