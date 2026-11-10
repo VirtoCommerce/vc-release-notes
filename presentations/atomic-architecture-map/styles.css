@@ -2111,3 +2111,262 @@ body.heat-on .cell[data-heat-label]::after { right: 8px; bottom: 6px; }
   .heat-panel, .heat-tip { display: none !important; }
   body.heat-on [data-heat-bin="7"] { animation: none; }
 }
+
+/* ---------------------------------------------------------------- introduction and tour
+   A five-step introduction for first-time visitors, then an optional tour that spotlights the real
+   parts of the page. Above everything else on the page (the module dialog is 60). */
+.intro-toggle svg { width: 18px; height: 18px; display: block; }
+
+.intro { position: fixed; inset: 0; z-index: 80; display: grid; justify-items: center; align-items: start; padding: max(16px, 9vh) 16px 16px; }
+.intro[hidden] { display: none; }
+.intro-backdrop {
+  position: absolute; inset: 0;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  animation: introFade .25s ease-out;
+}
+.intro-card {
+  position: relative; width: min(720px, 100%); max-height: calc(100dvh - 32px); overflow: auto;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(10, 14, 22, .28), var(--shadow);
+  padding: 30px 32px 22px;
+}
+.intro-card.is-entering { animation: introRise .3s cubic-bezier(.2, .8, .2, 1); }
+@keyframes introFade { from { opacity: 0; } }
+@keyframes introRise { from { opacity: 0; transform: translateY(14px) scale(.98); } }
+
+.intro-close {
+  position: absolute; top: 12px; right: 12px; width: 32px; height: 32px;
+  border: 0; border-radius: 8px; background: transparent; color: var(--muted);
+  font-size: 15px; cursor: pointer;
+}
+.intro-close:hover { background: var(--surface-2); color: var(--text); }
+.intro-kicker {
+  font: 600 11.5px var(--font); letter-spacing: .08em; text-transform: uppercase; color: var(--accent);
+}
+.intro-title { margin: 6px 0 14px; font: 700 26px/1.2 var(--font); letter-spacing: -.01em; padding-right: 28px; }
+.intro-content { min-height: 262px; }
+.intro-p { margin: 0 0 10px; font-size: 15.5px; line-height: 1.55; }
+.intro-p:first-child { font-size: 17px; }
+
+/* Step 1: the four levels stacking into a solution. */
+.intro-stack { margin-top: 18px; display: grid; gap: 8px; }
+.intro-row {
+  display: grid; grid-template-columns: 112px 1fr; align-items: center; gap: 12px;
+  opacity: 0; animation: introRow .45s ease-out forwards;
+}
+.intro-row.is-atoms { animation-delay: .1s; --h: 212; }
+.intro-row.is-molecules { animation-delay: .35s; --h: 262; }
+.intro-row.is-cells { animation-delay: .6s; --h: 168; }
+.intro-row.is-organism { animation-delay: .85s; }
+@keyframes introRow { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+.intro-row-label { display: flex; flex-direction: column; font-size: 13px; line-height: 1.25; }
+.intro-row-label b { font-weight: 650; }
+.intro-row-label span { color: var(--muted); font: 11.5px var(--mono); }
+.intro-row-items { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 5px; }
+.intro-atom, .intro-mol, .intro-cell {
+  display: block; border-radius: 5px;
+  background: hsl(var(--h) 70% 92%); border: 1px solid hsl(var(--h) 45% 78%);
+}
+:root[data-theme="dark"] .intro-atom, :root[data-theme="dark"] .intro-mol, :root[data-theme="dark"] .intro-cell {
+  background: hsl(var(--h) 35% 22%); border-color: hsl(var(--h) 35% 38%);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .intro-atom, :root:not([data-theme="light"]) .intro-mol, :root:not([data-theme="light"]) .intro-cell {
+    background: hsl(var(--h) 35% 22%); border-color: hsl(var(--h) 35% 38%);
+  }
+}
+.intro-atom { height: 22px; }
+.intro-mol { height: 24px; }
+.intro-cell { height: 28px; border-width: 1.5px; }
+.intro-org {
+  display: block; width: 100%; padding: 8px 12px; border-radius: 8px; text-align: center;
+  font: 600 13.5px var(--font); color: #fff; background: linear-gradient(90deg, #1668dc, #7a4fd8 55%, #d21f3c);
+}
+
+/* Step 2: one example built up level by level. Each column fades in after the one before it (--s),
+   and its parts drop in one by one (--i). The part carried over from the previous column keeps that
+   column's colour. */
+.intro-build {
+  display: grid; grid-template-columns: 1.05fr 1fr 1fr 1fr; gap: 26px; margin-top: 16px;
+}
+.build-col { --h: 212; position: relative; display: flex; flex-direction: column; gap: 8px; min-width: 0;
+  opacity: 0; animation: buildCol .5s ease-out forwards; animation-delay: calc(var(--s) * 1.2s); }
+.build-col.is-molecules { --h: 262; }
+.build-col.is-cells { --h: 168; }
+.build-col.is-organism { --h: 352; }
+.build-col + .build-col::before {
+  content: "→"; position: absolute; left: -20px; top: 54px; font: 600 15px var(--font); color: var(--muted);
+}
+@keyframes buildCol { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.build-level { font: 650 11.5px var(--font); letter-spacing: .07em; text-transform: uppercase; color: hsl(var(--h) 55% 45%); }
+.build-box {
+  display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 10px;
+  border: 1.5px solid hsl(var(--h) 50% 70%); background: hsl(var(--h) 70% 97%);
+}
+.build-box > b { font-size: 13px; line-height: 1.25; }
+.build-atoms { display: grid; gap: 5px; }
+.build-atom-row { display: grid; grid-template-columns: 26px 1fr; align-items: center; gap: 7px; font-size: 12px; line-height: 1.2; }
+.build-sym {
+  display: grid; place-items: center; height: 26px; border-radius: 5px; font: 650 11px var(--mono);
+  background: hsl(212 70% 92%); border: 1px solid hsl(212 45% 76%); color: hsl(212 55% 30%);
+}
+.build-syms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+.build-list { display: grid; gap: 5px; }
+.build-pill {
+  padding: 5px 8px; border-radius: 6px; font-size: 12px; line-height: 1.25;
+  background: var(--surface); border: 1px solid var(--border-strong);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.build-col.is-cells .build-pill.is-carried { --c: 262; }
+.build-col.is-organism .build-pill.is-carried { --c: 168; }
+.build-pill.is-carried {
+  font-weight: 650; background: hsl(var(--c) 70% 94%); border-color: hsl(var(--c) 50% 66%); color: hsl(var(--c) 50% 30%);
+}
+.build-pill.is-yours { border-style: dashed; color: var(--muted); }
+.build-more { font-size: 11.5px; color: var(--muted); padding: 0 2px; }
+.build-caption { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+.intro-build .bi {
+  opacity: 0; animation: buildPart .3s ease-out forwards;
+  animation-delay: calc(var(--s) * 1.2s + .3s + var(--i) * .08s);
+}
+@keyframes buildPart { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+.intro-replay {
+  margin-top: 12px; border: 0; background: transparent; color: var(--muted); font: 12.5px var(--font);
+  cursor: pointer; padding: 2px 0;
+}
+.intro-replay:hover { color: var(--text); text-decoration: underline; }
+:root[data-theme="dark"] .build-box { background: hsl(var(--h) 30% 14%); border-color: hsl(var(--h) 35% 38%); }
+:root[data-theme="dark"] .build-sym { background: hsl(212 35% 22%); border-color: hsl(212 35% 40%); color: hsl(212 60% 85%); }
+:root[data-theme="dark"] .build-pill.is-carried { background: hsl(var(--c) 30% 22%); border-color: hsl(var(--c) 40% 48%); color: hsl(var(--c) 60% 86%); }
+:root[data-theme="dark"] .build-level { color: hsl(var(--h) 60% 72%); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .build-box { background: hsl(var(--h) 30% 14%); border-color: hsl(var(--h) 35% 38%); }
+  :root:not([data-theme="light"]) .build-sym { background: hsl(212 35% 22%); border-color: hsl(212 35% 40%); color: hsl(212 60% 85%); }
+  :root:not([data-theme="light"]) .build-pill.is-carried { background: hsl(var(--c) 30% 22%); border-color: hsl(var(--c) 40% 48%); color: hsl(var(--c) 60% 86%); }
+  :root:not([data-theme="light"]) .build-level { color: hsl(var(--h) 60% 72%); }
+}
+
+/* Who is responsible for each level: Virto Commerce beside your team or SI. */
+.intro-owners { display: grid; gap: 6px; margin-top: 14px; }
+.owners-row {
+  --h: 212; display: grid; grid-template-columns: 96px 1fr 1fr; gap: 8px; align-items: stretch;
+  opacity: 0; animation: introRow .4s ease-out forwards; animation-delay: calc(.1s + var(--i, 0) * .12s);
+}
+.owners-row.is-head { opacity: 1; animation: none; font: 650 11.5px var(--font); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.owners-row.is-head .owners-virto { color: var(--accent); }
+.owners-row.is-head .owners-si { color: var(--text); }
+.owners-row.is-molecules { --h: 262; }
+.owners-row.is-cells { --h: 168; }
+.owners-row.is-organism { --h: 352; }
+.owners-level {
+  display: flex; align-items: center; gap: 8px; font-size: 13.5px;
+}
+.owners-level::before { content: ""; width: 8px; align-self: stretch; border-radius: 4px; background: hsl(var(--h) 65% 55%); }
+.owners-cell { padding: 8px 10px; border-radius: 8px; font-size: 13px; line-height: 1.45; border: 1px solid var(--border); }
+.owners-cell.owners-virto { background: color-mix(in srgb, var(--accent) 7%, var(--surface)); border-color: color-mix(in srgb, var(--accent) 22%, var(--border)); }
+.owners-cell.owners-si { background: var(--surface-2); }
+.intro-note {
+  margin: 14px 0 0; padding: 10px 12px; border-radius: 8px; font-size: 13.5px; line-height: 1.5;
+  background: var(--surface-2); border: 1px dashed var(--border-strong);
+}
+
+/* Step 3: the map read by three roles. */
+.intro-role-tabs { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border); }
+.intro-role-tab {
+  border: 0; border-radius: 7px; padding: 7px 14px; background: transparent; color: var(--muted);
+  font: 600 13.5px var(--font); cursor: pointer;
+}
+.intro-role-tab:hover { color: var(--text); }
+.intro-role-tab.is-on { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(10, 14, 22, .14); }
+.intro-role-tab:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.intro-role-points { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 14px; }
+.intro-role-points li { padding-left: 14px; border-left: 3px solid var(--accent); }
+.intro-role-points b { display: block; font-size: 15px; margin-bottom: 2px; }
+.intro-role-points p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+
+/* Step 4: how to read the map. */
+.intro-tips { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.intro-tips li { display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; font-size: 14.5px; line-height: 1.5; }
+.intro-tip-glyph {
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px;
+  background: var(--surface-2); border: 1px solid var(--border); font-size: 17px; color: var(--accent);
+}
+
+.intro-foot { display: flex; align-items: center; gap: 12px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--border); }
+.intro-dots { display: flex; gap: 6px; }
+.intro-dot {
+  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px; background: var(--border-strong);
+  cursor: pointer; transition: width .2s, background .2s;
+}
+.intro-dot.is-on { width: 22px; background: var(--accent); }
+.intro-actions { margin-left: auto; display: flex; gap: 8px; }
+.intro-skip { border: 0; background: transparent; color: var(--muted); font: 13.5px var(--font); cursor: pointer; padding: 6px 4px; }
+.intro-skip:hover { color: var(--text); text-decoration: underline; }
+.intro-skip:empty { display: none; }
+.intro-btn {
+  border-radius: 8px; padding: 9px 16px; font: 600 14px var(--font); cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface); color: var(--text);
+}
+.intro-btn:hover { background: var(--surface-2); }
+.intro-btn.is-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.intro-btn.is-primary:hover { filter: brightness(1.08); background: var(--accent); }
+.intro-btn:focus-visible, .intro-dot:focus-visible, .intro-close:focus-visible, .intro-skip:focus-visible {
+  outline: 2px solid var(--focus); outline-offset: 2px;
+}
+
+/* The tour: a dimmed page with a hole over the part being explained. The hole's huge shadow is the
+   dimming; the shield underneath catches clicks so the page does not react mid-tour. */
+.tour { position: fixed; inset: 0; z-index: 80; }
+.tour[hidden] { display: none; }
+.tour-shield { position: absolute; inset: 0; }
+.tour-hole {
+  position: fixed; border-radius: 10px; pointer-events: none;
+  box-shadow: 0 0 0 2px var(--accent), 0 0 0 9999px rgba(10, 14, 22, .58);
+  transition: top .3s ease, left .3s ease, width .3s ease, height .3s ease;
+}
+.tour-card {
+  position: fixed; background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px 14px;
+  box-shadow: 0 18px 48px rgba(10, 14, 22, .35);
+  transition: top .3s ease, left .3s ease;
+}
+.tour-step { font: 600 11.5px var(--mono); color: var(--accent); letter-spacing: .04em; }
+.tour-title { margin: 4px 0 6px; font: 700 17px/1.3 var(--font); }
+.tour-text { margin: 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.tour-actions { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+.tour-spacer { flex: 1; }
+.tour-actions .intro-btn { padding: 7px 14px; font-size: 13.5px; }
+
+@media (max-width: 560px) {
+  .intro { padding: 10px; align-items: end; }
+  .intro-card { padding: 24px 20px 16px; border-radius: 14px; max-height: calc(100dvh - 20px); }
+  .intro-title { font-size: 21px; }
+  .intro-content { min-height: 0; }
+  .intro-build { grid-template-columns: 1fr; gap: 26px; }
+  .build-col + .build-col::before { content: "↓"; left: 0; top: -22px; }
+  .build-atoms { grid-template-columns: 1fr 1fr; }
+  .build-syms { grid-template-columns: repeat(6, 1fr); }
+  .build-list { display: flex; flex-wrap: wrap; }
+  .intro-build { gap: 22px; }
+  .build-col { gap: 6px; }
+  .intro-role-tabs { display: flex; }
+  .owners-row { grid-template-columns: 1fr 1fr; }
+  .owners-row.is-head > :first-child { display: none; }
+  .owners-level { grid-column: 1 / -1; }
+  .intro-role-tabs { display: grid; grid-template-columns: 1fr 1fr; }
+  .intro-role-tab { padding: 7px 6px; font-size: 12.5px; }
+  .intro-row { grid-template-columns: 84px 1fr; }
+  /* One line per level on a phone: fewer shapes, same idea. */
+  .intro-row-items { grid-template-columns: repeat(min(var(--n), 8), 1fr); }
+  .intro-atom:nth-child(n+9) { display: none; }
+  .intro-foot { flex-wrap: wrap; }
+  .intro-actions { width: 100%; }
+  .intro-actions .intro-btn { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-backdrop, .intro-card.is-entering, .intro-row, .build-col, .intro-build .bi, .owners-row { animation: none; opacity: 1; }
+  .tour-hole, .tour-card { transition: none; }
+}
+@media print { .intro, .tour, .intro-toggle { display: none !important; } }

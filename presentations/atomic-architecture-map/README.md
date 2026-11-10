@@ -606,10 +606,41 @@ Refresh it before a presentation: `node tools/build-heat.js` (about 15 seconds; 
 widens the window). `check-content.js` fails if the history names an atom or module that is no longer
 on the map, and prints how far the history reaches.
 
+## Introduction and tour
+
+Most people who open the map for the first time are not developers and do not know what they are
+looking at. On the first visit a short introduction opens over the map, in five steps:
+
+1. What Virto Atomic Architecture is: commerce assembled from small parts you install, change or
+   replace one at a time.
+2. How the levels fit, built up from one real example and compared with Atomic Design in design
+   systems (a label, an input and a button make a search form). Six atoms make the Catalog module;
+   Catalog and the modules beside it make the Digital Catalog package; packages and your own
+   modules make your store. Each column appears after the one before it, and **Replay** runs it again.
+   The atom, module and package names come from the map's data.
+3. Who is responsible for each level: Virto Commerce builds and maintains atoms, modules and
+   packages and ships platform updates; your team or system integrator writes your own modules,
+   picks and pins the package in `vc-package.json`, and owns the solution. The step ends on the
+   rule that keeps upgrades cheap: nobody edits Virto module code.
+4. What the map does for four roles, as tabs: business analyst, solution architect, developer, and
+   agentic developer (a developer who works through an AI coding agent).
+   Each tab names three things that role can do with the map, and where on the map to do it.
+5. How to read the map, with a choice between **Take the 1-minute tour** and **Explore on my own**.
+
+The tour dims the page and spotlights, one at a time, the solution layers, the atoms, the modules,
+the packages, search, the heat-map button and the (i) button. Arrow keys, `Enter` and `Esc` work in
+both the introduction and the tour.
+
+The browser remembers that the introduction was seen (`localStorage` key `vc-atomic-map-intro-v1`)
+once it is closed in any way, so it does not open again. It also stays closed when the map is opened
+from a deep link (`#/atom/…`) or a heat-map link, and waits for a plain visit. To open it again, use
+the (i) button in the header, press `i`, or add `?intro` to the address. Change the key's version
+suffix when the introduction changes enough that everyone should see it again.
+
 ## Keyboard
 
 `/` search · `←→↑↓` move between tiles · `Enter` open · `Esc` back, then close · `f` full-screen
-panel · `?` legend · `h` change heat map
+panel · `?` legend · `h` change heat map · `i` introduction and tour
 
 Following a link **inside** the panel is a step deeper, not a new place: opening a module from a
 package page and then closing lands back on that package, and the close button says so — it shows

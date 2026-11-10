@@ -784,6 +784,428 @@
     }
   }
 
+  // ---------------------------------------------------------------- introduction and tour
+
+  /* First-time visitors, most of them not developers, open a dense poster with no idea what it is for.
+     The introduction answers that in five short steps (what it is, how the levels are built, who owns
+     each level, what the map does for each role, how to read it), then offers a one-minute tour that points at the real parts of
+     the page. It opens once per browser; the (i) button, the i key and ?intro open it again. A visitor
+     who arrives on a deep link (#/…) or a heat-map link is going somewhere specific, so it waits. */
+  var INTRO_KEY = 'vc-atomic-map-intro-v1';
+  var intro = { open: false, step: 0, role: 0, returnFocus: null };
+  var tour = { open: false, stop: 0, hole: null, card: null };
+
+  function introSeen() {
+    try { return localStorage.getItem(INTRO_KEY) === 'done'; } catch (e) { return false; }
+  }
+  function markIntroSeen() {
+    try { localStorage.setItem(INTRO_KEY, 'done'); } catch (e) { /* ignore */ }
+  }
+
+  function introSteps() {
+    return [
+      {
+        kicker: 'Virto Atomic Architecture™',
+        title: 'Commerce built from parts you can change',
+        body: [
+          'Virto Commerce is not one large system. It is assembled from small, independent parts.',
+          'You install only the parts you need, and you can change or replace one without rebuilding the others. This map shows every part and how they fit together.'
+        ],
+        visual: 'stack'
+      },
+      {
+        kicker: 'How the parts fit',
+        title: 'Each level is made of the one below',
+        body: [
+          'Design systems use the same idea, called Atomic Design: a label, an input and a button make a search form, and a search form, a logo and a menu make a page header. Here the parts are software instead of pieces of a page.'
+        ],
+        visual: 'build'
+      },
+      {
+        kicker: 'Who does what',
+        title: 'Each level has an owner',
+        body: [
+          'The levels also split the work. Virto Commerce builds and maintains the parts; your team or your system integrator (SI) chooses them, adds your own, and runs the result.'
+        ],
+        owners: [
+          { tone: 'atoms', level: 'Atoms',
+            virto: 'Builds and maintains the platform principles: security, caching, events, APIs.',
+            si: 'Uses them in your own modules. Does not change them.' },
+          { tone: 'molecules', level: 'Molecules',
+            virto: 'Builds, tests and releases every Virto module, and keeps its extension points stable.',
+            si: 'Writes your own modules in the same shape, and extends Virto modules from them instead of editing their code.' },
+          { tone: 'cells', level: 'Cells',
+            virto: 'Publishes the packages: which modules, at which versions, work together.',
+            si: 'Picks a package, adds or removes modules, and pins the versions in vc-package.json.' },
+          { tone: 'organism', level: 'Organism',
+            virto: 'Ships platform updates. The platform checks at startup that the installed modules fit together.',
+            si: 'Owns the solution: your code, configuration, integrations, storefront, environments and when to upgrade.' }
+        ],
+        note: 'The boundary is one file, vc-package.json: the Virto modules you use, at fixed versions, next to your own. As long as nobody edits Virto module code, an upgrade is a version change, not a merge.'
+      },
+      {
+        kicker: 'What you get from it',
+        title: 'What the map does for your role',
+        roles: [
+          { name: 'Business analyst', points: [
+            { title: 'Check a requirement against what exists', text: 'Each package lists its business features and the modules behind them, so you can see whether a need is covered as it is, or is a gap to build.' },
+            { title: 'Scope a project by package', text: 'Start from the package closest to the scenario, such as Digital Catalog or Purchase, then add or remove modules in the builder and see what it becomes.' },
+            { title: 'Show what changed', text: 'The heat map shows which areas received releases in a period, which helps in release reviews and roadmap discussions.' }
+          ] },
+          { name: 'Solution architect', points: [
+            { title: 'Draw boundaries along modules', text: 'Each module owns its data, its API and its events, and refers to other modules by id rather than by foreign key.' },
+            { title: 'Plan the install set', text: 'A module page lists the modules it requires and the optional ones, so the deployment follows from the scenario.' },
+            { title: 'Pick the integration point', text: 'Events, webhooks and the event bus, the Business API (GraphQL) and REST each have an atom that says when to use it and when not to.' }
+          ] },
+          { name: 'Developer', points: [
+            { title: 'Find the pattern before writing code', text: 'Each atom says when to use it, what to avoid and which API to call. Most include a code snippet.' },
+            { title: 'Go from the map to the source', text: 'Atoms link to the files in vc-platform that implement them and to the documentation page.' },
+            { title: 'Extend without forking', text: 'AbstractTypeFactory, domain events and startup hooks let your module change platform behaviour. Platform updates do not touch that code.' }
+          ] },
+          { name: 'Agentic developer', points: [
+            { title: 'Give the agent the right context', text: 'The map is plain data files in content/: every atom with its source files in vc-platform, its docs page and a code snippet. Point the coding agent at the atom for the task before it writes code.' },
+            { title: 'Turn the map into rules', text: 'Each atom lists what to avoid and its known pitfalls. They work as rules for the agent: no foreign keys between modules, no edits to Virto module code, extend through AbstractTypeFactory.' },
+            { title: 'Review what the agent wrote', text: 'Check the change against the atom it should follow: the extension point, the files it touches, the docs. A link such as #/atom/abstract-type-factory takes a reviewer straight to that pattern.' }
+          ] }
+        ]
+      },
+      {
+        kicker: 'Using this map',
+        title: 'How to read it',
+        tips: [
+          { glyph: '▦', text: 'Thinking in business scenarios? Start with **Cells** at the bottom: each package lists the business features it includes.' },
+          { glyph: '↗', text: 'Click any tile for a plain explanation, with separate notes for business people, architects and developers.' },
+          { glyph: '⌕', text: 'Search finds any part by name. The flame button shows where the platform changed over a period you choose.' }
+        ],
+        final: true
+      }
+    ];
+  }
+
+  /* The opening visual: the four levels stacking into a solution, in the colours the map itself uses. */
+  function introStackVisual() {
+    var row = function (cls, label, count, cells) {
+      return el('div', { class: 'intro-row ' + cls },
+        el('span', { class: 'intro-row-label' }, el('b', { text: label }), el('span', { text: count })),
+        el('span', { class: 'intro-row-items', style: '--n:' + cells.length }, cells));
+    };
+    var dots = function (n, cls) { var out = []; for (var i = 0; i < n; i++) out.push(el('span', { class: cls })); return out; };
+    return el('div', { class: 'intro-stack', 'aria-hidden': 'true' },
+      row('is-atoms', 'Atoms', String(ATOMS.length), dots(14, 'intro-atom')),
+      row('is-molecules', 'Molecules', String(MODULE_TILES.length), dots(6, 'intro-mol')),
+      row('is-cells', 'Cells', String(CELLS.length), dots(3, 'intro-cell')),
+      row('is-organism', 'Organism', 'yours', [el('span', { class: 'intro-org', text: 'Your commerce solution' })]));
+  }
+
+  /* Step 2: one real example, built up level by level. Six atoms make the Catalog module; Catalog and
+     the modules beside it make the Digital Catalog package; packages and your own modules make the
+     solution. Each column appears after the one before it, and the part carried over keeps its colour,
+     so the eye can follow it. Names come from the map's own data. */
+  function introBuildVisual() {
+    var atomIds = ['settings', 'domain-events', 'search', 'platform-memory-cache', 'permissions', 'rest-api'];
+    var atoms = atomIds.map(function (id) { return byId(ATOMS, id); }).filter(Boolean);
+    var moduleName = function (id) {
+      var m = MODULE_TILES.filter(function (t) { return t.moduleId === 'VirtoCommerce.' + id; })[0];
+      return m ? m.name : id;
+    };
+    var catalogCell = byId(CELLS, 'digital-catalog');
+    var purchaseCell = byId(CELLS, 'purchase');
+    var cellSize = catalogCell && catalogCell.modules ? catalogCell.modules.length : 0;
+    var shown = ['Pricing', 'Inventory', 'Search'];
+    var item = function (cls, text, i, title) { return el('span', { class: 'bi ' + cls, style: '--i:' + i, title: title || null, text: text }); };
+
+    var col = function (step, tone, level, items, caption) {
+      return el('div', { class: 'build-col is-' + tone, style: '--s:' + step },
+        el('div', { class: 'build-level', text: level }), items, el('p', { class: 'build-caption', text: caption }));
+    };
+
+    return el('div', { class: 'intro-build', 'aria-label': 'Atoms make a module, modules make a package, packages make your solution' },
+      col(0, 'atoms', 'Atoms',
+        el('div', { class: 'build-atoms' }, atoms.map(function (x, i) {
+          return el('span', { class: 'bi build-atom-row', style: '--i:' + i },
+            el('span', { class: 'build-sym', text: x.symbol }), el('span', { text: x.name }));
+        })),
+        'One principle each. They are not installed on their own.'),
+      col(1, 'molecules', 'Molecule',
+        el('div', { class: 'build-box' }, el('b', { text: moduleName('Catalog') + ' module' }),
+          el('div', { class: 'build-syms' }, atoms.map(function (x, i) { return item('build-sym', x.symbol, i, x.name); }))),
+        'Atoms that do one business job. A module is what you install.'),
+      col(2, 'cells', 'Cell',
+        el('div', { class: 'build-box' }, el('b', { text: catalogCell ? catalogCell.name : 'Digital Catalog' }),
+          el('div', { class: 'build-list' },
+            item('build-pill is-carried', moduleName('Catalog'), 0),
+            shown.map(function (n, i) { return item('build-pill', moduleName(n), i + 1); }),
+            cellSize > shown.length + 1 ? item('build-more', '+ ' + (cellSize - shown.length - 1) + ' more modules', 4) : null)),
+        'Modules that together cover one business scenario.'),
+      col(3, 'organism', 'Organism',
+        el('div', { class: 'build-box' }, el('b', { text: 'Your store' }),
+          el('div', { class: 'build-list' },
+            item('build-pill is-carried', catalogCell ? catalogCell.name : 'Digital Catalog', 0),
+            item('build-pill', purchaseCell ? purchaseCell.name : 'Purchase', 1),
+            item('build-pill is-yours', 'Your own module', 2))),
+        'Packages plus your own modules: what customers use.'));
+  }
+
+  /* The responsibility step: one row per level, Virto on the left, your team or SI on the right. */
+  function introOwners(rows) {
+    return el('div', { class: 'intro-owners', role: 'table', 'aria-label': 'Who is responsible for each level' },
+      el('div', { class: 'owners-row is-head', role: 'row' },
+        el('span', { role: 'columnheader', text: 'Level' }),
+        el('span', { role: 'columnheader', class: 'owners-virto', text: 'Virto Commerce' }),
+        el('span', { role: 'columnheader', class: 'owners-si', text: 'Your team or SI' })),
+      rows.map(function (r, i) {
+        return el('div', { class: 'owners-row is-' + r.tone, role: 'row', style: '--i:' + i },
+          el('b', { role: 'rowheader', class: 'owners-level', text: r.level }),
+          el('span', { role: 'cell', class: 'owners-cell owners-virto', 'data-who': 'Virto Commerce', text: r.virto }),
+          el('span', { role: 'cell', class: 'owners-cell owners-si', 'data-who': 'Your team or SI', text: r.si }));
+      }));
+  }
+
+  /* Step 3: the same map read by three roles. Tabs, so each reader sees three concrete things. */
+  function introRoles(roles) {
+    var panel = el('div', { class: 'intro-role-panel', role: 'tabpanel' });
+    var tabs = el('div', { class: 'intro-role-tabs', role: 'tablist', 'aria-label': 'Choose your role' });
+    var show = function (i) {
+      intro.role = i;
+      [].forEach.call(tabs.children, function (t, j) {
+        t.classList.toggle('is-on', j === i);
+        t.setAttribute('aria-selected', j === i ? 'true' : 'false');
+      });
+      panel.textContent = '';
+      append(panel, el('ul', { class: 'intro-role-points' }, roles[i].points.map(function (p) {
+        return el('li', {}, el('b', { text: p.title }), el('p', { text: p.text }));
+      })));
+    };
+    roles.forEach(function (r, i) {
+      append(tabs, el('button', { type: 'button', class: 'intro-role-tab', role: 'tab', text: r.name, onclick: function () { show(i); } }));
+    });
+    show(intro.role || 0);
+    return [tabs, panel];
+  }
+
+  function renderIntro(entering) {
+    var host = document.getElementById('intro');
+    /* Only the card is rebuilt between steps; the backdrop stays, so the page behind does not flash. */
+    var old = host.querySelector('.intro-card');
+    if (old) old.remove();
+    if (!host.querySelector('.intro-backdrop')) append(host, el('div', { class: 'intro-backdrop', onclick: function () { closeIntro(); } }));
+    var steps = introSteps();
+    var s = steps[intro.step];
+    var last = intro.step === steps.length - 1;
+
+    var content = [];
+    (s.body || []).forEach(function (p) { content.push(el('p', { class: 'intro-p' }, rich(p))); });
+    if (s.visual === 'stack') content.push(introStackVisual());
+    if (s.visual === 'build') {
+      var build = introBuildVisual();
+      content.push(build, el('button', { type: 'button', class: 'intro-replay', text: '↻ Replay',
+        onclick: function () { var fresh = introBuildVisual(); build.replaceWith(fresh); build = fresh; } }));
+    }
+    if (s.roles) content.push(introRoles(s.roles));
+    if (s.owners) content.push(introOwners(s.owners));
+    if (s.note) content.push(el('p', { class: 'intro-note', text: s.note }));
+    if (s.tips) {
+      content.push(el('ul', { class: 'intro-tips' }, s.tips.map(function (t) {
+        return el('li', {}, el('span', { class: 'intro-tip-glyph', text: t.glyph, 'aria-hidden': 'true' }), el('span', {}, rich(t.text)));
+      })));
+    }
+
+    var dots = el('div', { class: 'intro-dots', role: 'tablist', 'aria-label': 'Introduction steps' }, steps.map(function (_, i) {
+      return el('button', { type: 'button', class: 'intro-dot' + (i === intro.step ? ' is-on' : ''),
+        role: 'tab', 'aria-selected': i === intro.step ? 'true' : 'false', 'aria-label': 'Step ' + (i + 1) + ' of ' + steps.length,
+        onclick: function () { intro.step = i; renderIntro(); } });
+    }));
+
+    var actions = last
+      ? [el('button', { type: 'button', class: 'intro-btn is-ghost', text: 'Explore on my own', onclick: function () { closeIntro(); } }),
+         el('button', { type: 'button', class: 'intro-btn is-primary', text: 'Take the 1-minute tour', 'data-primary': '',
+           onclick: function () { closeIntro(); startTour(); } })]
+      : [intro.step > 0 ? el('button', { type: 'button', class: 'intro-btn is-ghost', text: 'Back', onclick: function () { intro.step--; renderIntro(); } }) : null,
+         el('button', { type: 'button', class: 'intro-btn is-primary', text: 'Next', 'data-primary': '',
+           onclick: function () { intro.step++; renderIntro(); } })];
+
+    var card = el('div', { class: 'intro-card' + (entering ? ' is-entering' : '') },
+      el('button', { type: 'button', class: 'intro-close', 'aria-label': 'Close the introduction', title: 'Close ( Esc )',
+        onclick: function () { closeIntro(); } }, '✕'),
+      el('div', { class: 'intro-kicker', text: s.kicker }),
+      el('h2', { class: 'intro-title', id: 'intro-title', text: s.title }),
+      el('div', { class: 'intro-content' }, content),
+      el('div', { class: 'intro-foot' }, dots,
+        intro.step === 0 ? el('button', { type: 'button', class: 'intro-skip', text: 'Skip', onclick: function () { closeIntro(); } }) : null,
+        el('div', { class: 'intro-actions' }, actions)));
+
+    append(host, card);
+    var primary = card.querySelector('[data-primary]');
+    if (primary) primary.focus();
+  }
+
+  function openIntro(step) {
+    if (tour.open) endTour();
+    intro.open = true;
+    intro.step = step || 0;
+    intro.returnFocus = document.activeElement;
+    document.getElementById('intro').hidden = false;
+    document.body.classList.add('intro-open');
+    document.getElementById('intro').textContent = '';
+    renderIntro(true);
+  }
+
+  /* Closing in any way — Skip, ✕, Esc, the backdrop, or finishing — counts as seen. */
+  function closeIntro() {
+    if (!intro.open) return;
+    intro.open = false;
+    markIntroSeen();
+    document.getElementById('intro').hidden = true;
+    document.body.classList.remove('intro-open');
+    var back = intro.returnFocus;
+    if (back && document.body.contains(back) && back !== document.body) back.focus();
+  }
+
+  /* ---------- the tour: a spotlight on each real part of the page ---------- */
+  function tourStops() {
+    return [
+      { target: '.band-section', title: 'Solution architecture',
+        text: 'How a Virto solution is layered, from the channels customers use down to the infrastructure. Hover a layer to see which building blocks live there, or click it for the detail.' },
+      { target: '.atoms-section', title: 'Atoms: the building blocks',
+        text: 'The ' + ATOMS.length + ' principles and design patterns, grouped into families like a periodic table. The mark on each tile says whether it is built into the platform or comes as a module.' },
+      { target: '.molecules-section', title: 'Molecules: every module',
+        text: 'All ' + MODULE_TILES.length + ' modules you can install today, grouped by business area. Open one for what it does, explained for business, architects and developers.' },
+      { target: '.cells-section', title: 'Cells: ready-made packages',
+        text: 'Packaged Business Capabilities for a complete scenario. Open one to see the business features it brings, or build your own package.' },
+      { target: '.search-wrap', title: 'Find anything',
+        text: 'Search atoms, modules and APIs by name. Press / to jump here from anywhere on the page.' },
+      { target: '#heat-toggle', title: 'See what changed',
+        text: 'The flame colours every tile by how much it changed over a period you choose. Useful for release reviews.' },
+      { target: '#intro-toggle', title: 'Come back any time',
+        text: 'Open this introduction and the tour again from here, or press i.' }
+    ].filter(function (s) {
+      var n = document.querySelector(s.target);
+      return n && !n.hidden && n.getClientRects().length;
+    });
+  }
+
+  function startTour() {
+    if (!drawer.hidden) { navStack.length = 0; closeDrawer(); }
+    tour.open = true;
+    tour.stop = 0;
+    var host = document.getElementById('tour');
+    host.textContent = '';
+    tour.hole = el('div', { class: 'tour-hole', 'aria-hidden': 'true' });
+    tour.card = el('div', { class: 'tour-card', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'tour-title' });
+    append(host, [el('div', { class: 'tour-shield', onclick: function () { endTour(); } }), tour.hole, tour.card]);
+    host.hidden = false;
+    document.body.classList.add('tour-open');
+    showTourStop();
+  }
+
+  function showTourStop() {
+    var stops = tourStops();
+    if (!stops.length) { endTour(); return; }
+    tour.stop = Math.max(0, Math.min(stops.length - 1, tour.stop));
+    var s = stops[tour.stop];
+    var target = document.querySelector(s.target);
+    /* Sections below the fold come into view first, clear of the header. The header does not stay
+       pinned on every layout, so a stop inside it goes back to the top of the page. */
+    var inHeader = !!target.closest('.topbar');
+    if (inHeader) window.scrollTo({ top: 0, behavior: 'auto' });
+    else {
+      var header = document.querySelector('.topbar');
+      var offset = (header ? header.getBoundingClientRect().height : 0) + 24;
+      window.scrollTo({ top: window.scrollY + target.getBoundingClientRect().top - offset, behavior: 'auto' });
+    }
+
+    var last = tour.stop === stops.length - 1;
+    tour.card.textContent = '';
+    append(tour.card, [
+      el('div', { class: 'tour-step', text: (tour.stop + 1) + ' / ' + stops.length }),
+      el('h3', { class: 'tour-title', id: 'tour-title', text: s.title }),
+      el('p', { class: 'tour-text', text: s.text }),
+      el('div', { class: 'tour-actions' },
+        el('button', { type: 'button', class: 'intro-skip', text: last ? '' : 'End tour', onclick: function () { endTour(); } }),
+        el('span', { class: 'tour-spacer' }),
+        tour.stop > 0 ? el('button', { type: 'button', class: 'intro-btn is-ghost', text: 'Back', onclick: function () { tour.stop--; showTourStop(); } }) : null,
+        el('button', { type: 'button', class: 'intro-btn is-primary', text: last ? 'Done' : 'Next', 'data-primary': '',
+          onclick: function () { if (last) endTour(); else { tour.stop++; showTourStop(); } } }))
+    ]);
+    placeTour();
+    tour.card.querySelector('[data-primary]').focus({ preventScroll: true });
+  }
+
+  /* The spotlight follows the target's visible part, and the card goes below it, above it, or — for a
+     section taller than the screen — over its lower edge, always inside the viewport. */
+  function placeTour() {
+    if (!tour.open) return;
+    var s = tourStops()[tour.stop];
+    var target = s && document.querySelector(s.target);
+    if (!target) return;
+    var r = target.getBoundingClientRect();
+    var pad = 6, vw = window.innerWidth, vh = window.innerHeight;
+    var top = Math.max(4, r.top - pad), left = Math.max(4, r.left - pad);
+    var bottom = Math.min(vh - 4, r.bottom + pad), right = Math.min(vw - 4, r.right + pad);
+    Object.assign(tour.hole.style, { top: top + 'px', left: left + 'px', width: (right - left) + 'px', height: Math.max(0, bottom - top) + 'px' });
+
+    var card = tour.card;
+    var cw = Math.min(360, vw - 24), ch = card.offsetHeight || 170;
+    card.style.width = cw + 'px';
+    var y;
+    if (bottom + 12 + ch <= vh) y = bottom + 12;
+    else if (top - 12 - ch >= 0) y = top - 12 - ch;
+    else y = vh - ch - 16;
+    y = Math.max(12, Math.min(y, vh - ch - 12));
+    var x = Math.min(Math.max(12, left), vw - cw - 12);
+    card.style.top = y + 'px';
+    card.style.left = x + 'px';
+  }
+
+  function endTour() {
+    if (!tour.open) return;
+    tour.open = false;
+    markIntroSeen();
+    var host = document.getElementById('tour');
+    host.hidden = true;
+    host.textContent = '';
+    document.body.classList.remove('tour-open');
+    var button = document.getElementById('intro-toggle');
+    if (button) button.focus({ preventScroll: true });
+  }
+
+  /* Keys while the introduction or the tour is up. Capture phase, so the map's own shortcuts
+     (/, h, f, ?) do not fire underneath. Tab stays inside the card. */
+  function introKeys(event) {
+    if (!intro.open && !tour.open) return;
+    var box = intro.open ? document.querySelector('#intro .intro-card') : tour.card;
+    if (event.key === 'Escape') { if (intro.open) closeIntro(); else endTour(); }
+    else if (event.key === 'ArrowRight') {
+      if (intro.open) { if (intro.step < introSteps().length - 1) { intro.step++; renderIntro(); } }
+      else { var p = tour.card.querySelector('[data-primary]'); if (p) p.click(); }
+    } else if (event.key === 'ArrowLeft') {
+      if (intro.open) { if (intro.step > 0) { intro.step--; renderIntro(); } }
+      else if (tour.stop > 0) { tour.stop--; showTourStop(); }
+    } else if (event.key === 'Tab' && box) {
+      var focusable = [].slice.call(box.querySelectorAll('button'));
+      if (!focusable.length) return;
+      var i = focusable.indexOf(document.activeElement);
+      var next = event.shiftKey ? (i <= 0 ? focusable.length - 1 : i - 1) : (i === focusable.length - 1 ? 0 : i + 1);
+      focusable[next].focus();
+    } else { event.stopPropagation(); return; }
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  function initIntro() {
+    var button = document.getElementById('intro-toggle');
+    if (!button || !document.getElementById('intro') || !document.getElementById('tour')) return;
+    button.addEventListener('click', function () { openIntro(0); });
+    document.addEventListener('keydown', introKeys, true);
+    window.addEventListener('resize', placeTour);
+    window.addEventListener('scroll', placeTour, { passive: true });
+
+    var params = new URL(location.href).searchParams;
+    var forced = params.has('intro');
+    var deepLink = !!location.hash || params.has('heat');
+    if (forced || (!introSeen() && !deepLink)) openIntro(0);
+  }
+
   function renderFilters() {
     var host = document.getElementById('filters');
     host.textContent = '';
@@ -3026,6 +3448,7 @@
 
     if (event.key === '/') { document.getElementById('search').focus(); event.preventDefault(); return; }
     if (event.key === '?') { toggleLegend(); event.preventDefault(); return; }
+    if ((event.key === 'i' || event.key === 'I') && document.getElementById('intro')) { openIntro(0); event.preventDefault(); return; }
     if ((event.key === 'h' || event.key === 'H') && HEAT) { cycleHeat(); event.preventDefault(); return; }
     if ((event.key === 'f' || event.key === 'F') && !drawer.hidden) {
       toggleExpanded(); event.preventDefault(); return;
@@ -3081,6 +3504,7 @@
     renderFooter();
     applyFilter();
     initHeat();
+    initIntro();
 
     document.getElementById('search').addEventListener('input', function (event) { setQuery(event.target.value); });
     document.getElementById('search-clear').addEventListener('click', function () {
