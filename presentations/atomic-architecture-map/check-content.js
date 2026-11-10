@@ -758,6 +758,17 @@ console.log((REPO
             `   distinct vc-docs pages linked: ${docsSeen.size}` +
             (VC_DOCS_PAGES ? '  (verified online)' : '  (run --online to verify)'));
 console.log(`atoms without a snippet (${noSnippet.length}): ${noSnippet.join(', ') || 'none'}`);
+
+/* The agent export (llms.txt, atomic-map.json, agent/) is generated from the same content. It is
+   rebuilt in memory and compared, so an edit to an atom that was not re-exported fails here instead
+   of leaving agents with an older story than the poster. */
+{
+  const agentExport = require('./tools/build-agent-docs.js').diff();
+  const stale = agentExport.problems;
+  stale.slice(0, 10).forEach(p => add('agent export', p.split(' ').pop(), p.replace(/ \S+$/, '') + ' — run node tools/build-agent-docs.js'));
+  if (stale.length > 10) add('agent export', '…', `${stale.length - 10} more files out of date — run node tools/build-agent-docs.js`);
+  console.log(`agent export → ${Object.keys(agentExport.files).length} files` + (stale.length ? `, ${stale.length} out of date` : ', up to date'));
+}
 console.log('');
 if (problems.length) {
   console.log(`FAIL — ${problems.length} problem(s):`);

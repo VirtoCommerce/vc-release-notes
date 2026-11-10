@@ -49,6 +49,9 @@ content/
   modules.generated.js  one profile per module             — generated
   cells.generated.js    the six published PBCs             — generated
   heat.generated.js     change history for the heat map    — generated (tools/build-heat.js)
+llms.txt              index for AI agents                  — generated (tools/build-agent-docs.js)
+atomic-map.json       all content in one file, for tools   — generated (tools/build-agent-docs.js)
+agent/                RULES.md, features.md, one page per atom, module, package and layer — generated
 ```
 
 The page ends with a **footer** built by `renderFooter()`: which tiers are generated and from where,
@@ -636,6 +639,34 @@ once it is closed in any way, so it does not open again. It also stays closed wh
 from a deep link (`#/atom/…`) or a heat-map link, and waits for a plain visit. To open it again, use
 the (i) button in the header, press `i`, or add `?intro` to the address. Change the key's version
 suffix when the introduction changes enough that everyone should see it again.
+
+## For AI agents
+
+The same content is published as plain files an AI coding agent (Claude Code, Copilot, Cursor and the
+like) can read without opening the page. `node tools/build-agent-docs.js` writes them from `content/`:
+
+| File | What it is |
+|---|---|
+| `llms.txt` | The index, in the [llms.txt](https://llmstxt.org/) convention: every layer, atom, module and package with one line and a link |
+| `agent/RULES.md` | What to do and avoid in a Virto Commerce module: the solution and module pitfalls, what not to build new code on, what is changing now, and every atom's *avoid* list. Each rule links to the page that explains it |
+| `agent/atoms/<id>.md` | One page per atom: pattern, when to use, avoid, API with links to the source in vc-platform, example, pitfalls, docs |
+| `agent/modules/<id>.md` | One page per active module: notes for analysts, architects and developers, required and optional modules, entities, events, REST controllers, permissions, settings, packages and features |
+| `agent/packages/<id>.md` | One page per published package: outcomes, business features, modules by layer |
+| `agent/layers/<id>.md` | One page per architecture layer |
+| `agent/features.md` | Business features → modules → packages |
+| `atomic-map.json` | Everything above in one file, for tools |
+
+To use it, point the agent at `llms.txt`, and reference `agent/RULES.md` from the project's
+`CLAUDE.md` or `AGENTS.md`. Before writing code that uses a platform pattern, the agent should read
+that atom's page.
+
+Everything is generated, apart from the short *Before you write code* list at the top of
+`RULES.md`, which summarises the Your solution layer and lives in the generator. Re-run the generator
+after editing any content or re-running another generator. `check-content.js` rebuilds the export
+in memory and fails if a file on disk differs, is missing, or is no longer generated. Run
+`node tools/build-agent-docs.js --check` for that check alone.
+
+The page footer links to `llms.txt`.
 
 ## Keyboard
 

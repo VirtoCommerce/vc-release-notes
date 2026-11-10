@@ -1,0 +1,263 @@
+# Virto Commerce Atomic Architecture Map
+
+> How a Virto Commerce solution is built, for platform 3.1096.0: 70 atoms (platform patterns), 103 modules, 6 packages (PBCs) and 95 business features. Generated from the interactive map's data, updated 2026-11-08.
+
+Atoms are the patterns modules are built from. Modules (molecules) each do one business job and are what gets installed. Packages (cells) are sets of modules for one business scenario. Read the rules first, then the atom page for the pattern you need.
+
+## Start here
+
+- [Rules for building on Virto Commerce](agent/RULES.md): what to do and avoid in a custom module, with links to the reasons
+- [Business features](agent/features.md): business needs mapped to modules and packages
+- [Full data as JSON](atomic-map.json): every atom, module, package, feature and layer in one file
+
+## Architecture layers
+
+- [Your solution](agent/layers/solution.md): What a custom Virto project actually consists of: a little code you own, a lot of vendor artifacts you consume, and one file that pins the two together. You never fork the platform.
+- [Channels](agent/layers/channels.md): Every surface that talks to the platform, and the protocol each one speaks. Presentation is fully separated from business logic, so every channel — including the back office — is just an API client.
+- [API edge](agent/layers/api-edge.md): Where the outside world meets the platform. Two shapes with two jobs: GraphQL as the business API a channel talks to — queries and mutations both — and REST for full CRUD and the back office.
+- [Modules](agent/layers/modules.md): The unit of everything. A modular monolith of vertical slices: one bounded context per module, split into three projects, discovered and loaded at runtime.
+- [Platform](agent/layers/platform.md): The shared substrate every module builds on. Most atoms on this poster live here — this is the layer worth knowing by heart.
+- [Integration](agent/layers/integration.md): How the platform joins an existing business ecosystem. Integration is not one problem — it is a different problem for buyers, for your own team and for your suppliers, and the platform opens a different door for each. Middleware does the translating rather than either side compromising its model.
+- [Infrastructure](agent/layers/infrastructure.md): What must exist for the platform to run, what each piece is actually for — and who operates it. Cloud-agnostic: Azure, AWS, GCP or on-premise, self-hosted or managed on Virto Cloud.
+
+## Atoms
+
+### Execution & async
+
+- [Background jobs](agent/atoms/background-jobs.md): Durable queued work that outlives the request, behind an engine-agnostic facade. (In flight)
+- [Recurring jobs](agent/atoms/recurring-jobs.md): Cron-scheduled work whose schedule an operator can change without a deploy. (In flight)
+- [Map / reduce jobs](agent/atoms/map-reduce-jobs.md): Fan a large batch out across workers, then aggregate the results in one place. (In flight)
+- [Job progress](agent/atoms/job-progress.md): Reporting how far a long job has got, so the UI can show it instead of spinning. (In flight)
+- [Fire & forget](agent/atoms/fire-and-forget.md): Start work and move on without waiting for the result — durably, so it survives the request that started it. (Platform)
+- [Hangfire](agent/atoms/hangfire.md): Referencing Hangfire directly is the legacy path. It is now one selectable engine behind the background-jobs port, not the platform's job system. (Legacy)
+- [Hosted service](agent/atoms/hosted-service.md): A .NET long-running loop tied to application lifetime — for in-process work no queue should own. (Platform)
+- [Cancellation](agent/atoms/cancellation.md): Threading a cancellation signal all the way down — and the obsolete shim you will still meet in older code. (Platform)
+- [Async lock](agent/atoms/async-lock.md): An awaitable in-process lock keyed by string — one process only, not a cluster. (Platform)
+- [Channels](agent/atoms/channels.md): In-memory producer/consumer queues from .NET. The platform uses one to buffer the sign-in log. (Platform)
+- [TimeProvider](agent/atoms/time-provider.md): .NET's abstract clock, for testable time. The package is referenced; nothing in the platform calls it. (Available)
+
+### Caching
+
+- [Cache](agent/atoms/platform-memory-cache.md): The one caching primitive you will use constantly: in-process memory, keyed, with coordinated invalidation. (Platform)
+- [Cache regions](agent/atoms/cache-regions.md): Named groups of cache entries you can invalidate together — how a write clears the reads that depend on it. (Platform)
+- [Redis cache bus](agent/atoms/redis-cache-bus.md): Keeps per-instance memory caches coherent across a cluster. It stores invalidation messages, not cached values. (Platform)
+- [Request-scoped cache](agent/atoms/request-scoped-cache.md): A cache that lives exactly as long as one request — the cheap fix for repeated loads inside a single call. (Platform)
+- [Cache disabler](agent/atoms/cache-disabler.md): Turn caching off for a scope or for the whole app — a diagnostic tool and an import-time necessity. (Platform)
+- [Hybrid Cache](agent/atoms/hybrid-cache.md): .NET's own two-tier and distributed caching APIs. Neither is used here — reach for the platform cache instead. (Available)
+
+### Config & metadata
+
+- [Settings](agent/atoms/settings.md): Operator-editable configuration, declared in code and overridable per object — reach for this before appsettings. (Platform)
+- [Dynamic properties](agent/atoms/dynamic-properties.md): Add a field to an existing entity without a migration, a code change or a fork. The first thing to try when extending. (Platform)
+- [Options pattern](agent/atoms/options-pattern.md): Strongly typed `appsettings.json` binding — for infrastructure configuration, as opposed to operator settings. (Platform)
+- [External tool processes](agent/atoms/external-processes.md): Launching an external command-line tool from the platform, portably across Windows and Linux. (Platform)
+- [Localizations](agent/atoms/localizations.md): Translated strings for the Admin UI and localizable entity values, contributed per module. (Platform)
+
+### Messaging & events
+
+- [Domain events](agent/atoms/domain-events.md): The preferred way for modules to react to each other without depending on each other. (Platform)
+- [Suppress events](agent/atoms/suppress-events.md): Switch domain events off for one async flow — the bulk-import escape hatch, and the one thing that stops an import from indexing the same SKU 6000 times. (Platform)
+- [In-process bus](agent/atoms/inprocess-bus.md): The machinery under domain events: how a published event finds its handlers. (Platform)
+- [Commands](agent/atoms/commands.md): A thin command/handler abstraction alongside events — present, but far less used than events. (Platform)
+- [Business API (XAPI)](agent/atoms/xapi.md): The GraphQL business API: one endpoint, queries and mutations, assembled from whatever X-API modules are installed. (Module)
+- [Push notifications](agent/atoms/push-notifications.md): Server-to-browser push over SignalR — how long-running work reports back to the Admin UI. (Platform)
+- [EventBus & WebHooks](agent/atoms/eventbus-webhooks.md): Getting events out of the process: to a message broker, or as an HTTP callback to someone else's system. (Module)
+
+### Data & domain
+
+- [AbstractTypeFactory](agent/atoms/abstract-type-factory.md): The keystone of the extension model: replace any platform or vendor type with your own derived type. (Platform)
+- [Generic CRUD](agent/atoms/generic-crud.md): Two abstract base classes with one abstract method each — you supply the query, not the plumbing. (Platform)
+- [Repository & unit of work](agent/atoms/repository-uow.md): The data-access boundary: a repository per module, one commit per unit of work. (Platform)
+- [EF Core & migrations](agent/atoms/ef-core.md): EF Core 10 across three database providers — which is why a migration is never written just once. (Platform)
+- [Change log & audit](agent/atoms/change-log.md): Who changed what, when — recorded automatically for entities that opt in. (Platform)
+- [Specifications](agent/atoms/specifications.md): A one-method interface for a reusable, composable business rule. (Platform)
+- [Validation](agent/atoms/validation.md): FluentValidation for domain and input rules — declared as a validator class, not scattered through services. (Platform)
+- [JSON serialization](agent/atoms/json-serialization.md): The platform's REST API serializes with Newtonsoft, not System.Text.Json. Custom converters must match. (Platform)
+- [Indexed search](agent/atoms/search.md): The read path the catalogue actually depends on — and one more engine to keep consistent with the database. (Module)
+- [Database per module](agent/atoms/module-database.md): Every module owns its schema, and can own its physical database on one line of configuration. (Platform)
+- [Ids, not foreign keys](agent/atoms/cross-module-references.md): A module references another module's data by id and copies what it needs — which is what makes separate databases possible. (Platform)
+
+### Modularity
+
+- [Module federation](agent/atoms/module-federation.md): The same modularity, on the front end: a module ships a built plugin and the shell discovers it at runtime. (Platform)
+- [Back office module](agent/atoms/admin-ui.md): The back office is an installable module. Without one, the platform serves APIs only. (Module)
+- [Module lifecycle](agent/atoms/module-lifecycle.md): The two methods every module implements, and why the difference between them matters. (Platform)
+- [module.manifest](agent/atoms/module-manifest.md): The file without which a module does not exist — and the file that decides whether it needs a .NET assembly at all. (Platform)
+- [Module catalog & install](agent/atoms/module-catalog.md): How modules are found, chosen, copied and loaded — including at runtime, from a gallery. (Platform)
+- [Platform startup hooks](agent/atoms/platform-startup.md): How a module participates in application startup beyond its own DI registrations. (Platform)
+- [Dependency injection](agent/atoms/dependency-injection.md): Standard .NET DI — pick the lifetime first — plus the Virto convention that makes it an extension point: the last registration wins. (Platform)
+- [Keyed services](agent/atoms/keyed-services.md): .NET keyed DI registrations. The platform uses one internally; modules select providers by registry instead. (Platform)
+- [Backup & restore](agent/atoms/backup-restore.md): The platform-wide data transfer mechanism a module opts into — backup, restore, seeding and environment moves. (Platform)
+- [vc-build CLI](agent/atoms/vc-build.md): The official CLI for building, packaging, installing and releasing a Virto solution — and for making installs reproducible. (Module)
+- [Optional dependency](agent/atoms/optional-dependency.md): Declare a dependency you can live without, and the module still loads when it is absent. (Platform)
+- [Host composition](agent/atoms/host-composition.md): One image, several hosts: choose the module set per host, then choose the role per host in configuration. (Platform)
+
+### Security
+
+- [Permissions](agent/atoms/permissions.md): Declared per module, assigned to roles, enforced per endpoint — with optional row-level scopes. (Platform)
+- [Authentication](agent/atoms/authentication.md): Who the caller is: OpenIddict-issued tokens, API keys, basic auth, and external identity providers. (Platform)
+- [Authorization policies](agent/atoms/authorization.md): What the caller may do: policies and requirements for rules that a permission attribute cannot express. (Platform)
+- [Current user & tenancy](agent/atoms/current-user.md): Who is acting right now — for audit fields, notifications and scoping — and how to get it outside a request. (Platform)
+- [Sign-in extensions](agent/atoms/sign-in-extensions.md): Extension points a module uses to add a way of signing in, a second factor, or a sign-in method a user manages. (Platform)
+- [OAuth applications](agent/atoms/oauth-applications.md): Clients registered in the back office, AI agents among them, with the resources each one may request tokens for. (Platform)
+
+### Infra & ops
+
+- [Distributed lock](agent/atoms/distributed-lock.md): Cluster-wide mutual exclusion on Redis, and an in-process lock on a single instance — the same interface either way. (Platform)
+- [Logging](agent/atoms/logging.md): Serilog behind `ILogger<T>`, configured from `appsettings.json`, with a bootstrap logger for early module loading. (Platform)
+- [Swagger / OpenAPI](agent/atoms/swagger.md): Generated API documentation per module and combined — the browsable contract, and the basis for generated clients. (Platform)
+- [HTTP client](agent/atoms/http-client.md): Outbound HTTP the correct way — factory-managed clients, never a `new HttpClient` per call. (Platform)
+- [Resilience (Polly)](agent/atoms/resilience.md): Retry, circuit-breaker and timeout policies. The package is referenced but the platform has no call sites. (Available)
+- [Developer tools](agent/atoms/developer-tools.md): A registry of in-product diagnostic links, surfaced in the Admin UI and filtered by permission. (Platform)
+- [File operations](agent/atoms/file-operations.md): Rollbackable file-system operations and zip handling. Blob and asset storage is a module, not platform core. (Platform)
+- [Health checks](agent/atoms/health-checks.md): A `/health` endpoint that already checks modules, cache, Redis and the database — extend it, do not reinvent it. (Platform)
+- [REST API](agent/atoms/rest-api.md): The platform’s HTTP surface: an MVC controller per module, a permission per action, a Swagger document per module. (Platform)
+- [Assets & blob storage](agent/atoms/assets.md): Binary storage for images, imports and exports — behind a provider the platform core does not ship. (Module)
+- [Seq & log sinks](agent/atoms/seq-logging.md): Sending structured logs somewhere you can query them, instead of reading console output. (Module)
+- [Scalability](agent/atoms/scalability.md): What is ready to scale out today, what will only ever scale up, and what has to be true before the second instance. (Platform)
+
+## Modules
+
+### AI
+
+- [AI](agent/modules/VirtoCommerce.AI.md): AI manifest aggregation module for VirtoCommerce Platform. Collects and exposes AI tool and agent definitions from all installed modules.
+- [Universal Commerce Protocol](agent/modules/VirtoCommerce.UCP.md): Universal Commerce Protocol facade for Virto Commerce capabilities.
+
+### Cart & checkout
+
+- [Cart Experience API](agent/modules/VirtoCommerce.XCart.md): Dedicated to cart-related functionalities, ensuring efficient handling of shopping cart and checkout operations.
+- [Contracts](agent/modules/VirtoCommerce.Contracts.md): Contract based price personalization for customers and organizations
+- [Native Payment Methods](agent/modules/VirtoCommerce.NativePaymentMethods.md): Non-integrative payment methods support
+- [Payment](agent/modules/VirtoCommerce.Payment.md): Provides management and integration of various payment methods.
+- [Quotes](agent/modules/VirtoCommerce.Quote.md): Quoter enables business users to execute quote requests online. Once initiated, an online conversation takes place with internal users who interact with the business user's request. The internal user can set prices for quantity breaks or discounts. The quote is then made available to the business user online. The business user can accept the quote and place the order, continue the conversation, or reject the quote.
+- [Shopping Cart](agent/modules/VirtoCommerce.Cart.md): Shopping cart / checkout functionality
+- [Tax Core](agent/modules/VirtoCommerce.Tax.md): Defines Core Abstractions for taxes evaluation by using different tax providers and FixedRateTaxProvider.
+
+### Catalog & product data
+
+- [Back In Stock](agent/modules/VirtoCommerce.BackInStock.md): Provides customer ability to subscribe for notification, when product is back in stock.
+- [Catalog](agent/modules/VirtoCommerce.Catalog.md): Easily manage your products, categories, variations, and properties
+- [Catalog Experience API](agent/modules/VirtoCommerce.XCatalog.md): Manages all catalog-related operations, from product listings to detailed item information.
+- [Catalog Personalization](agent/modules/VirtoCommerce.CatalogPersonalization.md): Help businesses personalize their categories and products to specific User Groups
+- [Catalog Publishing](agent/modules/VirtoCommerce.CatalogPublishing.md): Allow you to see progress on filling in information about products and marks missed info.
+- [CSV Catalog Export and Import](agent/modules/VirtoCommerce.CatalogCsvImportModule.md): Enables seamless export and import of catalog data in CSV format, simplifying data management and integration with external systems.
+- [Dynamic Associations](agent/modules/VirtoCommerce.DynamicAssociationsModule.md): Dynamic rule based product associations module
+- [Inventory](agent/modules/VirtoCommerce.Inventory.md): Simplify inventory management functionality
+- [Price Export Import](agent/modules/VirtoCommerce.PriceExportImport.md): This module adds prices export and import functionality using it for price management.
+- [Pricing](agent/modules/VirtoCommerce.Pricing.md): Robust pricing management functionality based on price list and dynamic evaluation
+- [Product Recommendations](agent/modules/VirtoCommerce.XRecommend.md): Recommendations encourage users to expand their search and browse more broadly. Users can jump to similar or complementary items if they don’t find a precise match.
+- [Product Snapshot](agent/modules/VirtoCommerce.ProductSnapshot.md): The Product Snapshot module captures and stores product information at the moment an order is created.
+  This ensures that customers and store operators always have access to the exact product details (prices, properties, images, descriptions)
+  that were valid at the time of purchase, even if the product catalog is later modified or products are deleted.
+- [Search Core](agent/modules/VirtoCommerce.Search.md): Defines Core Abstractions for indexed search functionality above different search providers, like: Elasticsearch, Azure Search, etc.
+- [Store](agent/modules/VirtoCommerce.Store.md): Multi store management with individual store settings
+
+### Content & CMS
+
+- [CMS Experience API](agent/modules/VirtoCommerce.XCMS.md): Integrates with content management systems, facilitating seamless content delivery and management.
+- [CMS Page Builder](agent/modules/VirtoCommerce.PageBuilderModule.md): Compose pages in visual page builder.
+- [Content](agent/modules/VirtoCommerce.Content.md): Easily create, edit, and publish content such as pages, blog posts, and news articles.
+- [Image Tools](agent/modules/VirtoCommerce.ImageTools.md): Image tools helps to automate thumbnail generation procedures with resizing and cropping
+- [News](agent/modules/VirtoCommerce.News.md): Module allowing content managers to publish news articles
+- [SEO](agent/modules/VirtoCommerce.Seo.md): Infrastructure for managing SEO metadata across the platform
+- [Sitemap Generator](agent/modules/VirtoCommerce.Sitemaps.md): Simplifies the process of generating sitemaps for online stores
+- [Virto Pages](agent/modules/VirtoCommerce.Pages.md): Provides a robust and flexible solution for managing content in digital commerce scenarios. Decoupling the CMS post-publishing ensures long-term efficiency, adaptability, and performance.
+- [White Labeling](agent/modules/VirtoCommerce.WhiteLabeling.md): Provides White labeling functionality for organizations
+
+### Customer
+
+- [Commerce Profile Experience API](agent/modules/VirtoCommerce.ProfileExperienceApiModule.md): 
+- [Companies and Contacts](agent/modules/VirtoCommerce.Customer.md): Managing customers contacts and organizations
+- [Customer Export Import](agent/modules/VirtoCommerce.CustomerExportImport.md): This module adds customers export and import functionality. Use it for customer management.
+- [Rating and Reviews](agent/modules/VirtoCommerce.CustomerReviews.md): Enables customers to share their feedback on products and vendors after making a purchase, helping others make informed decisions.
+- [Sales Rep](agent/modules/VirtoCommerce.SalesRep.md): Virto Commerce Sales Rep
+
+### Integrations & providers
+
+- [Algolia Search](agent/modules/VirtoCommerce.AlgoliaSearch.md): Indexed search functionality with Algolia Search Engine
+- [Authorize.Net Payment Method](agent/modules/VirtoCommerce.AuthorizeNetPayment.md): Provides the integration with Authorize.Net payment provider
+- [Avalara Tax Provider](agent/modules/VirtoCommerce.AvalaraTax.md): Provides real time integration with Avalara Tax https://www.avalara.com/
+- [Azure Active Directory Single Sign-On](agent/modules/VirtoCommerce.AzureAD.md): Azure AD SSO integrates with Azure AD to provide secure authentication and authorization for cloud and on-premises applications.
+- [Azure App Configuration](agent/modules/VirtoCommerce.AzureAppConfiguration.md): Allows using Azure App Configuration to externalize storage and management of your app settings for Virto Commerce
+- [Azure Blob Storage Assets Provider](agent/modules/VirtoCommerce.AzureBlobAssets.md): Provide integration with Azure Blob Storage for Assets Management
+- [Azure Search](agent/modules/VirtoCommerce.AzureSearch.md): Search functionality with Elastic Azure Search service
+- [Builder.io](agent/modules/VirtoCommerce.BuilderIO.md): Integration module for Builder.io
+- [Contentful](agent/modules/VirtoCommerce.Contentful.md): Integration for contentful.com.
+- [CyberSource Payment](agent/modules/VirtoCommerce.CyberSourcePayment.md): Integrates CyberSource's payment solutions into your Virto Commerce platform
+- [Datatrans Payment](agent/modules/VirtoCommerce.Datatrans.md): Datatrans payment module provides integration with Datatrans payment gateway for Virto Commerce.
+- [Elastic App Search](agent/modules/VirtoCommerce.ElasticAppSearch.md): Search functionality with Elastic App Search service
+- [Elastic Search 8](agent/modules/VirtoCommerce.ElasticSearch8.md): Indexed search functionality with Elastic 8 engines
+- [Elastic Search 9](agent/modules/VirtoCommerce.ElasticSearch9.md): Indexed search functionality with Elastic 9 engines.
+- [File Systems Assets Provider](agent/modules/VirtoCommerce.FileSystemAssets.md): Provide integration with File Systems for Assets Management
+- [Google Analytics 4](agent/modules/VirtoCommerce.GoogleEcommerceAnalytics.md): Allows you active Measurement Id for a Store and measure traffic and ecommerce events to collect information about the shopping behavior of your users.
+- [Google Single Sign-On](agent/modules/VirtoCommerce.GoogleSSO.md): Enables Google external login setup (Single Sign-On) for Virto Commerce Platform and Frontend
+- [Hotjar](agent/modules/VirtoCommerce.Hotjar.md): Allows to assign Hotjar Site Id for a Store and get insights about the shopping behaviour of your users with Heatmaps, Recordings, Feedback and etc.
+- [Lucene Search](agent/modules/VirtoCommerce.LuceneSearch.md): Indexed search functionality with Lucene engine
+- [Open Search](agent/modules/VirtoCommerce.OpenSearch.md): Indexed search functionality with OpenSearch
+- [Open Telemetry](agent/modules/VirtoCommerce.OpenTelemetry.md): Provides Open Telemetry metrics, tracing, and logging via OTLP exporter
+- [Power BI Commerce Reports](agent/modules/VirtoCommerce.PowerBiReports.md): Power BI Commerce Reports for Virto Commerce
+- [Sanity](agent/modules/VirtoCommerce.Sanity.md): Integration module for Sanity CMS
+- [ShipStation Integration](agent/modules/VirtoCommerce.ShipStation.md): Enables synchronizing customer orders with ShipStation
+- [Shopify Taxonomy Importer](agent/modules/VirtoCommerce.ShopifyTaxonomy.md): Importing Shopify's Standard Product Taxonomy into Virto Commerce catalog
+- [Skyflow](agent/modules/VirtoCommerce.Skyflow.md): Skyflow Integration as payment provider enables a unified user experience for Credit Card transactions across diverse payment providers.
+- [Webhooks](agent/modules/VirtoCommerce.WebHooks.md): Manage user defined webhooks
+
+### Marketing & loyalty
+
+- [Loyalty](agent/modules/VirtoCommerce.Loyalty.md): Customer loyalty program is offering your customers some reward for shopping at your store.
+- [Marketing](agent/modules/VirtoCommerce.Marketing.md): Marketing system with dynamic contents and promotions management
+- [Marketing Experience API](agent/modules/VirtoCommerce.MarketingExperienceApi.md): Experience Api extension for Marketing
+
+### Orders & fulfilment
+
+- [Buy online pickup in store (BOPIS) Experience API](agent/modules/VirtoCommerce.XPickup.md): Handles buy online pickup in store (BOPIS) operations
+- [Order Experience API](agent/modules/VirtoCommerce.XOrder.md): Focuses on order processing, providing robust support for order lifecycle management.
+- [Order Management](agent/modules/VirtoCommerce.Orders.md): Document based flexible order management system.
+- [Order Management (Business Rules)](agent/modules/VirtoCommerce.OrderManagement.md): Consolidates order management business rules.
+- [Returns](agent/modules/VirtoCommerce.Return.md): Return management module
+- [Shipping](agent/modules/VirtoCommerce.Shipping.md): Add shipping methods management
+- [Subscriptions](agent/modules/VirtoCommerce.Subscription.md): Represent recurrent subscriptions functionality
+
+### Platform services
+
+- [Admin Angular JS](agent/modules/VirtoCommerce.AdminAngularJs.md): The AngularJS back office (Commerce Manager) for the Virto Commerce Platform. Without an admin UI module the platform runs API only.
+- [Admin Shell](agent/modules/VirtoCommerce.AdminShell.md): Vue (vc-shell) back office (Commerce Manager) for the Virto Commerce Platform. Without an admin UI module the platform runs API only.
+- [Assets Management](agent/modules/VirtoCommerce.Assets.md): Common abstractions for asset search, retrieval, and manipulation, making it easy for developers to work with assets regardless of their underlying storage location.
+- [Audit Log](agent/modules/VirtoCommerce.AuditLog.md): Provides extended audit features
+- [Azure Application Insights](agent/modules/VirtoCommerce.ApplicationInsights.md): Enables developers and administrators to collect, monitor, and analyze application performance, usage, and diagnostic data
+- [Background Jobs](agent/modules/VirtoCommerce.BackgroundJobs.md): Handles asynchronous processing, allowing applications to offload time-consuming, repetitive, or resource-heavy tasks outside the platform
+- [Backup & Restore](agent/modules/VirtoCommerce.BackupRestore.md): The Backup & Restore module provides full platform backup and restore (export/import) for Virto Commerce. It packages platform data (users, roles, permissions, settings and dynamic properties) together with the data of all installed modules into a single, optionally AES-256 encrypted ZIP archive, and restores it on demand with real-time progress tracking and sample data installation.
+- [Bulk Actions](agent/modules/VirtoCommerce.BulkActionsModule.md): Bulk actions module
+- [Commerce core](agent/modules/VirtoCommerce.Core.md): Common e-commerce domain functionality
+- [Core Experience API](agent/modules/VirtoCommerce.Xapi.md): Module represents a core functionality for GraphQL and other XAPI modules
+- [Environments Compare](agent/modules/VirtoCommerce.EnvironmentsCompare.md): Enables backend administrators to compare platform settings, environment configurations, and system information across multiple Virto Commerce environments
+- [Event Bus](agent/modules/VirtoCommerce.EventBus.md): The module enables you to be notified of new messages or changes via a Message Queue of your choice
+- [File Experience API](agent/modules/VirtoCommerce.FileExperienceApi.md): Manages all file-related operations, from file upload to file content download for different client applications.
+- [Frontend Experience API](agent/modules/VirtoCommerce.XFrontend.md): Built on top of the Virto Commerce XAPI platform, the Frontend Experience API exposes optimized queries specifically for rendering and user experience scenarios.
+- [Frontend Modules Registry](agent/modules/VirtoCommerce.ModuleFederation.md): Provides API endpoint for dynamic frontend module discovery via Module Federation. Replaces static apps.json.
+- [Generic Export](agent/modules/VirtoCommerce.Export.md): Generic export functionality
+- [Import](agent/modules/VirtoCommerce.Import.md): Provides flexible functionality for writing Importers
+- [Notifications](agent/modules/VirtoCommerce.Notifications.md): Provides a comprehensive infrastructure for managing and delivering notifications within the Virto Commerce platform.
+- [Push Messages](agent/modules/VirtoCommerce.PushMessages.md): Enables back-end admins to send custom notifications to selected organizations within the Virto Commerce platform.
+- [Seq log sink](agent/modules/VirtoCommerce.SeqLog.md): Writes logs events to Serilog Seq
+- [Sql Queries](agent/modules/VirtoCommerce.SqlQueries.md): Adds SQL query/report capabilities to the VirtoCommerce platform, enabling advanced data access directly through SQL.
+- [State Machine](agent/modules/VirtoCommerce.StateMachine.md): Provides core functionality for entity's State Machine
+- [System Operations](agent/modules/VirtoCommerce.SystemOperations.md): Developer tools page with centralized platform maintenance operations.
+- [Task Management](agent/modules/VirtoCommerce.TaskManagement.md): Headquarters personas can use task management to create task lists for retail stores, and to track status by store or worker.
+
+### Security & compliance
+
+- [GDPR](agent/modules/VirtoCommerce.GDPR.md): Apply General Data Protection Regulation policies with review or remove their personal details, by anonymizing them, from your online store.
+- [Multi-Factor Authentication](agent/modules/VirtoCommerce.MFA.md): Protects password sign-ins to the Backoffice and the storefront with a second factor: a one-time code sent by email. Enabled globally or per store.
+- [OpenID Connect](agent/modules/VirtoCommerce.OpenIdConnectModule.md): OpenID Connect is an identity module on top of the OAuth 2.0
+- [OTP Sign-In](agent/modules/VirtoCommerce.OTP.md): Enables customers to sign in to the storefront with a one-time code emailed to them, instead of a password.
+- [Passkeys](agent/modules/VirtoCommerce.Passkeys.md): Sign-in with passkeys (WebAuthn) for the Commerce Manager and the storefront, with creating, renaming and deleting passkeys.
+
+## Packages
+
+- [Virto Start](agent/packages/virto-start.md): A running B2B or B2C store out of the box, with the Virto Commerce Frontend already wired in.
+- [Identity Provider](agent/packages/idp.md): Virto as the identity provider: authenticating users and authorising their access to other applications.
+- [Digital Catalog](agent/packages/digital-catalog.md): Catalog data over API and frontend — search, browse and filter, with no ability to buy.
+- [Purchase](agent/packages/purchase.md): Cart and checkout on top of someone else’s catalog — your own, or several vendor APIs.
+- [Product Information Management](agent/packages/pim.md): Product data management for category managers, without a storefront attached.
+- [Customer & Organizations](agent/packages/crm.md): Customer and company data as a CRM, for managing relationships across the lifecycle.

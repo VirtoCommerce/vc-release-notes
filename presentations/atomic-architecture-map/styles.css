@@ -2285,6 +2285,17 @@ body.heat-on .cell[data-heat-label]::after { right: 8px; bottom: 6px; }
 .intro-role-points li { padding-left: 14px; border-left: 3px solid var(--accent); }
 .intro-role-points b { display: block; font-size: 15px; margin-bottom: 2px; }
 .intro-role-points p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.intro-link {
+  display: flex; align-items: center; gap: 8px; margin-top: 6px; padding: 6px 6px 6px 10px;
+  border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border);
+}
+.intro-link a { flex: 1; min-width: 0; font: 12.5px var(--mono); color: var(--focus); overflow-wrap: anywhere; }
+.intro-copy {
+  flex: none; border: 1px solid var(--border-strong); border-radius: 6px; padding: 4px 10px;
+  background: var(--surface); color: var(--text); font: 600 12px var(--font); cursor: pointer;
+}
+.intro-copy:hover { background: var(--surface-2); }
+.intro-copy:focus-visible, .intro-link a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* Step 4: how to read the map. */
 .intro-tips { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }

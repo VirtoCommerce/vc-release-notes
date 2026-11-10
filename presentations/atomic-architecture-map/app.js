@@ -349,7 +349,9 @@
         { label: 'Module registry', href: 'https://github.com/VirtoCommerce/vc-modules/blob/master/modules_v3.json' },
         { label: 'PBC packages', href: 'https://github.com/VirtoCommerce/vc-modules/tree/master/pbc' },
         { label: 'Platform docs', href: 'https://docs.virtocommerce.org/platform/developer-guide/' },
-        { label: 'vc-platform', href: 'https://github.com/VirtoCommerce/vc-platform' }
+        { label: 'vc-platform', href: 'https://github.com/VirtoCommerce/vc-platform' },
+        // The same content as Markdown and JSON for AI coding agents (tools/build-agent-docs.js).
+        { label: 'For AI agents: llms.txt', href: 'llms.txt' }
       ].map(function (link) {
         return el('a', { class: 'pagefoot-link', href: link.href, target: '_blank',
                          rel: 'noopener noreferrer', text: link.label });
@@ -863,8 +865,9 @@
             { title: 'Extend without forking', text: 'AbstractTypeFactory, domain events and startup hooks let your module change platform behaviour. Platform updates do not touch that code.' }
           ] },
           { name: 'Agentic developer', points: [
-            { title: 'Give the agent the right context', text: 'The map is plain data files in content/: every atom with its source files in vc-platform, its docs page and a code snippet. Point the coding agent at the atom for the task before it writes code.' },
-            { title: 'Turn the map into rules', text: 'Each atom lists what to avoid and its known pitfalls. They work as rules for the agent: no foreign keys between modules, no edits to Virto module code, extend through AbstractTypeFactory.' },
+            { title: 'Start the agent at llms.txt', text: 'Give your coding agent this address. It lists every atom, module and package with a link to its own Markdown page: the pattern, the source files in vc-platform, an example and the pitfalls.',
+              link: 'llms.txt' },
+            { title: 'Load the rules', text: 'agent/RULES.md collects what to do and avoid in a Virto module: no foreign keys between modules, no edits to Virto module code, extend through AbstractTypeFactory. Reference it from CLAUDE.md or AGENTS.md.' },
             { title: 'Review what the agent wrote', text: 'Check the change against the atom it should follow: the extension point, the files it touches, the docs. A link such as #/atom/abstract-type-factory takes a reviewer straight to that pattern.' }
           ] }
         ]
@@ -961,6 +964,22 @@
       }));
   }
 
+  /* An address to hand to an agent, absolute and resolved from wherever the map is served (GitHub
+     Pages, a local server), with a Copy button. Clipboard access can be refused; the address stays
+     selectable either way. */
+  function introLink(relative) {
+    var href = new URL(relative, location.href).href;
+    var copy = el('button', { type: 'button', class: 'intro-copy', text: 'Copy' });
+    copy.addEventListener('click', function () {
+      var done = function (label) { copy.textContent = label; setTimeout(function () { copy.textContent = 'Copy'; }, 1600); };
+      try {
+        navigator.clipboard.writeText(href).then(function () { done('Copied'); }, function () { done('Select and copy'); });
+      } catch (e) { done('Select and copy'); }
+    });
+    return el('div', { class: 'intro-link' },
+      el('a', { href: href, target: '_blank', rel: 'noopener', text: href }), copy);
+  }
+
   /* Step 3: the same map read by three roles. Tabs, so each reader sees three concrete things. */
   function introRoles(roles) {
     var panel = el('div', { class: 'intro-role-panel', role: 'tabpanel' });
@@ -973,7 +992,7 @@
       });
       panel.textContent = '';
       append(panel, el('ul', { class: 'intro-role-points' }, roles[i].points.map(function (p) {
-        return el('li', {}, el('b', { text: p.title }), el('p', { text: p.text }));
+        return el('li', {}, el('b', { text: p.title }), el('p', { text: p.text }), p.link ? introLink(p.link) : null);
       })));
     };
     roles.forEach(function (r, i) {
@@ -1182,7 +1201,7 @@
       if (intro.open) { if (intro.step > 0) { intro.step--; renderIntro(); } }
       else if (tour.stop > 0) { tour.stop--; showTourStop(); }
     } else if (event.key === 'Tab' && box) {
-      var focusable = [].slice.call(box.querySelectorAll('button'));
+      var focusable = [].slice.call(box.querySelectorAll('button, a[href]'));
       if (!focusable.length) return;
       var i = focusable.indexOf(document.activeElement);
       var next = event.shiftKey ? (i <= 0 ? focusable.length - 1 : i - 1) : (i === focusable.length - 1 ? 0 : i + 1);
